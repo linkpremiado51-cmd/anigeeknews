@@ -3,7 +3,7 @@
 // índice para controlar qual notícia será exibida
 let indiceNoticiasExtras = 0;
 
-// array de notícias reais
+// array de notícias reais com imagens relacionadas
 const novasNoticias = [
     {
         categoria: "Games",
@@ -40,11 +40,8 @@ export function carregarNoticiasExtras() {
         return;
     }
 
-    // se não houver mais notícias, remove o botão e sai
-    if (indiceNoticiasExtras >= novasNoticias.length) {
-        botaoContainer.remove();
-        return;
-    }
+    // se não houver mais notícias, só sai da função (botão permanece)
+    if (indiceNoticiasExtras >= novasNoticias.length) return;
 
     // pega a notícia atual
     const noticia = novasNoticias[indiceNoticiasExtras];
@@ -73,11 +70,6 @@ export function carregarNoticiasExtras() {
         </article>
     `;
 
-    // adiciona antes do botão, sem remover o botão
+    // adiciona a notícia antes do botão, sem remover o botão
     feed.insertBefore(post, botaoContainer);
-
-    // se acabou as notícias, remove o botão
-    if (indiceNoticiasExtras >= novasNoticias.length) {
-        botaoContainer.remove();
-    }
 }
