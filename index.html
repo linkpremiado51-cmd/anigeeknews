@@ -60,6 +60,13 @@
             transition: background var(--duration) var(--ease-editorial), color var(--duration) var(--ease-editorial);
         }
 
+        /* Ajuste para links de notícias */
+        .news-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
         img {
             display: block;
             max-width: 100%;
@@ -608,6 +615,7 @@
             padding-bottom: 15px;
             border-bottom: 1px solid #f0f0f0;
             align-items: baseline;
+            text-decoration: none;
         }
 
         body.dark-mode .top-list-item {
@@ -787,17 +795,19 @@
     </div>
 
     <section class="hero">
-        <div class="main-feat">
-            <div class="main-feat-img-box">
-                <img src="https://i.postimg.cc/sDL0s4nt/Portada-One-Piece.png" alt="One Piece Egghead">
+        <a href="https://linkpremiado51-cmd.github.io/anigeeknews/not%C3%ADcias/animes/one_piece/one-piece-climax-egghead-animacao-moderna.html" class="news-link">
+            <div class="main-feat">
+                <div class="main-feat-img-box">
+                    <img src="https://i.postimg.cc/sDL0s4nt/Portada-One-Piece.png" alt="One Piece Egghead">
+                </div>
+                <div class="main-text-content">
+                    <span class="tag-label tag-destaque">ANÁLISE DE CAPA</span>
+                    <h1>One Piece: O clímax de Egghead redefine a animação moderna</h1>
+                    <p>Direção de arte sacrifica consistência visual por impacto narrativo. Por que essa foi a decisão correta para o futuro da franquia.</p>
+                    <div class="meta-minimal">17 Dez, 2025 • Por Editor Chefe</div>
+                </div>
             </div>
-            <div class="main-text-content">
-                <span class="tag-label tag-destaque">ANÁLISE DE CAPA</span>
-                <h1>One Piece: O clímax de Egghead redefine a animação moderna</h1>
-                <p>Direção de arte sacrifica consistência visual por impacto narrativo. Por que essa foi a decisão correta para o futuro da franquia.</p>
-                <div class="meta-minimal">17 Dez, 2025 • Por Editor Chefe</div>
-            </div>
-        </div>
+        </a>
 
         <div class="sub-feat-list">
             <a href="#" class="sub-feat">
@@ -831,80 +841,90 @@
             </div>
 
             <div class="feed">
-                <article class="post-card">
-                    <div class="post-img-wrapper">
-                        <img src="https://i.postimg.cc/sfHMcTDy/58awkrh8lp404dsegeqpbffcz.jpg" loading="lazy">
-                    </div>
-                    <div class="post-content">
-                        <span class="category">Hardware</span>
-                        <h2>Vazamento detalha especificações do suposto 'PS Portal 2'</h2>
-                        <p>Fontes ligadas à cadeia de suprimentos indicam uso de telas OLED Samsung e integração nativa com nuvem, dispensando console base.</p>
-                        <div class="action-row">
-                            <span class="meta-minimal">há 2 horas • Leitura: 3min</span>
-                            <button class="like-btn" onclick="toggleLike(this)"><span>124</span> leitores recomendam</button>
+                <a href="#" class="news-link">
+                    <article class="post-card">
+                        <div class="post-img-wrapper">
+                            <img src="https://i.postimg.cc/sfHMcTDy/58awkrh8lp404dsegeqpbffcz.jpg" loading="lazy">
                         </div>
-                    </div>
-                </article>
+                        <div class="post-content">
+                            <span class="category">Hardware</span>
+                            <h2>Vazamento detalha especificações do suposto 'PS Portal 2'</h2>
+                            <p>Fontes ligadas à cadeia de suprimentos indicam uso de telas OLED Samsung e integração nativa com nuvem, dispensando console base.</p>
+                            <div class="action-row">
+                                <span class="meta-minimal">há 2 horas • Leitura: 3min</span>
+                                <button class="like-btn" onclick="event.preventDefault(); toggleLike(this)"><span>124</span> leitores recomendam</button>
+                            </div>
+                        </div>
+                    </article>
+                </a>
 
-                <article class="post-card">
-                    <div class="post-img-wrapper">
-                        <img src="https://i.postimg.cc/QdzLYWKg/Jujutsu-Kaisen01.jpg" loading="lazy">
-                    </div>
-                    <div class="post-content">
-                        <span class="category">Manga</span>
-                        <h2>Jujutsu Kaisen: Gege Akutami anuncia pausa por motivos de saúde</h2>
-                        <p>Editorial da Jump confirma hiato de duas semanas. Fãs levantam debate sobre condições de trabalho na indústria.</p>
-                        <div class="action-row">
-                            <span class="meta-minimal">há 4 horas • Leitura: 2min</span>
-                            <button class="like-btn" onclick="toggleLike(this)"><span>89</span> solidariedades</button>
+                <a href="#" class="news-link">
+                    <article class="post-card">
+                        <div class="post-img-wrapper">
+                            <img src="https://i.postimg.cc/QdzLYWKg/Jujutsu-Kaisen01.jpg" loading="lazy">
                         </div>
-                    </div>
-                </article>
+                        <div class="post-content">
+                            <span class="category">Manga</span>
+                            <h2>Jujutsu Kaisen: Gege Akutami anuncia pausa por motivos de saúde</h2>
+                            <p>Editorial da Jump confirma hiato de duas semanas. Fãs levantam debate sobre condições de trabalho na indústria.</p>
+                            <div class="action-row">
+                                <span class="meta-minimal">há 4 horas • Leitura: 2min</span>
+                                <button class="like-btn" onclick="event.preventDefault(); toggleLike(this)"><span>89</span> solidariedades</button>
+                            </div>
+                        </div>
+                    </article>
+                </a>
 
-                <article class="post-card">
-                    <div class="post-img-wrapper">
-                        <img src="https://i.postimg.cc/mDNQkCQr/The-Legend-of-Zelda-Tears-of-the-Kingdom.jpg" loading="lazy">
-                    </div>
-                    <div class="post-content">
-                        <span class="category">Mercado</span>
-                        <h2>Zelda Tears of the Kingdom ultrapassa barreira dos 30 milhões</h2>
-                        <p>Relatório fiscal da Nintendo aponta para a maior taxa de conversão da história da franquia. O que isso significa para o Switch 2?</p>
-                        <div class="action-row">
-                            <span class="meta-minimal">há 6 horas • Análise de Mercado</span>
-                            <button class="like-btn" onclick="toggleLike(this)"><span>210</span> leitores recomendam</button>
+                <a href="#" class="news-link">
+                    <article class="post-card">
+                        <div class="post-img-wrapper">
+                            <img src="https://i.postimg.cc/mDNQkCQr/The-Legend-of-Zelda-Tears-of-the-Kingdom.jpg" loading="lazy">
                         </div>
-                    </div>
-                </article>
+                        <div class="post-content">
+                            <span class="category">Mercado</span>
+                            <h2>Zelda Tears of the Kingdom ultrapassa barreira dos 30 milhões</h2>
+                            <p>Relatório fiscal da Nintendo aponta para a maior taxa de conversão da história da franquia. O que isso significa para o Switch 2?</p>
+                            <div class="action-row">
+                                <span class="meta-minimal">há 6 horas • Análise de Mercado</span>
+                                <button class="like-btn" onclick="event.preventDefault(); toggleLike(this)"><span>210</span> leitores recomendam</button>
+                            </div>
+                        </div>
+                    </article>
+                </a>
 
-                <article class="post-card">
-                    <div class="post-img-wrapper">
-                        <img src="https://i.postimg.cc/xjBzQsr4/One-Piece-Film-Red-GQCA-cp.jpg" loading="lazy">
-                    </div>
-                    <div class="post-content">
-                        <span class="category">Cinema</span>
-                        <h2>Bilheteria: One Piece Film Red e o fenômeno na América Latina</h2>
-                        <p>Filme se consolida como o anime mais lucrativo da região, superando clássicos dos anos 90.</p>
-                        <div class="action-row">
-                            <span class="meta-minimal">há 8 horas • Dados</span>
-                            <button class="like-btn" onclick="toggleLike(this)"><span>345</span> leitores recomendam</button>
+                <a href="#" class="news-link">
+                    <article class="post-card">
+                        <div class="post-img-wrapper">
+                            <img src="https://i.postimg.cc/xjBzQsr4/One-Piece-Film-Red-GQCA-cp.jpg" loading="lazy">
                         </div>
-                    </div>
-                </article>
+                        <div class="post-content">
+                            <span class="category">Cinema</span>
+                            <h2>Bilheteria: One Piece Film Red e o fenômeno na América Latina</h2>
+                            <p>Filme se consolida como o anime mais lucrativo da região, superando clássicos dos anos 90.</p>
+                            <div class="action-row">
+                                <span class="meta-minimal">há 8 horas • Dados</span>
+                                <button class="like-btn" onclick="event.preventDefault(); toggleLike(this)"><span>345</span> leitores recomendam</button>
+                            </div>
+                        </div>
+                    </article>
+                </a>
 
-                <article class="post-card">
-                    <div class="post-img-wrapper">
-                        <img src="https://i.postimg.cc/9MMjBjQN/por-que-a-temporada-final-de-attack-on-titan-e-tao-odiada-v0-y9u0azjozo5e1.jpg" loading="lazy">
-                    </div>
-                    <div class="post-content">
-                        <span class="category">Anime</span>
-                        <h2>Attack on Titan: O legado do final e seu impacto na cultura pop</h2>
-                        <p>Análise aprofundada sobre como o final de AOT dividiu fãs e críticos, e seu lugar na história dos animes.</p>
-                        <div class="action-row">
-                            <span class="meta-minimal">há 10 horas • Análise</span>
-                            <button class="like-btn" onclick="toggleLike(this)"><span>456</span> leitores recomendam</button>
+                <a href="#" class="news-link">
+                    <article class="post-card">
+                        <div class="post-img-wrapper">
+                            <img src="https://i.postimg.cc/9MMjBjQN/por-que-a-temporada-final-de-attack-on-titan-e-tao-odiada-v0-y9u0azjozo5e1.jpg" loading="lazy">
                         </div>
-                    </div>
-                </article>
+                        <div class="post-content">
+                            <span class="category">Anime</span>
+                            <h2>Attack on Titan: O legado do final e seu impacto na cultura pop</h2>
+                            <p>Análise aprofundada sobre como o final de AOT dividiu fãs e críticos, e seu lugar na história dos animes.</p>
+                            <div class="action-row">
+                                <span class="meta-minimal">há 10 horas • Análise</span>
+                                <button class="like-btn" onclick="event.preventDefault(); toggleLike(this)"><span>456</span> leitores recomendam</button>
+                            </div>
+                        </div>
+                    </article>
+                </a>
 
                 <div style="text-align: center; margin-top: 40px; border-top: 1px solid var(--border); padding-top: 20px;">
                     <button style="background: none; border: 1px solid var(--text-main); padding: 12px 30px; font-weight: 700; cursor: pointer; color: var(--text-main); text-transform: uppercase; font-size: 12px; letter-spacing: 1px;">Carregar Mais</button>
@@ -916,36 +936,36 @@
             <div class="sidebar-box">
                 <h4 class="sidebar-title">Mais Lidas da Semana</h4>
                 <div class="top-list">
-                    <div class="top-list-item">
+                    <a href="#" class="top-list-item">
                         <span class="rank-num">1</span>
                         <p>Dragon Ball Daima: Análise frame-a-frame do trailer final.</p>
-                    </div>
-                    <div class="top-list-item">
+                    </a>
+                    <a href="#" class="top-list-item">
                         <span class="rank-num">2</span>
                         <p>Guia de Compras: Cadeiras ergonômicas que valem o investimento.</p>
-                    </div>
-                    <div class="top-list-item">
+                    </a>
+                    <a href="#" class="top-list-item">
                         <span class="rank-num">3</span>
                         <p>Arcane T2: O significado oculto na cena final do Ato 1.</p>
-                    </div>
-                    <div class="top-list-item">
+                    </a>
+                    <a href="#" class="top-list-item">
                         <span class="rank-num">4</span>
                         <p>Entrevista: O futuro de One Piece segundo o editor.</p>
-                    </div>
+                    </a>
                 </div>
             </div>
 
             <div class="sidebar-box">
                 <h4 class="sidebar-title">Em Tendência</h4>
                 <div class="top-list">
-                    <div class="top-list-item">
+                    <a href="#" class="top-list-item">
                         <span class="rank-num">↗</span>
                         <p>Attack on Titan: O legado controverso do final estendido.</p>
-                    </div>
-                    <div class="top-list-item">
+                    </a>
+                    <a href="#" class="top-list-item">
                         <span class="rank-num">↗</span>
                         <p>Cyberpunk 2077: CD Projekt Red fala sobre sequência.</p>
-                    </div>
+                    </a>
                 </div>
             </div>
 
@@ -969,9 +989,7 @@
                 </label>
             </div>
         </div>
-        <div class="mobile-menu-item">
-            <a href="#">Cadastro/Login</a>
-        </div>
+        <div class="mobile-menu-item"><a href="#">Cadastro/Login</a></div>
         <div class="mobile-menu-item" onclick="toggleSocials()">
             <a href="#">Redes Sociais</a>
             <div class="socials-submenu" id="socialsSubmenu">
@@ -981,18 +999,10 @@
                 <a href="#"><i class="fab fa-whatsapp"></i> WhatsApp</a>
             </div>
         </div>
-        <div class="mobile-menu-item">
-            <a href="#">Animes</a>
-        </div>
-        <div class="mobile-menu-item">
-            <a href="#">Games</a>
-        </div>
-        <div class="mobile-menu-item">
-            <a href="#">Mangás</a>
-        </div>
-        <div class="mobile-menu-item">
-            <a href="#">Cinema</a>
-        </div>
+        <div class="mobile-menu-item"><a href="#">Animes</a></div>
+        <div class="mobile-menu-item"><a href="#">Games</a></div>
+        <div class="mobile-menu-item"><a href="#">Mangás</a></div>
+        <div class="mobile-menu-item"><a href="#">Cinema</a></div>
     </div>
 
     <button class="back-to-top" onclick="scrollToTop()" style="position: fixed; bottom: 30px; right: 30px; padding: 15px; background: var(--text-main); color: var(--bg); border: none; opacity: 0; transition: 0.3s; cursor: pointer;">↑</button>
@@ -1004,71 +1014,11 @@
             <div style="margin-top: 40px; font-size: 11px; color: var(--text-muted);">
                 © 2025 AniGeekNews Media Group. Todos os direitos reservados.
             </div>
-        </div>
-    </footer>
+            </div>
+            </footer>
+            
+            <script type="module" src="main.js"></script>
+            </body>
+            
+            </html>
 
-    <script>
-        // Toggle menu mobile
-        function toggleMobileMenu() {
-            document.getElementById('mobileMenu').classList.toggle('active');
-        }
-
-        function toggleSocials() {
-            document.getElementById('socialsSubmenu').classList.toggle('active');
-        }
-
-        // Tema toggle
-        const themeToggle = document.getElementById('themeToggle');
-        const mobileThemeToggle = document.getElementById('mobileThemeToggle');
-
-        themeToggle.checked = document.body.classList.contains('dark-mode');
-        mobileThemeToggle.checked = document.body.classList.contains('dark-mode');
-
-        themeToggle.addEventListener('change', function() {
-            document.body.classList.toggle('dark-mode');
-            mobileThemeToggle.checked = this.checked;
-        });
-
-        mobileThemeToggle.addEventListener('change', function() {
-            document.body.classList.toggle('dark-mode');
-            themeToggle.checked = this.checked;
-        });
-
-        // Scroll
-        window.onscroll = function() {
-            const btn = document.querySelector('.back-to-top');
-            const bar = document.getElementById('progress-bar');
-
-            if (btn) {
-                if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-                    btn.style.opacity = '1';
-                } else {
-                    btn.style.opacity = '0';
-                }
-            }
-
-            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrolled = (winScroll / height) * 100;
-            if(bar) bar.style.width = scrolled + "%";
-        };
-
-        function scrollToTop() {
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        }
-
-        function toggleLike(button) {
-            const span = button.querySelector('span');
-            let count = parseInt(span.textContent);
-            if (button.classList.contains('liked')) {
-                count--;
-                button.classList.remove('liked');
-            } else {
-                count++;
-                button.classList.add('liked');
-            }
-            span.textContent = count;
-        }
-    </script>
-</body>
-</html>
