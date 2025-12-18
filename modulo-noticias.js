@@ -3,6 +3,8 @@ export function carregarNoticiasExtras() {
     // Encontra o container do botão para inserir as notícias ANTES dele
     const botaoContainer = feed.querySelector('div[style*="text-align: center"]');
 
+    if (!feed || !botaoContainer) return; // Segurança caso os elementos não existam
+
     const novasNoticias = [
         {
             categoria: "Games",
