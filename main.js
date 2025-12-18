@@ -1,14 +1,21 @@
-
 import { carregarNoticiasExtras } from './modulo-noticias.js';
 
 // --- CONFIGURAÇÃO DO BOTÃO CARREGAR MAIS ---
-// Ajustei para pegar o botão dentro da div de carregamento
-const btnCarregar = document.querySelector('.feed button');
+// Usei um seletor mais preciso: o botão que está dentro da última div do feed
+const btnCarregar = document.querySelector('.feed div:last-child button');
+
 if (btnCarregar) {
-    btnCarregar.addEventListener('click', () => {
+    btnCarregar.addEventListener('click', (e) => {
+        e.preventDefault(); // Previne qualquer comportamento inesperado
+        
+        // Chama a função do módulo
         carregarNoticiasExtras();
-        // Esconde a div que contém o botão após o clique
-        btnCarregar.parentElement.style.display = 'none'; 
+        
+        // Esconde o container (a div) que segura o botão
+        const containerPai = btnCarregar.parentElement;
+        if (containerPai) {
+            containerPai.style.display = 'none';
+        }
     });
 }
 
@@ -50,11 +57,10 @@ const aplicarTema = (isDark) => {
     document.body.classList.toggle('dark-mode', isDark);
     if(themeToggle) themeToggle.checked = isDark;
     if(mobileThemeToggle) mobileThemeToggle.checked = isDark;
-    // Salva a preferência do usuário
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
 };
 
-// Carrega o tema salvo ao abrir a página
+// Verifica tema salvo
 if(localStorage.getItem('theme') === 'dark') {
     aplicarTema(true);
 }
@@ -69,15 +75,14 @@ window.addEventListener('scroll', () => {
     const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
     const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     
-    // Barra de progresso
     if(bar) {
         const scrolled = (winScroll / height) * 100;
         bar.style.width = scrolled + "%";
     }
 
-    // Botão Voltar ao Topo
     if (btn) {
         btn.style.opacity = (winScroll > 300) ? '1' : '0';
         btn.style.pointerEvents = (winScroll > 300) ? 'auto' : 'none';
     }
 });
+
