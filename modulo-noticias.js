@@ -1,56 +1,30 @@
+// modulo-noticias.js
 export function carregarNoticiasExtras() {
     const feed = document.querySelector('.feed');
-    const botaoContainer = document.querySelector('.load-more-container');
+    if (!feed) return;
 
-    if (!feed || !botaoContainer) {
-        console.warn("Feed ou botão 'Carregar Mais' não encontrado. Inserção abortada.");
-        return;
-    }
-
-    const novasNoticias = [
-        {
-            categoria: "Games",
-            titulo: "GTA VI: Novos rumores apontam para sistema de clima extremo",
-            descricao: "Vazamentos sugerem que furacões e inundações afetarão a jogabilidade em tempo real em Vice City.",
-            img: "https://i.postimg.cc/sfHMcTDy/58awkrh8lp404dsegeqpbffcz.jpg",
-            meta: "há 12 horas • Leitura: 5min",
-            likes: "560"
-        },
-        {
-            categoria: "Anime",
-            titulo: "Bleach: Thousand-Year Blood War anuncia data da parte final",
-            descricao: "O retorno triunfal de Ichigo Kurosaki já tem data marcada para encerrar a saga do Rei Quincy.",
-            img: "https://i.postimg.cc/QdzLYWKg/Jujutsu-Kaisen01.jpg",
-            meta: "há 1 dia • Lançamento",
-            likes: "890"
-        }
-    ];
-
-    novasNoticias.forEach(noticia => {
-        const link = document.createElement('a');
-        link.href = "#";
-        link.className = "news-link";
-
-        link.innerHTML = `
+    for (let i = 1; i <= 3; i++) {
+        const post = document.createElement('a');
+        post.href = "#";
+        post.className = 'news-link';
+        post.innerHTML = `
             <article class="post-card">
                 <div class="post-img-wrapper">
-                    <img src="${noticia.img}" loading="lazy" alt="${noticia.titulo}">
+                    <img src="https://via.placeholder.com/240x160?text=Notícia+${i}" alt="Notícia ${i}">
                 </div>
                 <div class="post-content">
-                    <span class="category">${noticia.categoria}</span>
-                    <h2>${noticia.titulo}</h2>
-                    <p>${noticia.descricao}</p>
+                    <span class="category">Teste</span>
+                    <h2>Notícia Fake ${i}</h2>
+                    <p>Este é um conteúdo de teste para validar o carregamento de notícias extras.</p>
                     <div class="action-row">
-                        <span class="meta-minimal">${noticia.meta}</span>
-                        <button class="like-btn" onclick="event.preventDefault(); window.toggleLike(this)">
-                            <span>${noticia.likes}</span> leitores recomendam
+                        <span class="meta-minimal">há 0 horas • Leitura: 1min</span>
+                        <button class="like-btn" onclick="event.preventDefault(); toggleLike(this)">
+                            <span>0</span> leitores recomendam
                         </button>
                     </div>
                 </div>
             </article>
         `;
-
-        // Insere a nova notícia antes do botão "Carregar Mais"
-        feed.insertBefore(link, botaoContainer);
-    });
+        feed.appendChild(post);
+    }
 }
