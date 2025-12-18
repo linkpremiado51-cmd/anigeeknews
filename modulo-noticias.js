@@ -1,14 +1,14 @@
 export function carregarNoticiasExtras() {
     const feed = document.querySelector('.feed');
+    // Encontra o container do botão para inserir as notícias ANTES dele
     const botaoContainer = feed.querySelector('div[style*="text-align: center"]');
 
-    // Dados das novas notícias
     const novasNoticias = [
         {
             categoria: "Games",
             titulo: "GTA VI: Novos rumores apontam para sistema de clima extremo",
             descricao: "Vazamentos sugerem que furacões e inundações afetarão a jogabilidade em tempo real em Vice City.",
-            img: "https://i.postimg.cc/sfHMcTDy/58awkrh8lp404dsegeqpbffcz.jpg", // Substitua pelas suas imagens
+            img: "https://i.postimg.cc/sfHMcTDy/58awkrh8lp404dsegeqpbffcz.jpg",
             meta: "há 12 horas • Leitura: 5min",
             likes: "560"
         },
@@ -22,12 +22,11 @@ export function carregarNoticiasExtras() {
         }
     ];
 
-    // Gerar o HTML para cada notícia
     novasNoticias.forEach(noticia => {
-        const article = document.createElement('a');
-        article.href = "#";
-        article.className = "news-link";
-        article.innerHTML = `
+        const link = document.createElement('a');
+        link.href = "#";
+        link.className = "news-link";
+        link.innerHTML = `
             <article class="post-card">
                 <div class="post-img-wrapper">
                     <img src="${noticia.img}" loading="lazy">
@@ -45,7 +44,7 @@ export function carregarNoticiasExtras() {
                 </div>
             </article>
         `;
-        // Insere a notícia antes do botão "Carregar Mais"
-        feed.insertBefore(article, botaoContainer);
+        feed.insertBefore(link, botaoContainer);
     });
 }
+
