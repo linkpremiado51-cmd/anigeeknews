@@ -1,3 +1,5 @@
+alert("O JavaScript carregou!");
+
 import { carregarNoticiasExtras } from './modulo-noticias.js';
 
 // --- CONFIGURAÇÃO DO BOTÃO CARREGAR MAIS ---
