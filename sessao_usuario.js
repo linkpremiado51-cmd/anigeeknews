@@ -1,4 +1,3 @@
-// CORREÇÃO 1: O "import" deve ser com "i" minúsculo. 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
@@ -14,36 +13,36 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-onAuthStateChanged(auth, (user) => {
+// Função para atualizar a interface
+function atualizarInterfaceUsuario(user) {
     const areaUsuario = document.getElementById('area-usuario');
     if (!areaUsuario) return;
 
     if (user) {
+        // Pega o nome do Google ou a parte inicial do e-mail
         const nomeParaExibir = user.displayName || user.email.split('@')[0];
+        
         areaUsuario.innerHTML = `
             <div class="user-logged">
                 <span>Olá, <strong>${nomeParaExibir}</strong></span>
                 <button id="btnLogout" class="btn-sair">Sair</button>
             </div>
         `;
-        
-        // CORREÇÃO 2: Em scripts do tipo "module", o onclick no HTML às vezes falha.
-        // É mais seguro adicionar o evento diretamente pelo JavaScript.
-        document.getElementById('btnLogout').addEventListener('click', fazerLogout);
+
+        // Adiciona o evento de clique ao botão de sair recém-criado
+        document.getElementById('btnLogout').addEventListener('click', () => {
+            signOut(auth).then(() => {
+                window.location.reload(); // Recarrega para limpar a interface
+            });
+        });
     } else {
+        // Se não estiver logado, mostra o botão Entrar
         areaUsuario.innerHTML = `<a href="/anigeeknews/usuario/cadastro.html" class="btn-entrar">Entrar</a>`;
     }
+}
+
+// Observador de estado (detecta login/logout automaticamente)
+onAuthStateChanged(auth, (user) => {
+    atualizarInterfaceUsuario(user);
 });
-
-// Definindo a função de logout
-const fazerLogout = () => {
-    signOut(auth).then(() => { 
-        window.location.href = "/anigeeknews/index.html"; 
-    }).catch((error) => {
-        console.error("Erro ao sair:", error);
-    });
-};
-
-// CORREÇÃO 3: Garante que a função esteja disponível globalmente se necessário
-window.fazerLogout = fazerLogout;
 
