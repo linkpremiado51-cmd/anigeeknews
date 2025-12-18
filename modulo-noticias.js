@@ -1,6 +1,5 @@
 // modulo-noticias.js
 
-// índice para controlar qual notícia será exibida
 let indiceNoticiasExtras = 0;
 
 // array de notícias reais com imagens relacionadas
@@ -28,6 +27,14 @@ const novasNoticias = [
         img: "https://via.placeholder.com/240x160?text=ChatGPT+5",
         meta: "há 3 horas • Leitura: 4min",
         likes: "1200"
+    },
+    {
+        categoria: "Filmes",
+        titulo: "Marvel anuncia novo filme do Homem-Aranha para 2026",
+        descricao: "O teaser promete grandes conexões com o multiverso e aparições de antigos personagens.",
+        img: "https://via.placeholder.com/240x160?text=Homem-Aranha",
+        meta: "há 5 horas • Leitura: 3min",
+        likes: "750"
     }
 ];
 
@@ -40,36 +47,46 @@ export function carregarNoticiasExtras() {
         return;
     }
 
-    // se não houver mais notícias, só sai da função (botão permanece)
-    if (indiceNoticiasExtras >= novasNoticias.length) return;
+    // determina quantas notícias carregar por clique
+    const quantidadePorClique = 2;
 
-    // pega a notícia atual
-    const noticia = novasNoticias[indiceNoticiasExtras];
-    indiceNoticiasExtras++;
+    for (let i = 0; i < quantidadePorClique; i++) {
+        if (indiceNoticiasExtras >= novasNoticias.length) break; // não tenta além do limite
 
-    // cria o post
-    const post = document.createElement('a');
-    post.href = "#";
-    post.className = 'news-link';
-    post.innerHTML = `
-        <article class="post-card">
-            <div class="post-img-wrapper">
-                <img src="${noticia.img}" alt="${noticia.titulo}" loading="lazy">
-            </div>
-            <div class="post-content">
-                <span class="category">${noticia.categoria}</span>
-                <h2>${noticia.titulo}</h2>
-                <p>${noticia.descricao}</p>
-                <div class="action-row">
-                    <span class="meta-minimal">${noticia.meta}</span>
-                    <button class="like-btn" onclick="event.preventDefault(); window.toggleLike(this)">
-                        <span>${noticia.likes}</span> leitores recomendam
-                    </button>
+        const noticia = novasNoticias[indiceNoticiasExtras];
+        indiceNoticiasExtras++;
+
+        const post = document.createElement('a');
+        post.href = "#";
+        post.className = 'news-link';
+        post.innerHTML = `
+            <article class="post-card">
+                <div class="post-img-wrapper">
+                    <img src="${noticia.img}" alt="${noticia.titulo}" loading="lazy">
                 </div>
-            </div>
-        </article>
-    `;
+                <div class="post-content">
+                    <span class="category">${noticia.categoria}</span>
+                    <h2>${noticia.titulo}</h2>
+                    <p>${noticia.descricao}</p>
+                    <div class="action-row">
+                        <span class="meta-minimal">${noticia.meta}</span>
+                        <button class="like-btn" onclick="event.preventDefault(); window.toggleLike(this)">
+                            <span>${noticia.likes}</span> leitores recomendam
+                        </button>
+                    </div>
+                </div>
+            </article>
+        `;
 
-    // adiciona a notícia antes do botão, sem remover o botão
-    feed.insertBefore(post, botaoContainer);
+        feed.insertBefore(post, botaoContainer);
+    }
+
+    // opcional: desabilitar botão quando acabar as notícias
+    if (indiceNoticiasExtras >= novasNoticias.length) {
+        const botao = botaoContainer.querySelector('.load-more-btn');
+        if (botao) {
+            botao.disabled = true;
+            botao.textContent = "Sem mais notícias";
+        }
+    }
 }
