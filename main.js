@@ -1,7 +1,5 @@
 // main.js
 
-// Alerta de carregamento (opcional, pode ser removido depois)
-alert("O JavaScript carregou!");
 
 // Aguarda o DOM estar totalmente carregado
 document.addEventListener('DOMContentLoaded', () => {
