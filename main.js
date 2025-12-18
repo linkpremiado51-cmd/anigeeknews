@@ -1,22 +1,26 @@
+
 import { carregarNoticiasExtras } from './modulo-noticias.js';
 
 // --- CONFIGURAÇÃO DO BOTÃO CARREGAR MAIS ---
-const btnCarregar = document.querySelector('button[style*="cursor: pointer"]');
+// Ajustei para pegar o botão dentro da div de carregamento
+const btnCarregar = document.querySelector('.feed button');
 if (btnCarregar) {
     btnCarregar.addEventListener('click', () => {
         carregarNoticiasExtras();
-        // Opcional: esconde o botão após clicar para não repetir a carga
+        // Esconde a div que contém o botão após o clique
         btnCarregar.parentElement.style.display = 'none'; 
     });
 }
 
 // --- FUNÇÕES DE INTERFACE (Globais para o HTML acessar) ---
 window.toggleMobileMenu = () => {
-    document.getElementById('mobileMenu').classList.toggle('active');
+    const menu = document.getElementById('mobileMenu');
+    if(menu) menu.classList.toggle('active');
 };
 
 window.toggleSocials = () => {
-    document.getElementById('socialsSubmenu').classList.toggle('active');
+    const submenu = document.getElementById('socialsSubmenu');
+    if(submenu) submenu.classList.toggle('active');
 };
 
 window.scrollToTop = () => {
@@ -25,6 +29,8 @@ window.scrollToTop = () => {
 
 window.toggleLike = (button) => {
     const span = button.querySelector('span');
+    if(!span) return;
+    
     let count = parseInt(span.textContent);
     if (button.classList.contains('liked')) {
         count--;
@@ -44,13 +50,20 @@ const aplicarTema = (isDark) => {
     document.body.classList.toggle('dark-mode', isDark);
     if(themeToggle) themeToggle.checked = isDark;
     if(mobileThemeToggle) mobileThemeToggle.checked = isDark;
+    // Salva a preferência do usuário
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
 };
+
+// Carrega o tema salvo ao abrir a página
+if(localStorage.getItem('theme') === 'dark') {
+    aplicarTema(true);
+}
 
 if(themeToggle) themeToggle.addEventListener('change', (e) => aplicarTema(e.target.checked));
 if(mobileThemeToggle) mobileThemeToggle.addEventListener('change', (e) => aplicarTema(e.target.checked));
 
 // --- BARRA DE PROGRESSO E BOTÃO VOLTAR AO TOPO ---
-window.onscroll = () => {
+window.addEventListener('scroll', () => {
     const btn = document.querySelector('.back-to-top');
     const bar = document.getElementById('progress-bar');
     const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
@@ -65,6 +78,6 @@ window.onscroll = () => {
     // Botão Voltar ao Topo
     if (btn) {
         btn.style.opacity = (winScroll > 300) ? '1' : '0';
+        btn.style.pointerEvents = (winScroll > 300) ? 'auto' : 'none';
     }
-};
-
+});
