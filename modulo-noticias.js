@@ -1,9 +1,13 @@
 export function carregarNoticiasExtras() {
     const feed = document.querySelector('.feed');
-    // Encontra o container do botão para inserir as notícias ANTES dele
-    const botaoContainer = feed.querySelector('div[style*="text-align: center"]');
+    
+    // Seleciona a última div dentro do feed (onde está o seu botão)
+    const botaoContainer = feed.querySelector('div:last-child');
 
-    if (!feed || !botaoContainer) return; // Segurança caso os elementos não existam
+    if (!feed || !botaoContainer) {
+        console.error("Erro: Não foi possível encontrar o local para inserir as notícias.");
+        return;
+    }
 
     const novasNoticias = [
         {
@@ -39,13 +43,14 @@ export function carregarNoticiasExtras() {
                     <p>${noticia.descricao}</p>
                     <div class="action-row">
                         <span class="meta-minimal">${noticia.meta}</span>
-                        <button class="like-btn" onclick="event.preventDefault(); toggleLike(this)">
+                        <button class="like-btn" onclick="event.preventDefault(); window.toggleLike(this)">
                             <span>${noticia.likes}</span> leitores recomendam
                         </button>
                     </div>
                 </div>
             </article>
         `;
+        // Insere a nova notícia ANTES do container do botão
         feed.insertBefore(link, botaoContainer);
     });
 }
