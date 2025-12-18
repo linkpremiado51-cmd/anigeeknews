@@ -1017,7 +1017,24 @@
             </div>
             </footer>
             
-            <script type="module" src="main.js"></script>
+            <script type="module">
+    import { carregarNoticiasExtras } from './modulo-noticias.js';
+
+    // O alerta para confirmar que agora está lendo
+    alert("Conectado com sucesso!");
+
+    const btnCarregar = document.querySelector('.feed div:last-child button');
+    if (btnCarregar) {
+        btnCarregar.addEventListener('click', (e) => {
+            e.preventDefault();
+            carregarNoticiasExtras();
+            btnCarregar.parentElement.style.display = 'none'; 
+        });
+    }
+
+    // Copie as outras funções (toggleLike, etc.) para cá também se quiser garantir
+</script>
+
             </body>
             
             </html>
