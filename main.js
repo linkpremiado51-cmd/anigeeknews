@@ -1,19 +1,10 @@
-// main.js
-
-
-// Aguarda o DOM estar totalmente carregado
 document.addEventListener('DOMContentLoaded', () => {
-    // ------------------------------------------------------------------
-    // CARREGAMENTO DINÂMICO DO MÓDULO DE NOTÍCIAS (após DOM pronto)
-    // ------------------------------------------------------------------
     import('./modulo-noticias.js').then(({ carregarNoticiasExtras }) => {
-        // Configura o botão "Carregar Mais" SOMENTE após o módulo ser carregado
         const btnCarregar = document.querySelector('.load-more-btn');
         if (btnCarregar) {
             btnCarregar.addEventListener('click', (e) => {
                 e.preventDefault();
-                carregarNoticiasExtras();
-                btnCarregar.closest('.load-more-container')?.remove();
+                carregarNoticiasExtras(); // botão NÃO é removido aqui
             });
         } else {
             console.warn('[main.js] Botão "Carregar Mais" não encontrado no DOM.');
@@ -23,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ------------------------------------------------------------------
-    // FUNÇÕES DE INTERFACE (expostas globalmente para compatibilidade com HTML inline)
+    // FUNÇÕES DE INTERFACE
     // ------------------------------------------------------------------
     window.toggleMobileMenu = () => {
         const menu = document.getElementById('mobileMenu');
@@ -44,7 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!span) return;
 
         let count = parseInt(span.textContent, 10) || 0;
-
         if (button.classList.contains('liked')) {
             count--;
             button.classList.remove('liked');
@@ -66,24 +56,15 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.toggle('dark-mode', isDark);
         localStorage.setItem('theme', isDark ? 'dark' : 'light');
 
-        // Sincroniza os checkboxes
         if (themeToggle) themeToggle.checked = isDark;
         if (mobileThemeToggle) mobileThemeToggle.checked = isDark;
     };
 
-    // Aplica tema salvo ao carregar
     const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-        aplicarTema(true);
-    }
+    if (savedTheme === 'dark') aplicarTema(true);
 
-    // Eventos de mudança
-    if (themeToggle) {
-        themeToggle.addEventListener('change', (e) => aplicarTema(e.target.checked));
-    }
-    if (mobileThemeToggle) {
-        mobileThemeToggle.addEventListener('change', (e) => aplicarTema(e.target.checked));
-    }
+    if (themeToggle) themeToggle.addEventListener('change', (e) => aplicarTema(e.target.checked));
+    if (mobileThemeToggle) mobileThemeToggle.addEventListener('change', (e) => aplicarTema(e.target.checked));
 
     // ------------------------------------------------------------------
     // BARRA DE PROGRESSO + BOTÃO "VOLTAR AO TOPO"
