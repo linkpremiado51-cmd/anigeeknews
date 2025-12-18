@@ -60,6 +60,57 @@
             transition: background var(--duration) var(--ease-editorial), color var(--duration) var(--ease-editorial);
         }
 
+        /* --- ESTILOS DO USUÁRIO LOGADO (NOVO) --- */
+        #area-usuario {
+            display: flex;
+            align-items: center;
+            font-family: var(--font-sans);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .user-logged {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--text-main);
+        }
+
+        .user-logged span strong {
+            color: var(--accent-news);
+        }
+
+        .btn-entrar, .btn-sair {
+            text-decoration: none;
+            color: var(--text-main);
+            border: 1px solid var(--text-main);
+            padding: 5px 12px;
+            transition: all 0.3s;
+            cursor: pointer;
+            background: transparent;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-entrar:hover {
+            background: var(--text-main);
+            color: var(--bg); /* Usa a cor de fundo invertida */
+        }
+
+        .btn-sair {
+            border-color: #999;
+            color: #999;
+        }
+
+        .btn-sair:hover {
+            border-color: var(--accent-news);
+            color: var(--accent-news);
+        }
+        /* --- FIM DOS ESTILOS DO USUÁRIO --- */
+
         .news-link {
             text-decoration: none;
             color: inherit;
@@ -115,6 +166,7 @@
             display: flex;
             gap: 30px;
             list-style: none;
+            align-items: center; /* Garante alinhamento vertical */
         }
 
         .nav-item > a {
@@ -751,6 +803,11 @@
                 <li class="nav-item"><a href="#">Games</a></li>
                 <li class="nav-item"><a href="#">Mangás</a></li>
                 <li class="nav-item"><a href="#">Cinema</a></li>
+                
+                <li class="nav-item" id="area-usuario">
+                    <span>Verificando...</span>
+                </li>
+
                 <li class="nav-item config">
                     <a href="#">Configurações</a>
                     <div class="config-dropdown">
@@ -914,7 +971,6 @@
                     </article>
                 </a>
 
-                <!-- ✅ Estrutura corrigida: apenas um container -->
                 <div class="load-more-container" style="text-align: center; margin-top: 40px; border-top: 1px solid var(--border); padding-top: 20px;">
                     <button class="load-more-btn"
                         style="background: none; border: 1px solid var(--text-main); padding: 12px 30px; font-weight: 700; cursor: pointer; color: var(--text-main); text-transform: uppercase; font-size: 12px; letter-spacing: 1px;">
@@ -1009,6 +1065,8 @@
         </div>
     </footer>
 
+    <script type="module" src="sessao_usuario.js"></script>
     <script type="module" src="main.js"></script>
 </body>
 </html>
+
