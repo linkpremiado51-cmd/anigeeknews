@@ -61,7 +61,7 @@
         }
 
         /* --- ESTILOS DO USUÁRIO LOGADO (NOVO) --- */
-        #area-usuario {
+        #area-usuario, #area-usuario-mobile {
             display: flex;
             align-items: center;
             font-family: var(--font-sans);
@@ -1037,7 +1037,11 @@
                 </label>
             </div>
         </div>
-        <div class="mobile-menu-item"><a href="/anigeeknews/usuario/cadastro.html">Cadastro/Login</a></div>
+
+        <div class="mobile-menu-item" id="area-usuario-mobile">
+            <a href="/anigeeknews/usuario/cadastro.html">Cadastro/Login</a>
+        </div>
+
         <div class="mobile-menu-item" onclick="toggleSocials()">
             <a href="javascript:void(0)">Redes Sociais</a>
             <div class="socials-submenu" id="socialsSubmenu">
