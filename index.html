@@ -60,7 +60,6 @@
             transition: background var(--duration) var(--ease-editorial), color var(--duration) var(--ease-editorial);
         }
 
-        /* Ajuste para links de notícias */
         .news-link {
             text-decoration: none;
             color: inherit;
@@ -80,7 +79,6 @@
             filter: var(--img-hover);
         }
 
-        /* Header */
         header {
             background: var(--bg);
             border-bottom: 2px solid var(--text-main);
@@ -135,7 +133,6 @@
             border-bottom-color: var(--primary);
         }
 
-        /* Config Dropdown */
         .config-dropdown {
             position: absolute;
             top: 100%;
@@ -201,7 +198,7 @@
             height: 16px;
             width: 16px;
             left: 2px;
-            bottom: 2px;
+            bottom: 2  px;
             background-color: white;
             transition: 0.4s;
             border-radius: 50%;
@@ -215,7 +212,6 @@
             transform: translateX(20px);
         }
 
-        /* Mobile Menu */
         .menu-toggle {
             display: none;
             background: none;
@@ -284,7 +280,6 @@
             color: var(--text-main);
         }
 
-        /* Search Bar */
         .search-bar {
             max-width: var(--container-w);
             margin: 20px auto;
@@ -313,7 +308,6 @@
             font-size: 16px;
         }
 
-        /* Hero Section */
         .hero {
             max-width: var(--container-w);
             margin: 20px auto;
@@ -436,7 +430,6 @@
             object-fit: cover;
         }
 
-        /* Filters */
         .filter-scroller {
             max-width: var(--container-w);
             margin: 0 auto 40px;
@@ -467,7 +460,6 @@
             text-underline-offset: 4px;
         }
 
-        /* Layout */
         .layout {
             max-width: var(--container-w);
             margin: 0 auto;
@@ -491,7 +483,6 @@
             text-transform: uppercase;
         }
 
-        /* Feed */
         .feed {
             display: flex;
             flex-direction: column;
@@ -593,7 +584,6 @@
             color: var(--primary);
         }
 
-        /* Sidebar */
         .sidebar-box {
             margin-bottom: 50px;
         }
@@ -685,7 +675,6 @@
             opacity: 0.9;
         }
 
-        /* Footer */
         footer {
             border-top: 4px solid var(--text-main);
             padding: 60px 0;
@@ -709,7 +698,6 @@
             color: var(--text-muted);
         }
 
-        /* Responsive */
         @media (max-width: 900px) {
             .nav-menu {
                 display: none;
@@ -926,13 +914,12 @@
                     </article>
                 </a>
 
-                <div style="text-align: center; margin-top: 40px; border-top: 1px solid var(--border); padding-top: 20px;">
-               <div class="load-more-container" style="text-align: center; margin-top: 40px; border-top: 1px solid var(--border); padding-top: 20px;">
-    <button class="load-more-btn"
-        style="background: none; border: 1px solid var(--text-main); padding: 12px 30px; font-weight: 700; cursor: pointer; color: var(--text-main); text-transform: uppercase; font-size: 12px; letter-spacing: 1px;">
-        Carregar Mais
-    </button>
-               </div>
+                <!-- ✅ Estrutura corrigida: apenas um container -->
+                <div class="load-more-container" style="text-align: center; margin-top: 40px; border-top: 1px solid var(--border); padding-top: 20px;">
+                    <button class="load-more-btn"
+                        style="background: none; border: 1px solid var(--text-main); padding: 12px 30px; font-weight: 700; cursor: pointer; color: var(--text-main); text-transform: uppercase; font-size: 12px; letter-spacing: 1px;">
+                        Carregar Mais
+                    </button>
                 </div>
             </div>
         </main>
@@ -1019,11 +1006,9 @@
             <div style="margin-top: 40px; font-size: 11px; color: var(--text-muted);">
                 © 2025 AniGeekNews Media Group. Todos os direitos reservados.
             </div>
-            </div>
-            </footer>
-            
-            <script type="module" src="main.js"></script>
-            </body>
-            
-            </html>
+        </div>
+    </footer>
 
+    <script type="module" src="main.js"></script>
+</body>
+</html>
