@@ -1,11 +1,9 @@
 export function carregarNoticiasExtras() {
     const feed = document.querySelector('.feed');
-    
-    // Seleciona a última div dentro do feed (onde está o seu botão)
-    const botaoContainer = feed.querySelector('div:last-child');
+    const botaoContainer = document.querySelector('.load-more-container');
 
     if (!feed || !botaoContainer) {
-        console.error("Erro: Não foi possível encontrar o local para inserir as notícias.");
+        console.warn("Feed ou botão 'Carregar Mais' não encontrado. Inserção abortada.");
         return;
     }
 
@@ -32,10 +30,11 @@ export function carregarNoticiasExtras() {
         const link = document.createElement('a');
         link.href = "#";
         link.className = "news-link";
+
         link.innerHTML = `
             <article class="post-card">
                 <div class="post-img-wrapper">
-                    <img src="${noticia.img}" loading="lazy">
+                    <img src="${noticia.img}" loading="lazy" alt="${noticia.titulo}">
                 </div>
                 <div class="post-content">
                     <span class="category">${noticia.categoria}</span>
@@ -50,8 +49,8 @@ export function carregarNoticiasExtras() {
                 </div>
             </article>
         `;
-        // Insere a nova notícia ANTES do container do botão
+
+        // Insere a nova notícia antes do botão "Carregar Mais"
         feed.insertBefore(link, botaoContainer);
     });
 }
-
