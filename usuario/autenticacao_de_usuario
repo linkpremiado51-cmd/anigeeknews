@@ -1,1 +1,109 @@
+// Importações necessárias dos módulos do Firebase
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+import { 
+    getAuth, 
+    createUserWithEmailAndPassword, 
+    signInWithEmailAndPassword, 
+    sendPasswordResetEmail,
+    GoogleAuthProvider,
+    signInWithPopup
+} from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+
+// Sua configuração oficial do projeto AniGeekNews
+const firebaseConfig = {
+  apiKey: "AIzaSyBC_ad4X9OwCHKvcG_pNQkKEl76Zw2tu6o",
+  authDomain: "anigeeknews.firebaseapp.com",
+  projectId: "anigeeknews",
+  storageBucket: "anigeeknews.firebasestorage.app",
+  messagingSenderId: "769322939926",
+  appId: "1:769322939926:web:6eb91a96a3f74670882737",
+  measurementId: "G-G5T8CCRGZT"
+};
+
+// Inicializa o Firebase e a Autenticação
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const mensagemEl = document.getElementById('mensagem');
+
+// --- FUNÇÃO DE CADASTRO ---
+const signupBtn = document.getElementById('signup-btn');
+if (signupBtn) {
+    signupBtn.addEventListener('click', async () => {
+        const email = document.getElementById('email').value.trim();
+        const senha = document.getElementById('senha').value.trim();
+
+        try {
+            await createUserWithEmailAndPassword(auth, email, senha);
+            exibirMensagem("Conta criada com sucesso! Redirecionando...", "green");
+            setTimeout(() => window.location.href = "../index.html", 2000);
+        } catch (error) {
+            tratarErro(error);
+        }
+    });
+}
+
+// --- FUNÇÃO DE LOGIN ---
+const loginBtn = document.getElementById('login-btn');
+if (loginBtn) {
+    loginBtn.addEventListener('click', async () => {
+        const email = document.getElementById('login-email').value.trim();
+        const senha = document.getElementById('login-senha').value.trim();
+
+        try {
+            await signInWithEmailAndPassword(auth, email, senha);
+            exibirMensagem("Bem-vindo de volta!", "green");
+            setTimeout(() => window.location.href = "../index.html", 1500);
+        } catch (error) {
+            tratarErro(error);
+        }
+    });
+}
+
+// --- RECUPERAÇÃO DE SENHA ---
+const resetLink = document.getElementById('reset-password-link');
+if (resetLink) {
+    resetLink.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('login-email').value.trim();
+        if (!email) {
+            exibirMensagem("Digite seu e-mail no campo acima primeiro.", "red");
+            return;
+        }
+        try {
+            await sendPasswordResetEmail(auth, email);
+            exibirMensagem("E-mail de redefinição enviado!", "green");
+        } catch (error) {
+            tratarErro(error);
+        }
+    });
+}
+
+// --- LOGIN COM GOOGLE ---
+window.loginComGoogle = async function() {
+    const provider = new GoogleAuthProvider();
+    try {
+        await signInWithPopup(auth, provider);
+        window.location.href = "../index.html";
+    } catch (error) {
+        tratarErro(error);
+    }
+};
+
+// Auxiliares: Tratamento de erros e mensagens
+function exibirMensagem(texto, cor) {
+    mensagemEl.textContent = texto;
+    mensagemEl.style.color = cor === "green" ? "#2e7d32" : "#c1121f";
+}
+
+function tratarErro(error) {
+    console.error(error.code);
+    switch (error.code) {
+        case 'auth/email-already-in-use': exibirMensagem("Este e-mail já está cadastrado.", "red"); break;
+        case 'auth/weak-password': exibirMensagem("A senha deve ter pelo menos 6 caracteres.", "red"); break;
+        case 'auth/invalid-email': exibirMensagem("Formato de e-mail inválido.", "red"); break;
+        case 'auth/wrong-password': exibirMensagem("Senha incorreta.", "red"); break;
+        case 'auth/user-not-found': exibirMensagem("Usuário não encontrado.", "red"); break;
+        default: exibirMensagem("Ocorreu um erro: " + error.message, "red");
+    }
+}
 
