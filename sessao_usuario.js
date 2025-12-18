@@ -1,3 +1,4 @@
+// CORREÇÃO 1: O "import" deve ser com "i" minúsculo. 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
@@ -22,18 +23,27 @@ onAuthStateChanged(auth, (user) => {
         areaUsuario.innerHTML = `
             <div class="user-logged">
                 <span>Olá, <strong>${nomeParaExibir}</strong></span>
-                <button onclick="fazerLogout()" class="btn-sair">Sair</button>
+                <button id="btnLogout" class="btn-sair">Sair</button>
             </div>
         `;
+        
+        // CORREÇÃO 2: Em scripts do tipo "module", o onclick no HTML às vezes falha.
+        // É mais seguro adicionar o evento diretamente pelo JavaScript.
+        document.getElementById('btnLogout').addEventListener('click', fazerLogout);
     } else {
-        // Caminho exato para o GitHub Pages
         areaUsuario.innerHTML = `<a href="/anigeeknews/usuario/cadastro.html" class="btn-entrar">Entrar</a>`;
     }
 });
 
-window.fazerLogout = () => {
+// Definindo a função de logout
+const fazerLogout = () => {
     signOut(auth).then(() => { 
         window.location.href = "/anigeeknews/index.html"; 
+    }).catch((error) => {
+        console.error("Erro ao sair:", error);
     });
 };
+
+// CORREÇÃO 3: Garante que a função esteja disponível globalmente se necessário
+window.fazerLogout = fazerLogout;
 
