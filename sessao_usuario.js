@@ -13,35 +13,45 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// Função para atualizar a interface
+// Função para atualizar a interface (Desktop e Mobile)
 function atualizarInterfaceUsuario(user) {
-    const areaUsuario = document.getElementById('area-usuario');
-    if (!areaUsuario) return;
+    const areaDesktop = document.getElementById('area-usuario');
+    const areaMobile = document.getElementById('area-usuario-mobile');
 
     if (user) {
-        // Pega o nome do Google ou a parte inicial do e-mail
         const nomeParaExibir = user.displayName || user.email.split('@')[0];
         
-        areaUsuario.innerHTML = `
+        // Layout para quando o usuário está logado
+        const layoutLogado = `
             <div class="user-logged">
                 <span>Olá, <strong>${nomeParaExibir}</strong></span>
-                <button id="btnLogout" class="btn-sair">Sair</button>
+                <button class="btn-sair btn-logout-action">Sair</button>
             </div>
         `;
 
-        // Adiciona o evento de clique ao botão de sair recém-criado
-        document.getElementById('btnLogout').addEventListener('click', () => {
-            signOut(auth).then(() => {
-                window.location.reload(); // Recarrega para limpar a interface
+        // Atualiza as duas áreas se elas existirem na página
+        if (areaDesktop) areaDesktop.innerHTML = layoutLogado;
+        if (areaMobile) areaMobile.innerHTML = layoutLogado;
+
+        // Adiciona o evento de clique em todos os botões de sair (Desktop e Mobile)
+        document.querySelectorAll('.btn-logout-action').forEach(botao => {
+            botao.addEventListener('click', () => {
+                signOut(auth).then(() => {
+                    window.location.reload();
+                });
             });
         });
+
     } else {
-        // Se não estiver logado, mostra o botão Entrar
-        areaUsuario.innerHTML = `<a href="/anigeeknews/usuario/cadastro.html" class="btn-entrar">Entrar</a>`;
+        // Layout para quando não está logado
+        const layoutDeslogado = `<a href="/anigeeknews/usuario/cadastro.html" class="btn-entrar">Entrar</a>`;
+        
+        if (areaDesktop) areaDesktop.innerHTML = layoutDeslogado;
+        if (areaMobile) areaMobile.innerHTML = layoutDeslogado;
     }
 }
 
-// Observador de estado (detecta login/logout automaticamente)
+// Observador de estado
 onAuthStateChanged(auth, (user) => {
     atualizarInterfaceUsuario(user);
 });
