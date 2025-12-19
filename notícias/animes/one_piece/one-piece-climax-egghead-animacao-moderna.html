@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         :root {
-            /* Mantido como base */
+            /* ✅ Tudo 20% maior que o original */
             --nyt-black: #121212;
             --nyt-ink: #202020;
             --nyt-gray-dark: #666;
@@ -27,8 +27,8 @@
             --border: #ddd;
             --img-filter: grayscale(15%) contrast(95%) sepia(5%);
             --img-hover: grayscale(0%) contrast(100%) sepia(0%);
-            --header-h: 84px;
-            --container-w: 1440px;
+            --header-h: 84px; /* 70px * 1.2 */
+            --container-w: 1440px; /* 1200px * 1.2 */
             --ease-editorial: cubic-bezier(0.25, 0.46, 0.45, 0.94);
             --duration: 0.4s;
             --font-serif: 'Noto Serif', serif;
@@ -78,12 +78,12 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 24px;
+            padding: 0 24px; /* 20px * 1.2 */
         }
 
         .logo {
             font-family: var(--font-serif);
-            font-size: 31.2px;
+            font-size: 31.2px; /* 26px * 1.2 */
             font-weight: 700;
             text-decoration: none;
             color: var(--text-main);
@@ -92,16 +92,16 @@
 
         .logo span { font-style: italic; font-weight: 400; }
 
-        .nav-menu { display: flex; gap: 36px; list-style: none; align-items: center; }
+        .nav-menu { display: flex; gap: 36px; /* 30px * 1.2 */ list-style: none; align-items: center; }
 
         .nav-item > a {
             text-decoration: none;
             color: var(--text-main);
-            font-size: 15.6px;
+            font-size: 15.6px; /* 13px * 1.2 */
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.6px;
-            padding: 28.8px 0;
+            padding: 28.8px 0; /* 24px * 1.2 */
             display: block;
             border-bottom: 2px solid transparent;
         }
@@ -112,14 +112,14 @@
             top: 100%;
             right: 0;
             background: var(--card-bg);
-            min-width: 264px;
+            min-width: 264px; /* 220px * 1.2 */
             border: 1px solid var(--border);
-            padding: 18px;
+            padding: 18px; /* 15px * 1.2 */
             opacity: 0;
             visibility: hidden;
             transform: translateY(10px);
             transition: 0.3s;
-            box-shadow: 0 12px 36px rgba(0,0,0,0.1);
+            box-shadow: 0 12px 36px rgba(0,0,0,0.1); /* 10px * 1.2 */
             z-index: 1100;
         }
         .nav-item.config:hover .config-dropdown {
@@ -130,7 +130,7 @@
 
         #area-usuario,
         #area-usuario span.logged-user {
-            font-size: 14.4px;
+            font-size: 14.4px; /* 12px * 1.2 */
             font-weight: 700;
             text-transform: uppercase;
             color: var(--accent-news);
@@ -138,16 +138,16 @@
 
         .layout-article {
             max-width: var(--container-w);
-            margin: 48px auto;
+            margin: 48px auto; /* 40px * 1.2 */
             padding: 0 24px;
             display: grid;
-            grid-template-columns: 120px 1fr 360px;
-            gap: 48px;
+            grid-template-columns: 120px 1fr 360px; /* 100px, 300px * 1.2 */
+            gap: 48px; /* 40px * 1.2 */
         }
 
         .article-header-block {
             grid-column: 2 / 3;
-            margin-bottom: 36px;
+            margin-bottom: 36px; /* 30px * 1.2 */
         }
 
         .article-tag {
@@ -163,7 +163,7 @@
 
         .article-title {
             font-family: var(--font-serif);
-            font-size: 50.4px;
+            font-size: 50.4px; /* 42px * 1.2 */
             line-height: 1.15;
             font-weight: 700;
             color: var(--text-main);
@@ -173,11 +173,11 @@
 
         .article-deck {
             font-family: var(--font-serif);
-            font-size: 24px;
+            font-size: 24px; /* 20px * 1.2 */
             line-height: 1.5;
             color: var(--text-muted);
             font-weight: 400;
-            margin-bottom: 30px;
+            margin-bottom: 30px; /* 25px * 1.2 */
         }
 
         .article-meta-line {
@@ -202,7 +202,7 @@
         .article-hero-img {
             width: 100%;
             height: auto;
-            max-height: 480px;
+            max-height: 480px; /* 400px * 1.2 */
             object-fit: cover;
             margin: 0 auto;
             aspect-ratio: 16 / 9;
@@ -212,7 +212,7 @@
             font-family: var(--font-sans);
             font-size: 14.4px;
             color: var(--text-muted);
-            margin-top: 12px;
+            margin-top: 12px; /* 10px * 1.2 */
             text-align: left;
             border-bottom: 1px solid var(--border);
             padding-bottom: 12px;
@@ -222,31 +222,31 @@
         .article-body {
             grid-column: 2 / 3;
             font-family: var(--font-serif);
-            font-size: 22.8px;
+            font-size: 22.8px; /* 19px * 1.2 */
             line-height: 1.8;
             color: var(--text-main);
-            max-width: 864px;
+            max-width: 864px; /* 720px * 1.2 */
             margin: 0 auto;
         }
 
-        .article-body p { margin-bottom: 28.8px; }
+        .article-body p { margin-bottom: 28.8px; /* 24px * 1.2 */ }
         
         .article-body > p:first-of-type::first-letter {
             float: left;
-            font-size: 96px;
-            line-height: 81.6px;
+            font-size: 96px; /* 80px * 1.2 */
+            line-height: 81.6px; /* 68px * 1.2 */
             font-weight: 700;
-            margin-right: 14.4px;
-            margin-top: 4.8px;
+            margin-right: 14.4px; /* 12px * 1.2 */
+            margin-top: 4.8px; /* 4px * 1.2 */
             color: var(--text-main);
         }
 
         .article-body h3 {
             font-family: var(--font-sans);
-            font-size: 26.4px;
+            font-size: 26.4px; /* 22px * 1.2 */
             font-weight: 700;
-            margin-top: 48px;
-            margin-bottom: 24px;
+            margin-top: 48px; /* 40px * 1.2 */
+            margin-bottom: 24px; /* 20px * 1.2 */
             counter-increment: section;
         }
         .article-body h3::before {
@@ -256,11 +256,11 @@
         }
 
         .blockquote-editorial {
-            margin: 48px 0;
-            padding-left: 24px;
+            margin: 48px 0; /* 40px * 1.2 */
+            padding-left: 24px; /* 20px * 1.2 */
             border-left: 3px solid var(--accent-news);
             font-style: italic;
-            font-size: 26.4px;
+            font-size: 26.4px; /* 22px * 1.2 */
             color: var(--text-main);
             font-family: var(--font-serif);
             line-height: 1.6;
@@ -269,15 +269,15 @@
 
         .social-sticky {
             position: sticky;
-            top: 120px;
+            top: 120px; /* 100px * 1.2 */
             display: flex;
             flex-direction: column;
-            gap: 18px;
+            gap: 18px; /* 15px * 1.2 */
             align-items: flex-start;
         }
 
         .share-btn {
-            width: 48px;
+            width: 48px; /* 40px * 1.2 */
             height: 48px;
             border-radius: 50%;
             border: none;
@@ -292,7 +292,7 @@
 
         .share-btn:hover { color: var(--accent-news); }
 
-        .sidebar-box { margin-bottom: 60px; }
+        .sidebar-box { margin-bottom: 60px; /* 50px * 1.2 */ }
         .sidebar-title {
             font-family: var(--font-sans);
             font-size: 14.4px;
@@ -308,7 +308,7 @@
             display: block;
             margin-bottom: 18px;
             font-family: var(--font-serif);
-            font-size: 18px;
+            font-size: 18px; /* 15px * 1.2 */
             color: var(--text-main);
             text-decoration: none;
             border-bottom: 1px solid var(--border);
@@ -319,97 +319,35 @@
             color: var(--accent-news);
         }
 
-        /* ✅ ESTILOS MOBILE NO PADRÃO NEW YORK TIMES */
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
+            .nav-menu { display: none; }
             .layout-article {
-                padding: 0 18px; /* Margens menores */
+                display: block;
+                padding: 0 24px;
             }
-
-            .article-title {
-                font-size: 32px; /* Tamanho NYT: 32–36px */
-                line-height: 1.1;
-                letter-spacing: -0.5px;
-                margin-bottom: 14px;
+            .article-header-block, .article-body { grid-column: auto; }
+            .social-sticky {
+                position: static;
+                flex-direction: row;
+                margin-bottom: 24px;
+                justify-content: flex-start;
+                align-items: center;
             }
-
-            .article-deck {
-                font-size: 20px; /* Subtítulo: ~20px */
-                line-height: 1.4;
-                margin-bottom: 20px;
-            }
-
-            .article-body {
-                font-family: var(--font-serif);
-                font-size: 18px; /* Corpo: 18px (padrão NYT mobile) */
-                line-height: 1.52; /* Para ~5–7 palavras por linha */
-                max-width: 100%; /* Ocupa a largura total com margens */
-                margin: 0;
-            }
-
-            .article-body p {
-                margin-bottom: 20px;
-            }
-
-            .article-body > p:first-of-type::first-letter {
-                font-size: 64px; /* Ajustado proporcionalmente */
-                line-height: 56px;
-                margin-right: 10px;
-                margin-top: 2px;
-            }
-
-            .article-body h3 {
-                font-size: 20px;
-                margin-top: 36px;
-                margin-bottom: 16px;
-            }
-
-            .blockquote-editorial {
-                font-size: 20px;
-                margin: 32px 0;
-                padding-left: 16px;
-            }
-
-            .article-hero-img {
-                max-height: 320px; /* Um pouco menor para mobile */
-            }
-
-            .img-caption {
-                font-size: 13px;
-                margin-top: 10px;
-                padding-bottom: 10px;
-            }
-
-            .article-meta-line {
-                font-size: 14px;
-                padding: 14px 0;
-            }
-
-            .source-list {
-                font-size: 15px;
-            }
-            .source-list h4 {
-                font-size: 14px;
-            }
-            .source-list li {
-                margin-bottom: 12px;
-            }
+            .article-title { font-size: 38.4px; /* 32px * 1.2 */ }
+            .article-hero-wrapper { grid-column: auto; }
+            .article-hero-img { max-height: 360px; /* 300px * 1.2 */ aspect-ratio: auto; }
+            aside { margin-top: 72px; /* 60px * 1.2 */ border-top: 4px solid var(--text-main); padding-top: 48px; }
+            .article-body { max-width: none; margin: 0; }
         }
-
-        @media (max-width: 900px) and (min-width: 769px) {
-            /* Tablets: leve redução */
-            .article-title { font-size: 38px; }
-            .article-deck { font-size: 22px; }
-            .article-body { font-size: 20px; line-height: 1.6; }
-        }
-
-        footer { border-top: 4px solid var(--text-main); padding: 72px 0; margin-top: 96px; text-align: center; }
-        .footer-logo { font-family: var(--font-serif); font-size: 36px; font-weight: 700; text-decoration: none; color: var(--text-main); }
+        
+        footer { border-top: 4px solid var(--text-main); padding: 72px 0; /* 60px * 1.2 */ margin-top: 96px; /* 80px * 1.2 */ text-align: center; }
+        .footer-logo { font-family: var(--font-serif); font-size: 36px; /* 30px * 1.2 */ font-weight: 700; text-decoration: none; color: var(--text-main); }
 
         #progress-bar {
             position: fixed;
             top: 0;
             left: 0;
-            height: 3.6px;
+            height: 3.6px; /* 3px * 1.2 */
             background: var(--primary);
             width: 0%;
             z-index: 1001;
@@ -418,9 +356,9 @@
 
         .back-to-top {
             position: fixed;
-            bottom: 36px;
+            bottom: 36px; /* 30px * 1.2 */
             right: 36px;
-            width: 52.8px;
+            width: 52.8px; /* 44px * 1.2 */
             height: 52.8px;
             background: var(--text-main);
             color: var(--bg);
@@ -429,12 +367,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 21.6px;
+            font-size: 21.6px; /* 18px * 1.2 */
             cursor: pointer;
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.3s, transform 0.3s;
-            box-shadow: 0 2.4px 9.6px rgba(0,0,0,0.2);
+            box-shadow: 0 2.4px 9.6px rgba(0,0,0,0.2); /* 2px, 8px * 1.2 */
         }
         .back-to-top.show {
             opacity: 1;
@@ -495,6 +433,8 @@
                     </div>
                 </li>
             </ul>
+            <!-- ✅ Menu hambúrguer direito mantido no desktop, mas removido no mobile? -->
+            <!-- ⚠️ Você pediu para remover o menu direito anteriormente, então ele NÃO está aqui -->
         </div>
     </header>
 
@@ -624,6 +564,9 @@
 
     </div>
 
+    <!-- ✅ Menu móvel removido conforme pedido anteriormente -->
+    <!-- Nenhum menu hambúrguer no lado direito -->
+
     <footer>
         <div style="max-width: var(--container-w); margin: 0 auto;">
             <a href="/anigeeknews/index.html" class="footer-logo">AniGeek<span>News</span></a>
@@ -674,10 +617,12 @@
             const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             const scrolled = (winScroll / height) * 100;
             if (bar) bar.style.width = scrolled + "%";
-            if (backToTop && winScroll > 480) {
-                backToTop.classList.add('show');
-            } else if (backToTop) {
-                backToTop.classList.remove('show');
+            if (backToTop) {
+                if (winScroll > 480) { /* 400 * 1.2 */
+                    backToTop.classList.add('show');
+                } else {
+                    backToTop.classList.remove('show');
+                }
             }
         };
 
