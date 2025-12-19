@@ -56,6 +56,13 @@
             transition: background var(--duration) var(--ease-editorial), color var(--duration) var(--ease-editorial);
         }
 
+        /* AJUSTE: Container para o Perfil Lateral que será injetado pelo JS */
+        #container-menu-perfil {
+            padding: 10px;
+            border-top: 1px solid var(--border);
+            margin-top: 20px;
+        }
+
         #area-usuario, #area-usuario-mobile {
             display: flex;
             align-items: center;
@@ -413,6 +420,9 @@
                         <a href="#" class="top-list-item"><span class="rank-num">4</span><p>Entrevista: O futuro de One Piece segundo o editor.</p></a>
                     </div>
                 </div>
+
+                <div id="container-menu-perfil"></div>
+
                 <div class="newsletter-card">
                     <h3>Briefing Matinal</h3>
                     <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 10px;">Curadoria manual das notícias mais importantes do dia.</p>
