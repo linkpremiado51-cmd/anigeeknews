@@ -1,8 +1,8 @@
 // modulo-noticias.js
 
-let indiceNoticiasExtras = 0;
+// Tenta recuperar o índice salvo ou começa do zero
+let indiceNoticiasExtras = parseInt(localStorage.getItem('noticias_indice')) || 0;
 
-// array de notícias reais com imagens relacionadas
 const novasNoticias = [
     {
         categoria: "Games",
@@ -38,28 +38,10 @@ const novasNoticias = [
     }
 ];
 
-export function carregarNoticiasExtras() {
-    const feed = document.querySelector('.feed');
-    const botaoContainer = document.querySelector('.load-more-container');
-
-    if (!feed || !botaoContainer) {
-        console.warn("Feed ou botão 'Carregar Mais' não encontrado.");
-        return;
-    }
-
-    // determina quantas notícias carregar por clique
-    const quantidadePorClique = 2;
-
-    for (let i = 0; i < quantidadePorClique; i++) {
-        if (indiceNoticiasExtras >= novasNoticias.length) break; // não tenta além do limite
-
-        const noticia = novasNoticias[indiceNoticiasExtras];
-        indiceNoticiasExtras++;
-
-        const post = document.createElement('a');
-        post.href = "#";
-        post.className = 'news-link';
-        post.innerHTML = `
+// Função auxiliar para criar o HTML da notícia
+function criarEstruturaNoticia(noticia) {
+    return `
+        <a href="#" class="news-link news-extra-persistente">
             <article class="post-card">
                 <div class="post-img-wrapper">
                     <img src="${noticia.img}" alt="${noticia.titulo}" loading="lazy">
@@ -76,17 +58,57 @@ export function carregarNoticiasExtras() {
                     </div>
                 </div>
             </article>
-        `;
+        </a>`;
+}
 
-        feed.insertBefore(post, botaoContainer);
+// 1. FUNÇÃO PARA CARREGAR O QUE JÁ FOI SALVO (Rodar ao abrir a página)
+export function restaurarNoticiasSalvas() {
+    const feed = document.querySelector('.feed');
+    const botaoContainer = document.querySelector('.load-more-container');
+    
+    if (!feed || !botaoContainer) return;
+
+    // Carrega todas as notícias até o índice que estava salvo
+    for (let i = 0; i < indiceNoticiasExtras; i++) {
+        const noticia = novasNoticias[i];
+        botaoContainer.insertAdjacentHTML('beforebegin', criarEstruturaNoticia(noticia));
+    }
+    
+    verificarFimDasNoticias();
+}
+
+// 2. FUNÇÃO PRINCIPAL DO BOTÃO
+export function carregarNoticiasExtras() {
+    const feed = document.querySelector('.feed');
+    const botaoContainer = document.querySelector('.load-more-container');
+
+    if (!feed || !botaoContainer) return;
+
+    const quantidadePorClique = 2;
+
+    for (let i = 0; i < quantidadePorClique; i++) {
+        if (indiceNoticiasExtras >= novasNoticias.length) break;
+
+        const noticia = novasNoticias[indiceNoticiasExtras];
+        
+        // Insere no HTML
+        botaoContainer.insertAdjacentHTML('beforebegin', criarEstruturaNoticia(noticia));
+        
+        // Atualiza o índice e salva no navegador
+        indiceNoticiasExtras++;
+        localStorage.setItem('noticias_indice', indiceNoticiasExtras);
     }
 
-    // opcional: desabilitar botão quando acabar as notícias
+    verificarFimDasNoticias();
+}
+
+function verificarFimDasNoticias() {
     if (indiceNoticiasExtras >= novasNoticias.length) {
-        const botao = botaoContainer.querySelector('.load-more-btn');
+        const botao = document.querySelector('.load-more-btn');
         if (botao) {
             botao.disabled = true;
             botao.textContent = "Sem mais notícias";
         }
     }
 }
+
