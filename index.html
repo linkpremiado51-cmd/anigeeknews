@@ -978,5 +978,67 @@
     <!-- ✅ Scripts conectados ao sistema modular externo -->
     <script type="module" src="/anigeeknews/sessao_usuario.js"></script>
     <script type="module" src="/anigeeknews/main.js"></script>
+
+    <!-- ✅ Sistema de abas SPA (sem tocar em nada do código anterior) -->
+    <script>
+        // Cache para evitar refetch desnecessário
+        const cache = {};
+        const dynamicContent = document.getElementById('dynamic-content');
+        const originalContent = dynamicContent.innerHTML;
+
+        // Ativar botão visualmente
+        function activateButton(section) {
+            document.querySelectorAll('.filter-tag').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.section === section);
+            });
+        }
+
+        // Carregar seção com cache e fallback
+        async function loadSection(section) {
+            const cacheKey = `section-${section}`;
+            if (cache[cacheKey]) {
+                dynamicContent.innerHTML = cache[cacheKey];
+                return;
+            }
+
+            if (section === 'manchetes') {
+                dynamicContent.innerHTML = originalContent;
+                cache[cacheKey] = originalContent;
+                return;
+            }
+
+            try {
+                const fetchUrl = `/anigeeknews/modulos/${section}.html`;
+                const response = await fetch(fetchUrl);
+                if (!response.ok) throw new Error('Erro ao carregar seção');
+                const html = await response.text();
+                dynamicContent.innerHTML = html;
+                cache[cacheKey] = html;
+            } catch (error) {
+                console.error('Falha ao carregar:', section, error);
+                dynamicContent.innerHTML = '<p style="padding:40px; text-align:center; color:#888;">Conteúdo não disponível no momento.</p>';
+            }
+        }
+
+        // Lidar com cliques nas abas
+        document.querySelectorAll('.filter-tag').forEach(button => {
+            button.addEventListener('click', () => {
+                const section = button.dataset.section;
+                localStorage.setItem('currentSection', section);
+                activateButton(section);
+                loadSection(section);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+
+        // Carregar aba salva ao iniciar ou recarregar
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedSection = localStorage.getItem('currentSection') || 'manchetes';
+            activateButton(savedSection);
+            if (savedSection !== 'manchetes') {
+                loadSection(savedSection);
+            }
+        });
+    </script>
 </body>
 </html>
