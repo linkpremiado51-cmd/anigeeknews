@@ -1,34 +1,31 @@
-// /anigeeknews/modulo-noticias.js
-
-// 1. IMPORTAÇÕES (Adicionei as novas aqui)
+// 1. IMPORTAÇÕES DE DADOS
+import { dadosManchetes } from './dados_de_noticias/dados-manchetes.js';
 import { dadosAnalise } from './dados_de_noticias/dados-analise.js';
 import { dadosEntrevistas } from './dados_de_noticias/dados-entrevistas.js';
 import { dadosLancamentos } from './dados_de_noticias/dados-lancamentos.js';
 import { dadosPodcast } from './dados_de_noticias/dados-podcast.js';
 
-// 2. BANCO DE DADOS (Atualizado para reconhecer as novas abas)
+// 2. BANCO DE DADOS CENTRALIZADO
 const bancoDeDados = {
+    manchetes: dadosManchetes,
     analises: dadosAnalise,
     entrevistas: dadosEntrevistas,
     lancamentos: dadosLancamentos,
     podcast: dadosPodcast
 };
 
-// 3. CONTROLE DE ÍNDICES (Garante que todas as seções existam no objeto)
-let indices = JSON.parse(localStorage.getItem('indices_secoes')) || { 
-    manchetes: 0, 
-    analises: 0, 
-    entrevistas: 0, 
-    lancamentos: 0, 
-    podcast: 0 
-};
+// 3. CONTROLE DE ÍNDICES
+// Define as seções que o sistema deve gerenciar
+const secoesPermitidas = ['manchetes', 'analises', 'entrevistas', 'lancamentos', 'podcast'];
 
-// Garantia extra: Se uma seção nova não existir no objeto recuperado do localStorage, nós a adicionamos
-const secoesNecessarias = ['manchetes', 'analises', 'entrevistas', 'lancamentos', 'podcast'];
-secoesNecessarias.forEach(s => {
+let indices = JSON.parse(localStorage.getItem('indices_secoes')) || {};
+
+// Garante que todas as seções existam no objeto de índices ao carregar
+secoesPermitidas.forEach(s => {
     if (indices[s] === undefined) indices[s] = 0;
 });
 
+// 4. ESTRUTURA HTML DA NOTÍCIA
 function criarEstruturaNoticia(noticia) {
     return `
         <a href="${noticia.url || '#'}" class="news-link news-extra-persistente">
@@ -49,19 +46,18 @@ function criarEstruturaNoticia(noticia) {
         </a>`;
 }
 
+// 5. FUNÇÃO DE RESTAURAÇÃO (Roda ao trocar de aba)
 export function restaurarNoticiasSalvas() {
     const secao = localStorage.getItem('currentSection') || 'manchetes';
-    if (secao === 'manchetes') return;
-    
     const lista = bancoDeDados[secao];
     const container = document.querySelector('.load-more-container');
     
-    // Limpa notícias antigas da aba anterior antes de restaurar para evitar duplicação visual
+    // Limpa notícias injetadas anteriormente para evitar lixo visual
     document.querySelectorAll('.news-extra-persistente').forEach(el => el.remove());
 
     if (!lista || !container) return;
 
-    // Reconstrói o que já foi carregado anteriormente nesta aba
+    // Reconstrói apenas o que o usuário já tinha aberto nesta aba específica
     for (let i = 0; i < indices[secao]; i++) {
         if (lista[i]) {
             container.insertAdjacentHTML('beforebegin', criarEstruturaNoticia(lista[i]));
@@ -70,6 +66,7 @@ export function restaurarNoticiasSalvas() {
     verificarFimDasNoticias(secao, lista);
 }
 
+// 6. FUNÇÃO CARREGAR MAIS (Roda no clique do botão)
 export async function carregarNoticiasExtras() {
     const secao = localStorage.getItem('currentSection') || 'manchetes';
     const container = document.querySelector('.load-more-container');
@@ -77,28 +74,10 @@ export async function carregarNoticiasExtras() {
     
     if (!container || !botao) return;
 
-    // Lógica para a Manchete (Home)
-    if (secao === 'manchetes') {
-        botao.textContent = 'CARREGANDO...';
-        try {
-            const res = await fetch('/anigeeknews/modulos/mais_noticias.html');
-            if (!res.ok) throw new Error();
-            const html = await res.text();
-            container.insertAdjacentHTML('beforebegin', html);
-            botao.textContent = 'CARREGAR MAIS';
-            // Se quiser que o botão suma na manchete após carregar o arquivo fixo:
-            // botao.style.display = 'none'; 
-        } catch (e) { 
-            botao.textContent = 'ERRO AO CARREGAR'; 
-        }
-        return;
-    }
-
-    // Lógica para abas dinâmicas (Analises, Entrevistas, Lançamentos, Podcast)
     const lista = bancoDeDados[secao];
-    if (!lista) return;
+    if (!lista || lista.length === 0) return;
 
-    // Carrega 2 notícias por clique
+    // Carrega sempre de 2 em 2
     let contador = 0;
     while (contador < 2 && indices[secao] < lista.length) {
         container.insertAdjacentHTML('beforebegin', criarEstruturaNoticia(lista[indices[secao]]));
@@ -106,20 +85,26 @@ export async function carregarNoticiasExtras() {
         contador++;
     }
 
+    // Persiste o progresso no LocalStorage
     localStorage.setItem('indices_secoes', JSON.stringify(indices));
     verificarFimDasNoticias(secao, lista);
 }
 
+// 7. VERIFICAÇÃO DE ESTADO DO BOTÃO
 function verificarFimDasNoticias(secao, lista) {
     const btn = document.querySelector('.load-more-btn');
-    if (btn && lista && indices[secao] >= lista.length) {
+    if (!btn) return;
+
+    if (lista && indices[secao] >= lista.length) {
         btn.disabled = true;
-        btn.textContent = "Sem mais conteúdo";
+        btn.textContent = "Fim do conteúdo";
         btn.style.opacity = "0.5";
-    } else if (btn) {
+        btn.style.cursor = "not-allowed";
+    } else {
         btn.disabled = false;
         btn.textContent = "Carregar Mais";
         btn.style.opacity = "1";
+        btn.style.cursor = "pointer";
     }
 }
 
