@@ -1,10 +1,16 @@
+// /anigeeknews/main.js
+
 // ------------------------------------------------------------------
 // IMPORTAÇÃO DOS MÓDULOS
 // ------------------------------------------------------------------
 import { carregarNoticiasExtras, restaurarNoticiasSalvas } from './modulo-noticias.js';
+import { inicializarMegaMenu } from './modulos/atualizacao_do_menu.js'; // NOVO: Importação do Menu
 
 document.addEventListener('DOMContentLoaded', () => {
     
+    // NOVO: Inicializa o sistema de Mega Menu
+    inicializarMegaMenu();
+
     // Tenta restaurar notícias se houver progresso salvo no localStorage
     // Agora configurado para funcionar também na Home (Manchetes)
     restaurarNoticiasSalvas();
