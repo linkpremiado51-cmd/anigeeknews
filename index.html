@@ -60,8 +60,6 @@
             transition: background var(--duration) var(--ease-editorial), color var(--duration) var(--ease-editorial);
         }
 
-        /* Estilos do usuário, imagens, header, menu, hero, feed, sidebar, etc. */
-        /* (Mantidos exatamente como você enviou, sem alterações visuais) */
         #area-usuario, #area-usuario-mobile {
             display: flex;
             align-items: center;
@@ -834,7 +832,6 @@
     </div>
 
     <div id="dynamic-content">
-        <!-- Conteúdo original da página inicial (Manchetes) -->
         <section class="hero">
             <a href="https://linkpremiado51-cmd.github.io/anigeeknews/not%C3%ADcias/animes/one_piece/one-piece-climax-egghead-animacao-moderna.html" class="news-link">
                 <div class="main-feat">
@@ -975,35 +972,31 @@
         </div>
     </footer>
 
-    <!-- ✅ Scripts conectados ao sistema modular externo -->
     <script type="module" src="/anigeeknews/sessao_usuario.js"></script>
     <script type="module" src="/anigeeknews/main.js"></script>
 
-    <!-- ✅ Sistema de abas SPA (sem tocar em nada do código anterior) -->
     <script>
-        // Cache para evitar refetch desnecessário
         const cache = {};
         const dynamicContent = document.getElementById('dynamic-content');
         const originalContent = dynamicContent.innerHTML;
 
-        // Ativar botão visualmente
         function activateButton(section) {
             document.querySelectorAll('.filter-tag').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.section === section);
             });
         }
 
-        // Carregar seção com cache e fallback
         async function loadSection(section) {
             const cacheKey = `section-${section}`;
-            if (cache[cacheKey]) {
-                dynamicContent.innerHTML = cache[cacheKey];
+            
+            // Se for Manchetes, volta ao conteúdo original (Hard Reset para garantir layout)
+            if (section === 'manchetes') {
+                dynamicContent.innerHTML = originalContent;
                 return;
             }
 
-            if (section === 'manchetes') {
-                dynamicContent.innerHTML = originalContent;
-                cache[cacheKey] = originalContent;
+            if (cache[cacheKey]) {
+                dynamicContent.innerHTML = cache[cacheKey];
                 return;
             }
 
@@ -1020,10 +1013,18 @@
             }
         }
 
-        // Lidar com cliques nas abas
+        // Event listener para as abas
         document.querySelectorAll('.filter-tag').forEach(button => {
             button.addEventListener('click', () => {
                 const section = button.dataset.section;
+                
+                // Se clicar em manchetes, limpa o estado e recarrega para evitar bugs de layout
+                if (section === 'manchetes') {
+                    localStorage.setItem('currentSection', 'manchetes');
+                    location.reload(); 
+                    return;
+                }
+
                 localStorage.setItem('currentSection', section);
                 activateButton(section);
                 loadSection(section);
@@ -1031,7 +1032,7 @@
             });
         });
 
-        // Carregar aba salva ao iniciar ou recarregar
+        // Carregar aba salva ao iniciar
         window.addEventListener('DOMContentLoaded', () => {
             const savedSection = localStorage.getItem('currentSection') || 'manchetes';
             activateButton(savedSection);
@@ -1039,37 +1040,10 @@
                 loadSection(savedSection);
             }
         });
-        
-        // ✅ Botão Carregar Mais com recarregamento silencioso em caso de falha
-document.addEventListener('click', async function(event) {
-    if (event.target.classList.contains('load-more-btn')) {
-        const btn = event.target;
-        const container = btn.closest('.load-more-container');
 
-        if (btn.disabled) return;
-        
-        btn.textContent = 'CARREGANDO...';
-        btn.disabled = true;
-
-        try {
-            const response = await fetch('/anigeeknews/modulos/mais_noticias.html');
-            
-            // Se houver qualquer problema na resposta, vai direto para o catch
-            if (!response.ok) throw new Error();
-            
-            const html = await response.text();
-            
-            // Insere o conteúdo
-            container.insertAdjacentHTML('beforebegin', html);
-            
-            btn.textContent = 'CARREGAR MAIS';
-            btn.disabled = false;
-        } catch (error) {
-            
-        }
-    }
-});
-
+        // NOTA IMPORTANTE: A lógica do botão "Carregar Mais" foi movida para o main.js
+        // para que ele possa identificar a aba correta e buscar os dados no banco modular.
     </script>
 </body>
 </html>
+
