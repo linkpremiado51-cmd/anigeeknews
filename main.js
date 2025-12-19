@@ -6,6 +6,7 @@ import { carregarNoticiasExtras, restaurarNoticiasSalvas } from './modulo-notici
 document.addEventListener('DOMContentLoaded', () => {
     
     // Tenta restaurar notícias se houver progresso salvo no localStorage
+    // Agora configurado para funcionar também na Home (Manchetes)
     restaurarNoticiasSalvas();
 
     // ------------------------------------------------------------------
@@ -18,6 +19,17 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             console.log('Botão detectado! Chamando carregarNoticiasExtras...');
             carregarNoticiasExtras();
+        }
+
+        // AJUSTE ESSENCIAL: Captura a troca de aba para atualizar o sistema
+        const filterBtn = e.target.closest('.filter-tag');
+        if (filterBtn) {
+            const novaSecao = filterBtn.getAttribute('data-section');
+            if (novaSecao) {
+                localStorage.setItem('currentSection', novaSecao);
+                // Pequeno delay para a aba carregar o HTML antes de restaurar os extras
+                setTimeout(() => restaurarNoticiasSalvas(), 50);
+            }
         }
     });
 
