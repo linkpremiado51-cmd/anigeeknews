@@ -1,44 +1,20 @@
-// modulo-noticias.js
+// modulo-noticias.js (RAIZ)
 
-// Tenta recuperar o índice salvo ou começa do zero
-let indiceNoticiasExtras = parseInt(localStorage.getItem('noticias_indice')) || 0;
+// IMPORTAÇÃO DOS DADOS (Conforme sua nova estrutura de pastas)
+import { dadosAnalise } from './dados_de_noticias/dados-analise.js';
 
-const novasNoticias = [
-    {
-        categoria: "Games",
-        titulo: "GTA VI: Novos rumores apontam para sistema de clima extremo",
-        descricao: "Vazamentos sugerem que furacões e inundações afetarão a jogabilidade em tempo real em Vice City.",
-        img: "https://i.postimg.cc/sfHMcTDy/58awkrh8lp404dsegeqpbffcz.jpg",
-        meta: "há 12 horas • Leitura: 5min",
-        likes: "560"
-    },
-    {
-        categoria: "Anime",
-        titulo: "Bleach: Thousand-Year Blood War anuncia data da parte final",
-        descricao: "O retorno triunfal de Ichigo Kurosaki já tem data marcada para encerrar a saga do Rei Quincy.",
-        img: "https://i.postimg.cc/QdzLYWKg/Jujutsu-Kaisen01.jpg",
-        meta: "há 1 dia • Lançamento",
-        likes: "890"
-    },
-    {
-        categoria: "Tecnologia",
-        titulo: "ChatGPT 5 é lançado com suporte a multimídia e código avançado",
-        descricao: "O novo modelo de IA promete interações mais humanas, com geração de imagens, sons e programação complexa.",
-        img: "https://via.placeholder.com/240x160?text=ChatGPT+5",
-        meta: "há 3 horas • Leitura: 4min",
-        likes: "1200"
-    },
-    {
-        categoria: "Filmes",
-        titulo: "Marvel anuncia novo filme do Homem-Aranha para 2026",
-        descricao: "O teaser promete grandes conexões com o multiverso e aparições de antigos personagens.",
-        img: "https://via.placeholder.com/240x160?text=Homem-Aranha",
-        meta: "há 5 horas • Leitura: 3min",
-        likes: "750"
-    }
-];
+// Mapeia qual lista usar baseado na aba atual
+const bancoDeDados = {
+    analises: dadosAnalise,
+    // Adicione os próximos aqui: podcast: dadosPodcast, etc.
+};
 
-// Função auxiliar para criar o HTML da notícia
+// Lógica de índices persistentes por seção
+let indices = JSON.parse(localStorage.getItem('indices_secoes')) || { 
+    manchetes: 0, analises: 0, entrevistas: 0, lancamentos: 0, podcast: 0 
+};
+
+// Função auxiliar para criar o HTML (Mantendo seu padrão original)
 function criarEstruturaNoticia(noticia) {
     return `
         <a href="#" class="news-link news-extra-persistente">
@@ -61,53 +37,53 @@ function criarEstruturaNoticia(noticia) {
         </a>`;
 }
 
-// 1. FUNÇÃO PARA CARREGAR O QUE JÁ FOI SALVO (Rodar ao abrir a página)
+// 1. FUNÇÃO PARA RESTAURAR (Adaptada para checar a seção atual)
 export function restaurarNoticiasSalvas() {
-    const feed = document.querySelector('.feed');
+    const secaoAtual = localStorage.getItem('currentSection') || 'manchetes';
+    const lista = bancoDeDados[secaoAtual];
     const botaoContainer = document.querySelector('.load-more-container');
     
-    if (!feed || !botaoContainer) return;
+    if (!lista || !botaoContainer) return;
 
-    // Carrega todas as notícias até o índice que estava salvo
-    for (let i = 0; i < indiceNoticiasExtras; i++) {
-        const noticia = novasNoticias[i];
-        botaoContainer.insertAdjacentHTML('beforebegin', criarEstruturaNoticia(noticia));
+    for (let i = 0; i < indices[secaoAtual]; i++) {
+        if (lista[i]) {
+            botaoContainer.insertAdjacentHTML('beforebegin', criarEstruturaNoticia(lista[i]));
+        }
     }
-    
-    verificarFimDasNoticias();
+    verificarFimDasNoticias(secaoAtual, lista);
 }
 
-// 2. FUNÇÃO PRINCIPAL DO BOTÃO
+// 2. FUNÇÃO PRINCIPAL DO BOTÃO (Mantendo sua lógica de 2 por clique)
 export function carregarNoticiasExtras() {
-    const feed = document.querySelector('.feed');
+    const secaoAtual = localStorage.getItem('currentSection') || 'manchetes';
+    const lista = bancoDeDados[secaoAtual];
     const botaoContainer = document.querySelector('.load-more-container');
 
-    if (!feed || !botaoContainer) return;
+    if (!lista || !botaoContainer) return;
 
     const quantidadePorClique = 2;
+    let indiceAtual = indices[secaoAtual];
 
     for (let i = 0; i < quantidadePorClique; i++) {
-        if (indiceNoticiasExtras >= novasNoticias.length) break;
+        if (indiceAtual >= lista.length) break;
 
-        const noticia = novasNoticias[indiceNoticiasExtras];
-        
-        // Insere no HTML
-        botaoContainer.insertAdjacentHTML('beforebegin', criarEstruturaNoticia(noticia));
-        
-        // Atualiza o índice e salva no navegador
-        indiceNoticiasExtras++;
-        localStorage.setItem('noticias_indice', indiceNoticiasExtras);
+        botaoContainer.insertAdjacentHTML('beforebegin', criarEstruturaNoticia(lista[indiceAtual]));
+        indiceAtual++;
     }
 
-    verificarFimDasNoticias();
+    // Salva o progresso específico desta seção
+    indices[secaoAtual] = indiceAtual;
+    localStorage.setItem('indices_secoes', JSON.stringify(indices));
+
+    verificarFimDasNoticias(secaoAtual, lista);
 }
 
-function verificarFimDasNoticias() {
-    if (indiceNoticiasExtras >= novasNoticias.length) {
+function verificarFimDasNoticias(secao, lista) {
+    if (indices[secao] >= lista.length) {
         const botao = document.querySelector('.load-more-btn');
         if (botao) {
             botao.disabled = true;
-            botao.textContent = "Sem mais notícias";
+            botao.textContent = "Sem mais conteúdo";
         }
     }
 }
