@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;800&family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        /* --- (ESTILOS IGUAIS AOS SEUS, SEM ALTERAÇÕES) --- */
+        /* --- ESTILOS ORIGINAIS INTEGRADOS --- */
         :root {
             --nyt-black: #121212;
             --nyt-ink: #202020;
@@ -56,6 +56,22 @@
             transition: background var(--duration) var(--ease-editorial), color var(--duration) var(--ease-editorial);
         }
 
+        /* PADRONIZAÇÃO DOS BOTÕES DE MENU (SESSÕES E PERFIL) */
+        .btn-menu-header {
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: var(--font-sans);
+        }
+
         #area-usuario, #area-usuario-mobile {
             display: flex;
             align-items: center;
@@ -83,7 +99,6 @@
         }
 
         .btn-entrar:hover { background: var(--text-main); color: var(--bg); }
-        .btn-sair { border-color: #999; color: #999; }
         .btn-sair:hover { border-color: var(--accent-news); color: var(--accent-news); }
 
         .news-link { text-decoration: none; color: inherit; display: block; }
@@ -123,49 +138,30 @@
             color: var(--text-main);
             letter-spacing: -1px;
         }
-
         .logo span { font-style: italic; font-weight: 400; }
 
-        .nav-menu { display: flex; gap: 30px; list-style: none; align-items: center; }
-
-        .nav-item > a {
-            text-decoration: none;
-            color: var(--text-main);
-            font-size: 13px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            padding: 24px 0;
-            display: block;
-            border-bottom: 2px solid transparent;
+        /* MENU LATERAL DIREITO (PERFIL) */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            max-width: 300px;
+            height: 100vh;
+            background: var(--bg);
+            border-left: 2px solid var(--text-main);
+            z-index: 2000;
+            padding: 40px 20px;
+            transition: right 0.3s ease;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+            overflow-y: auto;
         }
+        .mobile-menu.active { right: 0; }
 
-        .nav-item:hover > a { border-bottom-color: var(--primary); }
+        .close-menu { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 24px; color: var(--text-main); cursor: pointer; }
 
-        .config-dropdown {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background: var(--card-bg);
-            min-width: 200px;
-            border: 1px solid var(--border);
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(5px);
-            transition: all 0.3s var(--ease-editorial);
-            padding: 15px;
-            z-index: 1100;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-        }
-
-        .nav-item.config:hover .config-dropdown {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .theme-toggle-container { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; }
-        .theme-toggle-label { font-size: 13px; color: var(--text-main); }
+        .theme-toggle-container { display: flex; align-items: center; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid var(--border); }
+        .theme-toggle-label { font-size: 13px; font-weight: 700; text-transform: uppercase; color: var(--text-main); }
         .theme-toggle { position: relative; display: inline-block; width: 40px; height: 20px; }
         .theme-toggle input { opacity: 0; width: 0; height: 0; }
         .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--nyt-gray-light); transition: 0.4s; border-radius: 34px; }
@@ -173,149 +169,88 @@
         input:checked + .slider { background-color: var(--accent-news); }
         input:checked + .slider:before { transform: translateX(20px); }
 
-        .menu-toggle { display: none; background: none; border: none; font-size: 24px; color: var(--text-main); cursor: pointer; }
-
-        .mobile-menu {
-            position: fixed;
-            top: var(--header-h);
-            right: -100%;
-            width: 80%;
-            max-width: 300px;
-            height: calc(100vh - var(--header-h));
-            background: var(--bg);
-            border-left: 1px solid var(--border);
-            z-index: 2000;
-            padding: 20px;
-            transition: right 0.3s ease;
-            overflow-y: auto;
-        }
-
-        .mobile-menu.active { right: 0; }
-
-        .close-menu { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 24px; color: var(--text-main); cursor: pointer; }
-        .mobile-menu-item { padding: 12px 0; border-bottom: 1px solid var(--border); }
-        .mobile-menu-item a { text-decoration: none; color: var(--text-main); font-weight: 600; }
-
-        .socials-submenu { padding-left: 20px; margin-top: 10px; display: none; }
-        .socials-submenu.active { display: block; }
-        .socials-submenu a { display: flex; align-items: center; gap: 10px; padding: 8px 0; color: var(--text-main); }
-
+        /* LAYOUT E NOTÍCIAS */
         .search-bar { max-width: var(--container-w); margin: 20px auto; padding: 0 20px; display: flex; gap: 10px; }
-        .search-input { flex: 1; padding: 12px 20px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-main); font-family: var(--font-sans); border-radius: 0; font-size: 14px; }
+        .search-input { flex: 1; padding: 12px 20px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-main); font-family: var(--font-sans); font-size: 14px; }
         .search-btn { background: var(--primary); color: white; border: none; padding: 0 20px; cursor: pointer; font-size: 16px; }
 
         .hero { max-width: var(--container-w); margin: 20px auto; padding: 0 20px; display: grid; grid-template-columns: 2fr 1fr; gap: 40px; border-bottom: 1px solid var(--border); padding-bottom: 40px; }
-        .main-feat { position: relative; cursor: pointer; }
         .main-feat-img-box { width: 100%; height: 450px; overflow: hidden; background: #000; margin-bottom: 20px; }
-        .main-feat-img-box img { width: 100%; height: 100%; object-fit: cover; transform-origin: center center; }
-        .main-feat:hover .main-feat-img-box img { transform: scale(1.02); }
-
+        .main-feat-img-box img { width: 100%; height: 100%; object-fit: cover; }
         .main-text-content h1 { font-family: var(--font-serif); font-size: clamp(32px, 4vw, 42px); line-height: 1.1; margin-bottom: 15px; letter-spacing: -1px; color: var(--text-main); }
-        .main-text-content p { font-size: 16px; color: var(--text-muted); max-width: 90%; font-family: var(--font-serif); }
-
+        
         .tag-label { display: inline-block; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; padding: 2px 0; border-bottom: 1px solid currentColor; }
         .tag-destaque { color: var(--accent-news); }
-        .tag-analise { color: var(--accent-analysis); border-color: transparent; background: #eee; padding: 2px 6px; }
-        body.dark-mode .tag-analise { background: #333; color: #fff; }
 
         .sub-feat-list { display: flex; flex-direction: column; gap: 0; }
         .sub-feat { display: grid; grid-template-columns: 1fr 90px; gap: 15px; padding: 15px 0; border-bottom: 1px solid var(--border); text-decoration: none; color: var(--text-main); align-items: flex-start; }
-        .sub-feat:first-child { border-top: 1px solid var(--border); padding-top: 0; }
-        .sub-feat:last-child { border-bottom: none; }
-        .sub-feat h3 { font-family: var(--font-sans); font-size: 15px; font-weight: 600; line-height: 1.4; transition: color 0.2s; }
-        .sub-feat:hover h3 { color: var(--primary); }
+        .sub-feat h3 { font-family: var(--font-sans); font-size: 15px; font-weight: 600; line-height: 1.4; }
         .sub-feat img { width: 90px; height: 60px; object-fit: cover; }
 
         .filter-scroller { max-width: var(--container-w); margin: 0 auto 40px; padding: 0 20px; display: flex; gap: 20px; overflow-x: auto; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
         .filter-tag { font-size: 13px; font-weight: 600; color: var(--text-muted); cursor: pointer; white-space: nowrap; transition: color 0.2s; background: none; border: none; padding: 0; }
-        .filter-tag.active, .filter-tag:hover { color: var(--text-main); text-decoration: underline; text-underline-offset: 4px; }
+        .filter-tag.active { color: var(--text-main); text-decoration: underline; text-underline-offset: 4px; }
 
         .layout { max-width: var(--container-w); margin: 0 auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 300px; gap: 60px; }
         .section-header { border-top: 4px solid var(--text-main); margin-bottom: 30px; padding-top: 10px; }
-        .section-title { font-family: var(--font-sans); font-weight: 800; font-size: 16px; letter-spacing: 0.5px; text-transform: uppercase; }
+        .section-title { font-family: var(--font-sans); font-weight: 800; font-size: 16px; text-transform: uppercase; }
 
-        .feed { display: flex; flex-direction: column; gap: 40px; }
-        .post-card { display: grid; grid-template-columns: 240px 1fr; gap: 25px; padding-bottom: 40px; border-bottom: 1px solid var(--border); text-decoration: none; color: inherit; }
-        .post-card:last-child { border-bottom: none; }
+        .post-card { display: grid; grid-template-columns: 240px 1fr; gap: 25px; padding-bottom: 40px; border-bottom: 1px solid var(--border); margin-bottom: 40px; }
         .post-img-wrapper { width: 100%; height: 160px; overflow: hidden; background: #f0f0f0; }
         .post-img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
-        .post-content { display: flex; flex-direction: column; justify-content: center; }
-        .category { font-size: 10px; font-weight: 700; color: var(--primary); text-transform: uppercase; margin-bottom: 8px; letter-spacing: 1px; }
-        .post-content h2 { font-family: var(--font-serif); font-size: 20px; font-weight: 700; line-height: 1.3; margin-bottom: 10px; color: var(--text-main); }
-        .post-content p { font-family: var(--font-serif); font-size: 14px; color: var(--text-muted); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-        .meta-minimal { margin-top: 12px; font-size: 11px; color: #999; font-family: var(--font-sans); }
+        .category { font-size: 10px; font-weight: 700; color: var(--primary); text-transform: uppercase; margin-bottom: 8px; }
 
-        .action-row { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; }
-        .like-btn { background: none; border: none; font-size: 12px; color: #999; cursor: pointer; display: flex; align-items: center; gap: 4px; }
-        .like-btn:hover { color: var(--text-main); }
-        .like-btn.liked { color: var(--primary); }
-
-        .sidebar-box { margin-bottom: 50px; }
+        /* SIDEBAR */
         .sidebar-title { font-family: var(--font-sans); font-size: 13px; font-weight: 800; border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 20px; text-transform: uppercase; }
         .top-list-item { display: flex; gap: 15px; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #f0f0f0; align-items: baseline; text-decoration: none; }
-        body.dark-mode .top-list-item { border-bottom-color: #222; }
         .rank-num { font-family: var(--font-sans); font-size: 20px; font-weight: 800; color: var(--border); }
-        .top-list-item p { font-size: 14px; line-height: 1.4; color: var(--text-main); font-weight: 500; cursor: pointer; }
-        .top-list-item:hover p { color: var(--primary); text-decoration: underline; }
+        .top-list-item p { font-size: 14px; color: var(--text-main); }
 
-        .newsletter-card { background: #f5f5f5; padding: 30px 20px; text-align: left; border: 1px solid transparent; }
+        .newsletter-card { background: #f5f5f5; padding: 30px 20px; border: 1px solid transparent; }
         body.dark-mode .newsletter-card { background: #222; }
         .newsletter-card h3 { font-family: var(--font-serif); font-size: 18px; margin-bottom: 10px; }
-        .newsletter-card input { width: 100%; padding: 10px; margin-top: 10px; border: 1px solid #ccc; background: var(--bg); color: var(--text-main); font-family: var(--font-sans); }
-        .newsletter-card button { width: 100%; padding: 12px; margin-top: 10px; background: var(--text-main); color: var(--bg); border: none; font-weight: 600; cursor: pointer; letter-spacing: 1px; }
-        .newsletter-card button:hover { opacity: 0.9; }
+        .newsletter-card input { width: 100%; padding: 10px; margin-top: 10px; border: 1px solid #ccc; background: var(--bg); color: var(--text-main); }
+        .newsletter-card button { width: 100%; padding: 12px; margin-top: 10px; background: var(--text-main); color: var(--bg); border: none; font-weight: 600; cursor: pointer; }
 
-        footer { border-top: 4px solid var(--text-main); padding: 60px 0; margin-top: 80px; text-align: center; }
-        .footer-logo { font-family: var(--font-serif); font-size: 30px; font-weight: 700; margin-bottom: 20px; display: inline-block; color: var(--text-main); text-decoration: none; }
-        .footer-tagline { font-family: var(--font-serif); font-style: italic; color: var(--text-muted); }
-
-        @media (max-width: 900px) {
-            .nav-menu { display: none; }
-            .menu-toggle { display: block; }
-            .hero { grid-template-columns: 1fr; gap: 20px; padding: 0 15px; margin: 20px auto; }
-            .layout { grid-template-columns: 1fr; gap: 40px; padding: 0 15px; }
-            .main-feat-img-box { height: 280px; }
-            .main-text-content h1 { font-size: 26px; }
-            .post-card { grid-template-columns: 1fr; gap: 15px; }
-            .post-img-wrapper { height: 200px; }
-        }
+        .back-to-top { position: fixed; bottom: 30px; right: 30px; padding: 15px; background: var(--text-main); color: var(--bg); border: none; opacity: 0; transition: 0.3s; cursor: pointer; z-index: 900; }
     </style>
 </head>
 <body>
-    <div id="progress-bar" style="position: fixed; top: 0; left: 0; height: 3px; background: var(--primary); width: 0%; z-index: 1001; transition: width 0.1s;"></div>
+    <div id="progress-bar" style="position: fixed; top: 0; left: 0; height: 3px; background: var(--primary); width: 0%; z-index: 1001;"></div>
 
     <header>
         <div class="nav-container">
-            <button onclick="if(window.abrirMegaMenu) window.abrirMegaMenu()" style="background:none; border:none; color:var(--text-main); font-size:12px; font-weight:800; cursor:pointer; display:flex; align-items:center; gap:8px; text-transform:uppercase; letter-spacing:1px;">
+            <button class="btn-menu-header" onclick="if(window.abrirMegaMenu) window.abrirMegaMenu()">
                 <i class="fas fa-bars" style="font-size:18px;"></i> SEÇÕES
             </button>
 
             <a href="/anigeeknews/index.html" class="logo">AniGeek<span>News</span></a>
             
-            <ul class="nav-menu" id="navMenu">
-                <li class="nav-item"><a href="#">Animes</a></li>
-                <li class="nav-item"><a href="#">Games</a></li>
-                <li class="nav-item"><a href="#">Mangás</a></li>
-                <li class="nav-item"><a href="#">Cinema</a></li>
-                <li class="nav-item" id="area-usuario"><span>Verificando...</span></li>
-                <li class="nav-item config">
-                    <a href="#">Configurações</a>
-                    <div class="config-dropdown">
-                        <div class="theme-toggle-container">
-                            <span class="theme-toggle-label">Tema Escuro</span>
-                            <label class="theme-toggle">
-                                <input type="checkbox" id="themeToggle">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-            <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
+            <button class="btn-menu-header" onclick="toggleMobileMenu()">
+                PERFIL <i class="fas fa-user-circle" style="font-size:18px;"></i>
+            </button>
         </div>
     </header>
 
     <div id="megaMenuContainer"></div>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="close-menu" onclick="toggleMobileMenu()">×</button>
+        
+        <div id="container-menu-perfil">
+            <div id="area-usuario-mobile" style="margin-bottom: 20px; padding: 10px 0;">
+                <span>Verificando status...</span>
+            </div>
+            </div>
+
+        <div class="theme-toggle-container">
+            <span class="theme-toggle-label">Tema Escuro</span>
+            <label class="theme-toggle">
+                <input type="checkbox" id="mobileThemeToggle">
+                <span class="slider"></span>
+            </label>
+        </div>
+    </div>
 
     <div class="search-bar">
         <input type="text" class="search-input" placeholder="Pesquisar notícias, animes, jogos...">
@@ -341,23 +276,23 @@
                         <span class="tag-label tag-destaque">ANÁLISE DE CAPA</span>
                         <h1>One Piece: O clímax de Egghead redefine a animação moderna</h1>
                         <p>Direção de arte sacrifica consistência visual por impacto narrativo. Por que essa foi a decisão correta para o futuro da franquia.</p>
-                        <div class="meta-minimal">17 Dez, 2025 • Por Editor Chefe</div>
+                        <div class="meta-minimal" style="font-size: 11px; color: #999; margin-top: 10px;">17 Dez, 2025 • Por Editor Chefe</div>
                     </div>
                 </div>
             </a>
 
             <div class="sub-feat-list">
                 <a href="#" class="sub-feat">
-                    <div><span class="category" style="color: var(--accent-feature)">Games</span><h3>Solo Leveling: Arise recebe atualização crítica após feedback da comunidade</h3></div>
-                    <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=200&auto=format&fit=crop" loading="lazy">
+                    <div><span class="category" style="color: var(--accent-feature)">Games</span><h3>Solo Leveling: Arise recebe atualização crítica após feedback</h3></div>
+                    <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=200&auto=format&fit=crop">
                 </a>
                 <a href="#" class="sub-feat">
-                    <div><span class="category">Review</span><h3>Elden Ring: Shadow of the Erdtree não é apenas um DLC, é o novo padrão</h3></div>
-                    <img src="https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?w=200&auto=format&fit=crop" loading="lazy">
+                    <div><span class="category">Review</span><h3>Elden Ring: Shadow of the Erdtree não é apenas um DLC</h3></div>
+                    <img src="https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?w=200&auto=format&fit=crop">
                 </a>
                 <a href="#" class="sub-feat">
-                    <div><span class="category">Indústria</span><h3>Rumor: Sony prepara hardware dedicado para streaming remoto em 2026</h3></div>
-                    <img src="https://i.postimg.cc/sfHMcTDy/58awkrh8lp404dsegeqpbffcz.jpg" loading="lazy">
+                    <div><span class="category">Indústria</span><h3>Rumor: Sony prepara hardware dedicado para streaming remoto</h3></div>
+                    <img src="https://i.postimg.cc/sfHMcTDy/58awkrh8lp404dsegeqpbffcz.jpg">
                 </a>
             </div>
         </section>
@@ -366,147 +301,38 @@
             <main>
                 <div class="section-header"><h2 class="section-title">Últimas Notícias</h2></div>
                 <div class="feed">
-                    <a href="#" class="news-link">
-                        <article class="post-card">
-                            <div class="post-img-wrapper"><img src="https://i.postimg.cc/sfHMcTDy/58awkrh8lp404dsegeqpbffcz.jpg" loading="lazy"></div>
-                            <div class="post-content">
-                                <span class="category">Hardware</span>
-                                <h2>Vazamento detalha especificações do suposto 'PS Portal 2'</h2>
-                                <p>Fontes ligadas à cadeia de suprimentos indicam uso de telas OLED Samsung e integração nativa com nuvem, dispensando console base.</p>
-                                <div class="action-row">
-                                    <span class="meta-minimal">há 2 horas • Leitura: 3min</span>
-                                    <button class="like-btn" onclick="event.preventDefault(); toggleLike(this)"><span>124</span> recomendam</button>
-                                </div>
-                            </div>
-                        </article>
-                    </a>
-                    <a href="#" class="news-link">
-                        <article class="post-card">
-                            <div class="post-img-wrapper"><img src="https://i.postimg.cc/QdzLYWKg/Jujutsu-Kaisen01.jpg" loading="lazy"></div>
-                            <div class="post-content">
-                                <span class="category">Manga</span>
-                                <h2>Jujutsu Kaisen: Gege Akutami anuncia pausa por motivos de saúde</h2>
-                                <p>Editorial da Jump confirma hiato de duas semanas. Fãs levantam debate sobre condições de trabalho na indústria.</p>
-                                <div class="action-row">
-                                    <span class="meta-minimal">há 4 horas • Leitura: 2min</span>
-                                    <button class="like-btn" onclick="event.preventDefault(); toggleLike(this)"><span>89</span> solidariedades</button>
-                                </div>
-                            </div>
-                        </article>
-                    </a>
-
-                    <div class="load-more-container" style="text-align: center; margin-top: 40px; border-top: 1px solid var(--border); padding-top: 20px;">
-                        <button class="load-more-btn" style="background: none; border: 1px solid var(--text-main); padding: 12px 30px; font-weight: 700; cursor: pointer; color: var(--text-main); text-transform: uppercase; font-size: 12px; letter-spacing: 1px;">
-                            Carregar Mais
-                        </button>
-                    </div>
+                    <article class="post-card">
+                        <div class="post-img-wrapper"><img src="https://i.postimg.cc/sfHMcTDy/58awkrh8lp404dsegeqpbffcz.jpg"></div>
+                        <div class="post-content">
+                            <span class="category">Hardware</span>
+                            <h2 style="font-family:var(--font-serif); font-size:20px; margin-bottom:10px;">Vazamento detalha especificações do suposto 'PS Portal 2'</h2>
+                            <p style="font-size:14px; color:var(--text-muted);">Fontes indicam uso de telas OLED Samsung e integração nativa com nuvem.</p>
+                        </div>
+                    </article>
                 </div>
             </main>
 
             <aside>
                 <div class="sidebar-box">
-                    <h4 class="sidebar-title">Mais Lidas da Semana</h4>
+                    <h4 class="sidebar-title">Mais Lidas</h4>
                     <div class="top-list">
-                        <a href="#" class="top-list-item"><span class="rank-num">1</span><p>Dragon Ball Daima: Análise frame-a-frame do trailer final.</p></a>
-                        <a href="#" class="top-list-item"><span class="rank-num">2</span><p>Guia de Compras: Cadeiras ergonômicas que valem o investimento.</p></a>
-                        <a href="#" class="top-list-item"><span class="rank-num">3</span><p>Arcane T2: O significado oculto na cena final do Ato 1.</p></a>
-                        <a href="#" class="top-list-item"><span class="rank-num">4</span><p>Entrevista: O futuro de One Piece segundo o editor.</p></a>
+                        <a href="#" class="top-list-item"><span class="rank-num">1</span><p>Dragon Ball Daima: Análise do trailer final.</p></a>
+                        <a href="#" class="top-list-item"><span class="rank-num">2</span><p>Guia de Compras: Cadeiras ergonômicas 2025.</p></a>
                     </div>
                 </div>
                 <div class="newsletter-card">
                     <h3>Briefing Matinal</h3>
-                    <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 10px;">Curadoria manual das notícias mais importantes do dia.</p>
                     <input type="text" placeholder="seu@email.com">
-                    <button>ASSINAR BRIEFING</button>
+                    <button>ASSINAR</button>
                 </div>
             </aside>
         </div>
     </div>
 
-    <div class="mobile-menu" id="mobileMenu">
-        <button class="close-menu" onclick="toggleMobileMenu()">×</button>
-        <div class="mobile-menu-item">
-            <div class="theme-toggle-container">
-                <span class="theme-toggle-label">Tema Escuro</span>
-                <label class="theme-toggle">
-                    <input type="checkbox" id="mobileThemeToggle">
-                    <span class="slider"></span>
-                </label>
-            </div>
-        </div>
-        <div class="mobile-menu-item" id="area-usuario-mobile"><a href="/anigeeknews/usuario/cadastro.html">Cadastro/Login</a></div>
-        <div class="mobile-menu-item"><a href="#">Animes</a></div>
-        <div class="mobile-menu-item"><a href="#">Games</a></div>
-    </div>
-
-    <button class="back-to-top" onclick="scrollToTop()" style="position: fixed; bottom: 30px; right: 30px; padding: 15px; background: var(--text-main); color: var(--bg); border: none; opacity: 0; transition: 0.3s; cursor: pointer;">↑</button>
-
-    <footer>
-        <div style="max-width: var(--container-w); margin: 0 auto;">
-            <a href="/anigeeknews/index.html" class="footer-logo">AniGeek<span>News</span></a>
-            <p class="footer-tagline">Jornalismo independente sobre cultura pop e tecnologia.</p>
-            <div style="margin-top: 40px; font-size: 11px; color: var(--text-muted);">© 2025 AniGeekNews.</div>
-        </div>
-    </footer>
+    <button class="back-to-top" onclick="scrollToTop()">↑</button>
 
     <script type="module" src="/anigeeknews/sessao_usuario.js"></script>
     <script type="module" src="/anigeeknews/main.js"></script>
-
-    <script type="module">
-        import { restaurarNoticiasSalvas } from '/anigeeknews/modulo-noticias.js';
-
-        const dynamicContent = document.getElementById('dynamic-content');
-        const originalContent = dynamicContent.innerHTML;
-
-        function activateButton(section) {
-            document.querySelectorAll('.filter-tag').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.section === section);
-            });
-        }
-
-        async function loadSection(section) {
-            if (section === 'manchetes') {
-                dynamicContent.innerHTML = originalContent;
-                localStorage.setItem('currentSection', 'manchetes');
-                return;
-            }
-
-            try {
-                const fetchUrl = `/anigeeknews/modulos/${section}.html`;
-                const response = await fetch(fetchUrl);
-                if (!response.ok) throw new Error('Erro ao carregar');
-                const html = await response.text();
-                
-                dynamicContent.innerHTML = html;
-
-                setTimeout(() => {
-                    restaurarNoticiasSalvas();
-                }, 50);
-
-            } catch (error) {
-                console.error('Falha ao carregar:', section, error);
-                dynamicContent.innerHTML = '<p style="padding:40px; text-align:center; color:#888;">Conteúdo indisponível.</p>';
-            }
-        }
-
-        document.querySelectorAll('.filter-tag').forEach(button => {
-            button.addEventListener('click', () => {
-                const section = button.dataset.section;
-                localStorage.setItem('currentSection', section);
-                activateButton(section);
-                loadSection(section);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-        });
-
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedSection = localStorage.getItem('currentSection') || 'manchetes';
-            activateButton(savedSection);
-            if (savedSection !== 'manchetes') {
-                loadSection(savedSection);
-            }
-        });
-    </script>
 </body>
 </html>
 
