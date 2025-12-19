@@ -1,20 +1,29 @@
 document.addEventListener('DOMContentLoaded', () => {
-    import('./modulo-noticias.js').then(({ carregarNoticiasExtras }) => {
-        const btnCarregar = document.querySelector('.load-more-btn');
-        if (btnCarregar) {
-            btnCarregar.addEventListener('click', (e) => {
+    
+    // ------------------------------------------------------------------
+    // SISTEMA DE NOTÍCIAS (DINÂMICO)
+    // ------------------------------------------------------------------
+    import('./modulo-noticias.js').then(({ carregarNoticiasExtras, restaurarNoticiasSalvas }) => {
+        
+        // Tenta restaurar notícias se houver progresso salvo
+        restaurarNoticiasSalvas();
+
+        // DELEGAÇÃO DE EVENTO: 
+        // Em vez de procurar o botão uma vez, ouvimos o documento todo.
+        // Assim, o botão funciona mesmo se você trocar de aba.
+        document.addEventListener('click', (e) => {
+            if (e.target && e.target.classList.contains('load-more-btn')) {
                 e.preventDefault();
-                carregarNoticiasExtras(); // botão NÃO é removido aqui
-            });
-        } else {
-            console.warn('[main.js] Botão "Carregar Mais" não encontrado no DOM.');
-        }
+                carregarNoticiasExtras();
+            }
+        });
+
     }).catch(err => {
         console.error('[main.js] Falha ao carregar modulo-noticias.js:', err);
     });
 
     // ------------------------------------------------------------------
-    // FUNÇÕES DE INTERFACE
+    // FUNÇÕES DE INTERFACE (DISPONÍVEIS GLOBALMENTE)
     // ------------------------------------------------------------------
     window.toggleMobileMenu = () => {
         const menu = document.getElementById('mobileMenu');
@@ -88,3 +97,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
