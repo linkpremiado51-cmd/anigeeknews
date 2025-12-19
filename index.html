@@ -173,7 +173,20 @@
         input:checked + .slider { background-color: var(--accent-news); }
         input:checked + .slider:before { transform: translateX(20px); }
 
-        .menu-toggle { display: none; background: none; border: none; font-size: 24px; color: var(--text-main); cursor: pointer; }
+        .menu-toggle {
+            background: none;
+            border: none;
+            font-size: 18px;
+            color: var(--text-main);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            padding: 0;
+            margin: 0;
+        }
 
         .mobile-menu {
             position: fixed;
@@ -311,7 +324,10 @@
                     </div>
                 </li>
             </ul>
-            <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
+
+            <button class="menu-toggle" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </header>
 
@@ -508,6 +524,22 @@
             }
         });
     </script>
+
+    <script>
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleLike(btn) {
+            btn.classList.toggle('liked');
+        }
+    </script>
 </body>
 </html>
+
 
