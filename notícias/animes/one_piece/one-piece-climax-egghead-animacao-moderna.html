@@ -5,7 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>One Piece: O clímax de Egghead redefine a animação moderna | AniGeekNews</title>
     <meta name="description" content="Uma análise aprofundada da revolução visual do arco Egghead em One Piece, com base em entrevistas, técnicas de animação e contexto histórico da indústria.">
-    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;800&family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Preconnect para Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Nova font stack: Aldrich + Oxanium + Libertinus Serif Display -->
+    <link href="https://fonts.googleapis.com/css2?family=Aldrich&family=Libertinus+Serif+Display&family=Oxanium:wght@200..800&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         :root {
@@ -31,8 +37,9 @@
             --container-w: 1440px; /* 1200px * 1.2 */
             --ease-editorial: cubic-bezier(0.25, 0.46, 0.45, 0.94);
             --duration: 0.4s;
-            --font-serif: 'Noto Serif', serif;
-            --font-sans: 'Inter', sans-serif;
+            --font-serif: 'Libertinus Serif Display', serif;
+            --font-sans: 'Oxanium', sans-serif;
+            --font-logo: 'Aldrich', sans-serif;
         }
 
         body.dark-mode {
@@ -82,21 +89,26 @@
         }
 
         .logo {
-            font-family: var(--font-serif);
+            font-family: var(--font-logo);
             font-size: 31.2px; /* 26px * 1.2 */
-            font-weight: 700;
+            font-weight: normal;
             text-decoration: none;
             color: var(--text-main);
             letter-spacing: -1.2px;
         }
 
-        .logo span { font-style: italic; font-weight: 400; }
+        .logo span {
+            font-family: var(--font-serif);
+            font-style: normal;
+            font-weight: 400;
+        }
 
         .nav-menu { display: flex; gap: 36px; /* 30px * 1.2 */ list-style: none; align-items: center; }
 
         .nav-item > a {
             text-decoration: none;
             color: var(--text-main);
+            font-family: var(--font-sans);
             font-size: 15.6px; /* 13px * 1.2 */
             font-weight: 700;
             text-transform: uppercase;
@@ -130,6 +142,7 @@
 
         #area-usuario,
         #area-usuario span.logged-user {
+            font-family: var(--font-sans);
             font-size: 14.4px; /* 12px * 1.2 */
             font-weight: 700;
             text-transform: uppercase;
@@ -239,6 +252,7 @@
             margin-right: 14.4px; /* 12px * 1.2 */
             margin-top: 4.8px; /* 4px * 1.2 */
             color: var(--text-main);
+            font-family: var(--font-serif);
         }
 
         .article-body h3 {
@@ -341,7 +355,18 @@
         }
         
         footer { border-top: 4px solid var(--text-main); padding: 72px 0; /* 60px * 1.2 */ margin-top: 96px; /* 80px * 1.2 */ text-align: center; }
-        .footer-logo { font-family: var(--font-serif); font-size: 36px; /* 30px * 1.2 */ font-weight: 700; text-decoration: none; color: var(--text-main); }
+        .footer-logo { 
+            font-family: var(--font-logo); 
+            font-size: 36px; /* 30px * 1.2 */
+            font-weight: normal; 
+            text-decoration: none; 
+            color: var(--text-main); 
+        }
+        .footer-logo span {
+            font-family: var(--font-serif);
+            font-style: normal;
+            font-weight: 400;
+        }
 
         #progress-bar {
             position: fixed;
@@ -408,7 +433,7 @@
 
     <header>
         <div class="nav-container">
-            <button onclick="if(window.abrirMegaMenu) window.abrirMegaMenu()" style="background:none; border:none; color:var(--text-main); font-size:14.4px; font-weight:800; cursor:pointer; display:flex; align-items:center; gap:9.6px; text-transform:uppercase; letter-spacing:1.2px;">
+            <button onclick="if(window.abrirMegaMenu) window.abrirMegaMenu()" style="background:none; border:none; color:var(--text-main); font-family:var(--font-sans); font-size:14.4px; font-weight:800; cursor:pointer; display:flex; align-items:center; gap:9.6px; text-transform:uppercase; letter-spacing:1.2px;">
                 <i class="fas fa-bars" style="font-size:21.6px;"></i> SEÇÕES
             </button>
 
@@ -424,7 +449,7 @@
                     <a href="#"><i class="fas fa-cog"></i></a>
                     <div class="config-dropdown">
                         <div class="theme-toggle-container">
-                            <span style="font-size:15.6px;">Tema Escuro</span>
+                            <span style="font-family:var(--font-sans); font-size:15.6px;">Tema Escuro</span>
                             <label class="theme-toggle">
                                 <input type="checkbox" id="headerThemeToggle">
                                 <span class="slider"></span>
@@ -433,8 +458,6 @@
                     </div>
                 </li>
             </ul>
-            <!-- ✅ Menu hambúrguer direito mantido no desktop, mas removido no mobile? -->
-            <!-- ⚠️ Você pediu para remover o menu direito anteriormente, então ele NÃO está aqui -->
         </div>
     </header>
 
@@ -547,10 +570,10 @@
 
             <div class="sidebar-box">
                 <h4 class="sidebar-title">Newsletter</h4>
-                <p style="font-size: 15.6px; color: var(--text-muted); margin-bottom: 18px; font-family: var(--font-sans);">Receba análises profundas como esta toda sexta-feira.</p>
+                <p style="font-family: var(--font-sans); font-size: 15.6px; color: var(--text-muted); margin-bottom: 18px;">Receba análises profundas como esta toda sexta-feira.</p>
                 <div style="display: flex; gap: 6px;">
-                    <input type="email" placeholder="Email" style="width: 100%; padding: 9.6px; border: 1px solid var(--border); background: var(--bg); color: var(--text-main);">
-                    <button style="background: var(--text-main); color: var(--bg); border: none; padding: 0 18px; font-weight: bold; cursor: pointer; font-size: 14.4px;">OK</button>
+                    <input type="email" placeholder="Email" style="width: 100%; padding: 9.6px; border: 1px solid var(--border); background: var(--bg); color: var(--text-main); font-family: var(--font-sans);">
+                    <button style="background: var(--text-main); color: var(--bg); border: none; padding: 0 18px; font-family: var(--font-sans); font-weight: bold; cursor: pointer; font-size: 14.4px;">OK</button>
                 </div>
             </div>
             
@@ -564,14 +587,11 @@
 
     </div>
 
-    <!-- ✅ Menu móvel removido conforme pedido anteriormente -->
-    <!-- Nenhum menu hambúrguer no lado direito -->
-
     <footer>
         <div style="max-width: var(--container-w); margin: 0 auto;">
             <a href="/anigeeknews/index.html" class="footer-logo">AniGeek<span>News</span></a>
             <p style="font-family: var(--font-serif); font-style: italic; color: var(--text-muted); font-size: 22.8px;">Jornalismo independente sobre cultura pop.</p>
-            <div style="margin-top: 48px; font-size: 13.2px; color: var(--text-muted);">
+            <div style="margin-top: 48px; font-family: var(--font-sans); font-size: 13.2px; color: var(--text-muted);">
                 © 2025 AniGeekNews Media Group.
             </div>
         </div>
@@ -645,3 +665,5 @@
     </script>
 </body>
 </html>
+
+
