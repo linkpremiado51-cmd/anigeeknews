@@ -1039,43 +1039,38 @@
                 loadSection(savedSection);
             }
         });
-        // ✅ Correção para o botão Carregar Mais funcionar sempre
+        
+        // ✅ Botão Carregar Mais com recarregamento silencioso em caso de falha
 document.addEventListener('click', async function(event) {
-    // Verifica se o elemento clicado tem a classe do botão
     if (event.target.classList.contains('load-more-btn')) {
         const btn = event.target;
         const container = btn.closest('.load-more-container');
-        const feed = document.querySelector('.feed');
 
-        // Evita múltiplos cliques enquanto carrega
         if (btn.disabled) return;
         
         btn.textContent = 'CARREGANDO...';
         btn.disabled = true;
 
         try {
-            // Chama o documento externo no seu repositório
             const response = await fetch('/anigeeknews/modulos/mais_noticias.html');
-            if (!response.ok) throw new Error('Falha ao buscar notícias');
+            
+            // Se houver qualquer problema na resposta, vai direto para o catch
+            if (!response.ok) throw new Error();
             
             const html = await response.text();
             
-            // Insere o conteúdo antes do container do botão
+            // Insere o conteúdo
             container.insertAdjacentHTML('beforebegin', html);
             
             btn.textContent = 'CARREGAR MAIS';
             btn.disabled = false;
         } catch (error) {
-            console.error('Erro:', error);
-            btn.textContent = 'ERRO AO CARREGAR';
-            setTimeout(() => {
-                btn.textContent = 'CARREGAR MAIS';
-                btn.disabled = false;
-            }, 2000);
+            // Em vez de mostrar erro, recarrega a página na hora
+            location.reload();
         }
     }
 });
-        
+
     </script>
 </body>
 </html>
