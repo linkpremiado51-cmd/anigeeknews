@@ -1040,36 +1040,7 @@
             }
         });
         
-        // 1. Lógica das Abas (Modificada para atualizar em Manchetes)
-document.querySelectorAll('.filter-tag').forEach(button => {
-    button.addEventListener('click', () => {
-        const section = button.dataset.section;
-        
-        // Se clicar em manchetes, limpa o estado e recarrega a página inteira
-        if (section === 'manchetes') {
-            localStorage.setItem('currentSection', 'manchetes');
-            location.reload(); 
-            return;
-        }
-
-        // Para as outras abas, mantém o comportamento SPA (sem recarregar)
-        localStorage.setItem('currentSection', section);
-        activateButton(section);
-        loadSection(section);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-});
-
-// 2. Carregar aba salva ao iniciar
-window.addEventListener('DOMContentLoaded', () => {
-    const savedSection = localStorage.getItem('currentSection') || 'manchetes';
-    activateButton(savedSection);
-    if (savedSection !== 'manchetes') {
-        loadSection(savedSection);
-    }
-});
-
-// 3. Botão Carregar Mais (Sem reload automático em caso de erro)
+        // ✅ Botão Carregar Mais com recarregamento silencioso em caso de falha
 document.addEventListener('click', async function(event) {
     if (event.target.classList.contains('load-more-btn')) {
         const btn = event.target;
@@ -1083,21 +1054,19 @@ document.addEventListener('click', async function(event) {
         try {
             const response = await fetch('/anigeeknews/modulos/mais_noticias.html');
             
-            if (!response.ok) throw new Error('Falha na requisição');
+            // Se houver qualquer problema na resposta, vai direto para o catch
+            if (!response.ok) throw new Error();
             
             const html = await response.text();
+            
+            // Insere o conteúdo
             container.insertAdjacentHTML('beforebegin', html);
             
             btn.textContent = 'CARREGAR MAIS';
             btn.disabled = false;
         } catch (error) {
-            console.error('Erro ao carregar notícias:', error);
-            btn.textContent = 'ERRO AO CARREGAR';
-            // Permite tentar novamente após 2 segundos sem atualizar a página
-            setTimeout(() => {
-                btn.textContent = 'CARREGAR MAIS';
-                btn.disabled = false;
-            }, 2000);
+            // Em vez de mostrar erro, recarrega a página na hora
+            location.reload();
         }
     }
 });
