@@ -7,8 +7,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;800&family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
+        /* --- (ESTILOS IGUAIS AOS SEUS, SEM ALTERAÇÕES) --- */
         :root {
-            /* Paleta NYT/Guardian */
             --nyt-black: #121212;
             --nyt-ink: #202020;
             --nyt-gray-dark: #666;
@@ -60,7 +60,8 @@
             transition: background var(--duration) var(--ease-editorial), color var(--duration) var(--ease-editorial);
         }
 
-        /* --- Estilos do usuário logado --- */
+        /* Estilos do usuário, imagens, header, menu, hero, feed, sidebar, etc. */
+        /* (Mantidos exatamente como você enviou, sem alterações visuais) */
         #area-usuario, #area-usuario-mobile {
             display: flex;
             align-items: center;
@@ -796,17 +797,12 @@
     <header>
         <div class="nav-container">
             <a href="/anigeeknews/index.html" class="logo">AniGeek<span>News</span></a>
-
             <ul class="nav-menu" id="navMenu">
                 <li class="nav-item"><a href="#">Animes</a></li>
                 <li class="nav-item"><a href="#">Games</a></li>
                 <li class="nav-item"><a href="#">Mangás</a></li>
                 <li class="nav-item"><a href="#">Cinema</a></li>
-                
-                <li class="nav-item" id="area-usuario">
-                    <span>Verificando...</span>
-                </li>
-
+                <li class="nav-item" id="area-usuario"><span>Verificando...</span></li>
                 <li class="nav-item config">
                     <a href="#">Configurações</a>
                     <div class="config-dropdown">
@@ -820,7 +816,6 @@
                     </div>
                 </li>
             </ul>
-
             <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
         </div>
     </header>
@@ -838,9 +833,8 @@
         <button class="filter-tag" data-section="podcast">Podcast</button>
     </div>
 
-    <!-- Área dinâmica: conteúdo principal -->
     <div id="dynamic-content">
-        <!-- Inicialmente, carrega o conteúdo original da página -->
+        <!-- Conteúdo original da página inicial (Manchetes) -->
         <section class="hero">
             <a href="https://linkpremiado51-cmd.github.io/anigeeknews/not%C3%ADcias/animes/one_piece/one-piece-climax-egghead-animacao-moderna.html" class="news-link">
                 <div class="main-feat">
@@ -858,24 +852,15 @@
 
             <div class="sub-feat-list">
                 <a href="#" class="sub-feat">
-                    <div>
-                        <span class="category" style="color: var(--accent-feature)">Games</span>
-                        <h3>Solo Leveling: Arise recebe atualização crítica após feedback da comunidade</h3>
-                    </div>
+                    <div><span class="category" style="color: var(--accent-feature)">Games</span><h3>Solo Leveling: Arise recebe atualização crítica após feedback da comunidade</h3></div>
                     <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=200&auto=format&fit=crop" loading="lazy">
                 </a>
                 <a href="#" class="sub-feat">
-                    <div>
-                        <span class="category">Review</span>
-                        <h3>Elden Ring: Shadow of the Erdtree não é apenas um DLC, é o novo padrão</h3>
-                    </div>
+                    <div><span class="category">Review</span><h3>Elden Ring: Shadow of the Erdtree não é apenas um DLC, é o novo padrão</h3></div>
                     <img src="https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?w=200&auto=format&fit=crop" loading="lazy">
                 </a>
                 <a href="#" class="sub-feat">
-                    <div>
-                        <span class="category">Indústria</span>
-                        <h3>Rumor: Sony prepara hardware dedicado para streaming remoto em 2026</h3>
-                    </div>
+                    <div><span class="category">Indústria</span><h3>Rumor: Sony prepara hardware dedicado para streaming remoto em 2026</h3></div>
                     <img src="https://i.postimg.cc/sfHMcTDy/58awkrh8lp404dsegeqpbffcz.jpg" loading="lazy">
                 </a>
             </div>
@@ -883,17 +868,11 @@
 
         <div class="layout">
             <main>
-                <div class="section-header">
-                    <h2 class="section-title">Últimas Notícias</h2>
-                </div>
-
+                <div class="section-header"><h2 class="section-title">Últimas Notícias</h2></div>
                 <div class="feed">
-                    <!-- Seus posts originais aqui -->
                     <a href="#" class="news-link">
                         <article class="post-card">
-                            <div class="post-img-wrapper">
-                                <img src="https://i.postimg.cc/sfHMcTDy/58awkrh8lp404dsegeqpbffcz.jpg" loading="lazy">
-                            </div>
+                            <div class="post-img-wrapper"><img src="https://i.postimg.cc/sfHMcTDy/58awkrh8lp404dsegeqpbffcz.jpg" loading="lazy"></div>
                             <div class="post-content">
                                 <span class="category">Hardware</span>
                                 <h2>Vazamento detalha especificações do suposto 'PS Portal 2'</h2>
@@ -905,12 +884,9 @@
                             </div>
                         </article>
                     </a>
-                    <!-- Demais posts omitidos por brevidade, mas mantidos no HTML completo -->
                     <a href="#" class="news-link">
                         <article class="post-card">
-                            <div class="post-img-wrapper">
-                                <img src="https://i.postimg.cc/QdzLYWKg/Jujutsu-Kaisen01.jpg" loading="lazy">
-                            </div>
+                            <div class="post-img-wrapper"><img src="https://i.postimg.cc/QdzLYWKg/Jujutsu-Kaisen01.jpg" loading="lazy"></div>
                             <div class="post-content">
                                 <span class="category">Manga</span>
                                 <h2>Jujutsu Kaisen: Gege Akutami anuncia pausa por motivos de saúde</h2>
@@ -924,8 +900,7 @@
                     </a>
 
                     <div class="load-more-container" style="text-align: center; margin-top: 40px; border-top: 1px solid var(--border); padding-top: 20px;">
-                        <button class="load-more-btn"
-                            style="background: none; border: 1px solid var(--text-main); padding: 12px 30px; font-weight: 700; cursor: pointer; color: var(--text-main); text-transform: uppercase; font-size: 12px; letter-spacing: 1px;">
+                        <button class="load-more-btn" style="background: none; border: 1px solid var(--text-main); padding: 12px 30px; font-weight: 700; cursor: pointer; color: var(--text-main); text-transform: uppercase; font-size: 12px; letter-spacing: 1px;">
                             Carregar Mais
                         </button>
                     </div>
@@ -936,39 +911,19 @@
                 <div class="sidebar-box">
                     <h4 class="sidebar-title">Mais Lidas da Semana</h4>
                     <div class="top-list">
-                        <a href="#" class="top-list-item">
-                            <span class="rank-num">1</span>
-                            <p>Dragon Ball Daima: Análise frame-a-frame do trailer final.</p>
-                        </a>
-                        <a href="#" class="top-list-item">
-                            <span class="rank-num">2</span>
-                            <p>Guia de Compras: Cadeiras ergonômicas que valem o investimento.</p>
-                        </a>
-                        <a href="#" class="top-list-item">
-                            <span class="rank-num">3</span>
-                            <p>Arcane T2: O significado oculto na cena final do Ato 1.</p>
-                        </a>
-                        <a href="#" class="top-list-item">
-                            <span class="rank-num">4</span>
-                            <p>Entrevista: O futuro de One Piece segundo o editor.</p>
-                        </a>
+                        <a href="#" class="top-list-item"><span class="rank-num">1</span><p>Dragon Ball Daima: Análise frame-a-frame do trailer final.</p></a>
+                        <a href="#" class="top-list-item"><span class="rank-num">2</span><p>Guia de Compras: Cadeiras ergonômicas que valem o investimento.</p></a>
+                        <a href="#" class="top-list-item"><span class="rank-num">3</span><p>Arcane T2: O significado oculto na cena final do Ato 1.</p></a>
+                        <a href="#" class="top-list-item"><span class="rank-num">4</span><p>Entrevista: O futuro de One Piece segundo o editor.</p></a>
                     </div>
                 </div>
-
                 <div class="sidebar-box">
                     <h4 class="sidebar-title">Em Tendência</h4>
                     <div class="top-list">
-                        <a href="#" class="top-list-item">
-                            <span class="rank-num">↗</span>
-                            <p>Attack on Titan: O legado controverso do final estendido.</p>
-                        </a>
-                        <a href="#" class="top-list-item">
-                            <span class="rank-num">↗</span>
-                            <p>Cyberpunk 2077: CD Projekt Red fala sobre sequência.</p>
-                        </a>
+                        <a href="#" class="top-list-item"><span class="rank-num">↗</span><p>Attack on Titan: O legado controverso do final estendido.</p></a>
+                        <a href="#" class="top-list-item"><span class="rank-num">↗</span><p>Cyberpunk 2077: CD Projekt Red fala sobre sequência.</p></a>
                     </div>
                 </div>
-
                 <div class="newsletter-card">
                     <h3>Briefing Matinal</h3>
                     <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 10px;">Curadoria manual das 3 notícias mais importantes do dia. Sem spam.</p>
@@ -990,11 +945,9 @@
                 </label>
             </div>
         </div>
-
         <div class="mobile-menu-item" id="area-usuario-mobile">
             <a href="/anigeeknews/usuario/cadastro.html">Cadastro/Login</a>
         </div>
-
         <div class="mobile-menu-item" onclick="toggleSocials()">
             <a href="javascript:void(0)">Redes Sociais</a>
             <div class="socials-submenu" id="socialsSubmenu">
@@ -1022,108 +975,8 @@
         </div>
     </footer>
 
-    <!-- Scripts -->
+    <!-- ✅ Scripts conectados ao sistema modular externo -->
     <script type="module" src="/anigeeknews/sessao_usuario.js"></script>
-
-    <script>
-        // Funções auxiliares
-        function toggleMobileMenu() {
-            document.getElementById('mobileMenu').classList.toggle('active');
-        }
-
-        function toggleSocials() {
-            const submenu = document.getElementById('socialsSubmenu');
-            submenu.classList.toggle('active');
-        }
-
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function toggleLike(btn) {
-            btn.classList.toggle('liked');
-        }
-
-        // =============================
-        // LÓGICA DE CARREGAMENTO MODULAR
-        // =============================
-
-        const sections = ['manchetes', 'analises', 'entrevistas', 'lancamentos', 'podcast'];
-        const filterButtons = document.querySelectorAll('.filter-tag');
-        const dynamicContent = document.getElementById('dynamic-content');
-        const originalContent = dynamicContent.innerHTML;
-
-        // Carregar conteúdo inicial armazenado (se houver)
-        const currentSection = localStorage.getItem('currentSection') || 'manchetes';
-        activateButton(currentSection);
-        if (currentSection === 'manchetes') {
-            // Já está carregado
-        } else {
-            loadSection(currentSection);
-        }
-
-        // Clique nos botões
-        filterButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const section = btn.dataset.section;
-                activateButton(section);
-                if (section === 'manchetes') {
-                    localStorage.removeItem('currentSection');
-                    dynamicContent.innerHTML = originalContent;
-                } else {
-                    localStorage.setItem('currentSection', section);
-                    loadSection(section);
-                }
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-        });
-
-        function activateButton(section) {
-            filterButtons.forEach(b => b.classList.remove('active'));
-            document.querySelector(`.filter-tag[data-section="${section}"]`).classList.add('active');
-        }
-
-        async function loadSection(section) {
-            const cacheKey = `content_${section}`;
-            const cached = localStorage.getItem(cacheKey);
-            const fetchUrl = `/anigeeknews/modulos/${section}.html`;
-
-            if (cached) {
-                dynamicContent.innerHTML = cached;
-                return;
-            }
-
-            try {
-                const response = await fetch(fetchUrl);
-                if (!response.ok) throw new Error(`Erro ao carregar ${section}`);
-                const html = await response.text();
-                localStorage.setItem(cacheKey, html);
-                dynamicContent.innerHTML = html;
-            } catch (err) {
-                console.error(err);
-                dynamicContent.innerHTML = `<p style="padding: 40px; text-align: center; color: var(--text-muted);">Conteúdo de "${section}" indisponível no momento.</p>`;
-            }
-        }
-
-        // Sincroniza tema escuro
-        const themeToggle = document.getElementById('themeToggle');
-        const mobileThemeToggle = document.getElementById('mobileThemeToggle');
-        const isDark = localStorage.getItem('darkMode') === 'true';
-        if (isDark) {
-            document.body.classList.add('dark-mode');
-            themeToggle.checked = true;
-            mobileThemeToggle.checked = true;
-        }
-
-        [themeToggle, mobileThemeToggle].forEach(toggle => {
-            toggle?.addEventListener('change', () => {
-                const dark = toggle.checked;
-                document.body.classList.toggle('dark-mode', dark);
-                localStorage.setItem('darkMode', dark);
-                themeToggle.checked = dark;
-                mobileThemeToggle.checked = dark;
-            });
-        });
-    </script>
+    <script type="module" src="/anigeeknews/main.js"></script>
 </body>
 </html>
