@@ -1,13 +1,12 @@
 // modulo-noticias.js (RAIZ)
 
-// 1. IMPORTAÇÃO DOS DADOS (Certifique-se que os arquivos existem na pasta)
+// IMPORTAÇÃO DOS DADOS (Conforme sua nova estrutura de pastas)
 import { dadosAnalise } from './dados_de_noticias/dados-analise.js';
-import { dadosEntrevistas } from './dados_de_noticias/dados-entrevistas.js';
 
-// 2. MAPEAMENTO (Adicione novas seções aqui conforme criar os arquivos .js)
+// Mapeia qual lista usar baseado na aba atual
 const bancoDeDados = {
     analises: dadosAnalise,
-    entrevistas: dadosEntrevistas
+    // Adicione os próximos aqui: podcast: dadosPodcast, etc.
 };
 
 // Lógica de índices persistentes por seção
@@ -15,7 +14,7 @@ let indices = JSON.parse(localStorage.getItem('indices_secoes')) || {
     manchetes: 0, analises: 0, entrevistas: 0, lancamentos: 0, podcast: 0 
 };
 
-// Função auxiliar para criar o HTML
+// Função auxiliar para criar o HTML (Mantendo seu padrão original)
 function criarEstruturaNoticia(noticia) {
     return `
         <a href="#" class="news-link news-extra-persistente">
@@ -38,11 +37,9 @@ function criarEstruturaNoticia(noticia) {
         </a>`;
 }
 
-// 3. FUNÇÃO PARA RESTAURAR (Ignora manchetes, pois ela é fixa)
+// 1. FUNÇÃO PARA RESTAURAR (Adaptada para checar a seção atual)
 export function restaurarNoticiasSalvas() {
     const secaoAtual = localStorage.getItem('currentSection') || 'manchetes';
-    if (secaoAtual === 'manchetes') return;
-
     const lista = bancoDeDados[secaoAtual];
     const botaoContainer = document.querySelector('.load-more-container');
     
@@ -56,48 +53,28 @@ export function restaurarNoticiasSalvas() {
     verificarFimDasNoticias(secaoAtual, lista);
 }
 
-// 4. FUNÇÃO PRINCIPAL (Híbrida: Fetch para Manchetes, Banco JS para outras)
-export async function carregarNoticiasExtras() {
+// 2. FUNÇÃO PRINCIPAL DO BOTÃO (Mantendo sua lógica de 2 por clique)
+export function carregarNoticiasExtras() {
     const secaoAtual = localStorage.getItem('currentSection') || 'manchetes';
-    const botaoContainer = document.querySelector('.load-more-container');
-    const botao = document.querySelector('.load-more-btn');
-
-    if (!botaoContainer || !botao) return;
-
-    // --- Lógica para MANCHETES (Busca o arquivo HTML fixo) ---
-    if (secaoAtual === 'manchetes') {
-        botao.textContent = 'CARREGANDO...';
-        try {
-            const response = await fetch('/anigeeknews/modulos/mais_noticias.html');
-            if (!response.ok) throw new Error();
-            const html = await response.text();
-            botaoContainer.insertAdjacentHTML('beforebegin', html);
-            botao.textContent = 'CARREGAR MAIS';
-        } catch (error) {
-            botao.textContent = 'ERRO AO CARREGAR';
-            setTimeout(() => { botao.textContent = 'CARREGAR MAIS'; }, 2000);
-        }
-        return; 
-    }
-
-    // --- Lógica para OUTRAS ABAS (Usa os arquivos .js da pasta dados_de_noticias) ---
     const lista = bancoDeDados[secaoAtual];
-    if (!lista) {
-        console.warn(`[Aviso] Sem dados para a seção: ${secaoAtual}`);
-        return;
-    }
+    const botaoContainer = document.querySelector('.load-more-container');
+
+    if (!lista || !botaoContainer) return;
 
     const quantidadePorClique = 2;
     let indiceAtual = indices[secaoAtual];
 
     for (let i = 0; i < quantidadePorClique; i++) {
         if (indiceAtual >= lista.length) break;
+
         botaoContainer.insertAdjacentHTML('beforebegin', criarEstruturaNoticia(lista[indiceAtual]));
         indiceAtual++;
     }
 
+    // Salva o progresso específico desta seção
     indices[secaoAtual] = indiceAtual;
     localStorage.setItem('indices_secoes', JSON.stringify(indices));
+
     verificarFimDasNoticias(secaoAtual, lista);
 }
 
