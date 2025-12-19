@@ -1,29 +1,28 @@
+// ------------------------------------------------------------------
+// IMPORTAÇÃO DOS MÓDULOS
+// ------------------------------------------------------------------
+import { carregarNoticiasExtras, restaurarNoticiasSalvas } from './modulo-noticias.js';
+
 document.addEventListener('DOMContentLoaded', () => {
     
+    // Tenta restaurar notícias se houver progresso salvo no localStorage
+    restaurarNoticiasSalvas();
+
     // ------------------------------------------------------------------
     // SISTEMA DE NOTÍCIAS (DINÂMICO)
     // ------------------------------------------------------------------
-    import('./modulo-noticias.js').then(({ carregarNoticiasExtras, restaurarNoticiasSalvas }) => {
-        
-        // Tenta restaurar notícias se houver progresso salvo
-        restaurarNoticiasSalvas();
-
-        // DELEGAÇÃO DE EVENTO: 
-        // Em vez de procurar o botão uma vez, ouvimos o documento todo.
-        // Assim, o botão funciona mesmo se você trocar de aba.
-        document.addEventListener('click', (e) => {
-            if (e.target && e.target.classList.contains('load-more-btn')) {
-                e.preventDefault();
-                carregarNoticiasExtras();
-            }
-        });
-
-    }).catch(err => {
-        console.error('[main.js] Falha ao carregar modulo-noticias.js:', err);
+    // Ouvimos o documento todo para capturar o clique no botão que vem das abas
+    document.addEventListener('click', (e) => {
+        // Verifica se o clique foi no botão de carregar mais
+        if (e.target && e.target.classList.contains('load-more-btn')) {
+            e.preventDefault();
+            console.log('Botão detectado! Chamando carregarNoticiasExtras...');
+            carregarNoticiasExtras();
+        }
     });
 
     // ------------------------------------------------------------------
-    // FUNÇÕES DE INTERFACE (DISPONÍVEIS GLOBALMENTE)
+    // FUNÇÕES DE INTERFACE (MANUTENÇÃO DO SEU CÓDIGO)
     // ------------------------------------------------------------------
     window.toggleMobileMenu = () => {
         const menu = document.getElementById('mobileMenu');
@@ -42,7 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
     window.toggleLike = (button) => {
         const span = button.querySelector('span');
         if (!span) return;
-
         let count = parseInt(span.textContent, 10) || 0;
         if (button.classList.contains('liked')) {
             count--;
@@ -51,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
             count++;
             button.classList.add('liked');
         }
-
         span.textContent = count;
     };
 
@@ -64,7 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const aplicarTema = (isDark) => {
         document.body.classList.toggle('dark-mode', isDark);
         localStorage.setItem('theme', isDark ? 'dark' : 'light');
-
         if (themeToggle) themeToggle.checked = isDark;
         if (mobileThemeToggle) mobileThemeToggle.checked = isDark;
     };
@@ -81,7 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('scroll', () => {
         const btn = document.querySelector('.back-to-top');
         const bar = document.getElementById('progress-bar');
-
         const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
         const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
 
