@@ -286,7 +286,12 @@
 
     <header>
         <div class="nav-container">
+            <button onclick="if(window.abrirMegaMenu) window.abrirMegaMenu()" style="background:none; border:none; color:var(--text-main); font-size:12px; font-weight:800; cursor:pointer; display:flex; align-items:center; gap:8px; text-transform:uppercase; letter-spacing:1px;">
+                <i class="fas fa-bars" style="font-size:18px;"></i> SEÇÕES
+            </button>
+
             <a href="/anigeeknews/index.html" class="logo">AniGeek<span>News</span></a>
+            
             <ul class="nav-menu" id="navMenu">
                 <li class="nav-item"><a href="#">Animes</a></li>
                 <li class="nav-item"><a href="#">Games</a></li>
@@ -309,6 +314,8 @@
             <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
         </div>
     </header>
+
+    <div id="megaMenuContainer"></div>
 
     <div class="search-bar">
         <input type="text" class="search-input" placeholder="Pesquisar notícias, animes, jogos...">
@@ -472,7 +479,6 @@
                 
                 dynamicContent.innerHTML = html;
 
-                // Pequeno delay para garantir que o DOM injetado está pronto
                 setTimeout(() => {
                     restaurarNoticiasSalvas();
                 }, 50);
@@ -483,7 +489,6 @@
             }
         }
 
-        // Listener dos botões de filtro
         document.querySelectorAll('.filter-tag').forEach(button => {
             button.addEventListener('click', () => {
                 const section = button.dataset.section;
@@ -494,7 +499,6 @@
             });
         });
 
-        // Recuperar aba ao iniciar
         window.addEventListener('DOMContentLoaded', () => {
             const savedSection = localStorage.getItem('currentSection') || 'manchetes';
             activateButton(savedSection);
