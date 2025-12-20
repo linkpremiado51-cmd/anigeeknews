@@ -9,8 +9,7 @@
     <!-- Preconnect para Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Nova font stack: Aldrich + Oxanium + Libertinus Serif Display -->
-    <link href="https://fonts.googleapis.com/css2?family=Aldrich&family=Libertinus+Serif+Display&family=Oxanium:wght@200..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Aldrich&family=Bona+Nova+SC:ital,wght@0,400;0,700;1,400&family=Honk:MORF@15&family=IM+Fell+DW+Pica+SC&family=Kings&family=Libertinus+Serif+Display&family=Oxanium:wght@200..800&family=Sixtyfour&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
@@ -33,13 +32,14 @@
             --border: #ddd;
             --img-filter: grayscale(15%) contrast(95%) sepia(5%);
             --img-hover: grayscale(0%) contrast(100%) sepia(0%);
-            --header-h: 84px; /* 70px * 1.2 */
-            --container-w: 1440px; /* 1200px * 1.2 */
+            --header-h: 84px;
+            --container-w: 1440px;
             --ease-editorial: cubic-bezier(0.25, 0.46, 0.45, 0.94);
             --duration: 0.4s;
             --font-serif: 'Libertinus Serif Display', serif;
             --font-sans: 'Oxanium', sans-serif;
             --font-logo: 'Aldrich', sans-serif;
+            --font-article-body: 'Bona Nova SC', serif; /* ✅ Nova fonte para o corpo do texto */
         }
 
         body.dark-mode {
@@ -85,12 +85,12 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 24px; /* 20px * 1.2 */
+            padding: 0 24px;
         }
 
         .logo {
             font-family: var(--font-logo);
-            font-size: 31.2px; /* 26px * 1.2 */
+            font-size: 31.2px;
             font-weight: normal;
             text-decoration: none;
             color: var(--text-main);
@@ -103,17 +103,17 @@
             font-weight: 400;
         }
 
-        .nav-menu { display: flex; gap: 36px; /* 30px * 1.2 */ list-style: none; align-items: center; }
+        .nav-menu { display: flex; gap: 36px; list-style: none; align-items: center; }
 
         .nav-item > a {
             text-decoration: none;
             color: var(--text-main);
             font-family: var(--font-sans);
-            font-size: 15.6px; /* 13px * 1.2 */
+            font-size: 15.6px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.6px;
-            padding: 28.8px 0; /* 24px * 1.2 */
+            padding: 28.8px 0;
             display: block;
             border-bottom: 2px solid transparent;
         }
@@ -124,14 +124,14 @@
             top: 100%;
             right: 0;
             background: var(--card-bg);
-            min-width: 264px; /* 220px * 1.2 */
+            min-width: 264px;
             border: 1px solid var(--border);
-            padding: 18px; /* 15px * 1.2 */
+            padding: 18px;
             opacity: 0;
             visibility: hidden;
             transform: translateY(10px);
             transition: 0.3s;
-            box-shadow: 0 12px 36px rgba(0,0,0,0.1); /* 10px * 1.2 */
+            box-shadow: 0 12px 36px rgba(0,0,0,0.1);
             z-index: 1100;
         }
         .nav-item.config:hover .config-dropdown {
@@ -143,7 +143,7 @@
         #area-usuario,
         #area-usuario span.logged-user {
             font-family: var(--font-sans);
-            font-size: 14.4px; /* 12px * 1.2 */
+            font-size: 14.4px;
             font-weight: 700;
             text-transform: uppercase;
             color: var(--accent-news);
@@ -151,16 +151,16 @@
 
         .layout-article {
             max-width: var(--container-w);
-            margin: 48px auto; /* 40px * 1.2 */
+            margin: 48px auto;
             padding: 0 24px;
             display: grid;
-            grid-template-columns: 120px 1fr 360px; /* 100px, 300px * 1.2 */
-            gap: 48px; /* 40px * 1.2 */
+            grid-template-columns: 120px 1fr 360px;
+            gap: 48px;
         }
 
         .article-header-block {
             grid-column: 2 / 3;
-            margin-bottom: 36px; /* 30px * 1.2 */
+            margin-bottom: 36px;
         }
 
         .article-tag {
@@ -176,7 +176,7 @@
 
         .article-title {
             font-family: var(--font-serif);
-            font-size: 50.4px; /* 42px * 1.2 */
+            font-size: 50.4px;
             line-height: 1.15;
             font-weight: 700;
             color: var(--text-main);
@@ -186,11 +186,11 @@
 
         .article-deck {
             font-family: var(--font-serif);
-            font-size: 24px; /* 20px * 1.2 */
+            font-size: 24px;
             line-height: 1.5;
             color: var(--text-muted);
             font-weight: 400;
-            margin-bottom: 30px; /* 25px * 1.2 */
+            margin-bottom: 30px;
         }
 
         .article-meta-line {
@@ -215,7 +215,7 @@
         .article-hero-img {
             width: 100%;
             height: auto;
-            max-height: 480px; /* 400px * 1.2 */
+            max-height: 480px;
             object-fit: cover;
             margin: 0 auto;
             aspect-ratio: 16 / 9;
@@ -225,42 +225,44 @@
             font-family: var(--font-sans);
             font-size: 14.4px;
             color: var(--text-muted);
-            margin-top: 12px; /* 10px * 1.2 */
+            margin-top: 12px;
             text-align: left;
             border-bottom: 1px solid var(--border);
             padding-bottom: 12px;
             font-style: italic;
         }
 
+        /* ✅ Alteração principal: corpo do artigo */
         .article-body {
             grid-column: 2 / 3;
-            font-family: var(--font-serif);
+            font-family: var(--font-article-body); /* Bona Nova SC */
             font-size: 22.8px; /* 19px * 1.2 */
-            line-height: 1.8;
+            line-height: 1.6; /* ajustado para NYT */
             color: var(--text-main);
-            max-width: 864px; /* 720px * 1.2 */
+            /* Garante 5–7 palavras por linha */
+            max-width: 600px; /* ~65ch — ideal para NYT-style readability */
             margin: 0 auto;
         }
 
-        .article-body p { margin-bottom: 28.8px; /* 24px * 1.2 */ }
+        .article-body p { margin-bottom: 28.8px; }
         
         .article-body > p:first-of-type::first-letter {
             float: left;
-            font-size: 96px; /* 80px * 1.2 */
-            line-height: 81.6px; /* 68px * 1.2 */
+            font-size: 96px;
+            line-height: 81.6px;
             font-weight: 700;
-            margin-right: 14.4px; /* 12px * 1.2 */
-            margin-top: 4.8px; /* 4px * 1.2 */
+            margin-right: 14.4px;
+            margin-top: 4.8px;
             color: var(--text-main);
-            font-family: var(--font-serif);
+            font-family: var(--font-article-body);
         }
 
         .article-body h3 {
             font-family: var(--font-sans);
-            font-size: 26.4px; /* 22px * 1.2 */
+            font-size: 26.4px;
             font-weight: 700;
-            margin-top: 48px; /* 40px * 1.2 */
-            margin-bottom: 24px; /* 20px * 1.2 */
+            margin-top: 48px;
+            margin-bottom: 24px;
             counter-increment: section;
         }
         .article-body h3::before {
@@ -270,28 +272,28 @@
         }
 
         .blockquote-editorial {
-            margin: 48px 0; /* 40px * 1.2 */
-            padding-left: 24px; /* 20px * 1.2 */
+            margin: 48px 0;
+            padding-left: 24px;
             border-left: 3px solid var(--accent-news);
             font-style: italic;
-            font-size: 26.4px; /* 22px * 1.2 */
+            font-size: 26.4px;
             color: var(--text-main);
-            font-family: var(--font-serif);
+            font-family: var(--font-article-body);
             line-height: 1.6;
             font-weight: 400;
         }
 
         .social-sticky {
             position: sticky;
-            top: 120px; /* 100px * 1.2 */
+            top: 120px;
             display: flex;
             flex-direction: column;
-            gap: 18px; /* 15px * 1.2 */
+            gap: 18px;
             align-items: flex-start;
         }
 
         .share-btn {
-            width: 48px; /* 40px * 1.2 */
+            width: 48px;
             height: 48px;
             border-radius: 50%;
             border: none;
@@ -306,7 +308,7 @@
 
         .share-btn:hover { color: var(--accent-news); }
 
-        .sidebar-box { margin-bottom: 60px; /* 50px * 1.2 */ }
+        .sidebar-box { margin-bottom: 60px; }
         .sidebar-title {
             font-family: var(--font-sans);
             font-size: 14.4px;
@@ -322,7 +324,7 @@
             display: block;
             margin-bottom: 18px;
             font-family: var(--font-serif);
-            font-size: 18px; /* 15px * 1.2 */
+            font-size: 18px;
             color: var(--text-main);
             text-decoration: none;
             border-bottom: 1px solid var(--border);
@@ -337,7 +339,7 @@
             .nav-menu { display: none; }
             .layout-article {
                 display: block;
-                padding: 0 24px;
+                padding: 0 20px;
             }
             .article-header-block, .article-body { grid-column: auto; }
             .social-sticky {
@@ -347,20 +349,47 @@
                 justify-content: flex-start;
                 align-items: center;
             }
-            .article-title { font-size: 38.4px; /* 32px * 1.2 */ }
+            .article-title { font-size: 33.6px; line-height: 1.2; letter-spacing: -0.5px; margin-bottom: 16px; }
+            .article-deck { font-size: 21.6px; line-height: 1.4; margin-bottom: 24px; }
+            
+            /* ✅ Em mobile, ainda mais restrito para 5–7 palavras */
+            .article-body {
+                font-family: var(--font-article-body);
+                font-size: 18.7px; /* ~18–19px */
+                line-height: 1.55;
+                max-width: 100%; /* mas com padding implícito via layout */
+                margin: 0 auto;
+            }
+            .article-body p { margin-bottom: 21.6px; }
+            .article-body > p:first-of-type::first-letter {
+                font-size: 72px;
+                line-height: 61.2px;
+                margin-right: 12px;
+                margin-top: 3.6px;
+            }
+            .article-body h3 {
+                font-size: 21.6px;
+                margin-top: 36px;
+                margin-bottom: 18px;
+            }
+            .blockquote-editorial {
+                font-size: 21.6px;
+                margin: 36px 0;
+                padding-left: 18px;
+            }
+            
             .article-hero-wrapper { grid-column: auto; }
-            .article-hero-img { max-height: 360px; /* 300px * 1.2 */ aspect-ratio: auto; }
-            aside { margin-top: 72px; /* 60px * 1.2 */ border-top: 4px solid var(--text-main); padding-top: 48px; }
-            .article-body { max-width: none; margin: 0; }
+            .article-hero-img { max-height: 360px; aspect-ratio: auto; }
+            aside { margin-top: 72px; border-top: 4px solid var(--text-main); padding-top: 48px; }
         }
         
-        footer { border-top: 4px solid var(--text-main); padding: 72px 0; /* 60px * 1.2 */ margin-top: 96px; /* 80px * 1.2 */ text-align: center; }
+        footer { border-top: 4px solid var(--text-main); padding: 72px 0; margin-top: 96px; text-align: center; }
         .footer-logo { 
             font-family: var(--font-logo); 
-            font-size: 36px; /* 30px * 1.2 */
-            font-weight: normal; 
-            text-decoration: none; 
-            color: var(--text-main); 
+            font-size: 36px;
+            font-weight: normal;
+            text-decoration: none;
+            color: var(--text-main);
         }
         .footer-logo span {
             font-family: var(--font-serif);
@@ -372,7 +401,7 @@
             position: fixed;
             top: 0;
             left: 0;
-            height: 3.6px; /* 3px * 1.2 */
+            height: 3.6px;
             background: var(--primary);
             width: 0%;
             z-index: 1001;
@@ -381,9 +410,9 @@
 
         .back-to-top {
             position: fixed;
-            bottom: 36px; /* 30px * 1.2 */
+            bottom: 36px;
             right: 36px;
-            width: 52.8px; /* 44px * 1.2 */
+            width: 52.8px;
             height: 52.8px;
             background: var(--text-main);
             color: var(--bg);
@@ -392,12 +421,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 21.6px; /* 18px * 1.2 */
+            font-size: 21.6px;
             cursor: pointer;
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.3s, transform 0.3s;
-            box-shadow: 0 2.4px 9.6px rgba(0,0,0,0.2); /* 2px, 8px * 1.2 */
+            box-shadow: 0 2.4px 9.6px rgba(0,0,0,0.2);
         }
         .back-to-top.show {
             opacity: 1;
@@ -638,7 +667,7 @@
             const scrolled = (winScroll / height) * 100;
             if (bar) bar.style.width = scrolled + "%";
             if (backToTop) {
-                if (winScroll > 480) { /* 400 * 1.2 */
+                if (winScroll > 480) {
                     backToTop.classList.add('show');
                 } else {
                     backToTop.classList.remove('show');
