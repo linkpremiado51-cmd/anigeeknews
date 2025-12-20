@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>V𝙸𝙻𝙻𝙰𝙶𝙴 𝚂𝙷𝙸𝙿𝙿𝙰𝙽 𝙽𝙴𝚆𝚂 | Jornalismo Geek</title>
+    <title>Village Shippan News | Jornalismo Geek</title>
 
     <!-- Preconnect para Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -122,13 +122,33 @@
             padding: 0 20px;
         }
 
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--accent-news);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            font-weight: bold;
+        }
+
         .logo {
             font-family: var(--font-logo);
-            font-size: 26px;
+            font-size: 22px; /* Diminuído para caber melhor no header */
             font-weight: normal;
             text-decoration: none;
             color: var(--text-main);
-            letter-spacing: -1px;
+            letter-spacing: -0.8px;
+            white-space: nowrap;
         }
 
         .logo span {
@@ -317,6 +337,7 @@
             .main-text-content h1 { font-size: 26px; }
             .post-card { grid-template-columns: 1fr; gap: 15px; }
             .post-img-wrapper { height: 200px; }
+            .logo { font-size: 20px; } /* Ainda menor em mobile */
         }
     </style>
 </head>
@@ -329,7 +350,10 @@
                 <i class="fas fa-bars" style="font-size:18px;"></i> SEÇÕES
             </button>
 
-            <a href="/anigeeknews/index.html" class="logo">V𝙸𝙻𝙻𝙰𝙶𝙴 𝚂𝙷𝙸𝙿𝙿𝙰𝙽 𝙽𝙴𝚆𝚂<span></span></a>
+            <a href="/anigeeknews/index.html" class="logo-container">
+                <div class="logo-icon">VS</div>
+                <div class="logo">Village Shippan News</div>
+            </a>
             
             <ul class="nav-menu" id="navMenu">
                 <li class="nav-item"><a href="#">Animes</a></li>
@@ -356,6 +380,8 @@
             </button>
         </div>
     </header>
+
+    <!-- Todo o restante do código permanece exatamente igual (não foi removido nada) -->
 
     <div id="megaMenuContainer"></div>
 
@@ -485,9 +511,9 @@
 
     <footer>
         <div style="max-width: var(--container-w); margin: 0 auto;">
-            <a href="/anigeeknews/index.html" class="footer-logo">AniGeek<span>News</span></a>
+            <a href="/anigeeknews/index.html" class="footer-logo">Village Shippan<span>News</span></a>
             <p class="footer-tagline">Jornalismo independente sobre cultura pop e tecnologia.</p>
-            <div style="margin-top: 40px; font-family: var(--font-sans); font-size: 11px; color: var(--text-muted);">© 2025 AniGeekNews.</div>
+            <div style="margin-top: 40px; font-family: var(--font-sans); font-size: 11px; color: var(--text-muted);">© 2025 Village Shippan News.</div>
         </div>
     </footer>
 
@@ -566,5 +592,3 @@
     </script>
 </body>
 </html>
-
-
