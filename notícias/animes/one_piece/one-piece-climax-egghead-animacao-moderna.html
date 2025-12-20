@@ -6,7 +6,7 @@
     <title>One Piece: O clímax de Egghead redefine a animação moderna | AniGeekNews</title>
     <meta name="description" content="Uma análise aprofundada da revolução visual do arco Egghead em One Piece, com base em entrevistas, técnicas de animação e contexto histórico da indústria.">
 
-    <!-- Preconnect e Fonts otimizadas para NYT style -->
+    <!-- Preconnect e Fonts otimizadas -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Georgia&family=Helvetica+Neue:wght@400;700&family=Aldrich&display=swap" rel="stylesheet">
@@ -69,8 +69,7 @@
         header {
             background: var(--bg);
             border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 0;
+            position: relative;
             z-index: 1000;
         }
 
@@ -153,9 +152,9 @@
             color: var(--primary);
         }
 
-        .layout-article {
+        main.layout-article {
             max-width: var(--container-w);
-            margin: 60px auto;
+            margin: 90px auto 60px; /* margem superior maior para compensar header fixo removido */
             padding: 0 20px;
             display: grid;
             grid-template-columns: 80px 1fr 300px;
@@ -165,6 +164,7 @@
         .article-header-block {
             grid-column: 2 / 3;
             margin-bottom: 30px;
+            padding-top: 20px;
         }
 
         .article-tag {
@@ -282,6 +282,29 @@
             line-height: 1.6;
         }
 
+        .social-sticky {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .share-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f0f0f0;
+            color: var(--nyt-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .share-btn:hover {
+            background: var(--text-main);
+            color: var(--bg);
+        }
+
         .sidebar-title {
             font-family: var(--font-sans);
             font-size: 11.05px;
@@ -305,6 +328,11 @@
             text-decoration: none;
             padding-bottom: 10px;
             border-bottom: 1px solid var(--border);
+        }
+
+        .related-link:hover,
+        .editorial-recommendation:hover {
+            color: var(--primary);
         }
 
         .source-list {
@@ -346,6 +374,7 @@
             background: var(--primary);
             width: 0%;
             z-index: 1001;
+            transition: width 0.3s ease;
         }
 
         .back-to-top {
@@ -363,7 +392,7 @@
             font-size: 15.3px;
             opacity: 0;
             visibility: hidden;
-            transition: 0.3s;
+            transition: opacity 0.3s, visibility 0.3s;
             box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
 
@@ -374,12 +403,12 @@
 
         @media (max-width: 900px) {
             .nav-menu { display: none; }
-            .layout-article {
+            main.layout-article {
                 display: block;
                 padding: 0 20px;
+                margin-top: 80px;
             }
             .social-sticky {
-                position: static;
                 flex-direction: row;
                 margin-bottom: 30px;
                 justify-content: center;
@@ -393,16 +422,16 @@
     </style>
 </head>
 <body>
-    <div id="progress-bar"></div>
-    <button class="back-to-top" id="backToTop" onclick="scrollToTop()"><i class="fas fa-arrow-up"></i></button>
+    <div id="progress-bar" aria-hidden="true"></div>
+    <button class="back-to-top" id="backToTop" aria-label="Voltar ao topo" onclick="scrollToTop()"><i class="fas fa-arrow-up"></i></button>
 
     <header>
         <div class="nav-container">
-            <button onclick="if(window.abrirMegaMenu) window.abrirMegaMenu()" style="background:none;border:none;color:var(--text-main);font-family:var(--font-sans);font-size:10.2px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px;text-transform:uppercase;letter-spacing:1px;">
+            <button onclick="if(window.abrirMegaMenu) window.abrirMegaMenu()" style="background:none;border:none;color:var(--text-main);font-family:var(--font-sans);font-size:10.2px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px;text-transform:uppercase;letter-spacing:1px;" aria-label="Abrir menu de seções">
                 <i class="fas fa-bars" style="font-size:15.3px;"></i> SEÇÕES
             </button>
 
-            <a href="/anigeeknews/index.html" class="logo">AniGeek<span>News</span></a>
+            <a href="/anigeeknews/index.html" class="logo" aria-label="Página inicial AniGeekNews">AniGeek<span>News</span></a>
             
             <ul class="nav-menu">
                 <li class="nav-item"><a href="#">Animes</a></li>
@@ -411,12 +440,12 @@
                 <li class="nav-item"><a href="#">Cinema</a></li>
                 <li class="nav-item" id="area-usuario"><span>Verificando...</span></li>
                 <li class="nav-item config" style="position:relative;">
-                    <a href="#"><i class="fas fa-cog"></i></a>
-                    <div class="config-dropdown">
+                    <a href="#" aria-label="Configurações"><i class="fas fa-cog"></i></a>
+                    <div class="config-dropdown" role="menu">
                         <div class="theme-toggle-container">
                             <span style="font-family:var(--font-sans);font-size:11.05px;">Tema Escuro</span>
                             <label class="theme-toggle">
-                                <input type="checkbox" id="headerThemeToggle">
+                                <input type="checkbox" id="headerThemeToggle" aria-label="Ativar tema escuro">
                                 <span class="slider"></span>
                             </label>
                         </div>
@@ -428,16 +457,16 @@
 
     <div id="megaMenuContainer"></div>
 
-    <div class="layout-article">
-        <div class="social-sticky">
-            <button class="share-btn"><i class="fab fa-facebook-f"></i></button>
-            <button class="share-btn"><i class="fab fa-twitter"></i></button>
-            <button class="share-btn"><i class="fab fa-whatsapp"></i></button>
-            <button class="share-btn"><i class="far fa-bookmark"></i></button>
+    <main class="layout-article">
+        <div class="social-sticky" aria-label="Compartilhar artigo">
+            <button class="share-btn" aria-label="Compartilhar no Facebook"><i class="fab fa-facebook-f"></i></button>
+            <button class="share-btn" aria-label="Compartilhar no Twitter"><i class="fab fa-twitter"></i></button>
+            <button class="share-btn" aria-label="Compartilhar no WhatsApp"><i class="fab fa-whatsapp"></i></button>
+            <button class="share-btn" aria-label="Salvar artigo"><i class="far fa-bookmark"></i></button>
         </div>
 
-        <article style="display: contents;">
-            <div class="article-header-block">
+        <article>
+            <header class="article-header-block">
                 <span class="article-tag">Análise de Capa • Animação</span>
                 <h1 class="article-title">One Piece: O clímax de Egghead redefine a animação moderna</h1>
                 <p class="article-deck">A direção de arte arriscada sacrifica a consistência visual tradicional em prol de um impacto narrativo visceral. Por que essa foi a decisão correta para o futuro da franquia.</p>
@@ -447,23 +476,23 @@
                         Por <strong>Takashi Mendes</strong>, Crítico de Animação
                     </div>
                     <div class="date-block">
-                        17 Dez, 2025 • Tempo de leitura: 4 minutos
+                        <time datetime="2025-12-17">17 Dez, 2025</time> • Tempo de leitura: 4 minutos
                     </div>
                 </div>
-            </div>
+            </header>
 
-            <div class="article-hero-wrapper">
+            <figure class="article-hero-wrapper">
                 <img src="https://i.postimg.cc/tJRdyv1W/GYBm-WMob0AA3xf-Z.jpg" 
-                     alt="Luffy Gear 5 em Egghead" 
+                     alt="Luffy em Gear 5 durante o arco Egghead, com traços fluidos e distorcidos característicos da nova direção de arte da Toei Animation." 
                      class="article-hero-img"
                      loading="lazy"
                      decoding="async">
-                <div class="img-caption">
+                <figcaption class="img-caption">
                     Cena do episódio 1120: O uso de contornos fluidos marca a nova era visual da Toei Animation. (Foto: Reprodução/Toei)
-                </div>
-            </div>
+                </figcaption>
+            </figure>
 
-            <div class="article-body">
+            <section class="article-body">
                 <p>Há algo de profundamente inquietante e, ao mesmo tempo, hipnótico nos episódios mais recentes de <em>One Piece</em>. Se durante o arco de Wano fomos presenteados com uma opulência visual baseada em filtros de pós-produção e linhas grossas reminiscentes do teatro Kabuki, o arco de Egghead — a ilha do futuro — decidiu caminhar na direção oposta: a desconstrução.</p>
 
                 <p>A decisão da Toei Animation de entregar as chaves do reino a diretores da "Webgen" (geração de animadores que surgiram na internet) não é apenas uma mudança estética; é uma declaração de intenções. O episódio da semana passada não apenas adaptou o mangá de Eiichiro Oda; ele o reinterpretou através de uma lente psicodélica que prioriza o movimento sobre o modelo.</p>
@@ -494,7 +523,7 @@
 
                 <p>O resultado é uma obra híbrida: ao mesmo tempo fiel ao espírito do mangá e ousadamente contemporânea. Enquanto o Wit Studio promete um remake fiel à atmosfera de 1999, a Toei aposta no futuro — e o futuro é fluido, caótico e vivo.</p>
 
-                <div class="source-list">
+                <section class="source-list">
                     <h4>Fontes</h4>
                     <ol>
                         <li>Nagamine, T. (2024). <em>Interview: The Animation Revolution of Egghead</em>. Anime News Network.</li>
@@ -503,11 +532,11 @@
                         <li>Toei Animation. (2024). <em>Production Notes – One Piece Episode 1120</em>. Internal Press Release.</li>
                         <li>Matsumoto, K. (2024). <em>From Webgen to Mainstream: The New Wave of Anime Directors</em>. Crunchyroll News.</li>
                     </ol>
-                </div>
-            </div>
+                </section>
+            </section>
         </article>
 
-        <aside>
+        <aside aria-label="Conteúdo relacionado e newsletter">
             <div class="sidebar-box">
                 <h4 class="sidebar-title">Relacionado a One Piece</h4>
                 <a href="#" class="related-link">Eiichiro Oda comenta sobre o final: "Está mais perto do que pensam".</a>
@@ -534,30 +563,29 @@
             <div class="sidebar-box">
                 <h4 class="sidebar-title">Newsletter</h4>
                 <p style="font-family:var(--font-sans);font-size:11.9px;color:var(--text-muted);margin-bottom:15px;">Receba análises profundas como esta toda sexta-feira.</p>
-                <div style="display:flex;gap:10px;">
-                    <input type="email" placeholder="Email" style="flex:1;padding:12px;border:1px solid var(--border);background:var(--bg);color:var(--text-main);font-family:var(--font-sans);">
-                    <button style="background:var(--text-main);color:var(--bg);border:none;padding:0 20px;font-family:var(--font-sans);font-weight:bold;cursor:pointer;">OK</button>
-                </div>
+                <form style="display:flex;gap:10px;" aria-label="Assinar newsletter">
+                    <input type="email" placeholder="Email" aria-label="Seu email" style="flex:1;padding:12px;border:1px solid var(--border);background:var(--bg);color:var(--text-main);font-family:var(--font-sans);" required>
+                    <button type="submit" style="background:var(--text-main);color:var(--bg);border:none;padding:0 20px;font-family:var(--font-sans);font-weight:bold;cursor:pointer;">OK</button>
+                </form>
             </div>
             
             <div style="text-align:center;margin:50px 0;">
                 <p style="font-family:var(--font-sans);font-size:8.5px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Publicidade</p>
-                <div style="width:100%;height:300px;background:var(--bg);border:1px solid var(--border);"></div>
+                <div style="width:100%;height:300px;background:var(--bg);border:1px solid var(--border);" aria-hidden="true"></div>
             </div>
         </aside>
-    </div>
+    </main>
 
     <footer>
         <div style="max-width:var(--container-w);margin:0 auto;">
             <a href="/anigeeknews/index.html" class="footer-logo">AniGeek<span>News</span></a>
             <p style="font-family:Georgia,serif;font-style:italic;color:var(--text-muted);font-size:17px;margin:20px 0;">Jornalismo independente sobre cultura pop.</p>
             <div style="font-family:var(--font-sans);font-size:10.2px;color:var(--text-muted);">
-                © 2025 AniGeekNews Media Group.
+                © 2025 AniGeekNews Media Group. Todos os direitos reservados.
             </div>
         </div>
     </footer>
 
-    <!-- Structured Data e Scripts externos mantidos intactos -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -566,10 +594,10 @@
       "description": "Uma análise aprofundada da revolução visual do arco Egghead em One Piece, com base em entrevistas, técnicas de animação e contexto histórico da indústria.",
       "image": "https://i.postimg.cc/tJRdyv1W/GYBm-WMob0AA3xf-Z.jpg",
       "author": { "@type": "Person", "name": "Takashi Mendes" },
-      "publisher": { "@type": "Organization", "name": "AniGeekNews" },
+      "publisher": { "@type": "Organization", "name": "AniGeekNews", "logo": { "@type": "ImageObject", "url": "https://anigeeknews.com/logo.png" } },
       "datePublished": "2025-12-17T00:00:00+00:00",
       "dateModified": "2025-12-17T00:00:00+00:00",
-      "estimatedReadingTime": "PT4M"
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://anigeeknews.com/one-piece-egghead-analise" }
     }
     </script>
 
