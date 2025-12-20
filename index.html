@@ -120,34 +120,56 @@
             align-items: center;
             justify-content: space-between;
             padding: 0 20px;
+            position: relative;
+        }
+
+        /* Botão SEÇÕES mantido, mas sem o texto "SEÇÕES" (só o ícone) */
+        .sections-btn {
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Logo centralizado */
+        .logo-wrapper {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .logo-container {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
         .logo-icon {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             background: var(--accent-news);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 22px;
             color: white;
             font-weight: bold;
         }
 
         .logo {
             font-family: var(--font-logo);
-            font-size: 22px; /* Diminuído para caber melhor no header */
+            font-size: 13.2px; /* 22px × 0.6 = 13.2px (reduzido 40% para ficar pequeno, mas legível) */
             font-weight: normal;
             text-decoration: none;
             color: var(--text-main);
-            letter-spacing: -0.8px;
+            letter-spacing: -0.6px;
             white-space: nowrap;
         }
 
@@ -331,13 +353,14 @@
         @media (max-width: 900px) {
             .nav-menu { display: none; }
             .menu-toggle { display: block; }
+            .logo-wrapper { position: static; transform: none; margin: 0 auto; } /* Centraliza no mobile também */
+            .logo { font-size: 12px; }
             .hero { grid-template-columns: 1fr; gap: 20px; padding: 0 15px; margin: 20px auto; }
             .layout { grid-template-columns: 1fr; gap: 40px; padding: 0 15px; }
             .main-feat-img-box { height: 280px; }
             .main-text-content h1 { font-size: 26px; }
             .post-card { grid-template-columns: 1fr; gap: 15px; }
             .post-img-wrapper { height: 200px; }
-            .logo { font-size: 20px; } /* Ainda menor em mobile */
         }
     </style>
 </head>
@@ -346,15 +369,20 @@
 
     <header>
         <div class="nav-container">
-            <button onclick="if(window.abrirMegaMenu) window.abrirMegaMenu()" style="background:none; border:none; color:var(--text-main); font-family:var(--font-sans); font-size:12px; font-weight:800; cursor:pointer; display:flex; align-items:center; gap:8px; text-transform:uppercase; letter-spacing:1px;">
-                <i class="fas fa-bars" style="font-size:18px;"></i> SEÇÕES
+            <!-- Botão de menu à esquerda (só ícone, sem texto "SEÇÕES") -->
+            <button class="sections-btn" onclick="if(window.abrirMegaMenu) window.abrirMegaMenu()">
+                <i class="fas fa-bars"></i>
             </button>
 
-            <a href="/anigeeknews/index.html" class="logo-container">
-                <div class="logo-icon">VS</div>
-                <div class="logo">Village Shippan News</div>
-            </a>
-            
+            <!-- Logo centralizado (pequeno) -->
+            <div class="logo-wrapper">
+                <a href="/anigeeknews/index.html" class="logo-container">
+                    <div class="logo-icon">VS</div>
+                    <div class="logo">Village Shippan News</div>
+                </a>
+            </div>
+
+            <!-- Menu principal à direita -->
             <ul class="nav-menu" id="navMenu">
                 <li class="nav-item"><a href="#">Animes</a></li>
                 <li class="nav-item"><a href="#">Games</a></li>
@@ -375,14 +403,14 @@
                 </li>
             </ul>
 
+            <!-- Menu hambúrguer mobile (à direita) -->
             <button class="menu-toggle" onclick="toggleMobileMenu()">
                 <i class="fas fa-bars"></i>
             </button>
         </div>
     </header>
 
-    <!-- Todo o restante do código permanece exatamente igual (não foi removido nada) -->
-
+    <!-- Todo o restante do código permanece exatamente igual -->
     <div id="megaMenuContainer"></div>
 
     <div class="search-bar">
