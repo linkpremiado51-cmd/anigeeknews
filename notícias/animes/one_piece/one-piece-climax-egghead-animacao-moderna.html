@@ -14,7 +14,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         :root {
-            /* ✅ Tudo 20% maior que o original */
             --nyt-black: #121212;
             --nyt-ink: #202020;
             --nyt-gray-dark: #666;
@@ -32,14 +31,14 @@
             --border: #ddd;
             --img-filter: grayscale(15%) contrast(95%) sepia(5%);
             --img-hover: grayscale(0%) contrast(100%) sepia(0%);
-            --header-h: 84px;
+            --header-h: 75.6px; /* 84px * 0.9 */
             --container-w: 1440px;
             --ease-editorial: cubic-bezier(0.25, 0.46, 0.45, 0.94);
             --duration: 0.4s;
             --font-serif: 'Libertinus Serif Display', serif;
             --font-sans: 'Oxanium', sans-serif;
             --font-logo: 'Aldrich', sans-serif;
-            --font-article-body: 'Bona Nova SC', serif; /* ✅ Nova fonte para o corpo do texto */
+            --font-article-body: 'Bona Nova SC', serif;
         }
 
         body.dark-mode {
@@ -85,16 +84,16 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 24px;
+            padding: 0 21.6px; /* 24px * 0.9 */
         }
 
         .logo {
             font-family: var(--font-logo);
-            font-size: 31.2px;
+            font-size: 28.08px; /* 31.2 * 0.9 → ~28px */
             font-weight: normal;
             text-decoration: none;
             color: var(--text-main);
-            letter-spacing: -1.2px;
+            letter-spacing: -1.08px;
         }
 
         .logo span {
@@ -103,17 +102,17 @@
             font-weight: 400;
         }
 
-        .nav-menu { display: flex; gap: 36px; list-style: none; align-items: center; }
+        .nav-menu { display: flex; gap: 32.4px; /* 36px * 0.9 */ list-style: none; align-items: center; }
 
         .nav-item > a {
             text-decoration: none;
             color: var(--text-main);
             font-family: var(--font-sans);
-            font-size: 15.6px;
+            font-size: 14.04px; /* 15.6 * 0.9 → ~14px */
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.6px;
-            padding: 28.8px 0;
+            letter-spacing: 0.54px;
+            padding: 25.92px 0; /* 28.8 * 0.9 */
             display: block;
             border-bottom: 2px solid transparent;
         }
@@ -124,14 +123,14 @@
             top: 100%;
             right: 0;
             background: var(--card-bg);
-            min-width: 264px;
+            min-width: 237.6px; /* 264 * 0.9 */
             border: 1px solid var(--border);
-            padding: 18px;
+            padding: 16.2px; /* 18 * 0.9 */
             opacity: 0;
             visibility: hidden;
             transform: translateY(10px);
             transition: 0.3s;
-            box-shadow: 0 12px 36px rgba(0,0,0,0.1);
+            box-shadow: 0 10.8px 32.4px rgba(0,0,0,0.1); /* 12px, 36px * 0.9 */
             z-index: 1100;
         }
         .nav-item.config:hover .config-dropdown {
@@ -143,7 +142,7 @@
         #area-usuario,
         #area-usuario span.logged-user {
             font-family: var(--font-sans);
-            font-size: 14.4px;
+            font-size: 12.96px; /* 14.4 * 0.9 → ~13px */
             font-weight: 700;
             text-transform: uppercase;
             color: var(--accent-news);
@@ -151,46 +150,46 @@
 
         .layout-article {
             max-width: var(--container-w);
-            margin: 48px auto;
-            padding: 0 24px;
+            margin: 43.2px auto; /* 48 * 0.9 */
+            padding: 0 21.6px; /* 24 * 0.9 */
             display: grid;
-            grid-template-columns: 120px 1fr 360px;
-            gap: 48px;
+            grid-template-columns: 108px 1fr 324px; /* 120, 360 * 0.9 */
+            gap: 43.2px; /* 48 * 0.9 */
         }
 
         .article-header-block {
             grid-column: 2 / 3;
-            margin-bottom: 36px;
+            margin-bottom: 32.4px; /* 36 * 0.9 */
         }
 
         .article-tag {
             font-family: var(--font-sans);
-            font-size: 14.4px;
+            font-size: 12.96px; /* ~13px */
             font-weight: 800;
             color: var(--accent-news);
             text-transform: uppercase;
-            letter-spacing: 1.2px;
-            margin-bottom: 18px;
+            letter-spacing: 1.08px;
+            margin-bottom: 16.2px; /* 18 * 0.9 */
             display: block;
         }
 
         .article-title {
             font-family: var(--font-serif);
-            font-size: 50.4px;
+            font-size: 45.36px; /* 50.4 * 0.9 → ~45px */
             line-height: 1.15;
             font-weight: 700;
             color: var(--text-main);
-            margin-bottom: 18px;
-            letter-spacing: -0.6px;
+            margin-bottom: 16.2px;
+            letter-spacing: -0.54px;
         }
 
         .article-deck {
             font-family: var(--font-serif);
-            font-size: 24px;
+            font-size: 21.6px; /* 24 * 0.9 */
             line-height: 1.5;
             color: var(--text-muted);
             font-weight: 400;
-            margin-bottom: 30px;
+            margin-bottom: 27px; /* 30 * 0.9 */
         }
 
         .article-meta-line {
@@ -199,9 +198,9 @@
             justify-content: space-between;
             border-top: 1px solid var(--border);
             border-bottom: 1px solid var(--border);
-            padding: 18px 0;
+            padding: 16.2px 0; /* 18 * 0.9 */
             font-family: var(--font-sans);
-            font-size: 15.6px;
+            font-size: 14.04px; /* ~14px */
             color: var(--text-main);
         }
 
@@ -209,13 +208,13 @@
 
         .article-hero-wrapper {
             grid-column: 1 / 4;
-            margin-bottom: 48px;
+            margin-bottom: 43.2px;
         }
 
         .article-hero-img {
             width: 100%;
             height: auto;
-            max-height: 480px;
+            max-height: 432px; /* 480 * 0.9 */
             object-fit: cover;
             margin: 0 auto;
             aspect-ratio: 16 / 9;
@@ -223,46 +222,44 @@
 
         .img-caption {
             font-family: var(--font-sans);
-            font-size: 14.4px;
+            font-size: 12.96px; /* ~13px */
             color: var(--text-muted);
-            margin-top: 12px;
+            margin-top: 10.8px; /* 12 * 0.9 */
             text-align: left;
             border-bottom: 1px solid var(--border);
-            padding-bottom: 12px;
+            padding-bottom: 10.8px;
             font-style: italic;
         }
 
-        /* ✅ Alteração principal: corpo do artigo */
         .article-body {
             grid-column: 2 / 3;
-            font-family: var(--font-article-body); /* Bona Nova SC */
-            font-size: 22.8px; /* 19px * 1.2 */
-            line-height: 1.6; /* ajustado para NYT */
+            font-family: var(--font-article-body);
+            font-size: 20.52px; /* 22.8 * 0.9 → ~20.5px */
+            line-height: 1.6;
             color: var(--text-main);
-            /* Garante 5–7 palavras por linha */
-            max-width: 600px; /* ~65ch — ideal para NYT-style readability */
+            max-width: 540px; /* 600 * 0.9 */
             margin: 0 auto;
         }
 
-        .article-body p { margin-bottom: 28.8px; }
+        .article-body p { margin-bottom: 25.92px; /* 28.8 * 0.9 */ }
         
         .article-body > p:first-of-type::first-letter {
             float: left;
-            font-size: 96px;
-            line-height: 81.6px;
+            font-size: 86.4px; /* 96 * 0.9 */
+            line-height: 73.44px; /* 81.6 * 0.9 */
             font-weight: 700;
-            margin-right: 14.4px;
-            margin-top: 4.8px;
+            margin-right: 12.96px; /* 14.4 * 0.9 */
+            margin-top: 4.32px; /* 4.8 * 0.9 */
             color: var(--text-main);
             font-family: var(--font-article-body);
         }
 
         .article-body h3 {
             font-family: var(--font-sans);
-            font-size: 26.4px;
+            font-size: 23.76px; /* 26.4 * 0.9 → ~24px */
             font-weight: 700;
-            margin-top: 48px;
-            margin-bottom: 24px;
+            margin-top: 43.2px; /* 48 * 0.9 */
+            margin-bottom: 21.6px; /* 24 * 0.9 */
             counter-increment: section;
         }
         .article-body h3::before {
@@ -272,11 +269,11 @@
         }
 
         .blockquote-editorial {
-            margin: 48px 0;
-            padding-left: 24px;
+            margin: 43.2px 0; /* 48 * 0.9 */
+            padding-left: 21.6px; /* 24 * 0.9 */
             border-left: 3px solid var(--accent-news);
             font-style: italic;
-            font-size: 26.4px;
+            font-size: 23.76px; /* ~24px */
             color: var(--text-main);
             font-family: var(--font-article-body);
             line-height: 1.6;
@@ -285,16 +282,16 @@
 
         .social-sticky {
             position: sticky;
-            top: 120px;
+            top: 108px; /* 120 * 0.9 */
             display: flex;
             flex-direction: column;
-            gap: 18px;
+            gap: 16.2px; /* 18 * 0.9 */
             align-items: flex-start;
         }
 
         .share-btn {
-            width: 48px;
-            height: 48px;
+            width: 43.2px; /* 48 * 0.9 */
+            height: 43.2px;
             border-radius: 50%;
             border: none;
             background: transparent;
@@ -308,27 +305,27 @@
 
         .share-btn:hover { color: var(--accent-news); }
 
-        .sidebar-box { margin-bottom: 60px; }
+        .sidebar-box { margin-bottom: 54px; /* 60 * 0.9 */ }
         .sidebar-title {
             font-family: var(--font-sans);
-            font-size: 14.4px;
+            font-size: 12.96px; /* ~13px */
             font-weight: 800;
             border-top: 1px solid var(--text-main);
-            padding-top: 12px;
-            margin-bottom: 24px;
+            padding-top: 10.8px;
+            margin-bottom: 21.6px;
             text-transform: uppercase;
         }
 
         .related-link,
         .editorial-recommendation {
             display: block;
-            margin-bottom: 18px;
+            margin-bottom: 16.2px; /* 18 * 0.9 */
             font-family: var(--font-serif);
-            font-size: 18px;
+            font-size: 16.2px; /* 18 * 0.9 */
             color: var(--text-main);
             text-decoration: none;
             border-bottom: 1px solid var(--border);
-            padding-bottom: 12px;
+            padding-bottom: 10.8px;
         }
         .related-link:hover,
         .editorial-recommendation:hover {
@@ -345,48 +342,51 @@
             .social-sticky {
                 position: static;
                 flex-direction: row;
-                margin-bottom: 24px;
+                margin-bottom: 21.6px; /* 24 * 0.9 */
                 justify-content: flex-start;
                 align-items: center;
             }
-            .article-title { font-size: 33.6px; line-height: 1.2; letter-spacing: -0.5px; margin-bottom: 16px; }
-            .article-deck { font-size: 21.6px; line-height: 1.4; margin-bottom: 24px; }
+            .article-title { font-size: 30.24px; /* 33.6 * 0.9 → ~30px */ }
+            .article-deck { font-size: 19.44px; /* 21.6 * 0.9 → ~19px */ }
             
-            /* ✅ Em mobile, ainda mais restrito para 5–7 palavras */
             .article-body {
-                font-family: var(--font-article-body);
-                font-size: 18.7px; /* ~18–19px */
+                font-size: 16.83px; /* 18.7 * 0.9 → ~17px */
                 line-height: 1.55;
-                max-width: 100%; /* mas com padding implícito via layout */
+                max-width: 100%;
                 margin: 0 auto;
             }
-            .article-body p { margin-bottom: 21.6px; }
+            .article-body p { margin-bottom: 19.44px; /* 21.6 * 0.9 */ }
             .article-body > p:first-of-type::first-letter {
-                font-size: 72px;
-                line-height: 61.2px;
-                margin-right: 12px;
-                margin-top: 3.6px;
+                font-size: 64.8px; /* 72 * 0.9 */
+                line-height: 55.08px; /* 61.2 * 0.9 */
+                margin-right: 10.8px;
+                margin-top: 3.24px; /* 3.6 * 0.9 */
             }
             .article-body h3 {
-                font-size: 21.6px;
-                margin-top: 36px;
-                margin-bottom: 18px;
+                font-size: 19.44px; /* 21.6 * 0.9 */
+                margin-top: 32.4px; /* 36 * 0.9 */
+                margin-bottom: 16.2px;
             }
             .blockquote-editorial {
-                font-size: 21.6px;
-                margin: 36px 0;
-                padding-left: 18px;
+                font-size: 19.44px;
+                margin: 32.4px 0;
+                padding-left: 16.2px;
             }
             
             .article-hero-wrapper { grid-column: auto; }
-            .article-hero-img { max-height: 360px; aspect-ratio: auto; }
-            aside { margin-top: 72px; border-top: 4px solid var(--text-main); padding-top: 48px; }
+            .article-hero-img { max-height: 324px; /* 360 * 0.9 */ }
+            aside { margin-top: 64.8px; /* 72 * 0.9 */ padding-top: 43.2px; }
         }
         
-        footer { border-top: 4px solid var(--text-main); padding: 72px 0; margin-top: 96px; text-align: center; }
+        footer {
+            border-top: 4px solid var(--text-main);
+            padding: 64.8px 0; /* 72 * 0.9 */
+            margin-top: 86.4px; /* 96 * 0.9 */
+            text-align: center;
+        }
         .footer-logo { 
             font-family: var(--font-logo); 
-            font-size: 36px;
+            font-size: 32.4px; /* 36 * 0.9 */
             font-weight: normal;
             text-decoration: none;
             color: var(--text-main);
@@ -401,7 +401,7 @@
             position: fixed;
             top: 0;
             left: 0;
-            height: 3.6px;
+            height: 3.24px; /* 3.6 * 0.9 */
             background: var(--primary);
             width: 0%;
             z-index: 1001;
@@ -410,10 +410,10 @@
 
         .back-to-top {
             position: fixed;
-            bottom: 36px;
-            right: 36px;
-            width: 52.8px;
-            height: 52.8px;
+            bottom: 32.4px; /* 36 * 0.9 */
+            right: 32.4px;
+            width: 47.52px; /* 52.8 * 0.9 */
+            height: 47.52px;
             background: var(--text-main);
             color: var(--bg);
             border: none;
@@ -421,38 +421,38 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 21.6px;
+            font-size: 19.44px; /* 21.6 * 0.9 */
             cursor: pointer;
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.3s, transform 0.3s;
-            box-shadow: 0 2.4px 9.6px rgba(0,0,0,0.2);
+            box-shadow: 0 2.16px 8.64px rgba(0,0,0,0.2); /* 2.4, 9.6 * 0.9 */
         }
         .back-to-top.show {
             opacity: 1;
             visibility: visible;
         }
         .back-to-top:hover {
-            transform: translateY(-2.4px);
+            transform: translateY(-2.16px);
             background: var(--accent-news);
         }
 
         .source-list {
-            margin-top: 48px;
-            padding-top: 36px;
+            margin-top: 43.2px; /* 48 * 0.9 */
+            padding-top: 32.4px; /* 36 * 0.9 */
             border-top: 1px solid var(--border);
-            font-size: 18px;
+            font-size: 16.2px; /* 18 * 0.9 */
         }
         .source-list h4 {
             font-family: var(--font-sans);
             font-weight: 800;
-            margin-bottom: 18px;
+            margin-bottom: 16.2px;
             text-transform: uppercase;
-            font-size: 15.6px;
-            letter-spacing: 1.2px;
+            font-size: 14.04px; /* ~14px */
+            letter-spacing: 1.08px;
         }
-        .source-list ol { padding-left: 24px; }
-        .source-list li { margin-bottom: 14.4px; line-height: 1.6; }
+        .source-list ol { padding-left: 21.6px; }
+        .source-list li { margin-bottom: 12.96px; line-height: 1.6; }
     </style>
 </head>
 <body>
@@ -462,8 +462,8 @@
 
     <header>
         <div class="nav-container">
-            <button onclick="if(window.abrirMegaMenu) window.abrirMegaMenu()" style="background:none; border:none; color:var(--text-main); font-family:var(--font-sans); font-size:14.4px; font-weight:800; cursor:pointer; display:flex; align-items:center; gap:9.6px; text-transform:uppercase; letter-spacing:1.2px;">
-                <i class="fas fa-bars" style="font-size:21.6px;"></i> SEÇÕES
+            <button onclick="if(window.abrirMegaMenu) window.abrirMegaMenu()" style="background:none; border:none; color:var(--text-main); font-family:var(--font-sans); font-size:12.96px; font-weight:800; cursor:pointer; display:flex; align-items:center; gap:8.64px; text-transform:uppercase; letter-spacing:1.08px;">
+                <i class="fas fa-bars" style="font-size:19.44px;"></i> SEÇÕES
             </button>
 
             <a href="/anigeeknews/index.html" class="logo">AniGeek<span>News</span></a>
@@ -478,7 +478,7 @@
                     <a href="#"><i class="fas fa-cog"></i></a>
                     <div class="config-dropdown">
                         <div class="theme-toggle-container">
-                            <span style="font-family:var(--font-sans); font-size:15.6px;">Tema Escuro</span>
+                            <span style="font-family:var(--font-sans); font-size:14.04px;">Tema Escuro</span>
                             <label class="theme-toggle">
                                 <input type="checkbox" id="headerThemeToggle">
                                 <span class="slider"></span>
@@ -599,15 +599,15 @@
 
             <div class="sidebar-box">
                 <h4 class="sidebar-title">Newsletter</h4>
-                <p style="font-family: var(--font-sans); font-size: 15.6px; color: var(--text-muted); margin-bottom: 18px;">Receba análises profundas como esta toda sexta-feira.</p>
+                <p style="font-family: var(--font-sans); font-size: 14.04px; color: var(--text-muted); margin-bottom: 16.2px;">Receba análises profundas como esta toda sexta-feira.</p>
                 <div style="display: flex; gap: 6px;">
-                    <input type="email" placeholder="Email" style="width: 100%; padding: 9.6px; border: 1px solid var(--border); background: var(--bg); color: var(--text-main); font-family: var(--font-sans);">
-                    <button style="background: var(--text-main); color: var(--bg); border: none; padding: 0 18px; font-family: var(--font-sans); font-weight: bold; cursor: pointer; font-size: 14.4px;">OK</button>
+                    <input type="email" placeholder="Email" style="width: 100%; padding: 8.64px; border: 1px solid var(--border); background: var(--bg); color: var(--text-main); font-family: var(--font-sans);">
+                    <button style="background: var(--text-main); color: var(--bg); border: none; padding: 0 16.2px; font-family: var(--font-sans); font-weight: bold; cursor: pointer; font-size: 12.96px;">OK</button>
                 </div>
             </div>
             
-            <div style="text-align: center; margin-top: 48px; margin-bottom: 48px;">
-                <p style="font-family: var(--font-serif); font-size: 12px; color: var(--text-muted); letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 12px;">
+            <div style="text-align: center; margin-top: 43.2px; margin-bottom: 43.2px;">
+                <p style="font-family: var(--font-serif); font-size: 10.8px; color: var(--text-muted); letter-spacing: 1.08px; text-transform: uppercase; margin-bottom: 10.8px;">
                     Publicidade
                 </p>
                 <div style="width: 100%; height: 300px; background: var(--bg); border: 1px solid var(--border);"></div>
@@ -619,8 +619,8 @@
     <footer>
         <div style="max-width: var(--container-w); margin: 0 auto;">
             <a href="/anigeeknews/index.html" class="footer-logo">AniGeek<span>News</span></a>
-            <p style="font-family: var(--font-serif); font-style: italic; color: var(--text-muted); font-size: 22.8px;">Jornalismo independente sobre cultura pop.</p>
-            <div style="margin-top: 48px; font-family: var(--font-sans); font-size: 13.2px; color: var(--text-muted);">
+            <p style="font-family: var(--font-serif); font-style: italic; color: var(--text-muted); font-size: 20.52px;">Jornalismo independente sobre cultura pop.</p>
+            <div style="margin-top: 43.2px; font-family: var(--font-sans); font-size: 11.88px; color: var(--text-muted);">
                 © 2025 AniGeekNews Media Group.
             </div>
         </div>
@@ -667,7 +667,7 @@
             const scrolled = (winScroll / height) * 100;
             if (bar) bar.style.width = scrolled + "%";
             if (backToTop) {
-                if (winScroll > 480) {
+                if (winScroll > 432) { /* 480 * 0.9 */
                     backToTop.classList.add('show');
                 } else {
                     backToTop.classList.remove('show');
