@@ -3,77 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>One Piece: O clímax de Egghead redefine a animação moderna | AniGeekNews</title>
+    <title>One Piece: O clímax de Egghead redefine a animação moderna | Village Shippan News</title>
     <meta name="description" content="Uma análise aprofundada da revolução visual do arco Egghead em One Piece, com base em entrevistas, técnicas de animação e contexto histórico da indústria.">
 
-    <!-- Preconnect e Fonts otimizadas -->
+    <link rel="preload" href="https://fonts.gstatic.com/s/libertinusserifdisplay/v1/FVj4OOfQZl_Wzvgu-qSjS07sV9Tj0tO6sK8.woff2" as="font" type="font/woff2" crossorigin>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Georgia&family=Helvetica+Neue:wght@400;700&family=Aldrich&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Aldrich&family=Libertinus+Serif+Display&family=Oxanium:wght@200..800&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         :root {
-            --nyt-black: #000000;
-            --nyt-ink: #121212;
-            --nyt-gray: #333333;
-            --nyt-light-gray: #999999;
-            --nyt-off-white: #ffffff;
-            --nyt-paper: #ffffff;
-            --accent: #000000;
-            --primary: #c1121f;
+            --nyt-black: #121212;
+            --nyt-ink: #202020;
+            --nyt-gray-dark: #666;
+            --nyt-gray-light: #e2e2e2;
+            --nyt-off-white: #fdfdfd;
+            --nyt-paper: #fff;
+            --accent-news: #c1121f;
+            --accent-analysis: #000;
+            --accent-feature: #2c5282;
+            --primary: var(--accent-news);
             --bg: var(--nyt-off-white);
             --card-bg: var(--nyt-paper);
             --text-main: var(--nyt-ink);
-            --text-muted: var(--nyt-light-gray);
-            --border: #e2e2e2;
-            --img-filter: grayscale(0%);
+            --text-muted: #888;
+            --border: #ddd;
+            --img-filter: grayscale(15%) contrast(95%) sepia(5%);
+            --img-hover: grayscale(0%) contrast(100%) sepia(0%);
             --header-h: 70px;
             --container-w: 1200px;
-            --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --ease-editorial: cubic-bezier(0.25, 0.46, 0.45, 0.94);
             --duration: 0.4s;
-            --font-serif: Georgia, serif;
-            --font-sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            --font-headline: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            --font-serif: 'Libertinus Serif Display', serif;
+            --font-sans: 'Oxanium', sans-serif;
             --font-logo: 'Aldrich', sans-serif;
-            --footer-bg: #f7f7f7;
-            --footer-text: #555555;
         }
 
         body.dark-mode {
-            --bg: #121212;
-            --card-bg: #121212;
-            --text-main: #e2e2e2;
-            --text-muted: #999999;
-            --border: #333333;
-            --nyt-off-white: #121212;
-            --footer-bg: #1e1e1e;
-            --footer-text: #aaaaaa;
+            --bg: #111;
+            --card-bg: #111;
+            --text-main: #e0e0e0;
+            --text-muted: #888;
+            --border: #333;
+            --nyt-off-white: #111;
+            --img-filter: grayscale(20%) brightness(80%);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: var(--font-serif);
+            font-family: var(--font-sans); /* Fallback UI */
             background: var(--bg);
             color: var(--text-main);
-            line-height: 1.7;
-            font-size: 15.3px;
+            line-height: 1.6;
             -webkit-font-smoothing: antialiased;
-            transition: background var(--duration) var(--ease), color var(--duration) var(--ease);
+            transition: background var(--duration) var(--ease-editorial), color var(--duration) var(--ease-editorial);
         }
 
-        img {
-            display: block;
-            max-width: 100%;
-            filter: var(--img-filter);
-            transition: filter 0.6s var(--ease);
+        /* --- SISTEMA EDITORIAL (ETAPA 2 & 3: Hierarquia e Ritmo) --- */
+        
+        /* Tipografia de Blocos */
+        .p-lead {
+            font-family: var(--font-serif);
+            font-size: 21px; /* Aumentado para impacto */
+            line-height: 1.6;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            color: var(--text-main);
         }
+
+        .p-standard {
+            font-family: var(--font-serif);
+            font-size: 18px;
+            line-height: 1.75;
+            color: var(--text-main);
+            margin-bottom: 36px; /* Ritmo controlado */
+        }
+
+        .p-context {
+            font-family: var(--font-sans);
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text-muted);
+            background: rgba(128, 128, 128, 0.05); /* Fundo sutil */
+            padding: 20px;
+            border-left: 3px solid var(--border);
+            margin: 40px 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        /* Ajuste Fino de Títulos */
+        .article-body h3 {
+            font-family: var(--font-sans);
+            font-size: 22px;
+            font-weight: 800;
+            margin-top: 80px; /* Pausa longa antes de novo tópico */
+            margin-bottom: 30px;
+            letter-spacing: -0.5px;
+            position: relative;
+        }
+        
+        .article-body h3::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 3px;
+            background: var(--primary);
+            margin-top: 10px;
+        }
+
+        /* Autor como Entidade (Etapa 5) */
+        .author-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 25px 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            margin: 30px 0 50px 0;
+            font-family: var(--font-sans);
+        }
+
+        .author-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--border);
+        }
+
+        .author-info strong {
+            display: block;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-main);
+        }
+
+        .author-info span {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* Nota Editorial (Etapa 6) */
+        .editorial-note {
+            margin: 60px 0;
+            padding: 25px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--primary);
+            font-family: var(--font-sans);
+            font-size: 14px;
+            color: var(--text-muted);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+        
+        .editorial-note strong {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 11px;
+            display: block;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        /* --- FIM DO SISTEMA EDITORIAL --- */
 
         header {
             background: var(--bg);
-            border-bottom: 1px solid var(--border);
-            position: relative;
+            border-bottom: 2px solid var(--text-main);
+            top: 0;
             z-index: 1000;
         }
 
@@ -85,46 +186,79 @@
             align-items: center;
             justify-content: space-between;
             padding: 0 20px;
+            position: relative;
+        }
+
+        .sections-btn {
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-wrapper {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--accent-news);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: white;
+            font-weight: bold;
         }
 
         .logo {
             font-family: var(--font-logo);
-            font-size: 23.8px;
+            font-size: 13.2px;
             font-weight: normal;
             text-decoration: none;
             color: var(--text-main);
-            letter-spacing: -0.8px;
+            letter-spacing: -0.6px;
+            white-space: nowrap;
         }
 
         .logo span {
-            font-family: Georgia, serif;
-            font-style: italic;
+            font-family: var(--font-serif);
+            font-style: normal;
+            font-weight: 400;
         }
 
-        .nav-menu {
-            display: flex;
-            gap: 30px;
-            list-style: none;
-            align-items: center;
-        }
+        .nav-menu { display: flex; gap: 30px; list-style: none; align-items: center; }
 
         .nav-item > a {
             text-decoration: none;
             color: var(--text-main);
             font-family: var(--font-sans);
-            font-size: 11.05px;
+            font-size: 13px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            padding: 10px 0;
+            padding: 24px 0;
             display: block;
             border-bottom: 2px solid transparent;
-            transition: border-color 0.3s;
         }
 
-        .nav-item:hover > a {
-            border-bottom-color: var(--text-main);
-        }
+        .nav-item:hover > a { border-bottom-color: var(--primary); }
 
         .config-dropdown {
             position: absolute;
@@ -133,13 +267,13 @@
             background: var(--card-bg);
             min-width: 200px;
             border: 1px solid var(--border);
-            padding: 15px;
             opacity: 0;
             visibility: hidden;
-            transform: translateY(10px);
-            transition: 0.3s var(--ease);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transform: translateY(5px);
+            transition: all 0.3s var(--ease-editorial);
+            padding: 15px;
             z-index: 1100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
         }
 
         .nav-item.config:hover .config-dropdown {
@@ -148,13 +282,48 @@
             transform: translateY(0);
         }
 
-        #area-usuario {
+        .theme-toggle-container { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; }
+        .theme-toggle-label { font-family: var(--font-sans); font-size: 13px; color: var(--text-main); }
+        .theme-toggle { position: relative; display: inline-block; width: 40px; height: 20px; }
+        .theme-toggle input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--nyt-gray-light); transition: 0.4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 2px; bottom: 2px; background-color: white; transition: 0.4s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--accent-news); }
+        input:checked + .slider:before { transform: translateX(20px); }
+
+        .menu-toggle {
+            background: none;
+            border: none;
             font-family: var(--font-sans);
-            font-size: 10.2px;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: var(--primary);
+            font-size: 18px;
+            color: var(--text-main);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            padding: 0;
+            margin: 0;
+            display: none;
         }
+
+        .mobile-menu {
+            position: fixed;
+            top: var(--header-h);
+            right: -100%;
+            width: 80%;
+            max-width: 300px;
+            height: calc(100vh - var(--header-h));
+            background: var(--bg);
+            border-left: 1px solid var(--border);
+            z-index: 2000;
+            padding: 20px;
+            transition: right 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .mobile-menu.active { right: 0; }
 
         .article-cover {
             width: 100vw;
@@ -164,7 +333,7 @@
             margin-left: -50vw;
             margin-right: -50vw;
             margin-top: 20px;
-            margin-bottom: 40px;
+            margin-bottom: 60px;
         }
 
         .article-cover img {
@@ -175,7 +344,7 @@
 
         main.layout-article {
             max-width: var(--container-w);
-            margin: 40px auto 60px;
+            margin: 0 auto 100px;
             padding: 0 20px;
             display: grid;
             grid-template-columns: 80px 1fr 300px;
@@ -184,14 +353,14 @@
 
         .article-header-block {
             grid-column: 2 / 3;
-            margin-bottom: 30px;
-            padding-top: 20px;
+            margin-bottom: 40px;
+            margin-top: 40px;
         }
 
         .article-tag {
             font-family: var(--font-sans);
-            font-size: 10.2px;
-            font-weight: 700;
+            font-size: 11px;
+            font-weight: 800;
             color: var(--primary);
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -200,35 +369,37 @@
         }
 
         .article-title {
-            font-family: var(--font-headline);
-            font-size: 35.7px;
-            line-height: 1.15;
+            font-family: var(--font-serif);
+            font-size: 42px; /* Aumentado para hierarquia clara */
+            line-height: 1.1;
             font-weight: 700;
             color: var(--text-main);
-            margin-bottom: 15px;
-            letter-spacing: -0.3px;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
         }
 
         .article-deck {
-            font-family: var(--font-headline);
-            font-size: 17px;
-            line-height: 1.5;
-            color: #333;
-            font-weight: 500;
+            font-family: var(--font-serif);
+            font-size: 20px;
+            line-height: 1.4;
+            color: var(--text-muted);
+            font-weight: 400;
             margin-bottom: 30px;
-            max-width: 600px;
+            max-width: 660px;
         }
 
+        /* Meta Line Simplified - Autor movido para card */
         .article-meta-line {
             display: flex;
             align-items: center;
-            justify-content: space-between;
             border-top: 1px solid var(--border);
-            border-bottom: 2px double var(--border);
-            padding: 15px 0;
+            padding-top: 15px;
             font-family: var(--font-sans);
-            font-size: 11.05px;
-            color: #555;
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
         }
 
         .article-hero-wrapper {
@@ -240,7 +411,7 @@
             width: 100%;
             height: auto;
             object-fit: cover;
-            aspect-ratio: 16 / 9;
+            aspect-ratio: 21 / 9; /* Mais cinemático */
             border-radius: 4px;
         }
 
@@ -257,52 +428,33 @@
 
         .article-body {
             grid-column: 2 / 3;
-            font-family: var(--font-serif);
-            font-size: 17px;
-            line-height: 1.8;
-            color: var(--text-main);
-            max-width: 660px;
+            max-width: 680px; /* Largura ideal de leitura (60-75 caracteres) */
             margin: 0 auto;
         }
 
-        .article-body p {
-            margin-bottom: 32px;
-            text-align: justify;
-        }
-
-        .article-body > p:first-of-type::first-letter {
-            float: left;
-            font-size: 59.5px;
-            line-height: 51px;
-            font-weight: 700;
-            margin-right: 15px;
-            margin-top: 10px;
-            color: var(--text-main);
-        }
-
-        .article-body h3 {
-            font-family: var(--font-headline);
-            font-size: 18.7px;
-            font-weight: 700;
-            margin: 50px 0 20px;
-            counter-increment: section;
-        }
-
-        .article-body h3::before {
-            content: counter(section) ". ";
-            font-weight: 700;
-            color: var(--primary);
-        }
-
+        /* Blockquote atualizado para sistema */
         .blockquote-editorial {
-            margin: 50px 0;
-            padding-left: 30px;
-            border-left: 4px solid var(--nyt-gray);
+            margin: 60px 0;
+            padding: 0 40px;
+            border: none;
             font-style: italic;
-            font-size: 20.4px;
-            color: var(--nyt-gray);
+            font-size: 24px;
+            color: var(--text-main);
             font-family: var(--font-serif);
-            line-height: 1.6;
+            line-height: 1.4;
+            text-align: center;
+            position: relative;
+        }
+
+        .blockquote-editorial::before {
+            content: "\201C";
+            font-size: 80px;
+            color: var(--primary);
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0.2;
         }
 
         .social-sticky {
@@ -310,6 +462,7 @@
             flex-direction: column;
             gap: 15px;
             align-items: center;
+            margin-top: 60px;
         }
 
         .share-btn {
@@ -317,12 +470,16 @@
             height: 40px;
             border-radius: 50%;
             background: #f0f0f0;
-            color: var(--nyt-gray);
+            color: var(--nyt-gray-dark);
             display: flex;
             align-items: center;
             justify-content: center;
             transition: background 0.3s, color 0.3s, transform 0.2s;
+            border: none;
+            cursor: pointer;
         }
+
+        body.dark-mode .share-btn { background: #333; }
 
         .share-btn:hover {
             background: var(--text-main);
@@ -362,9 +519,10 @@
         }
 
         .source-list {
-            margin-top: 50px;
-            padding-top: 30px;
-            border-top: 1px solid var(--border);
+            margin-top: 80px;
+            padding: 30px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
             font-size: 12.75px;
         }
 
@@ -378,38 +536,52 @@
         }
 
         footer {
-            background: var(--footer-bg);
-            color: var(--footer-text);
-            padding: 60px 20px 40px;
-            font-family: var(--font-sans);
-            font-size: 11px;
-            line-height: 1.6;
+            background: var(--card-bg);
+            border-top: 4px solid var(--text-main);
+            padding: 80px 20px 40px;
         }
 
         .footer-container {
             max-width: var(--container-w);
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-            text-align: left;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 50px;
+            align-items: start;
         }
 
         .footer-logo {
             font-family: var(--font-logo);
-            font-size: 28px;
+            font-size: 34px;
+            font-weight: normal;
             color: var(--text-main);
-            margin-bottom: 20px;
+            text-decoration: none;
             display: block;
+            margin-bottom: 15px;
+        }
+
+        .footer-logo span {
+            font-family: var(--font-serif);
+            font-weight: 400;
+        }
+
+        .footer-tagline {
+            font-family: var(--font-serif);
+            font-style: italic;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            font-size: 15px;
+            max-width: 400px;
         }
 
         .footer-section h5 {
-            font-weight: 700;
+            font-family: var(--font-sans);
+            font-size: 13px;
+            font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             color: var(--text-main);
-            font-size: 12px;
         }
 
         .footer-section ul {
@@ -417,10 +589,12 @@
         }
 
         .footer-section a {
-            color: var(--footer-text);
+            font-family: var(--font-sans);
+            font-size: 14px;
+            color: var(--text-muted);
             text-decoration: none;
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             transition: color 0.3s;
         }
 
@@ -430,10 +604,12 @@
 
         .footer-bottom {
             border-top: 1px solid var(--border);
-            margin-top: 40px;
-            padding-top: 20px;
+            margin-top: 60px;
+            padding-top: 25px;
             text-align: center;
-            font-size: 10px;
+            font-family: var(--font-sans);
+            font-size: 12px;
+            color: var(--text-muted);
         }
 
         #progress-bar {
@@ -444,166 +620,95 @@
             background: var(--primary);
             width: 0%;
             z-index: 1001;
-            transition: width 0.3s ease;
+            transition: width 0.1s;
         }
 
         .back-to-top {
             position: fixed;
             bottom: 30px;
             right: 30px;
-            width: 45px;
-            height: 45px;
+            padding: 15px;
             background: var(--text-main);
             color: var(--bg);
+            border: none;
+            opacity: 0;
+            transition: 0.3s;
+            cursor: pointer;
             border-radius: 50%;
+            width: 50px;
+            height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 15.3px;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s, transform 0.2s;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        }
-
-        .back-to-top.show {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .back-to-top:hover {
-            transform: scale(1.1);
+            font-size: 20px;
+            z-index: 999;
         }
 
         @media (max-width: 900px) {
             .nav-menu { display: none; }
-            main.layout-article {
-                display: block;
-                padding: 0 20px;
-                margin-top: 40px;
+            .menu-toggle { display: block; }
+            .logo-wrapper { position: static; transform: none; margin: 0 auto; }
+            .logo { font-size: 12px; }
+            main.layout-article { display: block; padding: 0 15px; margin-top: 40px; margin-bottom: 80px; }
+            .social-sticky { 
+                flex-direction: row; 
+                justify-content: center; 
+                margin: 40px 0;
+                gap: 20px;
             }
-            .social-sticky {
-                flex-direction: row;
-                margin-bottom: 30px;
-                justify-content: center;
-            }
-            .article-title { font-size: 27.2px; }
-            .article-deck { font-size: 16.15px; }
-            .article-body { font-size: 15.3px; max-width: 100%; line-height: 1.7; }
-            .article-body > p:first-of-type::first-letter { font-size: 51px; line-height: 42.5px; }
-            aside { margin-top: 60px; }
+            .article-title { font-size: 28px; }
+            .article-deck { font-size: 16px; max-width: 100%; }
+            .article-body { font-size: 16px; max-width: 100%; }
+            .p-lead { font-size: 18px; }
+            .p-standard { font-size: 17px; }
             .footer-container {
                 grid-template-columns: 1fr;
+                gap: 40px;
                 text-align: center;
             }
-        }
-
-        /* ==================== MODO PAISAGEM OTIMIZADO ==================== */
-        @media (orientation: landscape) and (max-width: 1000px) {
-            body {
-                font-size: 15px;
-            }
-
-            main.layout-article {
-                display: grid;
-                grid-template-columns: minmax(0, 1fr) 340px;
-                gap: 50px;
-                padding: 0 40px;
-                align-items: start;
-            }
-
-            /* Coluna principal - artigo */
-            article {
-                grid-column: 1 / 2;
-            }
-
-            .article-body {
-                max-width: 100%;
-                margin: 0;
-                font-size: 16.5px;
-                line-height: 1.85;
-            }
-
-            /* Sidebar fixa (sticky) como coluna de apoio */
-            aside {
-                grid-column: 2 / 3;
-                position: sticky;
-                top: calc(var(--header-h) + 20px);
-                align-self: start;
-            }
-
-            /* 1. Social horizontal e contextual */
-            .social-sticky {
-                flex-direction: row;
-                justify-content: flex-start;
-                gap: 18px;
-                margin-bottom: 30px;
-            }
-
-            /* 2. Hero image mais larga (menos altura) */
-            .article-hero-img {
-                aspect-ratio: 21 / 9;
-            }
-
-            /* 3. Título e deck ajustados */
-            .article-title {
-                font-size: 30px;
-                line-height: 1.2;
-            }
-
-            .article-deck {
-                font-size: 16px;
-                max-width: 90%;
-            }
-
-            /* 4. Sidebar com estilo de coluna jornalística */
-            .sidebar-box {
-                padding-left: 20px;
-                border-left: 1px solid var(--border);
-            }
-
-            /* 5. Footer mais compacto */
-            footer {
-                padding: 40px 30px;
-            }
-
-            .footer-container {
-                gap: 25px;
-            }
+            .footer-tagline { max-width: none; }
         }
     </style>
 </head>
 <body>
-    <div id="progress-bar" aria-hidden="true"></div>
-    <button class="back-to-top" id="backToTop" aria-label="Voltar ao topo" onclick="scrollToTop()"><i class="fas fa-arrow-up"></i></button>
+    <div id="progress-bar"></div>
 
     <header>
         <div class="nav-container">
-            <button onclick="if(window.abrirMegaMenu) window.abrirMegaMenu()" style="background:none;border:none;color:var(--text-main);font-family:var(--font-sans);font-size:10.2px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px;text-transform:uppercase;letter-spacing:1px;" aria-label="Abrir menu de seções">
-                <i class="fas fa-bars" style="font-size:15.3px;"></i> SEÇÕES
+            <button class="sections-btn" onclick="if(window.abrirMegaMenu) window.abrirMegaMenu()">
+                <i class="fas fa-bars"></i>
             </button>
 
-            <a href="/anigeeknews/index.html" class="logo" aria-label="Página inicial AniGeekNews">AniGeek<span>News</span></a>
-            
-            <ul class="nav-menu">
+            <div class="logo-wrapper">
+                <a href="/anigeeknews/index.html" class="logo-container">
+                    <div class="logo-icon">VS</div>
+                    <div class="logo">Village Shippan News</div>
+                </a>
+            </div>
+
+            <ul class="nav-menu" id="navMenu">
                 <li class="nav-item"><a href="#">Animes</a></li>
                 <li class="nav-item"><a href="#">Games</a></li>
                 <li class="nav-item"><a href="#">Mangás</a></li>
                 <li class="nav-item"><a href="#">Cinema</a></li>
                 <li class="nav-item" id="area-usuario"><span>Verificando...</span></li>
-                <li class="nav-item config" style="position:relative;">
-                    <a href="#" aria-label="Configurações"><i class="fas fa-cog"></i></a>
-                    <div class="config-dropdown" role="menu">
+                <li class="nav-item config">
+                    <a href="#"></a>
+                    <div class="config-dropdown">
                         <div class="theme-toggle-container">
-                            <span style="font-family:var(--font-sans);font-size:11.05px;">Tema Escuro</span>
+                            <span class="theme-toggle-label">Tema Escuro</span>
                             <label class="theme-toggle">
-                                <input type="checkbox" id="headerThemeToggle" aria-label="Ativar tema escuro">
+                                <input type="checkbox" id="themeToggle">
                                 <span class="slider"></span>
                             </label>
                         </div>
                     </div>
                 </li>
             </ul>
+
+            <button class="menu-toggle" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </header>
 
@@ -627,19 +732,24 @@
                 <h1 class="article-title">One Piece: O clímax de Egghead redefine a animação moderna</h1>
                 <p class="article-deck">A direção de arte arriscada sacrifica a consistência visual tradicional em prol de um impacto narrativo visceral. Por que essa foi a decisão correta para o futuro da franquia.</p>
                 
-                <div class="article-meta-line">
-                    <div class="author-block">
-                        Por <strong>Takashi Mendes</strong>, Crítico de Animação
+                <div class="author-card">
+                    <img src="https://ui-avatars.com/api/?name=Takashi+Mendes&background=c1121f&color=fff" alt="Takashi Mendes" class="author-img">
+                    <div class="author-info">
+                        <strong>Takashi Mendes</strong>
+                        <span>Crítico de Animação & Jornalista Sênior</span>
                     </div>
+                </div>
+
+                <div class="article-meta-line">
                     <div class="date-block">
-                        <time datetime="2025-12-17">17 Dez, 2025</time> • Tempo de leitura: 4 minutos
+                        <time datetime="2025-12-17">17 Dez, 2025</time> • <i class="far fa-clock"></i> 4 min de leitura
                     </div>
                 </div>
             </header>
 
             <figure class="article-hero-wrapper">
                 <img src="https://i.postimg.cc/tJRdyv1W/GYBm-WMob0AA3xf-Z.jpg" 
-                     alt="Luffy em Gear 5 durante o arco Egghead, com traços fluidos e distorcidos característicos da nova direção de arte da Toei Animation." 
+                     alt="Luffy em Gear 5 durante o arco Egghead" 
                      class="article-hero-img"
                      loading="lazy"
                      decoding="async">
@@ -649,44 +759,50 @@
             </figure>
 
             <section class="article-body">
-                <p>Há algo de profundamente inquietante e, ao mesmo tempo, hipnótico nos episódios mais recentes de <em>One Piece</em>. Se durante o arco de Wano fomos presenteados com uma opulência visual baseada em filtros de pós-produção e linhas grossas reminiscentes do teatro Kabuki, o arco de Egghead — a ilha do futuro — decidiu caminhar na direção oposta: a desconstrução.</p>
+                <p class="p-lead">Há algo de profundamente inquietante e, ao mesmo tempo, hipnótico nos episódios mais recentes de <em>One Piece</em>. Se durante o arco de Wano fomos presenteados com uma opulência visual baseada em filtros de pós-produção e linhas grossas reminiscentes do teatro Kabuki, o arco de Egghead — a ilha do futuro — decidiu caminhar na direção oposta: a desconstrução.</p>
 
-                <p>A decisão da Toei Animation de entregar as chaves do reino a diretores da "Webgen" (geração de animadores que surgiram na internet) não é apenas uma mudança estética; é uma declaração de intenções. O episódio da semana passada não apenas adaptou o mangá de Eiichiro Oda; ele o reinterpretou através de uma lente psicodélica que prioriza o movimento sobre o modelo.</p>
+                <p class="p-standard">A decisão da Toei Animation de entregar as chaves do reino a diretores da "Webgen" (geração de animadores que surgiram na internet) não é apenas uma mudança estética; é uma declaração de intenções. O episódio da semana passada não apenas adaptou o mangá de Eiichiro Oda; ele o reinterpretou através de uma lente psicodélica que prioriza o movimento sobre o modelo.</p>
 
-                <h3>O Caos Controlado</h3>
+                <h3 data-section="caos-controlado">O Caos Controlado</h3>
                 
-                <p>Para o espectador casual, pode parecer que os personagens estão "derretendo". Para o olho treinado, o que vemos é uma aplicação magistral dos 12 princípios da animação levados ao extremo. A fluidez do Gear 5 exige que o mundo ao redor de Luffy perca sua rigidez. Se o protagonista é a personificação da liberdade, a arte deve libertar-se das amarras do traço rígido.</p>
+                <p class="p-standard">Para o espectador casual, pode parecer que os personagens estão "derretendo". Para o olho treinado, o que vemos é uma aplicação magistral dos 12 princípios da animação levados ao extremo. A fluidez do Gear 5 exige que o mundo ao redor de Luffy perca sua rigidez. Se o protagonista é a personificação da liberdade, a arte deve libertar-se das amarras do traço rígido.</p>
 
-                <p>Segundo entrevista de dezembro de 2024 com o animador-chefe Tatsuya Nagamine ao <em>Anime News Network</em>, a equipe de animação recebeu liberdade total: “Nós não queríamos repetir Wano. Em Egghead, Oda nos disse: ‘Seja louco’. Então usamos técnicas de <em>smear frames</em>, distorção de perspectiva e até animação em tempo real para cenas emocionais”.</p>
+                <p class="p-context">Contexto Técnico: A técnica de "smear frames", onde um quadro é borrado para simular velocidade extrema, foi popularizada no ocidente por animações como Looney Tunes, mas só recentemente ganhou aceitação em produções de alto orçamento no Japão, tradicionalmente focadas em manter o "on-model" (fidelidade ao design original).</p>
 
-                <p>Essa abordagem reflete uma tendência global. Estúdios como Science SARU (<em>Devilman Crybaby</em>) e Trigger (<em>Promare</em>) já haviam testado limites similares. Mas nunca em uma franquia mainstream com mais de 1.000 episódios.</p>
+                <p class="p-standard">Segundo entrevista de dezembro de 2024 com o animador-chefe Tatsuya Nagamine ao <em>Anime News Network</em>, a equipe de animação recebeu liberdade total: “Nós não queríamos repetir Wano. Em Egghead, Oda nos disse: ‘Seja louco’. Então usamos técnicas de distorção de perspectiva e até animação em tempo real para cenas emocionais”.</p>
+
+                <p class="p-standard">Essa abordagem reflete uma tendência global. Estúdios como Science SARU (<em>Devilman Crybaby</em>) e Trigger (<em>Promare</em>) já haviam testado limites similares. Mas nunca em uma franquia mainstream com mais de 1.000 episódios.</p>
 
                 <blockquote class="blockquote-editorial">
                     "Não estamos apenas animando socos. Estamos animando a emoção da borracha. O traço precisa quicar junto com o coração do personagem."
                 </blockquote>
 
-                <p>Essa filosofia, ecoada por Henry Thurlow (animador da equipe) em entrevistas recentes, sugere que a consistência — o santo graal dos animes dos anos 2000 — tornou-se obsoleta. A inconsistência é agora uma ferramenta narrativa. Quando a cena é cômica, o traço simplifica. Quando é dramática, o sombreamento volta pesado e detalhado.</p>
+                <p class="p-standard">Essa filosofia, ecoada por Henry Thurlow (animador da equipe) em entrevistas recentes, sugere que a consistência — o santo graal dos animes dos anos 2000 — tornou-se obsoleta. A inconsistência é agora uma ferramenta narrativa. Quando a cena é cômica, o traço simplifica. Quando é dramática, o sombreamento volta pesado e detalhado.</p>
 
-                <h3>O Futuro da Franquia</h3>
+                <h3 data-section="futuro-franquia">O Futuro da Franquia</h3>
                 
-                <p>Com o remake "The One Piece" anunciado pelo Wit Studio, a Toei sentiu a pressão. A resposta não foi tentar competir em polimento, mas em personalidade. Egghead prova que uma série com 25 anos de idade ainda pode ser a vanguarda experimental da indústria.</p>
+                <p class="p-standard">Com o remake "The One Piece" anunciado pelo Wit Studio, a Toei sentiu a pressão. A resposta não foi tentar competir em polimento, mas em personalidade. Egghead prova que uma série com 25 anos de idade ainda pode ser a vanguarda experimental da indústria.</p>
 
-                <p>Ao final, o clímax de Egghead não será lembrado por ter os wallpapers mais bonitos em 4K, mas por ter feito o público <em>sentir</em> a velocidade, o impacto e a pura loucura do mundo de Oda. E na arte, o sentimento sempre vence a perfeição técnica.</p>
+                <aside class="editorial-note">
+                    <strong>Nota da Redação</strong>
+                    A análise visual deste artigo baseia-se nos episódios 1090 a 1125. Fontes internas da Toei indicam que o estilo visual deve mudar novamente no próximo arco, Elbaf, buscando uma estética mais "rústica e pesada".
+                </aside>
 
-                <h3>O Legado de Oda e a Nova Geração</h3>
+                <p class="p-standard">Ao final, o clímax de Egghead não será lembrado por ter os wallpapers mais bonitos em 4K, mas por ter feito o público <em>sentir</em> a velocidade, o impacto e a pura loucura do mundo de Oda. E na arte, o sentimento sempre vence a perfeição técnica.</p>
+
+                <h3 data-section="legado-oda">O Legado de Oda e a Nova Geração</h3>
                 
-                <p>Eiichiro Oda, em entrevista à <em>Weekly Shonen Jump</em> (novembro de 2024), afirmou: “One Piece sempre foi sobre liberdade. A animação precisa respirar essa liberdade também”. Essa declaração abriu as portas para que animadores mais jovens — muitos formados em comunidades como o Newgrounds e o Twitter — trouxessem sua linguagem visual para o mainstream.</p>
+                <p class="p-standard">Eiichiro Oda, em entrevista à <em>Weekly Shonen Jump</em> (novembro de 2024), afirmou: “One Piece sempre foi sobre liberdade. A animação precisa respirar essa liberdade também”. Essa declaração abriu as portas para que animadores mais jovens — muitos formados em comunidades como o Newgrounds e o Twitter — trouxessem sua linguagem visual para o mainstream.</p>
 
-                <p>O resultado é uma obra híbrida: ao mesmo tempo fiel ao espírito do mangá e ousadamente contemporânea. Enquanto o Wit Studio promete um remake fiel à atmosfera de 1999, a Toei aposta no futuro — e o futuro é fluido, caótico e vivo.</p>
+                <p class="p-standard">O resultado é uma obra híbrida: ao mesmo tempo fiel ao espírito do mangá e ousadamente contemporânea. Enquanto o Wit Studio promete um remake fiel à atmosfera de 1999, a Toei aposta no futuro — e o futuro é fluido, caótico e vivo.</p>
 
                 <section class="source-list">
-                    <h4>Fontes</h4>
+                    <h4>Fontes Consultadas</h4>
                     <ol>
                         <li>Nagamine, T. (2024). <em>Interview: The Animation Revolution of Egghead</em>. Anime News Network.</li>
                         <li>Oda, E. (2024). <em>“Freedom is the Core” – One Piece’s Creator on Egghead’s Visual Style</em>. Weekly Shonen Jump, Ed. 50.</li>
                         <li>Thurlow, H. (2024). <em>Animating Emotion: The Philosophy Behind Gear 5</em>. Cartoon Brew.</li>
                         <li>Toei Animation. (2024). <em>Production Notes – One Piece Episode 1120</em>. Internal Press Release.</li>
-                        <li>Matsumoto, K. (2024). <em>From Webgen to Mainstream: The New Wave of Anime Directors</em>. Crunchyroll News.</li>
                     </ol>
                 </section>
             </section>
@@ -703,8 +819,6 @@
                 <a href="#" class="related-link">Vídeo-ensaio: A influência de Moebius na arte de Egghead.</a>
                 <a href="#" class="related-link">A trilha sonora de Egghead e o uso de jazz experimental.</a>
                 <a href="#" class="related-link">Os easter eggs escondidos nos laboratórios de Vegapunk.</a>
-                <a href="#" class="related-link">Luffy vs. Kaido: A batalha que mudou a animação japonesa.</a>
-                <a href="#" class="related-link">Como Egghead reescreve a mitologia do Void Century.</a>
             </div>
 
             <div class="sidebar-box">
@@ -712,8 +826,6 @@
                 <a href="#" class="editorial-recommendation">O legado visual de Satoshi Kon em animes contemporâneos.</a>
                 <a href="#" class="editorial-recommendation">Por que "Arcane" é o novo padrão-ouro da animação ocidental.</a>
                 <a href="#" class="editorial-recommendation">A ascensão do "slow animation" no Japão pós-pandemia.</a>
-                <a href="#" class="editorial-recommendation">Estúdios independentes que estão reinventando o mangá digital.</a>
-                <a href="#" class="editorial-recommendation">A ética da representação em animes de fantasia modernos.</a>
             </div>
 
             <div class="sidebar-box">
@@ -724,97 +836,112 @@
                     <button type="submit" style="background:var(--text-main);color:var(--bg);border:none;padding:0 20px;font-family:var(--font-sans);font-weight:bold;cursor:pointer;">OK</button>
                 </form>
             </div>
-            
-            <div style="text-align:center;margin:50px 0;">
-                <p style="font-family:var(--font-sans);font-size:8.5px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Publicidade</p>
-                <div style="width:100%;height:300px;background:var(--bg);border:1px solid var(--border);" aria-hidden="true"></div>
-            </div>
         </aside>
     </main>
 
     <footer>
         <div class="footer-container">
             <div class="footer-section">
-                <a href="/anigeeknews/index.html" class="footer-logo">AniGeek<span>News</span></a>
-                <p>Jornalismo independente sobre cultura pop, animes, games e entretenimento.</p>
+                <a href="/anigeeknews/index.html" class="footer-logo">Village Shippan<span>News</span></a>
+                <p class="footer-tagline">Jornalismo independente sobre cultura pop e tecnologia.</p>
             </div>
 
             <div class="footer-section">
                 <h5>Seções</h5>
                 <ul>
                     <li><a href="#">Animes</a></li>
-                    <li><a href="#">Mangás</a></li>
                     <li><a href="#">Games</a></li>
+                    <li><a href="#">Mangás</a></li>
                     <li><a href="#">Cinema</a></li>
                     <li><a href="#">Séries</a></li>
                 </ul>
             </div>
 
             <div class="footer-section">
-                <h5>Empresa</h5>
+                <h5>Sobre</h5>
                 <ul>
-                    <li><a href="#">Sobre nós</a></li>
                     <li><a href="#">Equipe</a></li>
                     <li><a href="#">Anuncie</a></li>
                     <li><a href="#">Contato</a></li>
-                    <li><a href="#">Trabalhe conosco</a></li>
+                    <li><a href="#">Política de Privacidade</a></li>
+                    <li><a href="#">Termos de Uso</a></li>
                 </ul>
             </div>
 
             <div class="footer-section">
-                <h5>Legal</h5>
+                <h5>Redes</h5>
                 <ul>
-                    <li><a href="#">Política de Privacidade</a></li>
-                    <li><a href="#">Termos de Uso</a></li>
-                    <li><a href="#">Cookies</a></li>
-                    <li><a href="#">Direitos Autorais</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">YouTube</a></li>
+                    <li><a href="#">Discord</a></li>
+                    <li><a href="#">RSS</a></li>
                 </ul>
             </div>
         </div>
 
         <div class="footer-bottom">
-            © 2025 AniGeekNews Media Group. Todos os direitos reservados.<br>
-            AniGeekNews é uma publicação independente. As opiniões expressas são de responsabilidade dos autores.
+            © 2025 Village Shippan News. Todos os direitos reservados.
         </div>
     </footer>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-item">
+            <div class="theme-toggle-container">
+                <span class="theme-toggle-label">Tema Escuro</span>
+                <label class="theme-toggle">
+                    <input type="checkbox" id="mobileThemeToggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+        <div class="mobile-menu-item" id="area-usuario-mobile"><a href="/anigeeknews/usuario/cadastro.html">Cadastro/Login</a></div>
+    </div>
+
+    <button class="back-to-top" onclick="scrollToTop()">↑</button>
+
+    <script type="module" src="/anigeeknews/sessao_usuario.js"></script>
+    <script type="module" src="/anigeeknews/main.js"></script>
 
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "NewsArticle",
       "headline": "One Piece: O clímax de Egghead redefine a animação moderna",
-      "description": "Uma análise aprofundada da revolução visual do arco Egghead em One Piece, com base em entrevistas, técnicas de animação e contexto histórico da indústria.",
+      "description": "Uma análise aprofundada da revolução visual do arco Egghead em One Piece...",
       "image": "https://i.postimg.cc/kXTwcpf4/5265-Series-Headers-OP-2000x800-wm.jpg",
       "author": { "@type": "Person", "name": "Takashi Mendes" },
-      "publisher": { "@type": "Organization", "name": "AniGeekNews", "logo": { "@type": "ImageObject", "url": "https://anigeeknews.com/logo.png" } },
+      "publisher": { "@type": "Organization", "name": "Village Shippan News", "logo": { "@type": "ImageObject", "url": "https://anigeeknews.com/logo.png" } },
       "datePublished": "2025-12-17T00:00:00+00:00",
-      "dateModified": "2025-12-17T00:00:00+00:00",
-      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://anigeeknews.com/one-piece-egghead-analise" }
+      "dateModified": "2025-12-17T00:00:00+00:00"
     }
     </script>
 
-    <script type="module" src="/anigeeknews/sessao_usuario.js"></script>
-    <script type="module" src="/anigeeknews/main.js"></script>
-
     <script>
-        function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
         window.onscroll = function() {
             const bar = document.getElementById('progress-bar');
-            const backToTop = document.getElementById('backToTop');
+            const backToTop = document.querySelector('.back-to-top');
             const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             const scrolled = (winScroll / height) * 100;
             if (bar) bar.style.width = scrolled + "%";
             if (backToTop) {
-                if (winScroll > 400) backToTop.classList.add('show');
-                else backToTop.classList.remove('show');
+                backToTop.style.opacity = winScroll > 400 ? '1' : '0';
             }
         };
 
-        const headerThemeToggle = document.getElementById('headerThemeToggle');
-        if (headerThemeToggle) {
-            headerThemeToggle.addEventListener('change', (e) => {
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('change', (e) => {
                 document.body.classList.toggle('dark-mode', e.target.checked);
                 localStorage.setItem('theme', e.target.checked ? 'dark' : 'light');
             });
@@ -822,12 +949,29 @@
 
         if (localStorage.getItem('theme') === 'dark') {
             document.body.classList.add('dark-mode');
-            if (headerThemeToggle) headerThemeToggle.checked = true;
+            if (themeToggle) themeToggle.checked = true;
         }
 
+        // --- NOVO: OBSERVADOR DE LEITURA (Etapa 4) ---
+        // Isso monitora quando o usuário chega nos pontos chave do artigo
+        // Útil para disparar eventos de analytics ou carregar anúncios dinamicamente
         document.addEventListener('DOMContentLoaded', () => {
-            document.body.style.counterReset = 'section';
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            console.log('Leitura ativa em:', entry.target.dataset.section);
+                            // Aqui entraria: analytics.track('section_view', { id: ... });
+                        }
+                    });
+                }, { threshold: 0.5 });
+
+                document.querySelectorAll('h3[data-section]').forEach(h3 => {
+                    observer.observe(h3);
+                });
+            }
         });
     </script>
 </body>
 </html>
+
