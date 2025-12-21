@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <style>
-        /* Variáveis Exatas do Código 1 */
+        /* --- VARIÁVEIS EXATAS DA PÁGINA INICIAL --- */
         :root {
             --nyt-black: #121212;
             --nyt-ink: #202020;
@@ -62,7 +62,39 @@
             transition: background var(--duration) var(--ease-editorial), color var(--duration) var(--ease-editorial);
         }
 
-        /* --- ESTILOS DO CABEÇALHO --- */
+        /* --- ESTILIZAÇÃO DO USUÁRIO (SESSÃO USUÁRIO JS) --- */
+        #area-usuario, #area-usuario-mobile {
+            display: flex;
+            align-items: center;
+            font-family: var(--font-sans);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .user-logged { display: flex; align-items: center; gap: 15px; color: var(--text-main); }
+        .user-logged span strong { color: var(--accent-news); }
+
+        .btn-entrar, .btn-sair {
+            text-decoration: none;
+            color: var(--text-main);
+            border: 1px solid var(--text-main);
+            padding: 5px 12px;
+            transition: all 0.3s;
+            cursor: pointer;
+            background: transparent;
+            font-family: var(--font-sans);
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-entrar:hover { background: var(--text-main); color: var(--bg); }
+        .btn-sair { border-color: #999; color: #999; }
+        .btn-sair:hover { border-color: var(--accent-news); color: var(--accent-news); }
+
+        /* --- CABEÇALHO --- */
         header {
             background: var(--bg);
             border-bottom: 2px solid var(--text-main);
@@ -108,7 +140,6 @@
 
         .header-actions { display: flex; align-items: center; gap: 20px; }
 
-        /* Botão SEÇÕES (Hambúrguer 1 - Chama o módulo Externo) */
         .sections-btn {
             background: none; border: none; color: var(--text-main); cursor: pointer;
             display: flex; flex-direction: column; gap: 4px; padding: 5px;
@@ -116,7 +147,6 @@
         .sections-btn .bar { display: block; width: 20px; height: 2px; background-color: var(--text-main); transition: 0.3s; }
         .sections-btn .bar:nth-child(3) { width: 12px; }
 
-        /* Botão MOBILE (Hambúrguer 2 - Abre o menu lateral) */
         .menu-toggle {
             background: none; border: none; font-size: 20px; color: var(--text-main); cursor: pointer; display: none;
         }
@@ -130,6 +160,7 @@
         }
         .nav-item.config:hover .config-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
 
+        /* Theme Toggle UI */
         .theme-toggle-container { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; }
         .theme-toggle { position: relative; display: inline-block; width: 40px; height: 20px; }
         .theme-toggle input { opacity: 0; width: 0; height: 0; }
@@ -138,6 +169,7 @@
         input:checked + .slider { background-color: var(--accent-news); }
         input:checked + .slider:before { transform: translateX(20px); }
 
+        /* --- MENU LATERAL (MOBILE) --- */
         .mobile-menu {
             position: fixed; top: var(--header-h); right: -100%; width: 80%; max-width: 300px;
             height: calc(100vh - var(--header-h)); background: var(--bg);
@@ -147,11 +179,7 @@
         .mobile-menu.active { right: 0; }
         .close-menu { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 24px; color: var(--text-main); cursor: pointer; }
         .mobile-menu-item { padding: 12px 0; border-bottom: 1px solid var(--border); }
-        .mobile-menu-item a { text-decoration: none; color: var(--text-main); font-weight: 600; }
-
-        .mobile-footer-inside { margin-top: 30px; padding-top: 20px; border-top: 2px solid var(--text-main); }
-        .mobile-footer-inside .logo { font-size: 20px; margin-bottom: 5px; display: block; }
-        .mobile-footer-inside p { font-family: var(--font-serif); font-size: 12px; color: var(--text-muted); font-style: italic; }
+        .mobile-menu-item a { text-decoration: none; color: var(--text-main); font-weight: 600; font-family: var(--font-sans); text-transform: uppercase; font-size: 13px; }
 
         /* --- LAYOUT DO ARTIGO --- */
         .layout-article {
@@ -165,7 +193,8 @@
         .article-meta-line { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 15px 0; font-size: 12px; margin-bottom: 30px; font-family: var(--font-sans); text-transform: uppercase; font-weight: 700; }
 
         .article-hero-wrapper { grid-column: 1 / 4; margin-bottom: 40px; }
-        .article-hero-img { width: 100%; height: auto; max-height: 600px; object-fit: cover; filter: var(--img-filter); }
+        .article-hero-img { width: 100%; height: auto; max-height: 600px; object-fit: cover; filter: var(--img-filter); transition: 0.6s; }
+        .article-hero-img:hover { filter: var(--img-hover); }
         
         .article-body { grid-column: 2 / 3; font-family: var(--font-serif); font-size: 20px; line-height: 1.8; color: var(--text-main); }
         .article-body p { margin-bottom: 24px; }
@@ -182,7 +211,9 @@
         .related-link { display: block; margin-bottom: 15px; font-size: 14px; color: var(--text-main); text-decoration: none; border-bottom: 1px solid #f0f0f0; padding-bottom: 10px; font-family: var(--font-sans); font-weight: 600; }
         .related-link:hover { color: var(--accent-news); }
 
+        /* --- RODAPÉ --- */
         footer { border-top: 4px solid var(--text-main); padding: 60px 0; margin-top: 80px; text-align: center; }
+        footer .logo { font-size: 28px; display: inline-block; margin-bottom: 15px; }
         .footer-tagline { font-family: var(--font-serif); font-style: italic; color: var(--text-muted); font-size: 14px; }
 
         @media (max-width: 900px) {
@@ -237,17 +268,15 @@
         </div>
     </header>
 
-    <div id="megaMenuContainer"></div>
-
     <div class="mobile-menu" id="mobileMenu">
         <button class="close-menu" onclick="toggleMobileMenu()">×</button>
+        <div class="mobile-menu-item" id="area-usuario-mobile"><span>Verificando...</span></div>
         <div class="mobile-menu-item"><a href="/anigeeknews/index.html">Início</a></div>
         <div class="mobile-menu-item"><a href="#">Animes</a></div>
         <div class="mobile-menu-item"><a href="#">Games</a></div>
         <div class="mobile-menu-item"><a href="#">Mangás</a></div>
-        <div class="mobile-menu-item" id="area-usuario-mobile"><a href="/anigeeknews/usuario/cadastro.html">Cadastro/Login</a></div>
         
-        <div class="theme-toggle-container" style="padding: 20px 0;">
+        <div class="theme-toggle-container" style="padding: 20px 0; border-top: 1px solid var(--border); margin-top: 10px;">
             <span style="font-size: 13px; font-family: var(--font-sans); font-weight: 700;">TEMA ESCURO</span>
             <label class="theme-toggle">
                 <input type="checkbox" id="mobileThemeToggle">
@@ -255,14 +284,13 @@
             </label>
         </div>
 
-        <div class="mobile-footer-inside">
-            <a href="#" class="logo">Village<span>Shippan</span></a>
-            <p>Jornalismo independente sobre cultura pop e tecnologia.</p>
-            <div style="margin-top: 15px; font-size: 10px; color: var(--text-muted); font-family: var(--font-sans);">© 2025 Village Shippan News.</div>
+        <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid var(--text-main);">
+            <a href="#" class="logo" style="font-size: 20px;">Village<span>Shippan</span></a>
+            <p style="font-family: var(--font-serif); font-size: 12px; color: var(--text-muted); font-style: italic;">Jornalismo independente sobre cultura pop.</p>
         </div>
     </div>
 
-    <div class="layout-article">
+    <main class="layout-article">
         <div class="social-sticky">
             <button class="share-btn"><i class="fab fa-facebook-f"></i></button>
             <button class="share-btn"><i class="fab fa-twitter"></i></button>
@@ -314,13 +342,14 @@
 
             <div class="sidebar-box">
                 <h4 class="sidebar-title">Newsletter</h4>
+                <p style="font-size: 12px; font-family: var(--font-sans); margin-bottom: 10px;">Receba o briefing matinal no seu email.</p>
                 <div style="display: flex; gap: 5px;">
                     <input type="email" placeholder="Seu email" style="width: 100%; padding: 10px; border: 1px solid var(--border); background: var(--bg); color: var(--text-main); font-family: var(--font-sans); font-size: 12px;">
                     <button style="background: var(--text-main); color: var(--bg); border: none; padding: 0 15px; font-weight: bold; cursor: pointer;">OK</button>
                 </div>
             </div>
         </aside>
-    </div>
+    </main>
 
     <footer>
         <div style="max-width: var(--container-w); margin: 0 auto;">
@@ -337,29 +366,30 @@
 
     <script>
         function toggleMobileMenu() {
-            const menu = document.getElementById('mobileMenu');
-            menu.classList.toggle('active');
+            document.getElementById('mobileMenu').classList.toggle('active');
         }
 
         function scrollToTop() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        // Sistema de Tema Sincronizado
         const themeToggle = document.getElementById('themeToggle');
         const mobileThemeToggle = document.getElementById('mobileThemeToggle');
         
         function applyTheme(isDark) {
             document.body.classList.toggle('dark-mode', isDark);
-            themeToggle.checked = isDark;
-            mobileThemeToggle.checked = isDark;
+            if(themeToggle) themeToggle.checked = isDark;
+            if(mobileThemeToggle) mobileThemeToggle.checked = isDark;
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
         }
 
-        themeToggle.addEventListener('change', (e) => applyTheme(e.target.checked));
-        mobileThemeToggle.addEventListener('change', (e) => applyTheme(e.target.checked));
+        themeToggle?.addEventListener('change', (e) => applyTheme(e.target.checked));
+        mobileThemeToggle?.addEventListener('change', (e) => applyTheme(e.target.checked));
 
         if (localStorage.getItem('theme') === 'dark') applyTheme(true);
 
+        // Barra de progresso e botão topo
         window.addEventListener('scroll', () => {
             const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
