@@ -4,14 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>One Piece: O clímax de Egghead redefine a animação moderna | Village Shippan News</title>
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Aldrich&family=Libertinus+Serif+Display&family=Oxanium:wght@200..800&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
     <style>
-        /* --- VARIÁVEIS EXATAS DA PÁGINA INICIAL --- */
+        /* --- VARIÁVEIS EXATAS DA HOME (index.html) --- */
         :root {
             --nyt-black: #121212;
             --nyt-ink: #202020;
@@ -52,7 +50,6 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
             font-family: var(--font-sans);
             background: var(--bg);
@@ -62,7 +59,7 @@
             transition: background var(--duration) var(--ease-editorial), color var(--duration) var(--ease-editorial);
         }
 
-        /* --- ESTILIZAÇÃO DO USUÁRIO (SESSÃO USUÁRIO JS) --- */
+        /* --- ÁREA USUÁRIO (igual à home) --- */
         #area-usuario, #area-usuario-mobile {
             display: flex;
             align-items: center;
@@ -71,10 +68,8 @@
             font-weight: 700;
             text-transform: uppercase;
         }
-
         .user-logged { display: flex; align-items: center; gap: 15px; color: var(--text-main); }
         .user-logged span strong { color: var(--accent-news); }
-
         .btn-entrar, .btn-sair {
             text-decoration: none;
             color: var(--text-main);
@@ -89,12 +84,11 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-
         .btn-entrar:hover { background: var(--text-main); color: var(--bg); }
         .btn-sair { border-color: #999; color: #999; }
         .btn-sair:hover { border-color: var(--accent-news); color: var(--accent-news); }
 
-        /* --- CABEÇALHO --- */
+        /* --- HEADER (IGUAL À HOME) --- */
         header {
             background: var(--bg);
             border-bottom: 2px solid var(--text-main);
@@ -102,7 +96,6 @@
             top: 0;
             z-index: 1000;
         }
-
         .nav-container {
             max-width: var(--container-w);
             margin: 0 auto;
@@ -112,7 +105,6 @@
             justify-content: space-between;
             padding: 0 20px;
         }
-
         .logo {
             font-family: var(--font-header-serif);
             font-size: 26px;
@@ -123,7 +115,6 @@
             white-space: nowrap;
         }
         .logo span { font-style: italic; font-weight: 400; }
-
         .nav-menu { display: flex; gap: 30px; list-style: none; align-items: center; }
         .nav-item > a {
             text-decoration: none;
@@ -141,27 +132,60 @@
         .header-actions { display: flex; align-items: center; gap: 20px; }
 
         .sections-btn {
-            background: none; border: none; color: var(--text-main); cursor: pointer;
-            display: flex; flex-direction: column; gap: 4px; padding: 5px;
+            background: none;
+            border: none;
+            color: var(--text-main);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 5px;
         }
-        .sections-btn .bar { display: block; width: 20px; height: 2px; background-color: var(--text-main); transition: 0.3s; }
-        .sections-btn .bar:nth-child(3) { width: 12px; }
+        .sections-btn .bar {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background-color: var(--text-main);
+            transition: 0.3s;
+        }
+        .sections-btn .bar:nth-child(3) {
+            width: 12px;
+        }
 
         .menu-toggle {
-            background: none; border: none; font-size: 20px; color: var(--text-main); cursor: pointer; display: none;
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: var(--text-main);
+            cursor: pointer;
+            display: none;
         }
 
+        /* Dropdown Config */
         .nav-item.config { position: relative; list-style: none; }
         .config-dropdown {
-            position: absolute; top: 100%; right: 0; background: var(--card-bg);
-            min-width: 200px; border: 1px solid var(--border); opacity: 0; visibility: hidden;
-            transform: translateY(5px); transition: all 0.3s var(--ease-editorial);
-            padding: 15px; z-index: 1100; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--card-bg);
+            min-width: 200px;
+            border: 1px solid var(--border);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(5px);
+            transition: all 0.3s var(--ease-editorial);
+            padding: 15px;
+            z-index: 1100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
         }
-        .nav-item.config:hover .config-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+        .nav-item.config:hover .config-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
 
-        /* Theme Toggle UI */
         .theme-toggle-container { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; }
+        .theme-toggle-label { font-family: var(--font-sans); font-size: 13px; color: var(--text-main); }
         .theme-toggle { position: relative; display: inline-block; width: 40px; height: 20px; }
         .theme-toggle input { opacity: 0; width: 0; height: 0; }
         .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--nyt-gray-light); transition: 0.4s; border-radius: 34px; }
@@ -169,84 +193,274 @@
         input:checked + .slider { background-color: var(--accent-news); }
         input:checked + .slider:before { transform: translateX(20px); }
 
-        /* --- MENU LATERAL (MOBILE) --- */
+        /* --- MENU MOBILE (padrão home) --- */
         .mobile-menu {
-            position: fixed; top: var(--header-h); right: -100%; width: 80%; max-width: 300px;
-            height: calc(100vh - var(--header-h)); background: var(--bg);
-            border-left: 1px solid var(--border); z-index: 2000; padding: 20px;
-            transition: right 0.3s ease; overflow-y: auto;
+            position: fixed;
+            top: var(--header-h);
+            right: -100%;
+            width: 80%;
+            max-width: 300px;
+            height: calc(100vh - var(--header-h));
+            background: var(--bg);
+            border-left: 1px solid var(--border);
+            z-index: 2000;
+            padding: 20px;
+            transition: right 0.3s ease;
+            overflow-y: auto;
         }
         .mobile-menu.active { right: 0; }
-        .close-menu { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 24px; color: var(--text-main); cursor: pointer; }
-        .mobile-menu-item { padding: 12px 0; border-bottom: 1px solid var(--border); }
-        .mobile-menu-item a { text-decoration: none; color: var(--text-main); font-weight: 600; font-family: var(--font-sans); text-transform: uppercase; font-size: 13px; }
-
-        /* --- LAYOUT DO ARTIGO --- */
-        .layout-article {
-            max-width: var(--container-w); margin: 40px auto; padding: 0 20px;
-            display: grid; grid-template-columns: 100px 1fr 300px; gap: 40px;
+        .close-menu {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-main);
+            cursor: pointer;
         }
-        .article-header-block { grid-column: 2 / 3; margin-bottom: 30px; }
-        .article-tag { font-size: 11px; font-weight: 800; color: var(--accent-news); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; display: block; border-bottom: 1px solid var(--accent-news); width: fit-content; }
-        .article-title { font-family: var(--font-header-serif); font-size: clamp(32px, 4vw, 42px); line-height: 1.1; font-weight: 700; margin-bottom: 15px; letter-spacing: -1px; }
-        .article-deck { font-family: var(--font-serif); font-size: 19px; color: var(--text-muted); margin-bottom: 25px; line-height: 1.4; }
-        .article-meta-line { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 15px 0; font-size: 12px; margin-bottom: 30px; font-family: var(--font-sans); text-transform: uppercase; font-weight: 700; }
+        .mobile-menu-item {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .mobile-menu-item a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 13px;
+        }
 
-        .article-hero-wrapper { grid-column: 1 / 4; margin-bottom: 40px; }
-        .article-hero-img { width: 100%; height: auto; max-height: 600px; object-fit: cover; filter: var(--img-filter); transition: 0.6s; }
-        .article-hero-img:hover { filter: var(--img-hover); }
-        
-        .article-body { grid-column: 2 / 3; font-family: var(--font-serif); font-size: 20px; line-height: 1.8; color: var(--text-main); }
+        /* --- CONTEÚDO DO ARTIGO --- */
+        .layout-article {
+            max-width: var(--container-w);
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 100px 1fr 300px;
+            gap: 40px;
+        }
+
+        .article-header-block {
+            grid-column: 2 / 3;
+            margin-bottom: 30px;
+        }
+
+        .article-tag {
+            display: block;
+            font-family: var(--font-sans);
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--accent-news);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--accent-news);
+            width: fit-content;
+        }
+
+        .article-title {
+            font-family: var(--font-header-serif);
+            font-size: clamp(32px, 4vw, 42px);
+            line-height: 1.1;
+            font-weight: 700;
+            margin-bottom: 15px;
+            letter-spacing: -1px;
+            color: var(--text-main);
+        }
+
+        .article-deck {
+            font-family: var(--font-serif);
+            font-size: 19px;
+            line-height: 1.5;
+            color: var(--text-muted);
+            font-weight: 400;
+            margin-bottom: 25px;
+        }
+
+        .article-meta-line {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 15px 0;
+            font-family: var(--font-sans);
+            font-size: 13px;
+            color: var(--text-main);
+        }
+        .author-block strong { font-weight: 800; text-transform: uppercase; }
+
+        .article-hero-wrapper {
+            grid-column: 1 / 4;
+            margin-bottom: 40px;
+        }
+
+        .article-hero-img {
+            width: 100%;
+            height: auto;
+            max-height: 600px;
+            object-fit: cover;
+            filter: var(--img-filter);
+            transition: filter 0.6s var(--ease-editorial);
+        }
+        .article-hero-img:hover {
+            filter: var(--img-hover);
+        }
+
+        .article-body {
+            grid-column: 2 / 3;
+            font-family: var(--font-serif);
+            font-size: 19px;
+            line-height: 1.8;
+            color: var(--text-main);
+        }
         .article-body p { margin-bottom: 24px; }
-        .article-body h2 { font-family: var(--font-sans); font-size: 20px; font-weight: 800; margin: 40px 0 20px; text-transform: uppercase; border-left: 4px solid var(--accent-news); padding-left: 15px; }
 
-        .blockquote-editorial { margin: 40px 0; padding-left: 20px; border-left: 3px solid var(--accent-news); font-style: italic; font-size: 22px; color: var(--text-main); }
+        .article-body > p:first-of-type::first-letter {
+            float: left;
+            font-size: 80px;
+            line-height: 68px;
+            font-weight: 700;
+            margin-right: 12px;
+            margin-top: 4px;
+            color: var(--text-main);
+        }
 
-        .social-sticky { position: sticky; top: 100px; display: flex; flex-direction: column; gap: 15px; align-items: center; }
-        .share-btn { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border); background: var(--bg); color: var(--text-main); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
-        .share-btn:hover { background: var(--text-main); color: var(--bg); }
+        .article-body h2 {
+            font-family: var(--font-sans);
+            font-size: 22px;
+            font-weight: 800;
+            margin: 40px 0 20px;
+            text-transform: uppercase;
+            border-left: 4px solid var(--accent-news);
+            padding-left: 15px;
+        }
 
-        .sidebar-box { margin-bottom: 50px; }
-        .sidebar-title { font-family: var(--font-sans); font-size: 13px; font-weight: 800; border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 20px; text-transform: uppercase; }
-        .related-link { display: block; margin-bottom: 15px; font-size: 14px; color: var(--text-main); text-decoration: none; border-bottom: 1px solid #f0f0f0; padding-bottom: 10px; font-family: var(--font-sans); font-weight: 600; }
-        .related-link:hover { color: var(--accent-news); }
+        .blockquote-editorial {
+            margin: 40px 0;
+            padding-left: 20px;
+            border-left: 3px solid var(--accent-news);
+            font-style: italic;
+            font-size: 22px;
+            color: var(--text-main);
+            font-family: var(--font-serif);
+            line-height: 1.6;
+        }
+
+        .social-sticky {
+            position: sticky;
+            top: 100px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .share-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .share-btn:hover {
+            background: var(--text-main);
+            color: var(--bg);
+        }
+
+        .sidebar-box {
+            margin-bottom: 50px;
+        }
+
+        .sidebar-title {
+            font-family: var(--font-sans);
+            font-size: 13px;
+            font-weight: 800;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .related-link {
+            display: block;
+            margin-bottom: 15px;
+            font-family: var(--font-sans);
+            font-size: 14px;
+            color: var(--text-main);
+            text-decoration: none;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 10px;
+            font-weight: 600;
+        }
+        .related-link:hover {
+            color: var(--accent-news);
+        }
 
         /* --- RODAPÉ --- */
-        footer { border-top: 4px solid var(--text-main); padding: 60px 0; margin-top: 80px; text-align: center; }
-        footer .logo { font-size: 28px; display: inline-block; margin-bottom: 15px; }
-        .footer-tagline { font-family: var(--font-serif); font-style: italic; color: var(--text-muted); font-size: 14px; }
+        footer {
+            border-top: 4px solid var(--text-main);
+            padding: 60px 0;
+            margin-top: 80px;
+            text-align: center;
+        }
+        .footer-tagline {
+            font-family: var(--font-serif);
+            font-style: italic;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
 
+        /* --- RESPONSIVO --- */
         @media (max-width: 900px) {
             .nav-menu { display: none; }
             .menu-toggle { display: block; }
-            .layout-article { grid-template-columns: 1fr; }
-            .article-header-block, .article-body { grid-column: auto; }
-            .social-sticky { position: static; flex-direction: row; margin-bottom: 20px; justify-content: center; }
+            .layout-article {
+                grid-template-columns: 1fr;
+                padding: 0 15px;
+            }
+            .article-header-block,
+            .article-body {
+                grid-column: auto;
+            }
+            .social-sticky {
+                position: static;
+                flex-direction: row;
+                justify-content: center;
+                margin-bottom: 20px;
+            }
             .article-hero-wrapper { grid-column: auto; }
         }
     </style>
 </head>
 <body>
-
+    <!-- Barra de progresso -->
     <div id="progress-bar" style="position: fixed; top: 0; left: 0; height: 3px; background: var(--primary); width: 0%; z-index: 1100; transition: width 0.1s;"></div>
 
+    <!-- HEADER (PADRÃO HOME) -->
     <header>
         <div class="nav-container">
             <a href="/anigeeknews/index.html" class="logo">Village<span>Shippan</span></a>
-            
             <ul class="nav-menu" id="navMenu">
                 <li class="nav-item"><a href="#">Animes</a></li>
                 <li class="nav-item"><a href="#">Games</a></li>
                 <li class="nav-item"><a href="#">Mangás</a></li>
                 <li class="nav-item" id="area-usuario"><span>Verificando...</span></li>
             </ul>
-
             <div class="header-actions">
                 <li class="nav-item config">
                     <a href="#" style="color: var(--text-main); font-size: 18px;"><i class="fas fa-cog"></i></a>
                     <div class="config-dropdown">
                         <div class="theme-toggle-container">
-                            <span class="theme-toggle-label" style="font-size: 12px; font-family: var(--font-sans);">Tema Escuro</span>
+                            <span class="theme-toggle-label">Tema Escuro</span>
                             <label class="theme-toggle">
                                 <input type="checkbox" id="themeToggle">
                                 <span class="slider"></span>
@@ -254,13 +468,11 @@
                         </div>
                     </div>
                 </li>
-
                 <button class="sections-btn" onclick="if(window.abrirMegaMenu) window.abrirMegaMenu()">
                     <span class="bar"></span>
                     <span class="bar"></span>
                     <span class="bar"></span>
                 </button>
-
                 <button class="menu-toggle" onclick="toggleMobileMenu()">
                     <i class="fas fa-bars"></i>
                 </button>
@@ -268,28 +480,33 @@
         </div>
     </header>
 
+    <!-- MENU MOBILE -->
     <div class="mobile-menu" id="mobileMenu">
         <button class="close-menu" onclick="toggleMobileMenu()">×</button>
+        <!-- Primeiro item obrigatório para sessão do usuário -->
         <div class="mobile-menu-item" id="area-usuario-mobile"><span>Verificando...</span></div>
         <div class="mobile-menu-item"><a href="/anigeeknews/index.html">Início</a></div>
         <div class="mobile-menu-item"><a href="#">Animes</a></div>
         <div class="mobile-menu-item"><a href="#">Games</a></div>
         <div class="mobile-menu-item"><a href="#">Mangás</a></div>
-        
-        <div class="theme-toggle-container" style="padding: 20px 0; border-top: 1px solid var(--border); margin-top: 10px;">
-            <span style="font-size: 13px; font-family: var(--font-sans); font-weight: 700;">TEMA ESCURO</span>
-            <label class="theme-toggle">
-                <input type="checkbox" id="mobileThemeToggle">
-                <span class="slider"></span>
-            </label>
+        <div class="mobile-menu-item">
+            <div class="theme-toggle-container">
+                <span class="theme-toggle-label">Tema Escuro</span>
+                <label class="theme-toggle">
+                    <input type="checkbox" id="mobileThemeToggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
         </div>
-
         <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid var(--text-main);">
-            <a href="#" class="logo" style="font-size: 20px;">Village<span>Shippan</span></a>
-            <p style="font-family: var(--font-serif); font-size: 12px; color: var(--text-muted); font-style: italic;">Jornalismo independente sobre cultura pop.</p>
+            <a href="/anigeeknews/index.html" class="logo" style="font-size: 20px;">Village<span>Shippan</span></a>
+            <p style="font-family: var(--font-serif); font-size: 12px; color: var(--text-muted); font-style: italic;">
+                Jornalismo independente sobre cultura pop.
+            </p>
         </div>
     </div>
 
+    <!-- CONTEÚDO DO ARTIGO -->
     <main class="layout-article">
         <div class="social-sticky">
             <button class="share-btn"><i class="fab fa-facebook-f"></i></button>
@@ -303,7 +520,6 @@
                 <span class="article-tag">Análise • Animação</span>
                 <h1 class="article-title">One Piece: O clímax de Egghead redefine a animação moderna</h1>
                 <p class="article-deck">Uma análise aprofundada da revolução visual do arco Egghead em One Piece, com entrevistas exclusivas e contexto histórico da animação japonesa.</p>
-                
                 <div class="article-meta-line">
                     <div class="author-block">Por <strong>Takashi Mendes</strong></div>
                     <div class="date-block">17 Dez, 2025 • 8 min de leitura</div>
@@ -316,22 +532,19 @@
 
             <div class="article-body">
                 <p>Há algo de profundamente inquietante e, ao mesmo tempo, hipnótico nos episódios mais recentes de <em>One Piece</em>. Se durante o arco de Wano fomos presenteados com uma opulência visual baseada em filtros de pós-produção e linhas grossas reminiscentes do teatro Kabuki, o arco de Egghead — a ilha do futuro — decidiu caminhar na direção oposta: a desconstrução.</p>
-
                 <p>A decisão da Toei Animation de entregar as chaves do reino a diretores da "Webgen" (geração de animadores que surgiram na internet) não é apenas uma mudança estética; é uma declaração de intenções.</p>
-
                 <h2>O Caos Controlado</h2>
                 <p>Para o espectador casual, pode parecer que os personagens estão "derretendo". Para o olho treinado, o que vemos é uma aplicação magistral dos 12 princípios da animação levados ao extremo. A fluidez do Gear 5 exige que o mundo ao redor de Luffy perca sua rigidez.</p>
-
                 <div class="blockquote-editorial">
                     "Não estamos apenas animando socos. Estamos animando a emoção da borracha. O traço precisa quicar junto com o coração do personagem."
                     <br><small>— Henry Thurlow, Toei Animation</small>
                 </div>
-
                 <h2>O Futuro da Franquia</h2>
                 <p>Com o remake "The One Piece" anunciado pelo Wit Studio, a Toei sentiu a pressão. A resposta não foi tentar competir em polimento, mas em personalidade. Egghead prova que uma série com 25 anos de idade ainda pode ser a vanguarda experimental da indústria.</p>
             </div>
         </article>
 
+        <!-- SIDEBAR -->
         <aside>
             <div class="sidebar-box">
                 <h4 class="sidebar-title">Mais lidos</h4>
@@ -339,7 +552,6 @@
                 <a href="#" class="related-link">Ranking: As 10 melhores lutas animadas de 2024</a>
                 <a href="#" class="related-link">Por que Egghead é o arco mais político</a>
             </div>
-
             <div class="sidebar-box">
                 <h4 class="sidebar-title">Newsletter</h4>
                 <p style="font-size: 12px; font-family: var(--font-sans); margin-bottom: 10px;">Receba o briefing matinal no seu email.</p>
@@ -351,6 +563,7 @@
         </aside>
     </main>
 
+    <!-- RODAPÉ -->
     <footer>
         <div style="max-width: var(--container-w); margin: 0 auto;">
             <a href="/anigeeknews/index.html" class="logo">Village<span>Shippan</span></a>
@@ -359,11 +572,12 @@
         </div>
     </footer>
 
+    <!-- BOTÃO DE VOLTAR AO TOPO -->
     <button class="back-to-top" onclick="scrollToTop()" style="position: fixed; bottom: 30px; right: 30px; padding: 15px; background: var(--text-main); color: var(--bg); border: none; opacity: 0; transition: 0.3s; cursor: pointer; z-index: 1000;">↑</button>
 
+    <!-- SCRIPTS -->
     <script type="module" src="/anigeeknews/sessao_usuario.js"></script>
     <script type="module" src="/anigeeknews/main.js"></script>
-
     <script>
         function toggleMobileMenu() {
             document.getElementById('mobileMenu').classList.toggle('active');
@@ -373,34 +587,34 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Sistema de Tema Sincronizado
+        // Tema sincronizado
         const themeToggle = document.getElementById('themeToggle');
         const mobileThemeToggle = document.getElementById('mobileThemeToggle');
-        
+
         function applyTheme(isDark) {
             document.body.classList.toggle('dark-mode', isDark);
-            if(themeToggle) themeToggle.checked = isDark;
-            if(mobileThemeToggle) mobileThemeToggle.checked = isDark;
+            if (themeToggle) themeToggle.checked = isDark;
+            if (mobileThemeToggle) mobileThemeToggle.checked = isDark;
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
         }
 
         themeToggle?.addEventListener('change', (e) => applyTheme(e.target.checked));
         mobileThemeToggle?.addEventListener('change', (e) => applyTheme(e.target.checked));
 
-        if (localStorage.getItem('theme') === 'dark') applyTheme(true);
+        if (localStorage.getItem('theme') === 'dark') {
+            applyTheme(true);
+        }
 
-        // Barra de progresso e botão topo
+        // Barra de progresso + botão topo
         window.addEventListener('scroll', () => {
             const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             const scrolled = (winScroll / height) * 100;
             document.getElementById("progress-bar").style.width = scrolled + "%";
-            
+
             const btt = document.querySelector('.back-to-top');
-            if (winScroll > 300) btt.style.opacity = "1";
-            else btt.style.opacity = "0";
+            btt.style.opacity = winScroll > 300 ? "1" : "0";
         });
     </script>
 </body>
 </html>
-
