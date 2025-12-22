@@ -66,7 +66,7 @@
             display: flex;
             align-items: center;
             font-family: var(--font-sans);
-            font-size: 6px;
+            font-size: 12px;
             font-weight: 700;
             text-transform: uppercase;
         }
@@ -108,7 +108,7 @@
         }
         .logo {
             font-family: var(--font-logo);
-            font-size: 29px;
+            font-size: 26px;
             font-weight: 700;
             text-decoration: none;
             color: var(--text-main);
@@ -217,8 +217,14 @@
             margin: 0 auto;
             padding: 0 20px;
             display: grid;
-            grid-template-columns: 1fr 300px;
+            grid-template-columns: 1fr;
             gap: 60px;
+        }
+
+        @media (min-width: 769px) {
+            .layout {
+                grid-template-columns: 1fr 300px;
+            }
         }
 
         .breadcrumbs {
@@ -421,25 +427,28 @@
             margin-bottom: 20px;
             text-transform: uppercase;
         }
-        .top-list-item {
+        .top-list-item, .related-item {
             display: flex; gap: 15px; margin-bottom: 15px; padding-bottom: 15px;
             border-bottom: 1px solid #f0f0f0; align-items: baseline; text-decoration: none;
         }
-        body.dark-mode .top-list-item { border-bottom-color: #222; }
+        body.dark-mode .top-list-item,
+        body.dark-mode .related-item { border-bottom-color: #222; }
         .rank-num {
             font-family: var(--font-sans);
             font-size: 20px;
             font-weight: 800;
             color: var(--border);
         }
-        .top-list-item p {
+        .top-list-item p,
+        .related-item p {
             font-family: var(--font-sans);
             font-size: 14px;
             line-height: 1.4;
             color: var(--text-main);
             font-weight: 500;
         }
-        .top-list-item:hover p {
+        .top-list-item:hover p,
+        .related-item:hover p {
             color: var(--accent-news);
             text-decoration: underline;
         }
@@ -502,13 +511,11 @@
             .nav-menu { display: none; }
             .menu-toggle { display: block; }
             .logo { font-size: 22px; }
-            .layout { grid-template-columns: 1fr; gap: 40px; padding: 0 15px; }
             .article-title { font-size: 28px; }
             .article-body { font-size: 16.2px; }
             .article-body > p:first-of-type::first-letter { font-size: 57.6px; }
             .article-lead { font-size: 18px; }
             .article-meta-row { flex-direction: column; gap: 15px; }
-            /* Garantir que a barra de busca permaneça em linha */
             .search-bar { flex-wrap: wrap; }
             .search-input, .search-btn { width: auto; min-width: 120px; }
         }
@@ -547,9 +554,9 @@
             .article-body blockquote { font-size: 14.4px; margin: 30px 0; padding-left: 10px; }
             .inline-img { margin: 30px 0; }
             .sidebar-title { font-size: 12px; }
-            .top-list-item { gap: 10px; margin-bottom: 10px; padding-bottom: 10px; }
+            .top-list-item, .related-item { gap: 10px; margin-bottom: 10px; padding-bottom: 10px; }
             .rank-num { font-size: 18px; }
-            .top-list-item p { font-size: 12.6px; }
+            .top-list-item p, .related-item p { font-size: 12.6px; }
             .newsletter-card h3 { font-size: 16px; }
             .newsletter-card input, .newsletter-card button { padding: 8px; font-size: 13px; }
             footer { padding: 15px 0; }
@@ -561,7 +568,7 @@
     <div id="progress-bar" style="position: fixed; top: 0; left: 0; height: 3px; background: var(--primary); width: 0%; z-index: 1001; transition: width 0.1s;"></div>
     <header>
         <div class="nav-container">
-            <a href="/anigeeknews/index.html" class="logo">AniGeekNews<span></span></a>
+            <a href="/anigeeknews/index.html" class="logo">AniGeek<span>News</span></a>
             <ul class="nav-menu" id="navMenu">
                 <li class="nav-item"><a href="#">Animes</a></li>
                 <li class="nav-item"><a href="#">Games</a></li>
@@ -616,10 +623,10 @@
             <main>
                 <div class="article-meta-row">
                     <div class="author-box">
-                        <img src="https://i.pravatar.cc/150?u=editor" alt="Editor Chefe">
+                        <img src="https://i.postimg.cc/9fRpH5XP/FB-IMG-1765862955766.jpg" alt="Levi Arkeman">
                         <div class="author-info">
-                            <span>Carlos "Editor" Silva</span>
-                            <span class="role">Crítico de Animação</span>
+                            <span>Levi Arkeman</span>
+                            <span class="role">Editor Sênior</span>
                         </div>
                     </div>
                     <div class="article-date">17 Dez, 2025</div>
@@ -643,16 +650,32 @@
                     <div class="ad-inline">[ ANÚNCIO 300x250 – MID-ARTICLE ]</div>
 
                     <h3>O Fator "Shinya Ohira"</h3>
-                    <p>Para entender Egghead, precisamos olhar para o passado. A influência da "webgen" (animadores que surgiram na internet) trouxe uma fluidez gelatinosa e expressiva para as cenas de ação. O traço perde a rigidez do modelo original de Eiichiro Oda para ganhar movimento. </p>
+                    <p>Para entender Egghead, precisamos olhar para o passado. A influência da "webgen" (animadores que surgiram na internet) trouxe uma fluidez gelatinosa e expressiva para as cenas de ação. O traço perde a rigidez do modelo original de Eiichiro Oda para ganhar movimento.</p>
                     <blockquote>"A animação não precisa ser um espelho do mangá; ela deve ser a amplificação do sentimento que o painel estático evoca."</blockquote>
                     <p>Essa filosofia é visível quando analisamos a luta recente no Laboratório Estratosférico. Os contornos dos personagens quebraram, as cores vazaram das linhas, e o uso de <em>smear frames</em> foi levado ao extremo. Para o espectador casual, pode parecer "mal desenhado" em um frame pausado. Para o olho treinado, é a mais pura expressão de movimento cinético.</p>
+                    
                     <div class="inline-img">
                         <img src="https://images.unsplash.com/photo-1618336753974-aae8e04506aa?w=800&auto=format&fit=crop&q=60" alt="Conceito abstrato de arte" style="height: 300px; object-fit: cover;">
                         <figcaption class="fig-caption">O uso de cores experimentais tem sido uma marca registrada do arco futurista.</figcaption>
                     </div>
+
                     <h3>Tecnologia vs. Alma</h3>
                     <p>Egghead é, tematicamente, sobre o futuro e a tecnologia. Ironicamente, a animação utilizou técnicas que remetem ao esboço feito à mão, ao grafite, ao imperfeito. Há uma sobreposição de filtros de pós-processamento, sim, mas a alma da animação permanece crua.</p>
                     <p>Naotoshi Shida, veterano da casa, entregou sequências onde a câmera gira 360 graus em um ambiente 2D desenhado frame a frame, dispensando o CGI que muitos estúdios usariam como muleta. Isso cria uma sensação de vertigem e escala que o 3D, por mais polido que seja, raramente alcança com a mesma "sujeira" orgânica.</p>
+
+                    <h3>O Legado de Wano</h3>
+                    <p>O arco de Wano já havia plantado as sementes dessa revolução. Com a introdução do estilo "watercolor" nas cenas de luta e o uso de texturas digitais não tradicionais, a Toei sinalizava que estava disposta a romper com o "house style" que dominou seus trabalhos nas décadas anteriores.</p>
+                    <p>O episódio 1071, que encerrou Wano, já exibia traços de experimentação que culminam agora em Egghead: distorções de perspectiva, uso de negativo e até referências visuais a clássicos do cinema expressionista alemão.</p>
+
+                    <h3>O Papel do Streaming</h3>
+                    <p>A mudança de paradigma também é econômica. Com o anime migrando do broadcast linear para o streaming sob demanda, a pressão por "frames bonitos para captura" perdeu força. A experiência agora é imersiva e contínua — não fragmentada por intervalos comerciais.</p>
+                    <blockquote>"Estamos fazendo cinema animado semanal, não episódios de TV. O ritmo, a linguagem visual e o risco estético são diferentes."</blockquote>
+                    <p>Essa declaração de um diretor da Toei, feita anonimamente a jornalistas, resume a mentalidade por trás do que vemos em Egghead.</p>
+
+                    <h3>A Revolução Silenciosa</h3>
+                    <p>O mais impressionante é que essa transformação visual não foi anunciada com pompa. Não houve comunicado de imprensa, nem teaser promocional explicitando a nova direção de arte. A mudança ocorreu organicamente, como uma evolução natural da narrativa.</p>
+                    <p>Isso contrasta fortemente com franquias que adotam CGI em larga escala ou mudanças de estúdio, eventos que geram polêmica imediata. Em One Piece, o novo estilo foi absorvido pela própria história: o caos visual reflete o caos político e científico de Egghead.</p>
+
                     <h3>O Veredito</h3>
                     <p>Se Wano foi um épico de teatro Kabuki, tradicional e pesado, Egghead é um videoclipe de Pop Art sci-fi. A decisão de mudar o filtro de cor para tons pastéis neon e linhas mais finas (o chamado "lineart soft") ajuda a diferenciar a atmosfera.</p>
                     <p>Estamos vendo a história sendo feita. Não apenas a história de Luffy e seus companheiros rumo ao One Piece, mas a história de como um anime semanal, muitas vezes ridicularizado por sua qualidade inconsistente no passado, tornou-se o palco onde os maiores animadores do mundo querem exibir sua arte. O clímax de Egghead não é apenas um ponto de virada na trama; é um manifesto visual.</p>
@@ -678,6 +701,18 @@
                         <a href="#" class="top-list-item"><span class="rank-num">4</span><p>Entrevista: O futuro de One Piece segundo o editor.</p></a>
                     </div>
                 </div>
+
+                <div class="sidebar-box">
+                    <h4 class="sidebar-title">Artigos Relacionados</h4>
+                    <div class="related-list">
+                        <a href="#" class="related-item"><p>One Piece: 5 cenas mais inovadoras da história da animação da franquia</p></a>
+                        <a href="#" class="related-item"><p>A ascensão da "webgen": como a nova geração está transformando a indústria do anime</p></a>
+                        <a href="#" class="related-item"><p>Shinya Ohira: o artista por trás do estilo mais caótico do anime moderno</p></a>
+                        <a href="#" class="related-item"><p>Egghead explicado: guia completo dos personagens e tecnologias do arco</p></a>
+                        <a href="#" class="related-item"><p>Por que One Piece é o novo laboratório da animação japonesa</p></a>
+                    </div>
+                </div>
+
                 <div class="newsletter-card">
                     <h3>Briefing Matinal</h3>
                     <p style="font-family: var(--font-sans); font-size: 13px; color: var(--text-muted); margin-bottom: 10px;">Curadoria manual das notícias mais importantes do dia.</p>
