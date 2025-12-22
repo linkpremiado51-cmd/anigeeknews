@@ -6,10 +6,11 @@
     <title>One Piece: O clímax de Egghead redefine a animação moderna | Village Shippan News</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Aldrich&family=Libertinus+Serif+Display&family=Oxanium:wght@200..800&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Fonte serif próxima do Cheltenham (opcional, mas Georgia será prioridade) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        /* --- VARIÁVEIS EXATAS DA HOME (index.html) --- */
+        /* --- VARIÁVEIS COM AS FONTES DO NYT --- */
         :root {
             --nyt-black: #121212;
             --nyt-ink: #202020;
@@ -33,10 +34,12 @@
             --container-w: 1200px;
             --ease-editorial: cubic-bezier(0.25, 0.46, 0.45, 0.94);
             --duration: 0.4s;
-            --font-serif: 'Libertinus Serif Display', serif;
-            --font-sans: 'Oxanium', sans-serif;
-            --font-logo: 'Aldrich', sans-serif;
-            --font-header-serif: 'Noto Serif', serif;
+
+            /* Fontes alinhadas com o NYT */
+            --font-serif: Georgia, "Times New Roman", Times, serif;
+            --font-serif-title: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+            --font-sans: "Franklin Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            --font-logo: "Franklin Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
 
         body.dark-mode {
@@ -51,7 +54,7 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: var(--font-sans);
+            font-family: var(--font-serif); /* CORPO DO TEXTO: Georgia */
             background: var(--bg);
             color: var(--text-main);
             line-height: 1.6;
@@ -59,7 +62,7 @@
             transition: background var(--duration) var(--ease-editorial), color var(--duration) var(--ease-editorial);
         }
 
-        /* --- ÁREA USUÁRIO (igual à home) --- */
+        /* --- ÁREA USUÁRIO (sans-serif) --- */
         #area-usuario, #area-usuario-mobile {
             display: flex;
             align-items: center;
@@ -88,7 +91,7 @@
         .btn-sair { border-color: #999; color: #999; }
         .btn-sair:hover { border-color: var(--accent-news); color: var(--accent-news); }
 
-        /* --- HEADER (IGUAL À HOME) --- */
+        /* --- HEADER --- */
         header {
             background: var(--bg);
             border-bottom: 2px solid var(--text-main);
@@ -106,7 +109,7 @@
             padding: 0 20px;
         }
         .logo {
-            font-family: var(--font-header-serif);
+            font-family: var(--font-logo);
             font-size: 22px;
             font-weight: 700;
             text-decoration: none;
@@ -119,6 +122,7 @@
         .nav-item > a {
             text-decoration: none;
             color: var(--text-main);
+            font-family: var(--font-sans);
             font-size: 13px;
             font-weight: 700;
             text-transform: uppercase;
@@ -193,7 +197,7 @@
         input:checked + .slider { background-color: var(--accent-news); }
         input:checked + .slider:before { transform: translateX(20px); }
 
-        /* --- MENU MOBILE (padrão home) --- */
+        /* --- MENU MOBILE --- */
         .mobile-menu {
             position: fixed;
             top: var(--header-h);
@@ -261,7 +265,7 @@
         }
 
         .article-title {
-            font-family: var(--font-header-serif);
+            font-family: var(--font-serif-title); /* TÍTULO: Georgia com alternativa próxima do Cheltenham */
             font-size: clamp(32px, 4vw, 42px);
             line-height: 1.1;
             font-weight: 700;
@@ -277,6 +281,7 @@
             color: var(--text-muted);
             font-weight: 400;
             margin-bottom: 25px;
+            font-style: italic;
         }
 
         .article-meta-line {
@@ -311,7 +316,7 @@
 
         .article-body {
             grid-column: 2 / 3;
-            font-family: var(--font-serif);
+            font-family: var(--font-serif); /* CORPO DO ARTIGO: Georgia */
             font-size: 19px;
             line-height: 1.8;
             color: var(--text-main);
@@ -326,14 +331,15 @@
             margin-right: 12px;
             margin-top: 4px;
             color: var(--text-main);
+            font-family: var(--font-serif);
         }
 
         .article-body h2 {
-            font-family: var(--font-sans);
+            font-family: var(--font-serif-title);
             font-size: 22px;
-            font-weight: 800;
+            font-weight: 700;
             margin: 40px 0 20px;
-            text-transform: uppercase;
+            font-style: italic;
             border-left: 4px solid var(--accent-news);
             padding-left: 15px;
         }
@@ -370,6 +376,7 @@
             justify-content: center;
             cursor: pointer;
             transition: all 0.3s;
+            font-family: var(--font-sans);
         }
         .share-btn:hover {
             background: var(--text-main);
@@ -486,7 +493,6 @@
     <!-- MENU MOBILE -->
     <div class="mobile-menu" id="mobileMenu">
         <button class="close-menu" onclick="toggleMobileMenu()">×</button>
-        <!-- Primeiro item obrigatório para sessão do usuário -->
         <div class="mobile-menu-item" id="area-usuario-mobile"><span>Verificando...</span></div>
         <div class="mobile-menu-item"><a href="/anigeeknews/index.html">Início</a></div>
         <div class="mobile-menu-item"><a href="#">Animes</a></div>
@@ -502,7 +508,7 @@
             </div>
         </div>
         <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid var(--text-main);">
-            <a href="/anigeeknews/index.html" class="logo" style="font-size: 20px;">Village<span>Shippan</span></a>
+            <a href="/anigeeknews/index.html" class="logo" style="font-size: 20px; font-family: var(--font-logo);">Village<span>Shippan</span></a>
             <p style="font-family: var(--font-serif); font-size: 12px; color: var(--text-muted); font-style: italic;">
                 Jornalismo independente sobre cultura pop.
             </p>
@@ -560,7 +566,7 @@
                 <p style="font-size: 12px; font-family: var(--font-sans); margin-bottom: 10px;">Receba o briefing matinal no seu email.</p>
                 <div style="display: flex; gap: 5px;">
                     <input type="email" placeholder="Seu email" style="width: 100%; padding: 10px; border: 1px solid var(--border); background: var(--bg); color: var(--text-main); font-family: var(--font-sans); font-size: 12px;">
-                    <button style="background: var(--text-main); color: var(--bg); border: none; padding: 0 15px; font-weight: bold; cursor: pointer;">OK</button>
+                    <button style="background: var(--text-main); color: var(--bg); border: none; padding: 0 15px; font-weight: bold; cursor: pointer; font-family: var(--font-sans);">OK</button>
                 </div>
             </div>
         </aside>
