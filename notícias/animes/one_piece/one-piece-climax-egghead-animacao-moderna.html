@@ -6,11 +6,11 @@
     <title>One Piece: O clímax de Egghead redefine a animação moderna | Village Shippan News</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Fonte serif próxima do Cheltenham (opcional, mas Georgia será prioridade) -->
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
+    <!-- Fontes otimizadas para legibilidade e estilo jornalístico -->
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        /* --- VARIÁVEIS COM AS FONTES DO NYT --- */
+        /* --- VARIÁVEIS COM AS FONTES E CORES --- */
         :root {
             --nyt-black: #121212;
             --nyt-ink: #202020;
@@ -35,11 +35,11 @@
             --ease-editorial: cubic-bezier(0.25, 0.46, 0.45, 0.94);
             --duration: 0.4s;
 
-            /* Fontes alinhadas com o NYT */
-            --font-serif: Georgia, "Times New Roman", Times, serif;
-            --font-serif-title: "Cormorant Garamond", Georgia, "Times New Roman", serif;
-            --font-sans: "Franklin Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif;
-            --font-logo: "Franklin Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            /* Fontes otimizadas para legibilidade */
+            --font-serif: "EB Garamond", Georgia, "Times New Roman", Times, serif;
+            --font-serif-title: "EB Garamond", Georgia, "Times New Roman", Times, serif;
+            --font-sans: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            --font-logo: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
 
         body.dark-mode {
@@ -54,7 +54,7 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: var(--font-serif); /* CORPO DO TEXTO: Georgia */
+            font-family: var(--font-serif);
             background: var(--bg);
             color: var(--text-main);
             line-height: 1.6;
@@ -68,7 +68,7 @@
             align-items: center;
             font-family: var(--font-sans);
             font-size: 12px;
-            font-weight: 700;
+            font-weight: 600;
             text-transform: uppercase;
         }
         .user-logged { display: flex; align-items: center; gap: 15px; color: var(--text-main); }
@@ -83,7 +83,7 @@
             background: transparent;
             font-family: var(--font-sans);
             font-size: 11px;
-            font-weight: 800;
+            font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -110,21 +110,21 @@
         }
         .logo {
             font-family: var(--font-logo);
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 700;
             text-decoration: none;
             color: var(--text-main);
-            letter-spacing: -1px;
+            letter-spacing: -0.5px;
             white-space: nowrap;
         }
         .logo span { font-style: italic; font-weight: 400; }
-        .nav-menu { display: flex; gap: 30px; list-style: none; align-items: center; }
+        .nav-menu { display: flex; gap: 25px; list-style: none; align-items: center; }
         .nav-item > a {
             text-decoration: none;
             color: var(--text-main);
             font-family: var(--font-sans);
             font-size: 13px;
-            font-weight: 700;
+            font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             padding: 24px 0;
@@ -202,7 +202,7 @@
             position: fixed;
             top: var(--header-h);
             right: -100%;
-            width: 80%;
+            width: 85%;
             max-width: 300px;
             height: calc(100vh - var(--header-h));
             background: var(--bg);
@@ -233,54 +233,68 @@
             font-family: var(--font-sans);
             font-weight: 600;
             text-transform: uppercase;
-            font-size: 13px;
+            font-size: 14px;
         }
 
         /* --- CONTEÚDO DO ARTIGO --- */
         .layout-article {
             max-width: var(--container-w);
-            margin: 40px auto;
+            margin: 30px auto;
             padding: 0 20px;
             display: grid;
-            grid-template-columns: 100px 1fr 300px;
-            gap: 40px;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        @media (min-width: 900px) {
+            .layout-article {
+                grid-template-columns: 100px 1fr 300px;
+                gap: 40px;
+            }
         }
 
         .article-header-block {
-            grid-column: 2 / 3;
-            margin-bottom: 30px;
+            grid-column: 1 / -1;
+            margin-bottom: 20px;
+        }
+
+        @media (min-width: 900px) {
+            .article-header-block {
+                grid-column: 2 / 3;
+                margin-bottom: 30px;
+            }
         }
 
         .article-tag {
             display: block;
             font-family: var(--font-sans);
             font-size: 11px;
-            font-weight: 800;
+            font-weight: 600;
             color: var(--accent-news);
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 15px;
+            letter-spacing: 0.8px;
+            margin-bottom: 12px;
             border-bottom: 1px solid var(--accent-news);
             width: fit-content;
         }
 
         .article-title {
-            font-family: var(--font-serif-title); /* TÍTULO: Georgia com alternativa próxima do Cheltenham */
-            font-size: clamp(32px, 4vw, 42px);
-            line-height: 1.1;
-            font-weight: 700;
-            margin-bottom: 15px;
-            letter-spacing: -1px;
+            font-family: var(--font-serif-title);
+            font-size: clamp(24px, 5vw, 36px);
+            line-height: 1.2;
+            font-weight: 600;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
             color: var(--text-main);
         }
 
         .article-deck {
             font-family: var(--font-serif);
-            font-size: 19px;
+            font-size: clamp(16px, 3vw, 18px);
             line-height: 1.5;
             color: var(--text-muted);
             font-weight: 400;
-            margin-bottom: 25px;
+            margin-bottom: 18px;
             font-style: italic;
         }
 
@@ -290,22 +304,29 @@
             justify-content: space-between;
             border-top: 1px solid var(--border);
             border-bottom: 1px solid var(--border);
-            padding: 15px 0;
+            padding: 12px 0;
             font-family: var(--font-sans);
-            font-size: 13px;
+            font-size: 12px;
             color: var(--text-main);
         }
-        .author-block strong { font-weight: 800; text-transform: uppercase; }
+        .author-block strong { font-weight: 600; text-transform: uppercase; }
 
         .article-hero-wrapper {
-            grid-column: 1 / 4;
-            margin-bottom: 40px;
+            grid-column: 1 / -1;
+            margin-bottom: 30px;
+        }
+
+        @media (min-width: 900px) {
+            .article-hero-wrapper {
+                grid-column: 1 / 4;
+                margin-bottom: 40px;
+            }
         }
 
         .article-hero-img {
             width: 100%;
             height: auto;
-            max-height: 600px;
+            max-height: 500px;
             object-fit: cover;
             filter: var(--img-filter);
             transition: filter 0.6s var(--ease-editorial);
@@ -315,20 +336,28 @@
         }
 
         .article-body {
-            grid-column: 2 / 3;
-            font-family: var(--font-serif); /* CORPO DO ARTIGO: Georgia */
-            font-size: 19px;
-            line-height: 1.8;
+            grid-column: 1 / -1;
+            font-family: var(--font-serif);
+            font-size: clamp(16px, 2.5vw, 18px);
+            line-height: 1.7;
             color: var(--text-main);
         }
-        .article-body p { margin-bottom: 24px; }
+
+        @media (min-width: 900px) {
+            .article-body {
+                grid-column: 2 / 3;
+                font-size: 18px;
+            }
+        }
+
+        .article-body p { margin-bottom: 20px; }
 
         .article-body > p:first-of-type::first-letter {
             float: left;
-            font-size: 80px;
-            line-height: 68px;
-            font-weight: 700;
-            margin-right: 12px;
+            font-size: clamp(48px, 8vw, 72px);
+            line-height: clamp(48px, 8vw, 68px);
+            font-weight: 600;
+            margin-right: 10px;
             margin-top: 4px;
             color: var(--text-main);
             font-family: var(--font-serif);
@@ -336,20 +365,20 @@
 
         .article-body h2 {
             font-family: var(--font-serif-title);
-            font-size: 22px;
-            font-weight: 700;
-            margin: 40px 0 20px;
+            font-size: clamp(20px, 4vw, 24px);
+            font-weight: 600;
+            margin: 30px 0 16px;
             font-style: italic;
-            border-left: 4px solid var(--accent-news);
-            padding-left: 15px;
+            border-left: 3px solid var(--accent-news);
+            padding-left: 12px;
         }
 
         .blockquote-editorial {
-            margin: 40px 0;
-            padding-left: 20px;
+            margin: 30px 0;
+            padding-left: 16px;
             border-left: 3px solid var(--accent-news);
             font-style: italic;
-            font-size: 22px;
+            font-size: clamp(18px, 3vw, 20px);
             color: var(--text-main);
             font-family: var(--font-serif);
             line-height: 1.6;
@@ -360,13 +389,22 @@
             top: 100px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
             align-items: center;
         }
 
+        @media (max-width: 900px) {
+            .social-sticky {
+                position: static;
+                flex-direction: row;
+                justify-content: center;
+                margin-bottom: 20px;
+            }
+        }
+
         .share-btn {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             border: 1px solid var(--border);
             background: var(--bg);
@@ -384,29 +422,29 @@
         }
 
         .sidebar-box {
-            margin-bottom: 50px;
+            margin-bottom: 40px;
         }
 
         .sidebar-title {
             font-family: var(--font-sans);
-            font-size: 13px;
-            font-weight: 800;
+            font-size: 12px;
+            font-weight: 600;
             border-bottom: 1px solid var(--border);
-            padding-bottom: 10px;
-            margin-bottom: 20px;
+            padding-bottom: 8px;
+            margin-bottom: 16px;
             text-transform: uppercase;
         }
 
         .related-link {
             display: block;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             font-family: var(--font-sans);
-            font-size: 14px;
+            font-size: 13px;
             color: var(--text-main);
             text-decoration: none;
             border-bottom: 1px solid #f0f0f0;
-            padding-bottom: 10px;
-            font-weight: 600;
+            padding-bottom: 8px;
+            font-weight: 500;
         }
         .related-link:hover {
             color: var(--accent-news);
@@ -414,16 +452,16 @@
 
         /* --- RODAPÉ --- */
         footer {
-            border-top: 4px solid var(--text-main);
-            padding: 60px 0;
-            margin-top: 80px;
+            border-top: 3px solid var(--text-main);
+            padding: 50px 0;
+            margin-top: 60px;
             text-align: center;
         }
         .footer-tagline {
             font-family: var(--font-serif);
             font-style: italic;
             color: var(--text-muted);
-            font-size: 14px;
+            font-size: 13px;
         }
 
         /* --- RESPONSIVO --- */
@@ -431,20 +469,8 @@
             .nav-menu { display: none; }
             .menu-toggle { display: block; }
             .layout-article {
-                grid-template-columns: 1fr;
                 padding: 0 15px;
             }
-            .article-header-block,
-            .article-body {
-                grid-column: auto;
-            }
-            .social-sticky {
-                position: static;
-                flex-direction: row;
-                justify-content: center;
-                margin-bottom: 20px;
-            }
-            .article-hero-wrapper { grid-column: auto; }
         }
     </style>
 </head>
@@ -452,7 +478,7 @@
     <!-- Barra de progresso -->
     <div id="progress-bar" style="position: fixed; top: 0; left: 0; height: 3px; background: var(--primary); width: 0%; z-index: 1100; transition: width 0.1s;"></div>
 
-    <!-- HEADER (PADRÃO HOME) -->
+    <!-- HEADER -->
     <header>
         <div class="nav-container">
             <a href="/anigeeknews/index.html" class="logo">Village<span>Shippan</span></a>
@@ -487,9 +513,6 @@
         </div>
     </header>
 
-    <!-- ⬇️ CONTAINER OBRIGATÓRIO PARA O MEGA MENU ⬇️ -->
-    <div id="megaMenuContainer"></div>
-
     <!-- MENU MOBILE -->
     <div class="mobile-menu" id="mobileMenu">
         <button class="close-menu" onclick="toggleMobileMenu()">×</button>
@@ -508,7 +531,7 @@
             </div>
         </div>
         <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid var(--text-main);">
-            <a href="/anigeeknews/index.html" class="logo" style="font-size: 20px; font-family: var(--font-logo);">Village<span>Shippan</span></a>
+            <a href="/anigeeknews/index.html" class="logo" style="font-size: 18px; font-family: var(--font-logo);">Village<span>Shippan</span></a>
             <p style="font-family: var(--font-serif); font-size: 12px; color: var(--text-muted); font-style: italic;">
                 Jornalismo independente sobre cultura pop.
             </p>
@@ -627,3 +650,4 @@
     </script>
 </body>
 </html>
+
