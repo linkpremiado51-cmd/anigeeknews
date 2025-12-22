@@ -6,7 +6,8 @@
     <title>Village Shippan News | Jornalismo Geek</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Aldrich&family=Libertinus+Serif+Display&family=Oxanium:wght@200..800&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Fonte serif para títulos (inspiração Cheltenham) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         :root {
@@ -32,10 +33,12 @@
             --container-w: 1200px;
             --ease-editorial: cubic-bezier(0.25, 0.46, 0.45, 0.94);
             --duration: 0.4s;
-            --font-serif: 'Libertinus Serif Display', serif;
-            --font-sans: 'Oxanium', sans-serif;
-            --font-logo: 'Aldrich', sans-serif;
-            --font-header-serif: 'Noto Serif', serif;
+
+            /* --- FONTES NO ESTILO NYT --- */
+            --font-serif: Georgia, "Times New Roman", Times, serif;
+            --font-serif-title: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+            --font-sans: "Franklin Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            --font-logo: "Franklin Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
 
         body.dark-mode {
@@ -50,7 +53,7 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: var(--font-sans);
+            font-family: var(--font-sans); /* Interface usa sans-serif */
             background: var(--bg);
             color: var(--text-main);
             line-height: 1.6;
@@ -58,6 +61,7 @@
             transition: background var(--duration) var(--ease-editorial), color var(--duration) var(--ease-editorial);
         }
 
+        /* --- ÁREA DO USUÁRIO --- */
         #area-usuario, #area-usuario-mobile {
             display: flex;
             align-items: center;
@@ -66,10 +70,8 @@
             font-weight: 700;
             text-transform: uppercase;
         }
-
         .user-logged { display: flex; align-items: center; gap: 15px; color: var(--text-main); }
         .user-logged span strong { color: var(--accent-news); }
-
         .btn-entrar, .btn-sair {
             text-decoration: none;
             color: var(--text-main);
@@ -84,7 +86,6 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-
         .btn-entrar:hover { background: var(--text-main); color: var(--bg); }
         .btn-sair { border-color: #999; color: #999; }
         .btn-sair:hover { border-color: var(--accent-news); color: var(--accent-news); }
@@ -97,7 +98,6 @@
             filter: var(--img-filter);
             transition: filter 0.6s var(--ease-editorial), transform 0.8s var(--ease-editorial);
         }
-
         .post-card:hover img, .main-feat:hover img, .sub-feat:hover img { filter: var(--img-hover); }
 
         header {
@@ -107,7 +107,6 @@
             top: 0;
             z-index: 1000;
         }
-
         .nav-container {
             max-width: var(--container-w);
             margin: 0 auto;
@@ -117,9 +116,8 @@
             justify-content: space-between;
             padding: 0 20px;
         }
-
         .logo {
-            font-family: var(--font-header-serif);
+            font-family: var(--font-logo);
             font-size: 26px;
             font-weight: 700;
             text-decoration: none;
@@ -127,16 +125,13 @@
             letter-spacing: -1px;
             white-space: nowrap;
         }
-
         .logo span { font-style: italic; font-weight: 400; }
-
         .nav-menu {
             display: flex;
             gap: 30px;
             list-style: none;
             align-items: center;
         }
-
         .nav-item > a {
             text-decoration: none;
             color: var(--text-main);
@@ -149,7 +144,6 @@
             display: block;
             border-bottom: 2px solid transparent;
         }
-
         .nav-item:hover > a { border-bottom-color: var(--primary); }
 
         .header-actions {
@@ -157,7 +151,6 @@
             align-items: center;
             gap: 20px;
         }
-
         .sections-btn {
             background: none;
             border: none;
@@ -168,7 +161,6 @@
             gap: 4px;
             padding: 5px;
         }
-
         .sections-btn .bar {
             display: block;
             width: 20px;
@@ -176,11 +168,9 @@
             background-color: var(--text-main);
             transition: 0.3s;
         }
-
         .sections-btn .bar:nth-child(3) {
             width: 12px;
         }
-
         .menu-toggle {
             background: none;
             border: none;
@@ -206,7 +196,6 @@
             z-index: 1100;
             box-shadow: 0 4px 20px rgba(0,0,0,0.05);
         }
-
         .nav-item.config:hover .config-dropdown {
             opacity: 1;
             visibility: visible;
@@ -219,22 +208,18 @@
             justify-content: space-between;
             padding: 8px 0;
         }
-
         .theme-toggle-label {
             font-family: var(--font-sans);
             font-size: 13px;
             color: var(--text-main);
         }
-
         .theme-toggle {
             position: relative;
             display: inline-block;
             width: 40px;
             height: 20px;
         }
-
         .theme-toggle input { opacity: 0; width: 0; height: 0; }
-
         .slider {
             position: absolute;
             cursor: pointer;
@@ -246,7 +231,6 @@
             transition: 0.4s;
             border-radius: 34px;
         }
-
         .slider:before {
             position: absolute;
             content: "";
@@ -258,7 +242,6 @@
             transition: 0.4s;
             border-radius: 50%;
         }
-
         input:checked + .slider { background-color: var(--accent-news); }
         input:checked + .slider:before { transform: translateX(20px); }
 
@@ -276,9 +259,7 @@
             transition: right 0.3s ease;
             overflow-y: auto;
         }
-
         .mobile-menu.active { right: 0; }
-
         .close-menu {
             position: absolute;
             top: 15px;
@@ -289,12 +270,10 @@
             color: var(--text-main);
             cursor: pointer;
         }
-
         .mobile-menu-item {
             padding: 12px 0;
             border-bottom: 1px solid var(--border);
         }
-
         .mobile-menu-item a {
             text-decoration: none;
             color: var(--text-main);
@@ -311,7 +290,6 @@
             display: flex;
             gap: 10px;
         }
-
         .search-input {
             flex: 1;
             padding: 12px 20px;
@@ -322,7 +300,6 @@
             border-radius: 0;
             font-size: 14px;
         }
-
         .search-btn {
             background: var(--primary);
             color: white;
@@ -343,7 +320,6 @@
             border-bottom: 1px solid var(--border);
             padding-bottom: 15px;
         }
-
         .filter-tag {
             font-family: var(--font-sans);
             font-size: 13px;
@@ -356,7 +332,6 @@
             border: none;
             padding: 0;
         }
-
         .filter-tag.active, .filter-tag:hover {
             color: var(--text-main);
             text-decoration: underline;
@@ -373,12 +348,10 @@
             border-bottom: 1px solid var(--border);
             padding-bottom: 40px;
         }
-
         .main-feat {
             position: relative;
             cursor: pointer;
         }
-
         .main-feat-img-box {
             width: 100%;
             height: 450px;
@@ -386,30 +359,27 @@
             background: #000;
             margin-bottom: 20px;
         }
-
         .main-feat-img-box img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transform-origin: center center;
         }
-
         .main-feat:hover .main-feat-img-box img { transform: scale(1.02); }
 
         .main-text-content h1 {
-            font-family: var(--font-serif);
+            font-family: var(--font-serif-title);
             font-size: clamp(32px, 4vw, 42px);
             line-height: 1.1;
             margin-bottom: 15px;
             letter-spacing: -1px;
             color: var(--text-main);
         }
-
         .main-text-content p {
+            font-family: var(--font-serif);
             font-size: 16px;
             color: var(--text-muted);
             max-width: 90%;
-            font-family: var(--font-serif);
         }
 
         .tag-label {
@@ -423,7 +393,6 @@
             padding: 2px 0;
             border-bottom: 1px solid currentColor;
         }
-
         .tag-destaque { color: var(--accent-news); }
 
         .sub-feat-list {
@@ -431,7 +400,6 @@
             flex-direction: column;
             gap: 0;
         }
-
         .sub-feat {
             display: grid;
             grid-template-columns: 1fr 90px;
@@ -442,10 +410,8 @@
             color: var(--text-main);
             align-items: flex-start;
         }
-
         .sub-feat:first-child { border-top: 1px solid var(--border); padding-top: 0; }
         .sub-feat:last-child { border-bottom: none; }
-
         .sub-feat h3 {
             font-family: var(--font-sans);
             font-size: 15px;
@@ -453,9 +419,7 @@
             line-height: 1.4;
             transition: color 0.2s;
         }
-
         .sub-feat:hover h3 { color: var(--primary); }
-
         .sub-feat img { width: 90px; height: 60px; object-fit: cover; }
 
         .layout {
@@ -466,13 +430,11 @@
             grid-template-columns: 1fr 300px;
             gap: 60px;
         }
-
         .section-header {
             border-top: 4px solid var(--text-main);
             margin-bottom: 30px;
             padding-top: 10px;
         }
-
         .section-title {
             font-family: var(--font-sans);
             font-weight: 800;
@@ -486,7 +448,6 @@
             flex-direction: column;
             gap: 40px;
         }
-
         .post-card {
             display: grid;
             grid-template-columns: 240px 1fr;
@@ -496,28 +457,23 @@
             text-decoration: none;
             color: inherit;
         }
-
         .post-card:last-child { border-bottom: none; }
-
         .post-img-wrapper {
             width: 100%;
             height: 160px;
             overflow: hidden;
             background: #f0f0f0;
         }
-
         .post-img-wrapper img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-
         .post-content {
             display: flex;
             flex-direction: column;
             justify-content: center;
         }
-
         .category {
             font-family: var(--font-sans);
             font-size: 10px;
@@ -527,16 +483,14 @@
             margin-bottom: 8px;
             letter-spacing: 1px;
         }
-
         .post-content h2 {
-            font-family: var(--font-serif);
+            font-family: var(--font-serif-title);
             font-size: 20px;
             font-weight: 700;
             line-height: 1.3;
             margin-bottom: 10px;
             color: var(--text-main);
         }
-
         .post-content p {
             font-family: var(--font-serif);
             font-size: 14px;
@@ -547,7 +501,6 @@
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
-
         .meta-minimal {
             margin-top: 12px;
             font-family: var(--font-sans);
@@ -558,7 +511,6 @@
         .sidebar-box {
             margin-bottom: 50px;
         }
-
         .sidebar-title {
             font-family: var(--font-sans);
             font-size: 13px;
@@ -568,7 +520,6 @@
             margin-bottom: 20px;
             text-transform: uppercase;
         }
-
         .top-list-item {
             display: flex;
             gap: 15px;
@@ -578,16 +529,13 @@
             align-items: baseline;
             text-decoration: none;
         }
-
         body.dark-mode .top-list-item { border-bottom-color: #222; }
-
         .rank-num {
             font-family: var(--font-sans);
             font-size: 20px;
             font-weight: 800;
             color: var(--border);
         }
-
         .top-list-item p {
             font-family: var(--font-sans);
             font-size: 14px;
@@ -596,7 +544,6 @@
             font-weight: 500;
             cursor: pointer;
         }
-
         .top-list-item:hover p {
             color: var(--accent-news);
             text-decoration: underline;
@@ -608,15 +555,12 @@
             text-align: left;
             border: 1px solid transparent;
         }
-
         body.dark-mode .newsletter-card { background: #222; }
-
         .newsletter-card h3 {
             font-family: var(--font-serif);
             font-size: 18px;
             margin-bottom: 10px;
         }
-
         .newsletter-card input {
             width: 100%;
             padding: 10px;
@@ -626,7 +570,6 @@
             color: var(--text-main);
             font-family: var(--font-sans);
         }
-
         .newsletter-card button {
             width: 100%;
             padding: 12px;
@@ -639,7 +582,6 @@
             cursor: pointer;
             letter-spacing: 1px;
         }
-
         .newsletter-card button:hover { opacity: 0.9; }
 
         footer {
@@ -648,13 +590,12 @@
             margin-top: 80px;
             text-align: center;
         }
-
         footer .logo {
             font-size: 28px;
             display: inline-block;
             margin-bottom: 15px;
+            font-family: var(--font-logo);
         }
-
         .footer-tagline {
             font-family: var(--font-serif);
             font-style: italic;
@@ -713,7 +654,7 @@
         </div>
     </header>
 
-    <!-- MEGA MENU (placeholder) -->
+    <!-- MEGA MENU -->
     <div id="megaMenuContainer"></div>
 
     <!-- BARRA DE PESQUISA -->
@@ -722,7 +663,7 @@
         <button class="search-btn"><i class="fas fa-search"></i></button>
     </div>
 
-    <!-- FILTROS DE SEÇÃO -->
+    <!-- FILTROS -->
     <div class="filter-scroller" id="filterScroller">
         <button class="filter-tag active" data-section="manchetes">Manchetes</button>
         <button class="filter-tag" data-section="analises">Análises</button>
@@ -731,7 +672,7 @@
         <button class="filter-tag" data-section="podcast">Podcast</button>
     </div>
 
-    <!-- CONTEÚDO DINÂMICO -->
+    <!-- CONTEÚDO -->
     <div id="dynamic-content">
         <section class="hero">
             <a href="/anigeeknews/not%C3%ADcias/animes/one_piece/one-piece-climax-egghead-animacao-moderna.html" class="news-link">
@@ -807,7 +748,7 @@
                         <a href="#" class="top-list-item"><span class="rank-num">4</span><p>Entrevista: O futuro de One Piece segundo o editor.</p></a>
                     </div>
                 </div>
-              </div>
+                <!-- ✅ Corrigido: removido o </div> extra -->
                 <div class="newsletter-card">
                     <h3>Briefing Matinal</h3>
                     <p style="font-family: var(--font-sans); font-size: 13px; color: var(--text-muted); margin-bottom: 10px;">Curadoria manual das notícias mais importantes do dia.</p>
@@ -821,14 +762,11 @@
     <!-- MENU MOBILE -->
     <div class="mobile-menu" id="mobileMenu">
         <button class="close-menu" onclick="toggleMobileMenu()">×</button>
-        <!-- ⚠️ Primeiro item obrigatório: área do usuário -->
         <div class="mobile-menu-item" id="area-usuario-mobile"><span>Verificando...</span></div>
-
         <div class="mobile-menu-item"><a href="/anigeeknews/index.html">Início</a></div>
         <div class="mobile-menu-item"><a href="#">Animes</a></div>
         <div class="mobile-menu-item"><a href="#">Games</a></div>
         <div class="mobile-menu-item"><a href="#">Mangás</a></div>
-
         <div class="theme-toggle-container" style="padding: 20px 0; border-top: 1px solid var(--border); margin-top: 10px;">
             <span style="font-size: 13px; font-family: var(--font-sans); font-weight: 700;">TEMA ESCURO</span>
             <label class="theme-toggle">
@@ -837,7 +775,7 @@
             </label>
         </div>
         <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid var(--text-main);">
-            <a href="/anigeeknews/index.html" class="logo" style="font-size: 20px;">Village<span>Shippan</span></a>
+            <a href="/anigeeknews/index.html" class="logo" style="font-size: 20px; font-family: var(--font-logo);">Village<span>Shippan</span></a>
             <p style="font-family: var(--font-serif); font-size: 12px; color: var(--text-muted); font-style: italic;">Jornalismo independente sobre cultura pop.</p>
         </div>
     </div>
@@ -858,7 +796,6 @@
     <script type="module" src="/anigeeknews/sessao_usuario.js"></script>
     <script type="module" src="/anigeeknews/main.js"></script>
     <script type="module">
-        // Carregamento de módulos de seção
         import { restaurarNoticiasSalvas } from '/anigeeknews/modulo-noticias.js';
 
         const dynamicContent = document.getElementById('dynamic-content');
@@ -917,7 +854,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Tema sincronizado
         const themeToggle = document.getElementById('themeToggle');
         const mobileThemeToggle = document.getElementById('mobileThemeToggle');
 
@@ -935,7 +871,6 @@
             applyTheme(true);
         }
 
-        // Barrra de progresso + botão topo
         window.addEventListener('scroll', () => {
             const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
