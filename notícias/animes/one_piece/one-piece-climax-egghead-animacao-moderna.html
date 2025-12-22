@@ -3,585 +3,565 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>One Piece: O clímax de Egghead redefine a animação | Village Shippan News</title>
+    <title>One Piece: O clímax de Egghead redefine a animação | AniGeekNews</title>
     <meta name="description" content="Análise técnica da direção de arte no arco Egghead e como o abandono da consistência visual em prol da expressão narrativa marca uma nova era para a Toei Animation.">
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    
     <style>
         /* --- VARIÁVEIS IDÊNTICAS AO INDEX --- */
-        /* Define variáveis CSS para cores, fontes e dimensões reutilizáveis em todo o site */
         :root {
-            --nyt-black: #121212; /* Cor preta principal para elementos escuros */
-            --nyt-ink: #202020; /* Tom de cinza escuro para textos principais */
-            --nyt-gray-dark: #666; /* Cinza escuro para elementos secundários */
-            --nyt-gray-light: #e2e2e2; /* Cinza claro para fundos ou bordas */
-            --nyt-off-white: #fdfdfd; /* Branco off para fundos claros */
-            --nyt-paper: #fff; /* Branco puro para cartões e conteúdos */
-            --accent-news: #c1121f; /* Vermelho de destaque para notícias */
-            --accent-analysis: #000; /* Preto para análises */
-            --accent-feature: #2c5282; /* Azul para features */
-            --primary: var(--accent-news); /* Cor primária padrão, usando accent-news */
-            --bg: var(--nyt-off-white); /* Cor de fundo principal */
-            --card-bg: var(--nyt-paper); /* Fundo para cartões */
-            --text-main: var(--nyt-ink); /* Cor principal do texto */
-            --text-muted: #888; /* Cor de texto muted/subtle */
-            --border: #ddd; /* Cor de bordas */
-            --img-filter: grayscale(15%) contrast(95%) sepia(5%); /* Filtro padrão para imagens */
-            --img-hover: grayscale(0%) contrast(100%) sepia(0%); /* Filtro ao hover em imagens */
-            --header-h: 70px; /* Altura do header */
-            --radius: 0px; /* Raio de borda padrão (sem arredondamento) */
-            --container-w: 1200px; /* Largura máxima do container */
-            --ease-editorial: cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Curva de easing para transições editoriais */
-            --duration: 0.4s; /* Duração padrão para transições */
-
+            --nyt-black: #121212;
+            --nyt-ink: #202020;
+            --nyt-gray-dark: #666;
+            --nyt-gray-light: #e2e2e2;
+            --nyt-off-white: #fdfdfd;
+            --nyt-paper: #fff;
+            --accent-news: #c1121f;
+            --accent-analysis: #000;
+            --accent-feature: #2c5282;
+            --primary: var(--accent-news);
+            --bg: var(--nyt-off-white);
+            --card-bg: var(--nyt-paper);
+            --text-main: var(--nyt-ink);
+            --text-muted: #888;
+            --border: #ddd;
+            --img-filter: grayscale(15%) contrast(95%) sepia(5%);
+            --img-hover: grayscale(0%) contrast(100%) sepia(0%);
+            --header-h: 70px;
+            --radius: 0px;
+            --container-w: 1200px;
+            --ease-editorial: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --duration: 0.4s;
             /* Fontes */
-            --font-serif: "Merriweather", Georgia, serif; /* Fonte serif para textos longos */
-            --font-serif-title: "Cormorant Garamond", Georgia, "Times New Roman", serif; /* Fonte serif para títulos */
-            --font-sans: "Franklin Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif; /* Fonte sans-serif principal */
-            --font-logo: "Franklin Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif; /* Fonte para o logo */
+            --font-serif: "Merriweather", Georgia, serif;
+            --font-serif-title: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+            --font-sans: "Franklin Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            --font-logo: "Franklin Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
 
-        /* Estilos para o modo escuro do body */
         body.dark-mode {
-            --bg: #111; /* Fundo escuro */
-            --card-bg: #111; /* Fundo de cartões escuro */
-            --text-main: #e0e0e0; /* Texto principal claro */
-            --text-muted: #a0a0a0; /* Texto muted claro */
-            --border: #333; /* Bordas escuras */
-            --nyt-off-white: #111; /* Ajuste para off-white no dark mode */
-            --img-filter: grayscale(20%) brightness(80%); /* Filtro de imagem ajustado para dark mode */
+            --bg: #111;
+            --card-bg: #111;
+            --text-main: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --border: #333;
+            --nyt-off-white: #111;
+            --img-filter: grayscale(20%) brightness(80%);
         }
 
-        /* Reseta margens, paddings e define box-sizing para todos os elementos */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        /* Estilos base para o body */
         body {
-            font-family: var(--font-sans); /* Fonte padrão sans-serif */
-            background: var(--bg); /* Cor de fundo */
-            color: var(--text-main); /* Cor do texto */
-            line-height: 1.6; /* Altura da linha para legibilidade */
-            -webkit-font-smoothing: antialiased; /* Suavização de fontes para webkit */
-            transition: background var(--duration) var(--ease-editorial), color var(--duration) var(--ease-editorial); /* Transição suave para mudanças de tema */
+            font-family: var(--font-sans);
+            background: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            transition: background var(--duration) var(--ease-editorial), color var(--duration) var(--ease-editorial);
         }
 
-        /* --- HEADER & NAV (IDÊNTICO AO INDEX) --- */
-        /* Estilos para área de usuário no desktop e mobile */
+        /* --- HEADER & NAV (AJUSTADO PARA ANIGEEKNEWS) --- */
         #area-usuario, #area-usuario-mobile {
-            display: flex; /* Layout flex para alinhamento */
-            align-items: center; /* Alinha itens verticalmente */
-            font-family: var(--font-sans); /* Fonte sans-serif */
-            font-size: 12px; /* Tamanho da fonte */
-            font-weight: 700; /* Peso da fonte bold */
-            text-transform: uppercase; /* Texto em maiúsculas */
+            display: flex;
+            align-items: center;
+            font-family: var(--font-sans);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
         }
-        
-        /* Estilos para usuário logado */
-        .user-logged { display: flex; align-items: center; gap: 15px; color: var(--text-main); } /* Flex com gap e cor de texto */
-        
-        /* Destaque no nome do usuário */
-        .user-logged span strong { color: var(--accent-news); } /* Cor de destaque para strong */
-        
-        /* Botões de entrar e sair */
+        .user-logged { display: flex; align-items: center; gap: 15px; color: var(--text-main); }
+        .user-logged span strong { color: var(--accent-news); }
         .btn-entrar, .btn-sair {
-            text-decoration: none; /* Remove underline */
-            color: var(--text-main); /* Cor do texto */
-            border: 1px solid var(--text-main); /* Borda sólida */
-            padding: 5px 12px; /* Padding interno */
-            transition: all 0.3s; /* Transição para hover */
-            cursor: pointer; /* Cursor pointer */
-            background: transparent; /* Fundo transparente */
-            font-family: var(--font-sans); /* Fonte */
-            font-size: 11px; /* Tamanho da fonte */
-            font-weight: 800; /* Peso bold */
-            text-transform: uppercase; /* Maiúsculas */
-            letter-spacing: 0.5px; /* Espaçamento entre letras */
+            text-decoration: none;
+            color: var(--text-main);
+            border: 1px solid var(--text-main);
+            padding: 5px 12px;
+            transition: all 0.3s;
+            cursor: pointer;
+            background: transparent;
+            font-family: var(--font-sans);
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-        
-        /* Hover no botão entrar */
-        .btn-entrar:hover { background: var(--text-main); color: var(--bg); } /* Inverte cores ao hover */
-        
-        /* Estilos específicos para botão sair */
-        .btn-sair { border-color: #999; color: #999; } /* Borda e cor cinza */
-        
-        /* Hover no botão sair */
-        .btn-sair:hover { border-color: var(--accent-news); color: var(--accent-news); } /* Muda para cor de destaque */
-        
-        /* Estilos para o header */
+        .btn-entrar:hover { background: var(--text-main); color: var(--bg); }
+        .btn-sair { border-color: #999; color: #999; }
+        .btn-sair:hover { border-color: var(--accent-news); color: var(--accent-news); }
+
         header {
-            background: var(--bg); /* Fundo do header */
-            border-bottom: 2px solid var(--text-main); /* Borda inferior */
-            top: 0; /* Fixa no topo */
-            z-index: 1000; /* Camada alta para sobreposição */
+            background: var(--bg);
+            border-bottom: 2px solid var(--text-main);
+            position: ;
+            top: 0;
+            z-index: 1000;
         }
-        
-        /* Container da navegação */
         .nav-container {
-            max-width: var(--container-w); /* Largura máxima */
-            margin: 0 auto; /* Centraliza */
-            height: var(--header-h); /* Altura fixa */
-            display: flex; /* Layout flex */
-            align-items: center; /* Alinha verticalmente */
-            justify-content: space-between; /* Espaça entre itens */
-            padding: 0 20px; /* Padding lateral */
+            max-width: var(--container-w);
+            margin: 0 auto;
+            height: var(--header-h);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
         }
-        
-        /* Estilos para o logo */
         .logo {
-            font-family: var(--font-logo); /* Fonte do logo */
-            font-size: 26px; /* Tamanho da fonte */
-            font-weight: 700; /* Bold */
-            text-decoration: none; /* Sem underline */
-            color: var(--text-main); /* Cor do texto */
-            letter-spacing: -1px; /* Espaçamento negativo */
-            white-space: nowrap; /* Não quebra linha */
+            font-family: var(--font-logo);
+            font-size: 26px;
+            font-weight: 700;
+            text-decoration: none;
+            color: var(--text-main);
+            letter-spacing: -1px;
+            white-space: nowrap;
         }
-        
-        /* Span dentro do logo */
-        .logo span { font-style: italic; font-weight: 400; } /* Itálico e peso normal */
-        
-        /* Menu de navegação */
+        .logo span { font-style: italic; font-weight: 400; }
         .nav-menu {
-            display: flex; /* Layout flex */
-            gap: 30px; /* Espaço entre itens */
-            list-style: none; /* Remove bullets */
-            align-items: center; /* Alinha verticalmente */
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            align-items: center;
         }
-        
-        /* Links nos itens de nav */
         .nav-item > a {
-            text-decoration: none; /* Sem underline */
-            color: var(--text-main); /* Cor do texto */
-            font-family: var(--font-sans); /* Fonte */
-            font-size: 13px; /* Tamanho */
-            font-weight: 700; /* Bold */
-            text-transform: uppercase; /* Maiúsculas */
-            letter-spacing: 0.5px; /* Espaçamento */
-            padding: 24px 0; /* Padding vertical */
-            display: block; /* Block para padding */
-            border-bottom: 2px solid transparent; /* Borda transparente inicial */
+            text-decoration: none;
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 24px 0;
+            display: block;
+            border-bottom: 2px solid transparent;
         }
-        
-        /* Hover nos itens de nav */
-        .nav-item:hover > a { border-bottom-color: var(--primary); } /* Mostra borda ao hover */
-        
-        /* Ações no header */
-        .header-actions { display: flex; align-items: center; gap: 20px; } /* Flex com gap */
-        
-        /* Botão de seções */
+        .nav-item:hover > a { border-bottom-color: var(--primary); }
+
+        .header-actions { display: flex; align-items: center; gap: 20px; }
         .sections-btn {
-            background: none; border: none; color: var(--text-main); cursor: pointer; /* Botão sem fundo */
-            display: flex; flex-direction: column; gap: 4px; padding: 5px; /* Coluna com barras */
+            background: none; border: none; color: var(--text-main); cursor: pointer;
+            display: flex; flex-direction: column; gap: 4px; padding: 5px;
         }
-        
-        /* Barras no botão de seções */
-        .sections-btn .bar { display: block; width: 20px; height: 2px; background-color: var(--text-main); transition: 0.3s; } /* Estilo das barras */
-        
-        /* Terceira barra mais curta */
-        .sections-btn .bar:nth-child(3) { width: 12px; } /* Ajuste de largura */
-        
-        /* Botão de toggle menu mobile */
-        .menu-toggle { background: none; border: none; font-size: 20px; color: var(--text-main); cursor: pointer; display: none; } /* Escondido por padrão */
+        .sections-btn .bar { display: block; width: 20px; height: 2px; background-color: var(--text-main); transition: 0.3s; }
+        .sections-btn .bar:nth-child(3) { width: 12px; }
+        .menu-toggle { background: none; border: none; font-size: 20px; color: var(--text-main); cursor: pointer; display: none; }
 
-        /* Config Dropdown & Theme Toggle */
-        /* Item de config na nav */
-        .nav-item.config { position: relative; list-style: none; } /* Posição relativa para dropdown */
-        
-        /* Dropdown de config */
+        /* Config Dropdown */
+        .nav-item.config { position: relative; list-style: none; }
         .config-dropdown {
-            position: absolute; top: 100%; right: 0; background: var(--card-bg); /* Fundo do dropdown */
-            min-width: 200px; border: 1px solid var(--border); opacity: 0; visibility: hidden; /* Inicialmente escondido */
-            transform: translateY(5px); transition: all 0.3s var(--ease-editorial); /* Animação de entrada */
-            padding: 15px; z-index: 1100; box-shadow: 0 4px 20px rgba(0,0,0,0.05); /* Sombra */
+            position: absolute; top: 100%; right: 0; background: var(--card-bg);
+            min-width: 200px; border: 1px solid var(--border); opacity: 0; visibility: hidden;
+            transform: translateY(5px); transition: all 0.3s var(--ease-editorial);
+            padding: 15px; z-index: 1100; box-shadow: 0 4px 20px rgba(0,0,0,0.05);
         }
-        
-        /* Mostra dropdown ao hover */
-        .nav-item.config:hover .config-dropdown { opacity: 1; visibility: visible; transform: translateY(0); } /* Visível ao hover */
-        
-        /* Container do toggle de tema */
-        .theme-toggle-container { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; } /* Flex space-between */
-        
-        /* Label do toggle de tema */
-        .theme-toggle-label { font-family: var(--font-sans); font-size: 13px; color: var(--text-main); } /* Estilo do texto */
-        
-        /* Toggle de tema */
-        .theme-toggle { position: relative; display: inline-block; width: 40px; height: 20px; } /* Dimensões do switch */
-        
-        /* Input escondido */
-        .theme-toggle input { opacity: 0; width: 0; height: 0; } /* Esconde o input real */
-        
-        /* Slider do toggle */
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--nyt-gray-light); transition: 0.4s; border-radius: 34px; } /* Fundo do slider */
-        
-        /* Bolinha do slider */
-        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 2px; bottom: 2px; background-color: white; transition: 0.4s; border-radius: 50%; } /* Estilo da bolinha */
-        
-        /* Estado checked do toggle */
-        input:checked + .slider { background-color: var(--accent-news); } /* Muda cor ao checked */
-        
-        /* Move bolinha ao checked */
-        input:checked + .slider:before { transform: translateX(20px); } /* Translação da bolinha */
+        .nav-item.config:hover .config-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
 
-        /* Search Bar */
-        /* Barra de busca */
-        .search-bar { max-width: var(--container-w); margin: 20px auto; padding: 0 20px; display: flex; gap: 10px; } /* Container flex */
-        
-        /* Input de busca */
-        .search-input { flex: 1; padding: 12px 20px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-main); font-family: var(--font-sans); border-radius: 0; font-size: 14px; } /* Estilo do input */
-        
-        /* Botão de busca */
-        .search-btn { background: var(--primary); color: white; border: none; padding: 0 20px; cursor: pointer; font-family: var(--font-sans); font-size: 16px; } /* Estilo do botão */
+        .theme-toggle-container { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; }
+        .theme-toggle-label { font-family: var(--font-sans); font-size: 13px; color: var(--text-main); }
+        .theme-toggle { position: relative; display: inline-block; width: 40px; height: 20px; }
+        .theme-toggle input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--nyt-gray-light); transition: 0.4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 2px; bottom: 2px; background-color: white; transition: 0.4s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--accent-news); }
+        input:checked + .slider:before { transform: translateX(20px); }
+
+        /* SEARCH BAR - INLINE BUTTON */
+        .search-bar {
+            max-width: var(--container-w);
+            margin: 20px auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 10px;
+        }
+        .search-input {
+            flex: 1;
+            padding: 12px 20px;
+            border: 1px solid var(--border);
+            background: var(--card-bg);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            border-radius: 0;
+            font-size: 14px;
+            min-width: 0;
+        }
+        .search-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0 20px;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            font-size: 16px;
+            white-space: nowrap;
+        }
 
         /* --- MOBILE MENU --- */
-        /* Menu mobile */
         .mobile-menu {
-            position: fixed; top: var(--header-h); right: -100%; width: 80%; max-width: 300px; /* Fixo e escondido inicialmente */
-            height: calc(100vh - var(--header-h)); background: var(--bg); border-left: 1px solid var(--border); /* Dimensões e fundo */
-            z-index: 2000; padding: 20px; transition: right 0.3s ease; overflow-y: auto; /* Transição e scroll */
+            position: fixed; top: var(--header-h); right: -100%; width: 80%; max-width: 300px;
+            height: calc(100vh - var(--header-h)); background: var(--bg); border-left: 1px solid var(--border);
+            z-index: 2000; padding: 20px; transition: right 0.3s ease; overflow-y: auto;
         }
-        
-        /* Menu mobile ativo */
-        .mobile-menu.active { right: 0; } /* Mostra ao ativo */
-        
-        /* Botão de fechar menu */
-        .close-menu { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 24px; color: var(--text-main); cursor: pointer; } /* Posição e estilo */
-        
-        /* Itens do menu mobile */
-        .mobile-menu-item { padding: 12px 0; border-bottom: 1px solid var(--border); } /* Padding e borda */
-        
-        /* Links nos itens mobile */
-        .mobile-menu-item a { text-decoration: none; color: var(--text-main); font-family: var(--font-sans); font-weight: 600; text-transform: uppercase; font-size: 13px; } /* Estilo dos links */
+        .mobile-menu.active { right: 0; }
+        .close-menu {
+            position: absolute; top: 15px; right: 15px; background: none; border: none;
+            font-size: 24px; color: var(--text-main); cursor: pointer;
+        }
+        .mobile-menu-item { padding: 12px 0; border-bottom: 1px solid var(--border); }
+        .mobile-menu-item a {
+            text-decoration: none; color: var(--text-main); font-family: var(--font-sans);
+            font-weight: 600; text-transform: uppercase; font-size: 13px;
+        }
 
-        /* --- LAYOUT DO ARTIGO (ADAPTAÇÃO) --- */
-        /* Layout principal do artigo */
+        /* --- LAYOUT DO ARTIGO --- */
         .layout {
-            max-width: var(--container-w); /* Largura máxima */
-            margin: 0 auto; /* Centraliza */
-            padding: 0 20px; /* Padding lateral */
-            display: grid; /* Grid layout */
-            grid-template-columns: 1fr 300px; /* Duas colunas: conteúdo e sidebar */
-            gap: 60px; /* Espaço entre colunas */
+            max-width: var(--container-w);
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 60px;
         }
 
-        /* Breadcrumbs */
-        /* Navegação de breadcrumbs */
         .breadcrumbs {
-            max-width: var(--container-w); /* Largura máxima */
-            margin: 20px auto 10px; /* Margens */
-            padding: 0 20px; /* Padding */
-            font-family: var(--font-sans); /* Fonte */
-            font-size: 11px; /* Tamanho */
-            font-weight: 700; /* Bold */
-            text-transform: uppercase; /* Maiúsculas */
-            color: var(--text-muted); /* Cor muted */
-            letter-spacing: 1px; /* Espaçamento */
+            max-width: var(--container-w);
+            margin: 20px auto 10px;
+            padding: 0 20px;
+            font-family: var(--font-sans);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 1px;
         }
-        
-        /* Links nos breadcrumbs */
-        .breadcrumbs a { text-decoration: none; color: inherit; } /* Sem underline, herda cor */
-        
-        /* Hover nos breadcrumbs */
-        .breadcrumbs a:hover { color: var(--primary); } /* Cor primária ao hover */
-        
-        /* Separadores nos breadcrumbs */
-        .breadcrumbs span { margin: 0 5px; } /* Margem lateral */
+        .breadcrumbs a { text-decoration: none; color: inherit; }
+        .breadcrumbs a:hover { color: var(--primary); }
+        .breadcrumbs span { margin: 0 5px; }
 
-        /* Article Header */
-        /* Header do artigo */
         .article-header {
-            max-width: var(--container-w); /* Largura máxima */
-            margin: 0 auto 30px; /* Margens */
-            padding: 20px 20px 0; /* Padding */
-            border-top: 1px solid var(--border); /* Borda superior */
+            max-width: var(--container-w);
+            margin: 0 auto 30px;
+            padding: 20px 20px 0;
+            border-top: 1px solid var(--border);
         }
-        
-        /* Título do artigo */
+
+        /* TÍTULO PRINCIPAL USANDO MESMA FONTE DOS H3 */
         .article-title {
-            font-family: var(--font-serif-title); /* Fonte para títulos */
-            font-size: clamp(36px, 5vw, 54px); /* Tamanho responsivo com clamp */
-            line-height: 1.1; /* Altura da linha */
-            font-weight: 700; /* Bold */
-            margin-bottom: 20px; /* Margem inferior */
-            color: var(--text-main); /* Cor do texto */
+            font-family: var(--font-sans);
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+            color: var(--text-main);
+            border-top: 2px solid var(--text-main);
+            padding-top: 20px;
+            width: fit-content;
         }
-        
-        /* Lead do artigo */
+
         .article-lead {
-            font-family: var(--font-serif); /* Fonte serif */
-            font-size: 20px; /* Tamanho */
-            color: var(--text-muted); /* Cor muted */
-            line-height: 1.6; /* Altura da linha */
-            margin-bottom: 25px; /* Margem inferior */
-            max-width: 800px; /* Largura máxima para legibilidade */
+            font-family: var(--font-serif);
+            font-size: 20px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 25px;
+            max-width: 800px;
         }
-        
-        /* Linha de meta do artigo */
+
         .article-meta-row {
-            display: flex; /* Flex layout */
-            justify-content: space-between; /* Espaça itens */
-            align-items: center; /* Alinha verticalmente */
-            border-top: 1px solid var(--border); /* Borda superior */
-            border-bottom: 1px solid var(--border); /* Borda inferior */
-            padding: 15px 0; /* Padding vertical */
-            margin-bottom: 30px; /* Margem inferior */
-            font-family: var(--font-sans); /* Fonte */
-            font-size: 12px; /* Tamanho */
-            font-weight: 700; /* Bold */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 15px 0;
+            margin: 30px 0;
+            font-family: var(--font-sans);
+            font-size: 12px;
+            font-weight: 700;
         }
-        
-        /* Caixa do autor */
-        .author-box { display: flex; gap: 10px; align-items: center; } /* Flex com gap */
-        
-        /* Imagem do autor */
-        .author-box img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; filter: grayscale(100%); } /* Dimensões, arredondado, filtro grayscale */
-        
-        /* Info do autor */
-        .author-info span { display: block; color: var(--text-main); text-transform: uppercase; } /* Block e maiúsculas */
-        
-        /* Role do autor */
-        .author-info .role { color: var(--text-muted); font-size: 10px; font-weight: 500; } /* Cor, tamanho e peso */
-        
-        /* Compartilhamento social */
-        .social-share { display: flex; gap: 15px; } /* Flex com gap */
-        
-        /* Links de share */
-        .social-share a { color: var(--text-main); font-size: 16px; transition: color 0.2s; } /* Cor, tamanho e transição */
-        
-        /* Hover nos links de share */
-        .social-share a:hover { color: var(--primary); } /* Cor primária ao hover */
+        .author-box { display: flex; gap: 10px; align-items: center; }
+        .author-box img {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            filter: grayscale(100%);
+        }
+        .author-info span {
+            display: block;
+            color: var(--text-main);
+            text-transform: uppercase;
+        }
+        .author-info .role {
+            color: var(--text-muted);
+            font-size: 10px;
+            font-weight: 500;
+        }
+        .social-share { display: flex; gap: 15px; }
+        .social-share a {
+            color: var(--text-main);
+            font-size: 16px;
+            transition: color 0.2s;
+        }
+        .social-share a:hover { color: var(--primary); }
 
-        /* Article Figure */
-        /* Figura principal do artigo */
         .article-figure {
-            width: 100%; /* Largura total */
-            margin-bottom: 40px; /* Margem inferior */
+            width: 100%;
+            margin: 40px 0;
         }
-        
-        /* Imagem na figura */
-        .article-figure img { width: 100%; height: auto; display: block; filter: var(--img-filter); } /* Responsiva, filtro */
-        
-        /* Hover na figura */
-        .article-figure:hover img { filter: var(--img-hover); } /* Muda filtro ao hover */
-        
-        /* Legenda da figura */
+        .article-figure img {
+            width: 100%;
+            height: auto;
+            display: block;
+            filter: var(--img-filter);
+        }
+        .article-figure:hover img { filter: var(--img-hover); }
         .fig-caption {
-            font-family: var(--font-sans); /* Fonte */
-            font-size: 12px; /* Tamanho */
-            color: var(--text-muted); /* Cor */
-            margin-top: 10px; /* Margem superior */
-            text-align: right; /* Alinhamento direito */
-            border-bottom: 1px solid var(--border); /* Borda inferior */
-            padding-bottom: 10px; /* Padding inferior */
+            font-family: var(--font-sans);
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 10px;
+            text-align: right;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
         }
 
-        /* --- ESTILOS DO CORPO DO TEXTO (NEW YORKER / NYT STYLE) --- */
-        /* Corpo do artigo - Reduzido em 10% para "zoom out" (texto menor) */
         .article-body {
-            font-family: var(--font-sans); /* Fonte sans-serif para combinar com a sidebar */
-            font-size: 12.6px; /* 14px * 0.9 = 12.6px (redução de ~10% em relação à sidebar) */
-            color: var(--text-main); /* Cor */
-            line-height: 1.4; /* Altura da linha */
-            padding-bottom: 60px; /* Padding inferior */
-            font-weight: 500; /* Peso da fonte */
+            font-family: var(--font-sans);
+            font-size: 12.6px;
+            color: var(--text-main);
+            line-height: 1.4;
+            padding-bottom: 60px;
+            font-weight: 500;
         }
-        
-        /* Parágrafos no corpo */
-        .article-body p { margin-bottom: 24px; } /* Margem inferior */
-        
-        /* Letra capitular no primeiro parágrafo - Também reduzida em 10% */
+        .article-body p { margin-bottom: 24px; }
         .article-body > p:first-of-type::first-letter {
-            float: left; /* Flutua à esquerda */
-            font-size: 86.4px; /* 96px * 0.9 = 86.4px */
-            line-height: 0.8; /* Altura ajustada */
-            font-weight: 700; /* Bold */
-            margin-right: 12px; /* Margem direita */
-            margin-top: 5px; /* Margem superior */
-            color: var(--text-main); /* Cor */
-            font-family: var(--font-serif-title); /* Fonte para título */
+            float: left;
+            font-size: 86.4px;
+            line-height: 0.8;
+            font-weight: 700;
+            margin-right: 12px;
+            margin-top: 5px;
+            color: var(--text-main);
+            font-family: var(--font-serif-title);
         }
 
-        /* Subtítulos h3 no corpo - Reduzido em 10% */
         .article-body h3 {
-            font-family: var(--font-sans); /* Fonte sans */
-            font-size: 19.8px; /* 22px * 0.9 = 19.8px */
-            font-weight: 800; /* Extra bold */
-            text-transform: uppercase; /* Maiúsculas */
-            letter-spacing: 0.5px; /* Espaçamento */
-            margin: 40px 0 20px; /* Margens */
-            border-top: 2px solid var(--text-main); /* Borda superior */
-            padding-top: 20px; /* Padding superior */
-            width: fit-content; /* Largura auto-ajustável */
+            font-family: var(--font-sans);
+            font-size: 19.8px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 40px 0 20px;
+            border-top: 2px solid var(--text-main);
+            padding-top: 20px;
+            width: fit-content;
         }
 
-        /* Blockquote no corpo - Reduzido em 10% */
         .article-body blockquote {
-            border-left: 3px solid var(--primary); /* Borda esquerda */
-            padding-left: 20px; /* Padding esquerdo */
-            margin: 40px 0; /* Margens vertical */
-            font-style: italic; /* Itálico */
-            font-size: 19.8px; /* 22px * 0.9 = 19.8px */
-            color: var(--text-main); /* Cor */
-            font-family: var(--font-serif-title); /* Fonte */
+            border-left: 3px solid var(--primary);
+            padding-left: 20px;
+            margin: 40px 0;
+            font-style: italic;
+            font-size: 19.8px;
+            color: var(--text-main);
+            font-family: var(--font-serif-title);
         }
 
-        /* Imagem inline no corpo */
         .article-body .inline-img {
-            margin: 40px 0; /* Margens vertical */
-            width: 100%; /* Largura total */
+            margin: 40px 0;
+            width: 100%;
         }
-        
-        /* Imagem dentro de inline-img */
-        .article-body .inline-img img { width: 100%; } /* Responsiva */
+        .article-body .inline-img img { width: 100%; }
 
-        /* --- SIDEBAR (REUTILIZADA DO INDEX) --- */
-        /* Caixa da sidebar */
-        .sidebar-box { margin-bottom: 50px; } /* Margem inferior */
-        
-        /* Título da sidebar */
+        /* --- ÁREAS DE ANÚNCIO --- */
+        .ad-banner {
+            background: var(--nyt-gray-light);
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 30px 0;
+            color: var(--nyt-gray-dark);
+            font-size: 12px;
+            font-family: var(--font-sans);
+            text-align: center;
+        }
+        .ad-inline {
+            background: var(--nyt-gray-light);
+            height: 250px;
+            margin: 40px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--nyt-gray-dark);
+            font-size: 12px;
+            font-family: var(--font-sans);
+            text-align: center;
+        }
+        .sidebar .ad-sidebar {
+            background: var(--nyt-gray-light);
+            height: 250px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--nyt-gray-dark);
+            font-size: 12px;
+            font-family: var(--font-sans);
+            text-align: center;
+        }
+
+        /* --- SIDEBAR --- */
+        .sidebar-box { margin-bottom: 50px; }
         .sidebar-title {
-            font-family: var(--font-sans); /* Fonte */
-            font-size: 13px; /* Tamanho */
-            font-weight: 800; /* Extra bold */
-            border-bottom: 1px solid var(--border); /* Borda inferior */
-            padding-bottom: 10px; /* Padding inferior */
-            margin-bottom: 20px; /* Margem inferior */
-            text-transform: uppercase; /* Maiúsculas */
+            font-family: var(--font-sans);
+            font-size: 13px;
+            font-weight: 800;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
         }
-        
-        /* Item na lista top */
         .top-list-item {
-            display: flex; gap: 15px; margin-bottom: 15px; padding-bottom: 15px; /* Flex com gap e paddings */
-            border-bottom: 1px solid #f0f0f0; align-items: baseline; text-decoration: none; /* Borda e alinhamento */
+            display: flex; gap: 15px; margin-bottom: 15px; padding-bottom: 15px;
+            border-bottom: 1px solid #f0f0f0; align-items: baseline; text-decoration: none;
         }
-        
-        /* Ajuste de borda no dark mode para itens top */
-        body.dark-mode .top-list-item { border-bottom-color: #222; } /* Borda escura */
-        
-        /* Número de rank */
-        .rank-num { font-family: var(--font-sans); font-size: 20px; font-weight: 800; color: var(--border); } /* Estilo do número */
-        
-        /* Parágrafo nos itens top (referência para o "style" desejado) */
+        body.dark-mode .top-list-item { border-bottom-color: #222; }
+        .rank-num {
+            font-family: var(--font-sans);
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--border);
+        }
         .top-list-item p {
-            font-family: var(--font-sans); font-size: 14px; line-height: 1.4;
-            color: var(--text-main); font-weight: 500;
+            font-family: var(--font-sans);
+            font-size: 14px;
+            line-height: 1.4;
+            color: var(--text-main);
+            font-weight: 500;
         }
-        
-        /* Hover nos itens top */
-        .top-list-item:hover p { color: var(--accent-news); text-decoration: underline; } /* Muda cor e underline */
+        .top-list-item:hover p {
+            color: var(--accent-news);
+            text-decoration: underline;
+        }
 
-        /* Cartão de newsletter */
-        .newsletter-card { background: #f5f5f5; padding: 30px 20px; text-align: left; border: 1px solid transparent; } /* Fundo e padding */
-        
-        /* Ajuste para dark mode no newsletter */
-        body.dark-mode .newsletter-card { background: #222; } /* Fundo escuro */
-        
-        /* h3 no newsletter */
-        .newsletter-card h3 { font-family: var(--font-serif); font-size: 18px; margin-bottom: 10px; } /* Fonte e margem */
-        
-        /* Input no newsletter */
+        .newsletter-card {
+            background: #f5f5f5;
+            padding: 30px 20px;
+            text-align: left;
+            border: 1px solid transparent;
+        }
+        body.dark-mode .newsletter-card { background: #222; }
+        .newsletter-card h3 {
+            font-family: var(--font-serif);
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
         .newsletter-card input {
-            width: 100%; padding: 10px; margin-top: 10px; border: 1px solid #ccc; /* Dimensões e borda */
-            background: var(--bg); color: var(--text-main); font-family: var(--font-sans); /* Cores e fonte */
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            background: var(--bg);
+            color: var(--text-main);
+            font-family: var(--font-sans);
         }
-        
-        /* Botão no newsletter */
         .newsletter-card button {
-            width: 100%; padding: 12px; margin-top: 10px; background: var(--text-main); /* Dimensões e fundo */
-            color: var(--bg); border: none; font-family: var(--font-sans); font-weight: 600; /* Cor, fonte e peso */
-            cursor: pointer; letter-spacing: 1px; /* Cursor e espaçamento */
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            background: var(--text-main);
+            color: var(--bg);
+            border: none;
+            font-family: var(--font-sans);
+            font-weight: 600;
+            cursor: pointer;
+            letter-spacing: 1px;
         }
-        
-        /* Hover no botão newsletter */
-        .newsletter-card button:hover { opacity: 0.9; } /* Reduz opacidade */
+        .newsletter-card button:hover { opacity: 0.9; }
 
-        /* Footer */
-        /* Estilos para o footer */
-        footer { border-top: 4px solid var(--text-main); padding: 60px 0; margin-top: 80px; text-align: center; } /* Borda, padding e alinhamento */
+        /* --- FOOTER MINIMALISTA --- */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 20px 0;
+            margin-top: 60px;
+            text-align: center;
+            font-family: var(--font-sans);
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        footer .logo {
+            font-size: 22px;
+            display: inline-block;
+            margin-bottom: 5px;
+            font-family: var(--font-logo);
+            color: var(--text-main);
+        }
 
-        /* Logo no footer */
-        footer .logo { font-size: 28px; display: inline-block; margin-bottom: 15px; font-family: var(--font-logo); } /* Tamanho e display */
-        
-        /* Tagline no footer */
-        .footer-tagline { font-family: var(--font-serif); font-style: italic; color: var(--text-muted); font-size: 14px; } /* Fonte e estilo */
-
-        /* Media queries para responsividade - Ajustes proporcionais com redução de 10% */
-        /* Breakpoint para telas menores que 900px (tablets e mobiles maiores) */
+        /* --- MEDIA QUERIES --- */
         @media (max-width: 900px) {
-            .nav-menu { display: none; } /* Esconde menu desktop */
-            .menu-toggle { display: block; } /* Mostra toggle mobile */
-            .logo { font-size: 22px; } /* Reduz tamanho do logo */
-            .layout { grid-template-columns: 1fr; gap: 40px; padding: 0 15px; } /* Uma coluna, ajusta gap e padding */
-            .article-title { font-size: 32px; } /* Reduz título */
-            .article-body { font-size: 16.2px; } /* Anterior era 18px, agora ~10% menor: 16.2px */
-            .article-body > p:first-of-type::first-letter { font-size: 57.6px; } /* 64px * 0.9 */
-            .article-lead { font-size: 18px; } /* Ajusta lead */
-            .article-meta-row { flex-direction: column; gap: 15px; } /* Empilha meta em coluna */
-            .search-bar { flex-direction: column; } /* Empilha busca */
-            .search-input, .search-btn { width: 100%; } /* Largura total para input e botão */
+            .nav-menu { display: none; }
+            .menu-toggle { display: block; }
+            .logo { font-size: 22px; }
+            .layout { grid-template-columns: 1fr; gap: 40px; padding: 0 15px; }
+            .article-title { font-size: 28px; }
+            .article-body { font-size: 16.2px; }
+            .article-body > p:first-of-type::first-letter { font-size: 57.6px; }
+            .article-lead { font-size: 18px; }
+            .article-meta-row { flex-direction: column; gap: 15px; }
+            /* Garantir que a barra de busca permaneça em linha */
+            .search-bar { flex-wrap: wrap; }
+            .search-input, .search-btn { width: auto; min-width: 120px; }
         }
 
-        /* Breakpoint adicional para telas menores que 768px (tablets menores e mobiles) */
         @media (max-width: 768px) {
-            .nav-container { padding: 0 15px; height: 60px; } /* Ajusta padding e altura do header */
-            --header-h: 60px; /* Reduz altura do header */
-            .logo { font-size: 20px; } /* Reduz logo ainda mais */
-            .breadcrumbs { font-size: 10px; padding: 0 15px; } /* Reduz breadcrumbs */
-            .article-header { padding: 15px 15px 0; } /* Ajusta padding do header do artigo */
-            .article-title { font-size: clamp(28px, 8vw, 36px); } /* Tamanho responsivo menor */
-            .article-lead { font-size: 16px; max-width: 100%; } /* Reduz lead e largura total */
-            .article-body { font-size: 14.4px; line-height: 1.7; padding-bottom: 40px; } /* Anterior 16px -> 14.4px (~10% menos) */
-            .article-body h3 { font-size: 18px; } /* Ajustado proporcionalmente */
-            .article-body blockquote { font-size: 16.2px; padding-left: 15px; } /* Ajustado */
-            .sidebar-box { margin-bottom: 30px; } /* Reduz margem sidebar */
-            .newsletter-card { padding: 20px 15px; } /* Ajusta padding newsletter */
-            footer { padding: 40px 0; margin-top: 60px; } /* Ajusta footer */
-            .mobile-menu { width: 100%; max-width: none; } /* Menu mobile full width */
+            .nav-container { padding: 0 15px; height: 60px; }
+            --header-h: 60px;
+            .logo { font-size: 20px; }
+            .breadcrumbs { font-size: 10px; padding: 0 15px; }
+            .article-header { padding: 15px 15px 0; }
+            .article-title { font-size: clamp(24px, 8vw, 32px); }
+            .article-lead { font-size: 16px; max-width: 100%; }
+            .article-body { font-size: 14.4px; line-height: 1.7; padding-bottom: 40px; }
+            .mobile-menu { width: 100%; max-width: none; }
         }
 
-        /* Breakpoint para telas menores que 480px (mobiles pequenos) */
         @media (max-width: 480px) {
-            .nav-container { padding: 0 10px; } /* Reduz padding */
-            .logo { font-size: 18px; } /* Reduz logo */
-            .breadcrumbs { font-size: 9px; padding: 0 10px; margin: 15px auto 5px; } /* Ajusta breadcrumbs */
-            .search-bar { margin: 15px auto; padding: 0 10px; } /* Ajusta busca */
-            .search-input { padding: 10px 15px; font-size: 13px; } /* Reduz input */
-            .search-btn { padding: 10px; font-size: 14px; } /* Reduz botão */
-            .article-header { padding: 10px 10px 0; margin-bottom: 20px; } /* Ajusta header artigo */
-            .article-title { font-size: clamp(24px, 10vw, 32px); } /* Tamanho menor */
-            .article-lead { font-size: 14px; } /* Reduz lead */
-            .article-meta-row { font-size: 11px; padding: 10px 0; } /* Reduz meta */
-            .author-box img { width: 30px; height: 30px; } /* Reduz imagem autor */
-            .social-share a { font-size: 14px; } /* Reduz icons share */
-            .article-figure { margin-bottom: 30px; } /* Reduz margem figura */
-            .fig-caption { font-size: 11px; margin-top: 5px; padding-bottom: 5px; } /* Ajusta legenda */
-            .article-body { font-size: 13.5px; padding-bottom: 30px; } /* Anterior 15px -> 13.5px (~10% menos) */
-            .article-body p { margin-bottom: 20px; } /* Reduz margem p */
-            .article-body > p:first-of-type::first-letter { font-size: 43.2px; margin-right: 8px; margin-top: 3px; } /* 48px * 0.9 */
-            .article-body h3 { font-size: 16.2px; margin: 30px 0 15px; padding-top: 15px; } /* Ajusta h3 */
-            .article-body blockquote { font-size: 14.4px; margin: 30px 0; padding-left: 10px; } /* Ajusta blockquote */
-            .inline-img { margin: 30px 0; } /* Reduz margem inline img */
-            .sidebar-title { font-size: 12px; } /* Reduz título sidebar */
-            .top-list-item { gap: 10px; margin-bottom: 10px; padding-bottom: 10px; } /* Ajusta itens top */
-            .rank-num { font-size: 18px; } /* Reduz rank */
-            .top-list-item p { font-size: 12.6px; } /* Reduz p em top para manter proporção */
-            .newsletter-card h3 { font-size: 16px; } /* Reduz h3 newsletter */
-            .newsletter-card input, .newsletter-card button { padding: 8px; font-size: 13px; } /* Ajusta input e button */
-            footer { padding: 30px 0; margin-top: 40px; } /* Ajusta footer */
-            .footer-tagline { font-size: 12px; } /* Reduz tagline */
-            .back-to-top { bottom: 20px; right: 20px; padding: 10px; } /* Ajusta botão back to top */
+            .nav-container { padding: 0 10px; }
+            .logo { font-size: 18px; }
+            .breadcrumbs { font-size: 9px; padding: 0 10px; }
+            .search-bar { padding: 0 10px; margin: 15px auto; }
+            .search-input { padding: 10px 15px; font-size: 13px; flex: 1; }
+            .search-btn { padding: 10px 15px; font-size: 14px; }
+            .article-header { padding: 10px 10px 0; margin-bottom: 20px; }
+            .article-title { font-size: clamp(22px, 10vw, 28px); }
+            .article-lead { font-size: 14px; }
+            .article-meta-row { font-size: 11px; padding: 10px 0; }
+            .author-box img { width: 30px; height: 30px; }
+            .social-share a { font-size: 14px; }
+            .article-figure { margin-bottom: 30px; }
+            .fig-caption { font-size: 11px; }
+            .article-body { font-size: 13.5px; padding-bottom: 30px; }
+            .article-body p { margin-bottom: 20px; }
+            .article-body > p:first-of-type::first-letter { font-size: 43.2px; margin-right: 8px; margin-top: 3px; }
+            .article-body h3 { font-size: 16.2px; margin: 30px 0 15px; padding-top: 15px; }
+            .article-body blockquote { font-size: 14.4px; margin: 30px 0; padding-left: 10px; }
+            .inline-img { margin: 30px 0; }
+            .sidebar-title { font-size: 12px; }
+            .top-list-item { gap: 10px; margin-bottom: 10px; padding-bottom: 10px; }
+            .rank-num { font-size: 18px; }
+            .top-list-item p { font-size: 12.6px; }
+            .newsletter-card h3 { font-size: 16px; }
+            .newsletter-card input, .newsletter-card button { padding: 8px; font-size: 13px; }
+            footer { padding: 15px 0; }
+            footer .logo { font-size: 20px; }
         }
     </style>
 </head>
 <body>
     <div id="progress-bar" style="position: fixed; top: 0; left: 0; height: 3px; background: var(--primary); width: 0%; z-index: 1001; transition: width 0.1s;"></div>
-
     <header>
         <div class="nav-container">
-            <a href="/anigeeknews/index.html" class="logo">Village<span>Shippan</span></a>
+            <a href="/anigeeknews/index.html" class="logo">AniGeek<span>News</span></a>
             <ul class="nav-menu" id="navMenu">
                 <li class="nav-item"><a href="#">Animes</a></li>
                 <li class="nav-item"><a href="#">Games</a></li>
@@ -612,45 +592,44 @@
             </div>
         </div>
     </header>
-
     <div id="megaMenuContainer"></div>
-
     <div class="breadcrumbs">
         <a href="/anigeeknews/index.html">Home</a> <span>/</span> 
         <a href="#">Animes</a> <span>/</span> 
         <a href="#">Análise</a> <span>/</span> 
         One Piece
     </div>
-
     <div class="search-bar">
         <input type="text" class="search-input" placeholder="Pesquisar no site...">
-        <button class="search-btn"><i class="fas fa-search"></i></button>
+        <button class="search-btn"><i class="fas fa-search"></i> Buscar</button>
     </div>
-
     <article>
         <header class="article-header">
             <h1 class="article-title">One Piece: O clímax de Egghead redefine a animação moderna</h1>
             <p class="article-lead">A direção de arte sacrifica a consistência visual tradicional por um impacto narrativo visceral. Por que essa foi a decisão correta para o futuro da franquia e como isso muda a indústria.</p>
             
-            <div class="article-meta-row">
-                <div class="author-box">
-                    <img src="https://i.pravatar.cc/150?u=editor" alt="Editor Chefe">
-                    <div class="author-info">
-                        <span>Carlos "Editor" Silva</span>
-                        <span class="role">Crítico de Animação</span>
-                    </div>
-                </div>
-                <div class="article-date">17 Dez, 2025</div>
-                <div class="social-share">
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fas fa-link"></i></a>
-                </div>
-            </div>
+            <!-- ÁREA DE ANÚNCIO PRINCIPAL -->
+            <div class="ad-banner">[ ANÚNCIO 728x90 – BANNER SUPERIOR ]</div>
         </header>
 
         <div class="layout">
             <main>
+                <div class="article-meta-row">
+                    <div class="author-box">
+                        <img src="https://i.pravatar.cc/150?u=editor" alt="Editor Chefe">
+                        <div class="author-info">
+                            <span>Carlos "Editor" Silva</span>
+                            <span class="role">Crítico de Animação</span>
+                        </div>
+                    </div>
+                    <div class="article-date">17 Dez, 2025</div>
+                    <div class="social-share">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fas fa-link"></i></a>
+                    </div>
+                </div>
+
                 <figure class="article-figure">
                     <img src="https://i.postimg.cc/sDL0s4nt/Portada-One-Piece.png" alt="Luffy Gear 5 em Egghead">
                     <figcaption class="fig-caption">O estilo visual de Egghead mistura traços "soft" com renderização de alta octanagem. (Foto: Toei Animation)</figcaption>
@@ -658,32 +637,24 @@
 
                 <div class="article-body">
                     <p>Quando os tambores da libertação soaram pela primeira vez em Wano, a comunidade de anime sabia que algo havia mudado. Mas é no arco atual, Egghead, que a Toei Animation consolidou uma tese visual que vinha sendo ensaiada há anos: a de que a consistência — aquela regra dourada da animação dos anos 2000 — é, na verdade, um grilhão para a criatividade em uma série de longa duração.</p>
-
                     <p>O que estamos testemunhando semanalmente não é apenas uma "boa animação". É um desfile de autores. Diferente de produções sazonais como <em>Demon Slayer</em>, que buscam uma uniformidade polida e quase digital, One Piece abraçou o caos artístico. O episódio desta semana, dirigido por nomes que ascendem como lendas no meio, prova que o futuro da franquia reside na sua capacidade de ser um camaleão estético.</p>
 
+                    <!-- ANÚNCIO INLINE NO MEIO -->
+                    <div class="ad-inline">[ ANÚNCIO 300x250 – MID-ARTICLE ]</div>
+
                     <h3>O Fator "Shinya Ohira"</h3>
-
                     <p>Para entender Egghead, precisamos olhar para o passado. A influência da "webgen" (animadores que surgiram na internet) trouxe uma fluidez gelatinosa e expressiva para as cenas de ação. O traço perde a rigidez do modelo original de Eiichiro Oda para ganhar movimento. </p>
-
                     <blockquote>"A animação não precisa ser um espelho do mangá; ela deve ser a amplificação do sentimento que o painel estático evoca."</blockquote>
-
                     <p>Essa filosofia é visível quando analisamos a luta recente no Laboratório Estratosférico. Os contornos dos personagens quebraram, as cores vazaram das linhas, e o uso de <em>smear frames</em> foi levado ao extremo. Para o espectador casual, pode parecer "mal desenhado" em um frame pausado. Para o olho treinado, é a mais pura expressão de movimento cinético.</p>
-
                     <div class="inline-img">
                         <img src="https://images.unsplash.com/photo-1618336753974-aae8e04506aa?w=800&auto=format&fit=crop&q=60" alt="Conceito abstrato de arte" style="height: 300px; object-fit: cover;">
                         <figcaption class="fig-caption">O uso de cores experimentais tem sido uma marca registrada do arco futurista.</figcaption>
                     </div>
-
                     <h3>Tecnologia vs. Alma</h3>
-
                     <p>Egghead é, tematicamente, sobre o futuro e a tecnologia. Ironicamente, a animação utilizou técnicas que remetem ao esboço feito à mão, ao grafite, ao imperfeito. Há uma sobreposição de filtros de pós-processamento, sim, mas a alma da animação permanece crua.</p>
-
                     <p>Naotoshi Shida, veterano da casa, entregou sequências onde a câmera gira 360 graus em um ambiente 2D desenhado frame a frame, dispensando o CGI que muitos estúdios usariam como muleta. Isso cria uma sensação de vertigem e escala que o 3D, por mais polido que seja, raramente alcança com a mesma "sujeira" orgânica.</p>
-
                     <h3>O Veredito</h3>
-
                     <p>Se Wano foi um épico de teatro Kabuki, tradicional e pesado, Egghead é um videoclipe de Pop Art sci-fi. A decisão de mudar o filtro de cor para tons pastéis neon e linhas mais finas (o chamado "lineart soft") ajuda a diferenciar a atmosfera.</p>
-                    
                     <p>Estamos vendo a história sendo feita. Não apenas a história de Luffy e seus companheiros rumo ao One Piece, mas a história de como um anime semanal, muitas vezes ridicularizado por sua qualidade inconsistente no passado, tornou-se o palco onde os maiores animadores do mundo querem exibir sua arte. O clímax de Egghead não é apenas um ponto de virada na trama; é um manifesto visual.</p>
                 </div>
 
@@ -694,8 +665,10 @@
                     <a href="#" style="margin-left: 10px; color: var(--primary); text-decoration: none; font-size: 12px; font-family: var(--font-sans); font-weight: 700; text-transform: uppercase;">ANÁLISE</a>
                 </div>
             </main>
+            <aside class="sidebar">
+                <!-- ANÚNCIO NA SIDEBAR -->
+                <div class="ad-sidebar">[ ANÚNCIO 300x250 – SIDEBAR ]</div>
 
-            <aside>
                 <div class="sidebar-box">
                     <h4 class="sidebar-title">Mais Lidas da Semana</h4>
                     <div class="top-list">
@@ -705,17 +678,15 @@
                         <a href="#" class="top-list-item"><span class="rank-num">4</span><p>Entrevista: O futuro de One Piece segundo o editor.</p></a>
                     </div>
                 </div>
-                
                 <div class="newsletter-card">
                     <h3>Briefing Matinal</h3>
                     <p style="font-family: var(--font-sans); font-size: 13px; color: var(--text-muted); margin-bottom: 10px;">Curadoria manual das notícias mais importantes do dia.</p>
                     <input type="email" placeholder="seu@email.com">
                     <button>ASSINAR BRIEFING</button>
                 </div>
-
                 <div style="margin-top: 40px; background: var(--bg); border: 1px solid var(--border); padding: 20px; text-align: center;">
                     <p style="font-family: var(--font-serif); font-style: italic; font-size: 14px; margin-bottom: 10px;">Gosta do nosso conteúdo?</p>
-                    <button style="background: transparent; border: 1px solid var(--text-main); color: var(--text-main); padding: 8px 20px; font-family: var(--font-sans); font-weight: 700; cursor: pointer; text-transform: uppercase; font-size: 11px;">Apoie o Village Shippan</button>
+                    <button style="background: transparent; border: 1px solid var(--text-main); color: var(--text-main); padding: 8px 20px; font-family: var(--font-sans); font-weight: 700; cursor: pointer; text-transform: uppercase; font-size: 11px;">Apoie o AniGeekNews</button>
                 </div>
             </aside>
         </div>
@@ -736,60 +707,50 @@
             </label>
         </div>
         <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid var(--text-main);">
-            <a href="/anigeeknews/index.html" class="logo" style="font-size: 20px; font-family: var(--font-logo);">Village<span>Shippan</span></a>
+            <a href="/anigeeknews/index.html" class="logo" style="font-size: 20px; font-family: var(--font-logo);">AniGeek<span>News</span></a>
             <p style="font-family: var(--font-serif); font-size: 12px; color: var(--text-muted); font-style: italic;">Jornalismo independente sobre cultura pop.</p>
         </div>
     </div>
 
+    <!-- FOOTER MINIMALISTA -->
     <footer>
         <div style="max-width: var(--container-w); margin: 0 auto;">
-            <a href="/anigeeknews/index.html" class="logo">Village<span>Shippan</span></a>
-            <p class="footer-tagline">Jornalismo independente sobre cultura pop e tecnologia.</p>
-            <div style="margin-top: 40px; font-family: var(--font-sans); font-size: 11px; color: var(--text-muted);">© 2025 Village Shippan News.</div>
+            <a href="/anigeeknews/index.html" class="logo">AniGeek<span>News</span></a>
+            <div style="margin-top: 8px;">© 2025 AniGeekNews. Todos os direitos reservados.</div>
         </div>
     </footer>
 
-    <button class="back-to-top" onclick="scrollToTop()" style="position: fixed; bottom: 30px; right: 30px; padding: 15px; background: var(--text-main); color: var(--bg); border: none; opacity: 0; transition: 0.3s; cursor: pointer;">↑</button>
+    <button class="back-to-top" onclick="scrollToTop()" style="position: fixed; bottom: 30px; right: 30px; padding: 15px; background: var(--text-main); color: var(--bg); border: none; opacity: 0; transition: 0.3s; cursor: pointer; font-weight: bold;">↑</button>
 
     <script type="module" src="/anigeeknews/sessao_usuario.js"></script>
     <script type="module" src="/anigeeknews/main.js"></script>
-    
     <script>
-        // Funções de UI básicas
         function toggleMobileMenu() {
             document.getElementById('mobileMenu').classList.toggle('active');
         }
-
         function scrollToTop() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Lógica de Tema (Dark Mode) - Replicada para garantir funcionamento sem load externo
         const themeToggle = document.getElementById('themeToggle');
         const mobileThemeToggle = document.getElementById('mobileThemeToggle');
-
         function applyTheme(isDark) {
             document.body.classList.toggle('dark-mode', isDark);
             if (themeToggle) themeToggle.checked = isDark;
             if (mobileThemeToggle) mobileThemeToggle.checked = isDark;
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
         }
-
         if (themeToggle) themeToggle.addEventListener('change', (e) => applyTheme(e.target.checked));
         if (mobileThemeToggle) mobileThemeToggle.addEventListener('change', (e) => applyTheme(e.target.checked));
-
-        // Checar preferência salva
         if (localStorage.getItem('theme') === 'dark') {
             applyTheme(true);
         }
 
-        // Barra de progresso de leitura
         window.addEventListener('scroll', () => {
             const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             const scrolled = (winScroll / height) * 100;
             document.getElementById("progress-bar").style.width = scrolled + "%";
-
             const btt = document.querySelector('.back-to-top');
             if(btt) btt.style.opacity = winScroll > 300 ? "1" : "0";
         });
