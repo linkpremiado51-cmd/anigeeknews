@@ -681,6 +681,27 @@
                     <p>Estamos vendo a história sendo feita. Não apenas a história de Luffy e seus companheiros rumo ao One Piece, mas a história de como um anime semanal, muitas vezes ridicularizado por sua qualidade inconsistente no passado, tornou-se o palco onde os maiores animadores do mundo querem exibir sua arte. O clímax de Egghead não é apenas um ponto de virada na trama; é um manifesto visual.</p>
                 </div>
 
+                <!-- SEÇÃO DE COMENTÁRIOS INSERIDA AQUI -->
+                <section id="comentarios" style="margin-top:60px;border-top:1px solid var(--border);padding-top:30px;">
+                    <h3 style="font-family:var(--font-sans);font-size:14px;font-weight:800;text-transform:uppercase;">
+                        Comentários
+                    </h3>
+
+                    <div id="comentarios-lista" style="margin-top:20px;"></div>
+
+                    <div id="comentario-form" style="margin-top:30px;">
+                        <textarea id="comentario-texto" placeholder="Escreva seu comentário..."
+                            style="width:100%;min-height:100px;padding:12px;font-family:var(--font-sans);
+                            border:1px solid var(--border);background:var(--card-bg);color:var(--text-main);">
+                        </textarea>
+                        <button id="enviar-comentario"
+                            style="margin-top:10px;padding:10px 20px;border:1px solid var(--text-main);
+                            background:transparent;font-family:var(--font-sans);font-weight:700;cursor:pointer;">
+                            Publicar comentário
+                        </button>
+                    </div>
+                </section>
+
                 <div style="margin-top: 40px; border-top: 1px solid var(--border); padding-top: 20px;">
                     <span style="font-family: var(--font-sans); font-size: 12px; font-weight: 700; color: var(--text-muted);">TÓPICOS:</span>
                     <a href="#" style="margin-left: 10px; color: var(--primary); text-decoration: none; font-size: 12px; font-family: var(--font-sans); font-weight: 700; text-transform: uppercase;">TOEI ANIMATION</a>
@@ -759,6 +780,7 @@
 
     <script type="module" src="/anigeeknews/sessao_usuario.js"></script>
     <script type="module" src="/anigeeknews/main.js"></script>
+    <script type="module" src="/anigeeknews/comentarios.js"></script>
     <script>
         function toggleMobileMenu() {
             document.getElementById('mobileMenu').classList.toggle('active');
