@@ -93,7 +93,7 @@
         header {
             background: var(--bg);
             border-bottom: 2px solid var(--text-main);
-            position: ;
+            position: relative;
             top: 0;
             z-index: 1000;
         }
@@ -610,7 +610,7 @@
         <input type="text" class="search-input" placeholder="Pesquisar no site...">
         <button class="search-btn"><i class="fas fa-search"></i> Buscar</button>
     </div>
-    <article>
+   <article id="article" data-article-id="one-piece-egghead-001">
         <header class="article-header">
             <h1 class="article-title">One Piece: O clímax de Egghead redefine a animação moderna</h1>
             <p class="article-lead">A direção de arte sacrifica a consistência visual tradicional por um impacto narrativo visceral. Por que essa foi a decisão correta para o futuro da franquia e como isso muda a indústria.</p>
@@ -680,7 +680,7 @@
                     <p>Se Wano foi um épico de teatro Kabuki, tradicional e pesado, Egghead é um videoclipe de Pop Art sci-fi. A decisão de mudar o filtro de cor para tons pastéis neon e linhas mais finas (o chamado "lineart soft") ajuda a diferenciar a atmosfera.</p>
                     <p>Estamos vendo a história sendo feita. Não apenas a história de Luffy e seus companheiros rumo ao One Piece, mas a história de como um anime semanal, muitas vezes ridicularizado por sua qualidade inconsistente no passado, tornou-se o palco onde os maiores animadores do mundo querem exibir sua arte. O clímax de Egghead não é apenas um ponto de virada na trama; é um manifesto visual.</p>
                 </div>
-
+<section id="comentarios"></section>
                 <div style="margin-top: 40px; border-top: 1px solid var(--border); padding-top: 20px;">
                     <span style="font-family: var(--font-sans); font-size: 12px; font-weight: 700; color: var(--text-muted);">TÓPICOS:</span>
                     <a href="#" style="margin-left: 10px; color: var(--primary); text-decoration: none; font-size: 12px; font-family: var(--font-sans); font-weight: 700; text-transform: uppercase;">TOEI ANIMATION</a>
@@ -757,38 +757,61 @@
 
     <button class="back-to-top" onclick="scrollToTop()" style="position: fixed; bottom: 30px; right: 30px; padding: 15px; background: var(--text-main); color: var(--bg); border: none; opacity: 0; transition: 0.3s; cursor: pointer; font-weight: bold;">↑</button>
 
-    <script type="module" src="/anigeeknews/sessao_usuario.js"></script>
-    <script type="module" src="/anigeeknews/main.js"></script>
-    <script>
-        function toggleMobileMenu() {
-            document.getElementById('mobileMenu').classList.toggle('active');
-        }
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+ <script type="module" src="/anigeeknews/sessao_usuario.js"></script>
+<script type="module" src="/anigeeknews/main.js"></script>
+
+<!-- MÓDULO DE COMENTÁRIOS (renderiza somente no artigo) -->
+<script type="module" src="/anigeeknews/usuario/comentarios.js"></script>
+
+<script>
+    
+    function toggleMobileMenu() {
+        document.getElementById('mobileMenu').classList.toggle('active');
+    }
+
+    function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    const themeToggle = document.getElementById('themeToggle');
+    const mobileThemeToggle = document.getElementById('mobileThemeToggle');
+
+    function applyTheme(isDark) {
+        document.body.classList.toggle('dark-mode', isDark);
+        if (themeToggle) themeToggle.checked = isDark;
+        if (mobileThemeToggle) mobileThemeToggle.checked = isDark;
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    }
+
+    if (themeToggle) {
+        themeToggle.addEventListener('change', (e) => applyTheme(e.target.checked));
+    }
+
+    if (mobileThemeToggle) {
+        mobileThemeToggle.addEventListener('change', (e) => applyTheme(e.target.checked));
+    }
+
+    if (localStorage.getItem('theme') === 'dark') {
+        applyTheme(true);
+    }
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+
+        const progressBar = document.getElementById("progress-bar");
+        if (progressBar) {
+            progressBar.style.width = scrolled + "%";
         }
 
-        const themeToggle = document.getElementById('themeToggle');
-        const mobileThemeToggle = document.getElementById('mobileThemeToggle');
-        function applyTheme(isDark) {
-            document.body.classList.toggle('dark-mode', isDark);
-            if (themeToggle) themeToggle.checked = isDark;
-            if (mobileThemeToggle) mobileThemeToggle.checked = isDark;
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        const btt = document.querySelector('.back-to-top');
+        if (btt) {
+            btt.style.opacity = winScroll > 300 ? "1" : "0";
+            btt.style.pointerEvents = winScroll > 300 ? "auto" : "none";
         }
-        if (themeToggle) themeToggle.addEventListener('change', (e) => applyTheme(e.target.checked));
-        if (mobileThemeToggle) mobileThemeToggle.addEventListener('change', (e) => applyTheme(e.target.checked));
-        if (localStorage.getItem('theme') === 'dark') {
-            applyTheme(true);
-        }
+    });
 
-        window.addEventListener('scroll', () => {
-            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrolled = (winScroll / height) * 100;
-            document.getElementById("progress-bar").style.width = scrolled + "%";
-            const btt = document.querySelector('.back-to-top');
-            if(btt) btt.style.opacity = winScroll > 300 ? "1" : "0";
-        });
-    </script>
+</script>
 </body>
 </html>
