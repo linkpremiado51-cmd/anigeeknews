@@ -1,817 +1,184 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>One Piece: O clímax de Egghead redefine a animação | AniGeekNews</title>
-    <meta name="description" content="Análise técnica da direção de arte no arco Egghead e como o abandono da consistência visual em prol da expressão narrativa marca uma nova era para a Toei Animation.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-        /* --- VARIÁVEIS IDÊNTICAS AO INDEX --- */
-        :root {
-            --nyt-black: #121212;
-            --nyt-ink: #202020;
-            --nyt-gray-dark: #666;
-            --nyt-gray-light: #e2e2e2;
-            --nyt-off-white: #fdfdfd;
-            --nyt-paper: #fff;
-            --accent-news: #c1121f;
-            --accent-analysis: #000;
-            --accent-feature: #2c5282;
-            --primary: var(--accent-news);
-            --bg: var(--nyt-off-white);
-            --card-bg: var(--nyt-paper);
-            --text-main: var(--nyt-ink);
-            --text-muted: #888;
-            --border: #ddd;
-            --img-filter: grayscale(15%) contrast(95%) sepia(5%);
-            --img-hover: grayscale(0%) contrast(100%) sepia(0%);
-            --header-h: 70px;
-            --radius: 0px;
-            --container-w: 1200px;
-            --ease-editorial: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            --duration: 0.4s;
-            /* Fontes */
-            --font-serif: "Merriweather", Georgia, serif;
-            --font-serif-title: "Cormorant Garamond", Georgia, "Times New Roman", serif;
-            --font-sans: "Franklin Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif;
-            --font-logo: "Franklin Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif;
-        }
+// /anigeeknews/usuario/comentarios.js
 
-        body.dark-mode {
-            --bg: #111;
-            --card-bg: #111;
-            --text-main: #e0e0e0;
-            --text-muted: #a0a0a0;
-            --border: #333;
-            --nyt-off-white: #111;
-            --img-filter: grayscale(20%) brightness(80%);
-        }
+import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+import {
+    getAuth,
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+import {
+    getFirestore,
+    collection,
+    addDoc,
+    query,
+    where,
+    onSnapshot,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: var(--font-sans);
-            background: var(--bg);
-            color: var(--text-main);
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-            transition: background var(--duration) var(--ease-editorial), color var(--duration) var(--ease-editorial);
-        }
+/* ------------------------------------------------------------------
+   CONFIG FIREBASE (ÚNICA)
+------------------------------------------------------------------ */
+const firebaseConfig = {
+    apiKey: "AIzaSyBC_ad4X9OwCHKvcG_pNQkKEl76Zw2tu6o",
+    authDomain: "anigeeknews.firebaseapp.com",
+    projectId: "anigeeknews",
+    storageBucket: "anigeeknews.firebasestorage.app",
+    messagingSenderId: "769322939926",
+    appId: "1:769322939926:web:6eb91a96a3f74670882737"
+};
 
-        /* --- HEADER & NAV (AJUSTADO PARA ANIGEEKNEWS) --- */
-        #area-usuario, #area-usuario-mobile {
-            display: flex;
-            align-items: center;
-            font-family: var(--font-sans);
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-        .user-logged { display: flex; align-items: center; gap: 15px; color: var(--text-main); }
-        .user-logged span strong { color: var(--accent-news); }
-        .btn-entrar, .btn-sair {
-            text-decoration: none;
-            color: var(--text-main);
-            border: 1px solid var(--text-main);
-            padding: 5px 12px;
-            transition: all 0.3s;
-            cursor: pointer;
-            background: transparent;
-            font-family: var(--font-sans);
-            font-size: 11px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .btn-entrar:hover { background: var(--text-main); color: var(--bg); }
-        .btn-sair { border-color: #999; color: #999; }
-        .btn-sair:hover { border-color: var(--accent-news); color: var(--accent-news); }
+const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-        header {
-            background: var(--bg);
-            border-bottom: 2px solid var(--text-main);
-            position: relative;
-            top: 0;
-            z-index: 1000;
-        }
-        .nav-container {
-            max-width: var(--container-w);
-            margin: 0 auto;
-            height: var(--header-h);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
-        }
-        .logo {
-            font-family: var(--font-logo);
-            font-size: 26px;
-            font-weight: 700;
-            text-decoration: none;
-            color: var(--text-main);
-            letter-spacing: -1px;
-            white-space: nowrap;
-        }
-        .logo span { font-style: italic; font-weight: 400; }
-        .nav-menu {
-            display: flex;
-            gap: 30px;
-            list-style: none;
-            align-items: center;
-        }
-        .nav-item > a {
-            text-decoration: none;
-            color: var(--text-main);
-            font-family: var(--font-sans);
-            font-size: 13px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            padding: 24px 0;
-            display: block;
-            border-bottom: 2px solid transparent;
-        }
-        .nav-item:hover > a { border-bottom-color: var(--primary); }
+/* ------------------------------------------------------------------
+   ESTADO GLOBAL (IMPORTANTE)
+------------------------------------------------------------------ */
+let CURRENT_ARTICLE_ID = null;
 
-        .header-actions { display: flex; align-items: center; gap: 20px; }
-        .sections-btn {
-            background: none; border: none; color: var(--text-main); cursor: pointer;
-            display: flex; flex-direction: column; gap: 4px; padding: 5px;
-        }
-        .sections-btn .bar { display: block; width: 20px; height: 2px; background-color: var(--text-main); transition: 0.3s; }
-        .sections-btn .bar:nth-child(3) { width: 12px; }
-        .menu-toggle { background: none; border: none; font-size: 20px; color: var(--text-main); cursor: pointer; display: none; }
+/* ------------------------------------------------------------------
+   DOM READY
+------------------------------------------------------------------ */
+document.addEventListener("DOMContentLoaded", () => {
 
-        /* Config Dropdown */
-        .nav-item.config { position: relative; list-style: none; }
-        .config-dropdown {
-            position: absolute; top: 100%; right: 0; background: var(--card-bg);
-            min-width: 200px; border: 1px solid var(--border); opacity: 0; visibility: hidden;
-            transform: translateY(5px); transition: all 0.3s var(--ease-editorial);
-            padding: 15px; z-index: 1100; box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-        }
-        .nav-item.config:hover .config-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+    const articleElement = document.querySelector("[data-article-id]");
+    const comentariosContainer = document.getElementById("comentarios");
 
-        .theme-toggle-container { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; }
-        .theme-toggle-label { font-family: var(--font-sans); font-size: 13px; color: var(--text-main); }
-        .theme-toggle { position: relative; display: inline-block; width: 40px; height: 20px; }
-        .theme-toggle input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--nyt-gray-light); transition: 0.4s; border-radius: 34px; }
-        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 2px; bottom: 2px; background-color: white; transition: 0.4s; border-radius: 50%; }
-        input:checked + .slider { background-color: var(--accent-news); }
-        input:checked + .slider:before { transform: translateX(20px); }
-
-        /* SEARCH BAR - INLINE BUTTON */
-        .search-bar {
-            max-width: var(--container-w);
-            margin: 20px auto;
-            padding: 0 20px;
-            display: flex;
-            gap: 10px;
-        }
-        .search-input {
-            flex: 1;
-            padding: 12px 20px;
-            border: 1px solid var(--border);
-            background: var(--card-bg);
-            color: var(--text-main);
-            font-family: var(--font-sans);
-            border-radius: 0;
-            font-size: 14px;
-            min-width: 0;
-        }
-        .search-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 0 20px;
-            cursor: pointer;
-            font-family: var(--font-sans);
-            font-size: 16px;
-            white-space: nowrap;
-        }
-
-        /* --- MOBILE MENU --- */
-        .mobile-menu {
-            position: fixed; top: var(--header-h); right: -100%; width: 80%; max-width: 300px;
-            height: calc(100vh - var(--header-h)); background: var(--bg); border-left: 1px solid var(--border);
-            z-index: 2000; padding: 20px; transition: right 0.3s ease; overflow-y: auto;
-        }
-        .mobile-menu.active { right: 0; }
-        .close-menu {
-            position: absolute; top: 15px; right: 15px; background: none; border: none;
-            font-size: 24px; color: var(--text-main); cursor: pointer;
-        }
-        .mobile-menu-item { padding: 12px 0; border-bottom: 1px solid var(--border); }
-        .mobile-menu-item a {
-            text-decoration: none; color: var(--text-main); font-family: var(--font-sans);
-            font-weight: 600; text-transform: uppercase; font-size: 13px;
-        }
-
-        /* --- LAYOUT DO ARTIGO --- */
-        .layout {
-            max-width: var(--container-w);
-            margin: 0 auto;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 60px;
-        }
-
-        @media (min-width: 769px) {
-            .layout {
-                grid-template-columns: 1fr 300px;
-            }
-        }
-
-        .breadcrumbs {
-            max-width: var(--container-w);
-            margin: 20px auto 10px;
-            padding: 0 20px;
-            font-family: var(--font-sans);
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            letter-spacing: 1px;
-        }
-        .breadcrumbs a { text-decoration: none; color: inherit; }
-        .breadcrumbs a:hover { color: var(--primary); }
-        .breadcrumbs span { margin: 0 5px; }
-
-        .article-header {
-            max-width: var(--container-w);
-            margin: 0 auto 30px;
-            padding: 20px 20px 0;
-            border-top: 1px solid var(--border);
-        }
-
-        /* TÍTULO PRINCIPAL USANDO MESMA FONTE DOS H3 */
-        .article-title {
-            font-family: var(--font-sans);
-            font-size: clamp(32px, 5vw, 48px);
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 20px;
-            color: var(--text-main);
-            border-top: 2px solid var(--text-main);
-            padding-top: 20px;
-            width: fit-content;
-        }
-
-        .article-lead {
-            font-family: var(--font-serif);
-            font-size: 20px;
-            color: var(--text-muted);
-            line-height: 1.6;
-            margin-bottom: 25px;
-            max-width: 800px;
-        }
-
-        .article-meta-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-            padding: 15px 0;
-            margin: 30px 0;
-            font-family: var(--font-sans);
-            font-size: 12px;
-            font-weight: 700;
-        }
-        .author-box { display: flex; gap: 10px; align-items: center; }
-        .author-box img {
-            width: 40px; height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-            filter: grayscale(100%);
-        }
-        .author-info span {
-            display: block;
-            color: var(--text-main);
-            text-transform: uppercase;
-        }
-        .author-info .role {
-            color: var(--text-muted);
-            font-size: 10px;
-            font-weight: 500;
-        }
-        .social-share { display: flex; gap: 15px; }
-        .social-share a {
-            color: var(--text-main);
-            font-size: 16px;
-            transition: color 0.2s;
-        }
-        .social-share a:hover { color: var(--primary); }
-
-        .article-figure {
-            width: 100%;
-            margin: 40px 0;
-        }
-        .article-figure img {
-            width: 100%;
-            height: auto;
-            display: block;
-            filter: var(--img-filter);
-        }
-        .article-figure:hover img { filter: var(--img-hover); }
-        .fig-caption {
-            font-family: var(--font-sans);
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-top: 10px;
-            text-align: right;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 10px;
-        }
-
-        .article-body {
-            font-family: var(--font-sans);
-            font-size: 12.6px;
-            color: var(--text-main);
-            line-height: 1.4;
-            padding-bottom: 60px;
-            font-weight: 500;
-        }
-        .article-body p { margin-bottom: 24px; }
-        .article-body > p:first-of-type::first-letter {
-            float: left;
-            font-size: 86.4px;
-            line-height: 0.8;
-            font-weight: 700;
-            margin-right: 12px;
-            margin-top: 5px;
-            color: var(--text-main);
-            font-family: var(--font-serif-title);
-        }
-
-        .article-body h3 {
-            font-family: var(--font-sans);
-            font-size: 19.8px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin: 40px 0 20px;
-            border-top: 2px solid var(--text-main);
-            padding-top: 20px;
-            width: fit-content;
-        }
-
-        .article-body blockquote {
-            border-left: 3px solid var(--primary);
-            padding-left: 20px;
-            margin: 40px 0;
-            font-style: italic;
-            font-size: 19.8px;
-            color: var(--text-main);
-            font-family: var(--font-serif-title);
-        }
-
-        .article-body .inline-img {
-            margin: 40px 0;
-            width: 100%;
-        }
-        .article-body .inline-img img { width: 100%; }
-
-        /* --- ÁREAS DE ANÚNCIO --- */
-        .ad-banner {
-            background: var(--nyt-gray-light);
-            height: 90px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 30px 0;
-            color: var(--nyt-gray-dark);
-            font-size: 12px;
-            font-family: var(--font-sans);
-            text-align: center;
-        }
-        .ad-inline {
-            background: var(--nyt-gray-light);
-            height: 250px;
-            margin: 40px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--nyt-gray-dark);
-            font-size: 12px;
-            font-family: var(--font-sans);
-            text-align: center;
-        }
-        .sidebar .ad-sidebar {
-            background: var(--nyt-gray-light);
-            height: 250px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--nyt-gray-dark);
-            font-size: 12px;
-            font-family: var(--font-sans);
-            text-align: center;
-        }
-
-        /* --- SIDEBAR --- */
-        .sidebar-box { margin-bottom: 50px; }
-        .sidebar-title {
-            font-family: var(--font-sans);
-            font-size: 13px;
-            font-weight: 800;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-        }
-        .top-list-item, .related-item {
-            display: flex; gap: 15px; margin-bottom: 15px; padding-bottom: 15px;
-            border-bottom: 1px solid #f0f0f0; align-items: baseline; text-decoration: none;
-        }
-        body.dark-mode .top-list-item,
-        body.dark-mode .related-item { border-bottom-color: #222; }
-        .rank-num {
-            font-family: var(--font-sans);
-            font-size: 20px;
-            font-weight: 800;
-            color: var(--border);
-        }
-        .top-list-item p,
-        .related-item p {
-            font-family: var(--font-sans);
-            font-size: 14px;
-            line-height: 1.4;
-            color: var(--text-main);
-            font-weight: 500;
-        }
-        .top-list-item:hover p,
-        .related-item:hover p {
-            color: var(--accent-news);
-            text-decoration: underline;
-        }
-
-        .newsletter-card {
-            background: #f5f5f5;
-            padding: 30px 20px;
-            text-align: left;
-            border: 1px solid transparent;
-        }
-        body.dark-mode .newsletter-card { background: #222; }
-        .newsletter-card h3 {
-            font-family: var(--font-serif);
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-        .newsletter-card input {
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            border: 1px solid #ccc;
-            background: var(--bg);
-            color: var(--text-main);
-            font-family: var(--font-sans);
-        }
-        .newsletter-card button {
-            width: 100%;
-            padding: 12px;
-            margin-top: 10px;
-            background: var(--text-main);
-            color: var(--bg);
-            border: none;
-            font-family: var(--font-sans);
-            font-weight: 600;
-            cursor: pointer;
-            letter-spacing: 1px;
-        }
-        .newsletter-card button:hover { opacity: 0.9; }
-
-        /* --- FOOTER MINIMALISTA --- */
-        footer {
-            border-top: 1px solid var(--border);
-            padding: 20px 0;
-            margin-top: 60px;
-            text-align: center;
-            font-family: var(--font-sans);
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-        footer .logo {
-            font-size: 22px;
-            display: inline-block;
-            margin-bottom: 5px;
-            font-family: var(--font-logo);
-            color: var(--text-main);
-        }
-
-        /* --- MEDIA QUERIES --- */
-        @media (max-width: 900px) {
-            .nav-menu { display: none; }
-            .menu-toggle { display: block; }
-            .logo { font-size: 22px; }
-            .article-title { font-size: 28px; }
-            .article-body { font-size: 16.2px; }
-            .article-body > p:first-of-type::first-letter { font-size: 57.6px; }
-            .article-lead { font-size: 18px; }
-            .article-meta-row { flex-direction: column; gap: 15px; }
-            .search-bar { flex-wrap: wrap; }
-            .search-input, .search-btn { width: auto; min-width: 120px; }
-        }
-
-        @media (max-width: 768px) {
-            .nav-container { padding: 0 15px; height: 60px; }
-            --header-h: 60px;
-            .logo { font-size: 20px; }
-            .breadcrumbs { font-size: 10px; padding: 0 15px; }
-            .article-header { padding: 15px 15px 0; }
-            .article-title { font-size: clamp(24px, 8vw, 32px); }
-            .article-lead { font-size: 16px; max-width: 100%; }
-            .article-body { font-size: 14.4px; line-height: 1.7; padding-bottom: 40px; }
-            .mobile-menu { width: 100%; max-width: none; }
-        }
-
-        @media (max-width: 480px) {
-            .nav-container { padding: 0 10px; }
-            .logo { font-size: 18px; }
-            .breadcrumbs { font-size: 9px; padding: 0 10px; }
-            .search-bar { padding: 0 10px; margin: 15px auto; }
-            .search-input { padding: 10px 15px; font-size: 13px; flex: 1; }
-            .search-btn { padding: 10px 15px; font-size: 14px; }
-            .article-header { padding: 10px 10px 0; margin-bottom: 20px; }
-            .article-title { font-size: clamp(22px, 10vw, 28px); }
-            .article-lead { font-size: 14px; }
-            .article-meta-row { font-size: 11px; padding: 10px 0; }
-            .author-box img { width: 30px; height: 30px; }
-            .social-share a { font-size: 14px; }
-            .article-figure { margin-bottom: 30px; }
-            .fig-caption { font-size: 11px; }
-            .article-body { font-size: 13.5px; padding-bottom: 30px; }
-            .article-body p { margin-bottom: 20px; }
-            .article-body > p:first-of-type::first-letter { font-size: 43.2px; margin-right: 8px; margin-top: 3px; }
-            .article-body h3 { font-size: 16.2px; margin: 30px 0 15px; padding-top: 15px; }
-            .article-body blockquote { font-size: 14.4px; margin: 30px 0; padding-left: 10px; }
-            .inline-img { margin: 30px 0; }
-            .sidebar-title { font-size: 12px; }
-            .top-list-item, .related-item { gap: 10px; margin-bottom: 10px; padding-bottom: 10px; }
-            .rank-num { font-size: 18px; }
-            .top-list-item p, .related-item p { font-size: 12.6px; }
-            .newsletter-card h3 { font-size: 16px; }
-            .newsletter-card input, .newsletter-card button { padding: 8px; font-size: 13px; }
-            footer { padding: 15px 0; }
-            footer .logo { font-size: 20px; }
-        }
-    </style>
-</head>
-<body>
-    <div id="progress-bar" style="position: fixed; top: 0; left: 0; height: 3px; background: var(--primary); width: 0%; z-index: 1001; transition: width 0.1s;"></div>
-    <header>
-        <div class="nav-container">
-            <a href="/anigeeknews/index.html" class="logo">AniGeek<span>News</span></a>
-            <ul class="nav-menu" id="navMenu">
-                <li class="nav-item"><a href="#">Animes</a></li>
-                <li class="nav-item"><a href="#">Games</a></li>
-                <li class="nav-item"><a href="#">Mangás</a></li>
-                <li class="nav-item" id="area-usuario"><span>Verificando...</span></li>
-            </ul>
-            <div class="header-actions">
-                <li class="nav-item config">
-                    <a href="#" style="color: var(--text-main); font-size: 18px;"><i class="fas fa-cog"></i></a>
-                    <div class="config-dropdown">
-                        <div class="theme-toggle-container">
-                            <span class="theme-toggle-label">Tema Escuro</span>
-                            <label class="theme-toggle">
-                                <input type="checkbox" id="themeToggle">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                    </div>
-                </li>
-                <button class="sections-btn" onclick="if(window.abrirMegaMenu) window.abrirMegaMenu()">
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                </button>
-                <button class="menu-toggle" onclick="toggleMobileMenu()">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
-        </div>
-    </header>
-    <div id="megaMenuContainer"></div>
-    <div class="breadcrumbs">
-        <a href="/anigeeknews/index.html">Home</a> <span>/</span> 
-        <a href="#">Animes</a> <span>/</span> 
-        <a href="#">Análise</a> <span>/</span> 
-        One Piece
-    </div>
-    <div class="search-bar">
-        <input type="text" class="search-input" placeholder="Pesquisar no site...">
-        <button class="search-btn"><i class="fas fa-search"></i> Buscar</button>
-    </div>
-   <article id="article" data-article-id="one-piece-egghead-001">
-        <header class="article-header">
-            <h1 class="article-title">One Piece: O clímax de Egghead redefine a animação moderna</h1>
-            <p class="article-lead">A direção de arte sacrifica a consistência visual tradicional por um impacto narrativo visceral. Por que essa foi a decisão correta para o futuro da franquia e como isso muda a indústria.</p>
-            
-            <!-- ÁREA DE ANÚNCIO PRINCIPAL -->
-            <div class="ad-banner">[ ANÚNCIO 728x90 – BANNER SUPERIOR ]</div>
-        </header>
-
-        <div class="layout">
-            <main>
-                <div class="article-meta-row">
-                    <div class="author-box">
-                        <img src="https://i.postimg.cc/9fRpH5XP/FB-IMG-1765862955766.jpg" alt="Levi Arkeman">
-                        <div class="author-info">
-                            <span>Levi Arkeman</span>
-                            <span class="role">Editor Sênior</span>
-                        </div>
-                    </div>
-                    <div class="article-date">17 Dez, 2025</div>
-                    <div class="social-share">
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fas fa-link"></i></a>
-                    </div>
-                </div>
-
-                <figure class="article-figure">
-                    <img src="https://i.postimg.cc/sDL0s4nt/Portada-One-Piece.png" alt="Luffy Gear 5 em Egghead">
-                    <figcaption class="fig-caption">O estilo visual de Egghead mistura traços "soft" com renderização de alta octanagem. (Foto: Toei Animation)</figcaption>
-                </figure>
-
-                <div class="article-body">
-                    <p>Quando os tambores da libertação soaram pela primeira vez em Wano, a comunidade de anime sabia que algo havia mudado. Mas é no arco atual, Egghead, que a Toei Animation consolidou uma tese visual que vinha sendo ensaiada há anos: a de que a consistência — aquela regra dourada da animação dos anos 2000 — é, na verdade, um grilhão para a criatividade em uma série de longa duração.</p>
-                    <p>O que estamos testemunhando semanalmente não é apenas uma "boa animação". É um desfile de autores. Diferente de produções sazonais como <em>Demon Slayer</em>, que buscam uma uniformidade polida e quase digital, One Piece abraçou o caos artístico. O episódio desta semana, dirigido por nomes que ascendem como lendas no meio, prova que o futuro da franquia reside na sua capacidade de ser um camaleão estético.</p>
-
-                    <!-- ANÚNCIO INLINE NO MEIO -->
-                    <div class="ad-inline">[ ANÚNCIO 300x250 – MID-ARTICLE ]</div>
-
-                    <h3>O Fator "Shinya Ohira"</h3>
-                    <p>Para entender Egghead, precisamos olhar para o passado. A influência da "webgen" (animadores que surgiram na internet) trouxe uma fluidez gelatinosa e expressiva para as cenas de ação. O traço perde a rigidez do modelo original de Eiichiro Oda para ganhar movimento.</p>
-                    <blockquote>"A animação não precisa ser um espelho do mangá; ela deve ser a amplificação do sentimento que o painel estático evoca."</blockquote>
-                    <p>Essa filosofia é visível quando analisamos a luta recente no Laboratório Estratosférico. Os contornos dos personagens quebraram, as cores vazaram das linhas, e o uso de <em>smear frames</em> foi levado ao extremo. Para o espectador casual, pode parecer "mal desenhado" em um frame pausado. Para o olho treinado, é a mais pura expressão de movimento cinético.</p>
-                    
-                    <div class="inline-img">
-                        <img src="https://images.unsplash.com/photo-1618336753974-aae8e04506aa?w=800&auto=format&fit=crop&q=60" alt="Conceito abstrato de arte" style="height: 300px; object-fit: cover;">
-                        <figcaption class="fig-caption">O uso de cores experimentais tem sido uma marca registrada do arco futurista.</figcaption>
-                    </div>
-
-                    <h3>Tecnologia vs. Alma</h3>
-                    <p>Egghead é, tematicamente, sobre o futuro e a tecnologia. Ironicamente, a animação utilizou técnicas que remetem ao esboço feito à mão, ao grafite, ao imperfeito. Há uma sobreposição de filtros de pós-processamento, sim, mas a alma da animação permanece crua.</p>
-                    <p>Naotoshi Shida, veterano da casa, entregou sequências onde a câmera gira 360 graus em um ambiente 2D desenhado frame a frame, dispensando o CGI que muitos estúdios usariam como muleta. Isso cria uma sensação de vertigem e escala que o 3D, por mais polido que seja, raramente alcança com a mesma "sujeira" orgânica.</p>
-
-                    <h3>O Legado de Wano</h3>
-                    <p>O arco de Wano já havia plantado as sementes dessa revolução. Com a introdução do estilo "watercolor" nas cenas de luta e o uso de texturas digitais não tradicionais, a Toei sinalizava que estava disposta a romper com o "house style" que dominou seus trabalhos nas décadas anteriores.</p>
-                    <p>O episódio 1071, que encerrou Wano, já exibia traços de experimentação que culminam agora em Egghead: distorções de perspectiva, uso de negativo e até referências visuais a clássicos do cinema expressionista alemão.</p>
-
-                    <h3>O Papel do Streaming</h3>
-                    <p>A mudança de paradigma também é econômica. Com o anime migrando do broadcast linear para o streaming sob demanda, a pressão por "frames bonitos para captura" perdeu força. A experiência agora é imersiva e contínua — não fragmentada por intervalos comerciais.</p>
-                    <blockquote>"Estamos fazendo cinema animado semanal, não episódios de TV. O ritmo, a linguagem visual e o risco estético são diferentes."</blockquote>
-                    <p>Essa declaração de um diretor da Toei, feita anonimamente a jornalistas, resume a mentalidade por trás do que vemos em Egghead.</p>
-
-                    <h3>A Revolução Silenciosa</h3>
-                    <p>O mais impressionante é que essa transformação visual não foi anunciada com pompa. Não houve comunicado de imprensa, nem teaser promocional explicitando a nova direção de arte. A mudança ocorreu organicamente, como uma evolução natural da narrativa.</p>
-                    <p>Isso contrasta fortemente com franquias que adotam CGI em larga escala ou mudanças de estúdio, eventos que geram polêmica imediata. Em One Piece, o novo estilo foi absorvido pela própria história: o caos visual reflete o caos político e científico de Egghead.</p>
-
-                    <h3>O Veredito</h3>
-                    <p>Se Wano foi um épico de teatro Kabuki, tradicional e pesado, Egghead é um videoclipe de Pop Art sci-fi. A decisão de mudar o filtro de cor para tons pastéis neon e linhas mais finas (o chamado "lineart soft") ajuda a diferenciar a atmosfera.</p>
-                    <p>Estamos vendo a história sendo feita. Não apenas a história de Luffy e seus companheiros rumo ao One Piece, mas a história de como um anime semanal, muitas vezes ridicularizado por sua qualidade inconsistente no passado, tornou-se o palco onde os maiores animadores do mundo querem exibir sua arte. O clímax de Egghead não é apenas um ponto de virada na trama; é um manifesto visual.</p>
-                </div>
-<section id="comentarios"></section>
-                <div style="margin-top: 40px; border-top: 1px solid var(--border); padding-top: 20px;">
-                    <span style="font-family: var(--font-sans); font-size: 12px; font-weight: 700; color: var(--text-muted);">TÓPICOS:</span>
-                    <a href="#" style="margin-left: 10px; color: var(--primary); text-decoration: none; font-size: 12px; font-family: var(--font-sans); font-weight: 700; text-transform: uppercase;">TOEI ANIMATION</a>
-                    <a href="#" style="margin-left: 10px; color: var(--primary); text-decoration: none; font-size: 12px; font-family: var(--font-sans); font-weight: 700; text-transform: uppercase;">ONE PIECE</a>
-                    <a href="#" style="margin-left: 10px; color: var(--primary); text-decoration: none; font-size: 12px; font-family: var(--font-sans); font-weight: 700; text-transform: uppercase;">ANÁLISE</a>
-                </div>
-            </main>
-            <aside class="sidebar">
-                <!-- ANÚNCIO NA SIDEBAR -->
-                <div class="ad-sidebar">[ ANÚNCIO 300x250 – SIDEBAR ]</div>
-
-                <div class="sidebar-box">
-                    <h4 class="sidebar-title">Mais Lidas da Semana</h4>
-                    <div class="top-list">
-                        <a href="#" class="top-list-item"><span class="rank-num">1</span><p>Dragon Ball Daima: Análise frame-a-frame do trailer final.</p></a>
-                        <a href="#" class="top-list-item"><span class="rank-num">2</span><p>Guia de Compras: Cadeiras ergonômicas que valem o investimento.</p></a>
-                        <a href="#" class="top-list-item"><span class="rank-num">3</span><p>Arcane T2: O significado oculto na cena final do Ato 1.</p></a>
-                        <a href="#" class="top-list-item"><span class="rank-num">4</span><p>Entrevista: O futuro de One Piece segundo o editor.</p></a>
-                    </div>
-                </div>
-
-                <div class="sidebar-box">
-                    <h4 class="sidebar-title">Artigos Relacionados</h4>
-                    <div class="related-list">
-                        <a href="#" class="related-item"><p>One Piece: 5 cenas mais inovadoras da história da animação da franquia</p></a>
-                        <a href="#" class="related-item"><p>A ascensão da "webgen": como a nova geração está transformando a indústria do anime</p></a>
-                        <a href="#" class="related-item"><p>Shinya Ohira: o artista por trás do estilo mais caótico do anime moderno</p></a>
-                        <a href="#" class="related-item"><p>Egghead explicado: guia completo dos personagens e tecnologias do arco</p></a>
-                        <a href="#" class="related-item"><p>Por que One Piece é o novo laboratório da animação japonesa</p></a>
-                    </div>
-                </div>
-
-                <div class="newsletter-card">
-                    <h3>Briefing Matinal</h3>
-                    <p style="font-family: var(--font-sans); font-size: 13px; color: var(--text-muted); margin-bottom: 10px;">Curadoria manual das notícias mais importantes do dia.</p>
-                    <input type="email" placeholder="seu@email.com">
-                    <button>ASSINAR BRIEFING</button>
-                </div>
-                <div style="margin-top: 40px; background: var(--bg); border: 1px solid var(--border); padding: 20px; text-align: center;">
-                    <p style="font-family: var(--font-serif); font-style: italic; font-size: 14px; margin-bottom: 10px;">Gosta do nosso conteúdo?</p>
-                    <button style="background: transparent; border: 1px solid var(--text-main); color: var(--text-main); padding: 8px 20px; font-family: var(--font-sans); font-weight: 700; cursor: pointer; text-transform: uppercase; font-size: 11px;">Apoie o AniGeekNews</button>
-                </div>
-            </aside>
-        </div>
-    </article>
-
-    <div class="mobile-menu" id="mobileMenu">
-        <button class="close-menu" onclick="toggleMobileMenu()">×</button>
-        <div class="mobile-menu-item" id="area-usuario-mobile"><span>Verificando...</span></div>
-        <div class="mobile-menu-item"><a href="/anigeeknews/index.html">Início</a></div>
-        <div class="mobile-menu-item"><a href="#">Animes</a></div>
-        <div class="mobile-menu-item"><a href="#">Games</a></div>
-        <div class="mobile-menu-item"><a href="#">Mangás</a></div>
-        <div class="theme-toggle-container" style="padding: 20px 0; border-top: 1px solid var(--border); margin-top: 10px;">
-            <span style="font-size: 13px; font-family: var(--font-sans); font-weight: 700;">TEMA ESCURO</span>
-            <label class="theme-toggle">
-                <input type="checkbox" id="mobileThemeToggle">
-                <span class="slider"></span>
-            </label>
-        </div>
-        <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid var(--text-main);">
-            <a href="/anigeeknews/index.html" class="logo" style="font-size: 20px; font-family: var(--font-logo);">AniGeek<span>News</span></a>
-            <p style="font-family: var(--font-serif); font-size: 12px; color: var(--text-muted); font-style: italic;">Jornalismo independente sobre cultura pop.</p>
-        </div>
-    </div>
-
-    <!-- FOOTER MINIMALISTA -->
-    <footer>
-        <div style="max-width: var(--container-w); margin: 0 auto;">
-            <a href="/anigeeknews/index.html" class="logo">AniGeek<span>News</span></a>
-            <div style="margin-top: 8px;">© 2025 AniGeekNews. Todos os direitos reservados.</div>
-        </div>
-    </footer>
-
-    <button class="back-to-top" onclick="scrollToTop()" style="position: fixed; bottom: 30px; right: 30px; padding: 15px; background: var(--text-main); color: var(--bg); border: none; opacity: 0; transition: 0.3s; cursor: pointer; font-weight: bold;">↑</button>
-
- <script type="module" src="/anigeeknews/sessao_usuario.js"></script>
-<script type="module" src="/anigeeknews/main.js"></script>
-
-<!-- MÓDULO DE COMENTÁRIOS (renderiza somente no artigo) -->
-<script type="module" src="/anigeeknews/usuario/comentarios.js"></script>
-
-<script>
-    
-    function toggleMobileMenu() {
-        document.getElementById('mobileMenu').classList.toggle('active');
+    if (!articleElement || !comentariosContainer) {
+        console.warn("Comentários não iniciados: artigo ou container ausente.");
+        return;
     }
 
-    function scrollToTop() {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+    CURRENT_ARTICLE_ID = articleElement.dataset.articleId;
 
-    const themeToggle = document.getElementById('themeToggle');
-    const mobileThemeToggle = document.getElementById('mobileThemeToggle');
+    iniciarComentarios(CURRENT_ARTICLE_ID, comentariosContainer);
+});
 
-    function applyTheme(isDark) {
-        document.body.classList.toggle('dark-mode', isDark);
-        if (themeToggle) themeToggle.checked = isDark;
-        if (mobileThemeToggle) mobileThemeToggle.checked = isDark;
-        localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    }
+/* ------------------------------------------------------------------
+   SISTEMA PRINCIPAL
+------------------------------------------------------------------ */
+function iniciarComentarios(articleId, container) {
 
-    if (themeToggle) {
-        themeToggle.addEventListener('change', (e) => applyTheme(e.target.checked));
-    }
+    container.innerHTML = `
+        <h3 style="font-family:var(--font-sans); font-size:18px; font-weight:800;">
+            Comentários
+        </h3>
 
-    if (mobileThemeToggle) {
-        mobileThemeToggle.addEventListener('change', (e) => applyTheme(e.target.checked));
-    }
+        <div id="comentarios-form" style="margin-top:20px;"></div>
+        <div id="lista-comentarios" style="margin-top:25px;"></div>
+    `;
 
-    if (localStorage.getItem('theme') === 'dark') {
-        applyTheme(true);
-    }
+    let listenerAtivo = false;
 
-    window.addEventListener('scroll', () => {
-        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrolled = (winScroll / height) * 100;
+    onAuthStateChanged(auth, (user) => {
+        renderFormulario(user);
 
-        const progressBar = document.getElementById("progress-bar");
-        if (progressBar) {
-            progressBar.style.width = scrolled + "%";
-        }
-
-        const btt = document.querySelector('.back-to-top');
-        if (btt) {
-            btt.style.opacity = winScroll > 300 ? "1" : "0";
-            btt.style.pointerEvents = winScroll > 300 ? "auto" : "none";
+        if (!listenerAtivo) {
+            ouvirComentarios(articleId);
+            listenerAtivo = true;
         }
     });
+}
 
-</script>
-</body>
-</html>
+/* ------------------------------------------------------------------
+   FORMULÁRIO
+------------------------------------------------------------------ */
+function renderFormulario(user) {
+    const form = document.getElementById("comentarios-form");
+    if (!form) return;
+
+    if (!user) {
+        form.innerHTML = `
+            <p style="opacity:.7;">
+                <a href="/anigeeknews/usuario/cadastro.html">Entre</a> para comentar.
+            </p>
+        `;
+        return;
+    }
+
+    form.innerHTML = `
+        <textarea
+            id="texto-comentario"
+            placeholder="Escreva seu comentário..."
+            style="width:100%; padding:12px; border-radius:6px; resize:none;"
+        ></textarea>
+
+        <button
+            id="btn-enviar-comentario"
+            class="btn-primary"
+            style="margin-top:10px;"
+        >
+            Enviar comentário
+        </button>
+    `;
+
+    document
+        .getElementById("btn-enviar-comentario")
+        .addEventListener("click", enviarComentario);
+}
+
+/* ------------------------------------------------------------------
+   ENVIO
+------------------------------------------------------------------ */
+async function enviarComentario() {
+    const textarea = document.getElementById("texto-comentario");
+    const user = auth.currentUser;
+
+    if (!textarea || !user || !CURRENT_ARTICLE_ID) return;
+
+    const texto = textarea.value.trim();
+    if (!texto) return;
+
+    try {
+        await addDoc(collection(db, "comentarios"), {
+            articleId: CURRENT_ARTICLE_ID,
+            texto,
+            userId: user.uid,
+            userName: user.displayName || user.email.split("@")[0],
+            createdAt: serverTimestamp()
+        });
+
+        textarea.value = "";
+    } catch (e) {
+        console.error("Erro ao enviar comentário:", e);
+    }
+}
+
+/* ------------------------------------------------------------------
+   LISTAGEM EM TEMPO REAL
+------------------------------------------------------------------ */
+function ouvirComentarios(articleId) {
+    const lista = document.getElementById("lista-comentarios");
+    if (!lista) return;
+
+    const q = query(
+        collection(db, "comentarios"),
+        where("articleId", "==", articleId)
+    );
+
+    onSnapshot(q, (snapshot) => {
+        lista.innerHTML = "";
+
+        if (snapshot.empty) {
+            lista.innerHTML = `<p style="opacity:.6;">Nenhum comentário ainda.</p>`;
+            return;
+        }
+
+        snapshot.forEach((doc) => {
+            const c = doc.data();
+
+            const item = document.createElement("div");
+            item.style.marginBottom = "18px";
+
+            item.innerHTML = `
+                <strong>${c.userName}</strong>
+                <p style="margin:6px 0;">${c.texto}</p>
+                <small style="opacity:.5;">
+                    ${c.createdAt ? c.createdAt.toDate().toLocaleString("pt-BR") : "agora mesmo"}
+                </small>
+            `;
+
+            lista.appendChild(item);
+        });
+    });
+}
