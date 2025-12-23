@@ -1,10 +1,7 @@
 // /anigeeknews/usuario/comentarios.js
 
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-import {
-    getAuth,
-    onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 import {
     getFirestore,
     collection,
@@ -16,7 +13,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
 /* ------------------------------------------------------------------
-   CONFIG FIREBASE (ÚNICA INICIALIZAÇÃO)
+   FIREBASE
 ------------------------------------------------------------------ */
 const firebaseConfig = {
     apiKey: "AIzaSyBC_ad4X9OwCHKvcG_pNQkKEl76Zw2tu6o",
@@ -32,7 +29,12 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 /* ------------------------------------------------------------------
-   DOM READY
+   VARIÁVEL GLOBAL DE CONTEXTO (ARTIGO ATUAL)
+------------------------------------------------------------------ */
+let CURRENT_ARTICLE_ID = null;
+
+/* ------------------------------------------------------------------
+   INIT
 ------------------------------------------------------------------ */
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -40,11 +42,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const comentariosContainer = document.getElementById("comentarios");
 
     if (!articleElement || !comentariosContainer) {
-        console.warn("Sistema de comentários não iniciado (article-id ou container ausente).");
+        console.warn("Comentários não iniciados: article-id ou container ausente.");
         return;
     }
 
-    iniciarComentarios(articleElement.dataset.articleId, comentariosContainer);
+    CURRENT_ARTICLE_ID = articleElement.dataset.articleId;
+
+    iniciarComentarios(CURRENT_ARTICLE_ID, comentariosContainer);
 });
 
 /* ------------------------------------------------------------------
@@ -52,7 +56,6 @@ document.addEventListener("DOMContentLoaded", () => {
 ------------------------------------------------------------------ */
 function iniciarComentarios(articleId, container) {
 
-    // Estrutura SEMPRE renderizada
     container.innerHTML = `
         <h3 style="font-family:var(--font-sans); font-size:18px; font-weight:800;">
             Comentários
@@ -62,15 +65,9 @@ function iniciarComentarios(articleId, container) {
         <div id="lista-comentarios" style="margin-top:25px;"></div>
     `;
 
-    let listenerAtivo = false;
-
     onAuthStateChanged(auth, (user) => {
         renderFormulario(user);
-
-        if (!listenerAtivo) {
-            ouvirComentarios(articleId);
-            listenerAtivo = true;
-        }
+        ouvirComentarios(articleId);
     });
 }
 
@@ -112,7 +109,7 @@ function renderFormulario(user) {
 }
 
 /* ------------------------------------------------------------------
-   ENVIO
+   ENVIO (BUG CORRIGIDO)
 ------------------------------------------------------------------ */
 async function enviarComentario(user) {
     const textarea = document.getElementById("texto-comentario");
@@ -121,9 +118,14 @@ async function enviarComentario(user) {
     const texto = textarea.value.trim();
     if (!texto) return;
 
+    if (!CURRENT_ARTICLE_ID) {
+        console.error("Article ID não definido.");
+        return;
+    }
+
     try {
         await addDoc(collection(db, "comentarios"), {
-            articleId,
+            articleId: CURRENT_ARTICLE_ID,
             texto,
             userId: user.uid,
             userName: user.displayName || user.email.split("@")[0],
@@ -137,7 +139,7 @@ async function enviarComentario(user) {
 }
 
 /* ------------------------------------------------------------------
-   LISTAGEM EM TEMPO REAL (SEM ORDERBY = SEM BUG)
+   LISTAGEM EM TEMPO REAL
 ------------------------------------------------------------------ */
 function ouvirComentarios(articleId) {
     const lista = document.getElementById("lista-comentarios");
