@@ -1,121 +1,160 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  query,
-  where,
-  orderBy,
-  onSnapshot,
-  serverTimestamp
-} from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+// /anigeeknews/usuario/comentarios.js
 
-import {
-  getAuth,
-  onAuthStateChanged
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+import { 
+    getAuth, 
+    onAuthStateChanged 
 } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
-/* -------------------------------------------------
-   CONFIG FIREBASE (mesmo projeto que você já usa)
--------------------------------------------------- */
+import { 
+    getFirestore, 
+    collection, 
+    addDoc, 
+    query, 
+    where, 
+    orderBy, 
+    onSnapshot, 
+    serverTimestamp 
+} from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+// ------------------------------------------------------------------
+// CONFIG FIREBASE (MESMO DO SITE)
+// ------------------------------------------------------------------
 const firebaseConfig = {
-  apiKey: "AIzaSyBC_ad4X9OwCHKvcG_pNQkKEl76Zw2tu6o",
-  authDomain: "anigeeknews.firebaseapp.com",
-  projectId: "anigeeknews",
-  storageBucket: "anigeeknews.firebasestorage.app",
-  messagingSenderId: "769322939926",
-  appId: "1:769322939926:web:6eb91a96a3f74670882737"
+    apiKey: "AIzaSyBC_ad4X9OwCHKvcG_pNQkKEl76Zw2tu6o",
+    authDomain: "anigeeknews.firebaseapp.com",
+    projectId: "anigeeknews",
+    storageBucket: "anigeeknews.firebasestorage.app",
+    messagingSenderId: "769322939926",
+    appId: "1:769322939926:web:6eb91a96a3f74670882737"
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
-/* -------------------------------------------------
-   INICIALIZAÇÃO
--------------------------------------------------- */
-export function inicializarComentarios() {
-  const postEl = document.getElementById("post");
-  if (!postEl) return;
+// ------------------------------------------------------------------
+// IDENTIFICA O ARTIGO (CPF DO CONTEÚDO)
+// ------------------------------------------------------------------
+const articleElement = document.querySelector('[data-article-id]');
+const comentariosContainer = document.getElementById('comentarios');
 
-  const postId = postEl.dataset.postId;
-  if (!postId) {
-    console.error("Post sem data-post-id");
+if (!articleElement || !comentariosContainer) {
+    console.warn('Comentários não inicializados: artigo ou container ausente.');
     return;
-  }
+}
 
-  const lista = document.getElementById("lista-comentarios");
-  const btn = document.getElementById("btn-comentar");
-  const textarea = document.getElementById("texto-comentario");
+const articleId = articleElement.getAttribute('data-article-id');
 
-  if (!lista || !btn || !textarea) return;
+// ------------------------------------------------------------------
+// RENDERIZA ESTRUTURA BASE
+// ------------------------------------------------------------------
+comentariosContainer.innerHTML = `
+    <h3 style="font-family:var(--font-sans); font-size:18px; font-weight:800;">
+        Comentários
+    </h3>
 
-  /* -------------------------------------------------
-     ESCUTA COMENTÁRIOS EM TEMPO REAL
-  -------------------------------------------------- */
-  const q = query(
-    collection(db, "comentarios"),
-    where("postId", "==", postId),
-    orderBy("criadoEm", "asc")
-  );
+    <div id="comentarios-form"></div>
+    <div id="lista-comentarios" style="margin-top:25px;"></div>
+`;
 
-  onSnapshot(q, (snapshot) => {
-    lista.innerHTML = "";
+// ------------------------------------------------------------------
+// OBSERVA LOGIN DO USUÁRIO
+// ------------------------------------------------------------------
+onAuthStateChanged(auth, (user) => {
+    renderFormulario(user);
+    carregarComentarios();
+});
 
-    if (snapshot.empty) {
-      lista.innerHTML = `<p style="font-size:13px;color:#777">Nenhum comentário ainda.</p>`;
-      return;
-    }
-
-    snapshot.forEach((doc) => {
-      const c = doc.data();
-
-      const div = document.createElement("div");
-      div.className = "comentario";
-
-      div.innerHTML = `
-        <strong>${c.autor}</strong>
-        <p>${c.texto}</p>
-        <span style="font-size:11px;color:#888">
-          ${c.criadoEm?.toDate().toLocaleString("pt-BR")}
-        </span>
-      `;
-
-      lista.appendChild(div);
-    });
-  });
-
-  /* -------------------------------------------------
-     ENVIO DE COMENTÁRIO
-  -------------------------------------------------- */
-  let usuarioAtual = null;
-
-  onAuthStateChanged(auth, (user) => {
-    usuarioAtual = user;
+// ------------------------------------------------------------------
+// FORMULÁRIO DE COMENTÁRIO
+// ------------------------------------------------------------------
+function renderFormulario(user) {
+    const formArea = document.getElementById('comentarios-form');
 
     if (!user) {
-      btn.disabled = true;
-      textarea.disabled = true;
-      textarea.placeholder = "Faça login para comentar";
-    } else {
-      btn.disabled = false;
-      textarea.disabled = false;
-      textarea.placeholder = "Escreva seu comentário";
+        formArea.innerHTML = `
+            <p style="opacity:.7;">
+                <a href="/anigeeknews/usuario/cadastro.html">Entre</a> para comentar.
+            </p>
+        `;
+        return;
     }
-  });
 
-  btn.addEventListener("click", async () => {
+    formArea.innerHTML = `
+        <textarea id="texto-comentario" 
+            placeholder="Escreva seu comentário..."
+            style="width:100%; padding:12px; border-radius:6px; resize:none;"></textarea>
+
+        <button id="enviar-comentario" 
+            style="margin-top:10px;"
+            class="btn-primary">
+            Enviar comentário
+        </button>
+    `;
+
+    document
+        .getElementById('enviar-comentario')
+        .addEventListener('click', () => enviarComentario(user));
+}
+
+// ------------------------------------------------------------------
+// ENVIA COMENTÁRIO
+// ------------------------------------------------------------------
+async function enviarComentario(user) {
+    const textarea = document.getElementById('texto-comentario');
     const texto = textarea.value.trim();
-    if (!texto || !usuarioAtual) return;
 
-    await addDoc(collection(db, "comentarios"), {
-      postId: postId,
-      texto: texto,
-      autor: usuarioAtual.displayName || usuarioAtual.email.split("@")[0],
-      uid: usuarioAtual.uid,
-      criadoEm: serverTimestamp()
+    if (!texto) return;
+
+    try {
+        await addDoc(collection(db, 'comentarios'), {
+            articleId: articleId,
+            texto: texto,
+            userId: user.uid,
+            userName: user.displayName || user.email.split('@')[0],
+            createdAt: serverTimestamp()
+        });
+
+        textarea.value = '';
+    } catch (err) {
+        console.error('Erro ao enviar comentário:', err);
+    }
+}
+
+// ------------------------------------------------------------------
+// CARREGA E ESCUTA COMENTÁRIOS DO ARTIGO
+// ------------------------------------------------------------------
+function carregarComentarios() {
+    const lista = document.getElementById('lista-comentarios');
+
+    const q = query(
+        collection(db, 'comentarios'),
+        where('articleId', '==', articleId),
+        orderBy('createdAt', 'desc')
+    );
+
+    onSnapshot(q, (snapshot) => {
+        lista.innerHTML = '';
+
+        if (snapshot.empty) {
+            lista.innerHTML = `<p style="opacity:.6;">Nenhum comentário ainda.</p>`;
+            return;
+        }
+
+        snapshot.forEach((doc) => {
+            const c = doc.data();
+
+            const item = document.createElement('div');
+            item.style.marginBottom = '18px';
+
+            item.innerHTML = `
+                <strong>${c.userName}</strong>
+                <p style="margin:6px 0;">${c.texto}</p>
+                <small style="opacity:.5;">comentado agora</small>
+            `;
+
+            lista.appendChild(item);
+        });
     });
-
-    textarea.value = "";
-  });
 }
