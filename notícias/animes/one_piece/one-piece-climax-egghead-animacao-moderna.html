@@ -465,6 +465,19 @@
             font-family: var(--font-logo);
             color: var(--text-main);
         }
+        /* Forçar o container do vídeo a aparecer */
+[data-slot="video-topo"] {
+    min-height: 250px; /* Altura mínima para o vídeo não ficar invisível */
+    width: 100%;
+    margin-bottom: 20px;
+    background: #f0f0f0; /* Um fundo cinza claro enquanto carrega */
+    display: block !important;
+}
+
+body.dark-mode [data-slot="video-topo"] {
+    background: #1a1a1a;
+}
+
         /* --- MEDIA QUERIES --- */
         @media (max-width: 900px) {
             .nav-menu { display: none; }
