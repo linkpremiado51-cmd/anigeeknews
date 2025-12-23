@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     
     <style>
+
         /* --- VARIÁVEIS IDÊNTICAS AO INDEX --- */
         :root {
             --nyt-black: #121212;
@@ -68,36 +69,16 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        html {
-            overflow-x: hidden;
-            scroll-behavior: smooth;
-        }
-
         body {
             font-family: var(--font-sans);
             background: var(--bg);
             color: var(--text-main);
             line-height: 1.6;
-            /* Melhora a consistência de renderização entre navegadores */
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            text-rendering: optimizeLegibility;
-            -webkit-text-size-adjust: 100%;
             transition: background var(--duration) var(--ease-editorial), color var(--duration) var(--ease-editorial);
         }
 
-        /* Padronização de Containers para evitar quebras laterais */
-        .nav-container, .layout, .article-header, .breadcrumbs, .search-bar {
-            width: 100%;
-            max-width: var(--container-w);
-            margin-left: auto;
-            margin-right: auto;
-            padding-left: 20px;
-            padding-right: 20px;
-        }
-
-        /* --- HEADER & NAV --- */
+        /* --- HEADER & NAV (AJUSTADO PARA ANIGEEKNEWS) --- */
         #area-usuario, #area-usuario-mobile {
             display: flex;
             align-items: center;
@@ -134,10 +115,13 @@
             z-index: 1000;
         }
         .nav-container {
+            max-width: var(--container-w);
+            margin: 0 auto;
             height: var(--header-h);
             display: flex;
             align-items: center;
             justify-content: space-between;
+            padding: 0 20px;
         }
         .logo {
             font-family: var(--font-logo);
@@ -197,9 +181,11 @@
         input:checked + .slider { background-color: var(--accent-news); }
         input:checked + .slider:before { transform: translateX(20px); }
 
-        /* SEARCH BAR */
+        /* SEARCH BAR - INLINE BUTTON */
         .search-bar {
+            max-width: var(--container-w);
             margin: 20px auto;
+            padding: 0 20px;
             display: flex;
             gap: 10px;
         }
@@ -244,18 +230,24 @@
 
         /* --- LAYOUT DO ARTIGO --- */
         .layout {
+            max-width: var(--container-w);
+            margin: 0 auto;
+            padding: 0 20px;
             display: grid;
             grid-template-columns: 1fr;
             gap: 60px;
-            margin-bottom: 40px;
         }
 
         @media (min-width: 769px) {
-            .layout { grid-template-columns: 1fr 300px; }
+            .layout {
+                grid-template-columns: 1fr 300px;
+            }
         }
 
         .breadcrumbs {
+            max-width: var(--container-w);
             margin: 20px auto 10px;
+            padding: 0 20px;
             font-family: var(--font-sans);
             font-size: 11px;
             font-weight: 700;
@@ -268,14 +260,16 @@
         .breadcrumbs span { margin: 0 5px; }
 
         .article-header {
+            max-width: var(--container-w);
             margin: 0 auto 30px;
+            padding: 20px 20px 0;
             border-top: 1px solid var(--border);
-            padding-top: 20px;
         }
 
+        /* TÍTULO PRINCIPAL USANDO MESMA FONTE DOS H3 */
         .article-title {
             font-family: var(--font-sans);
-            font-size: clamp(32px, 4.5vw, 48px);
+            font-size: clamp(32px, 5vw, 48px);
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -283,8 +277,7 @@
             color: var(--text-main);
             border-top: 2px solid var(--text-main);
             padding-top: 20px;
-            display: block; /* Alterado de fit-content para consistência */
-            width: 100%;
+            width: fit-content;
         }
 
         .article-lead {
@@ -356,16 +349,16 @@
 
         .article-body {
             font-family: var(--font-sans);
-            font-size: 17px; /* Aumentado ligeiramente para legibilidade */
+            font-size: 12.6px;
             color: var(--text-main);
-            line-height: 1.6;
+            line-height: 1.4;
             padding-bottom: 60px;
             font-weight: 500;
         }
         .article-body p { margin-bottom: 24px; }
         .article-body > p:first-of-type::first-letter {
             float: left;
-            font-size: 86px;
+            font-size: 86.4px;
             line-height: 0.8;
             font-weight: 700;
             margin-right: 12px;
@@ -376,15 +369,14 @@
 
         .article-body h3 {
             font-family: var(--font-sans);
-            font-size: 20px;
+            font-size: 19.8px;
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin: 40px 0 20px;
             border-top: 2px solid var(--text-main);
             padding-top: 20px;
-            display: block;
-            width: 100%;
+            width: fit-content;
         }
 
         .article-body blockquote {
@@ -392,7 +384,7 @@
             padding-left: 20px;
             margin: 40px 0;
             font-style: italic;
-            font-size: 20px;
+            font-size: 19.8px;
             color: var(--text-main);
             font-family: var(--font-serif-title);
         }
@@ -401,29 +393,45 @@
             margin: 40px 0;
             width: 100%;
         }
-        .article-body .inline-img img { 
-            width: 100%; 
-            height: auto;
-            aspect-ratio: 16 / 9;
-            object-fit: cover;
-        }
+        .article-body .inline-img img { width: 100%; }
 
         /* --- ÁREAS DE ANÚNCIO --- */
-        .ad-banner, .ad-inline, .ad-sidebar {
+        .ad-banner {
             background: var(--nyt-gray-light);
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 30px 0;
+            color: var(--nyt-gray-dark);
+            font-size: 12px;
+            font-family: var(--font-sans);
+            text-align: center;
+        }
+        .ad-inline {
+            background: var(--nyt-gray-light);
+            height: 250px;
+            margin: 40px 0;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--nyt-gray-dark);
-            font-size: 11px;
+            font-size: 12px;
             font-family: var(--font-sans);
             text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 1px;
         }
-        .ad-banner { height: 90px; margin: 30px 0; }
-        .ad-inline { height: 250px; margin: 40px 0; }
-        .ad-sidebar { height: 250px; margin-bottom: 30px; }
+        .sidebar .ad-sidebar {
+            background: var(--nyt-gray-light);
+            height: 250px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--nyt-gray-dark);
+            font-size: 12px;
+            font-family: var(--font-sans);
+            text-align: center;
+        }
 
         /* --- SIDEBAR --- */
         .sidebar-box { margin-bottom: 50px; }
@@ -497,10 +505,10 @@
         }
         .newsletter-card button:hover { opacity: 0.9; }
 
-        /* --- FOOTER --- */
+        /* --- FOOTER MINIMALISTA --- */
         footer {
             border-top: 1px solid var(--border);
-            padding: 40px 20px;
+            padding: 20px 0;
             margin-top: 60px;
             text-align: center;
             font-family: var(--font-sans);
@@ -515,36 +523,63 @@
             color: var(--text-main);
         }
 
-        /* --- MEDIA QUERIES (REOTIMIZADAS) --- */
+        /* --- MEDIA QUERIES --- */
         @media (max-width: 900px) {
             .nav-menu { display: none; }
             .menu-toggle { display: block; }
             .logo { font-size: 22px; }
-            .article-title { font-size: clamp(28px, 6vw, 36px); }
-            .article-body { font-size: 16px; }
+            .article-title { font-size: 28px; }
+            .article-body { font-size: 16.2px; }
+            .article-body > p:first-of-type::first-letter { font-size: 57.6px; }
+            .article-lead { font-size: 18px; }
+            .article-meta-row { flex-direction: column; gap: 15px; }
+            .search-bar { flex-wrap: wrap; }
+            .search-input, .search-btn { width: auto; min-width: 120px; }
         }
 
         @media (max-width: 768px) {
-            :root { --header-h: 60px; }
-            .nav-container { height: var(--header-h); padding: 0 15px; }
+            .nav-container { padding: 0 15px; height: 60px; }
+            --header-h: 60px;
             .logo { font-size: 20px; }
-            .article-title { font-size: clamp(24px, 7vw, 30px); }
-            .article-lead { font-size: 18px; }
+            .breadcrumbs { font-size: 10px; padding: 0 15px; }
+            .article-header { padding: 15px 15px 0; }
+            .article-title { font-size: clamp(24px, 8vw, 32px); }
+            .article-lead { font-size: 16px; max-width: 100%; }
+            .article-body { font-size: 14.4px; line-height: 1.7; padding-bottom: 40px; }
             .mobile-menu { width: 100%; max-width: none; }
         }
 
         @media (max-width: 480px) {
-            .nav-container, .layout, .article-header, .breadcrumbs, .search-bar {
-                padding-left: 15px;
-                padding-right: 15px;
-            }
-            .article-title { font-size: clamp(22px, 8vw, 26px); }
-            .article-body { font-size: 15px; }
-            .article-body > p:first-of-type::first-letter { font-size: 60px; }
-            .search-btn { padding: 0 12px; font-size: 14px; }
+            .nav-container { padding: 0 10px; }
+            .logo { font-size: 18px; }
+            .breadcrumbs { font-size: 9px; padding: 0 10px; }
+            .search-bar { padding: 0 10px; margin: 15px auto; }
+            .search-input { padding: 10px 15px; font-size: 13px; flex: 1; }
+            .search-btn { padding: 10px 15px; font-size: 14px; }
+            .article-header { padding: 10px 10px 0; margin-bottom: 20px; }
+            .article-title { font-size: clamp(22px, 10vw, 28px); }
+            .article-lead { font-size: 14px; }
+            .article-meta-row { font-size: 11px; padding: 10px 0; }
+            .author-box img { width: 30px; height: 30px; }
+            .social-share a { font-size: 14px; }
+            .article-figure { margin-bottom: 30px; }
+            .fig-caption { font-size: 11px; }
+            .article-body { font-size: 13.5px; padding-bottom: 30px; }
+            .article-body p { margin-bottom: 20px; }
+            .article-body > p:first-of-type::first-letter { font-size: 43.2px; margin-right: 8px; margin-top: 3px; }
+            .article-body h3 { font-size: 16.2px; margin: 30px 0 15px; padding-top: 15px; }
+            .article-body blockquote { font-size: 14.4px; margin: 30px 0; padding-left: 10px; }
+            .inline-img { margin: 30px 0; }
+            .sidebar-title { font-size: 12px; }
+            .top-list-item, .related-item { gap: 10px; margin-bottom: 10px; padding-bottom: 10px; }
+            .rank-num { font-size: 18px; }
+            .top-list-item p, .related-item p { font-size: 12.6px; }
+            .newsletter-card h3 { font-size: 16px; }
+            .newsletter-card input, .newsletter-card button { padding: 8px; font-size: 13px; }
+            footer { padding: 15px 0; }
+            footer .logo { font-size: 20px; }
         }
     </style>
-
 </head>
 <body>
     <div id="progress-bar" style="position: fixed; top: 0; left: 0; height: 3px; background: var(--primary); width: 0%; z-index: 1001; transition: width 0.1s;"></div>
