@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>One Piece: O clímax de Egghead redefine a animação | AniGeekNews    </title>
+    <title>One Piece: O clímax de Egghead redefine a animação | AniGeekNews</title>
+
+    <script async src="https://js.wpadmngr.com/static/adManager.js" data-admpid="405407"></script>
 
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://linkpremiado51-cmd.github.io/anigeeknews/not%C3%ADcias/animes/one_piece/one-piece-climax-egghead-animacao-moderna.html ">
@@ -396,40 +398,25 @@
 
         /* --- ÁREAS DE ANÚNCIO --- */
         .ad-banner {
-            background: var(--nyt-gray-light);
-            height: 90px;
+            min-height: 90px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 30px 0;
-            color: var(--nyt-gray-dark);
-            font-size: 12px;
-            font-family: var(--font-sans);
-            text-align: center;
         }
         .ad-inline {
-            background: var(--nyt-gray-light);
-            height: 250px;
+            min-height: 250px;
             margin: 40px 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--nyt-gray-dark);
-            font-size: 12px;
-            font-family: var(--font-sans);
-            text-align: center;
         }
         .sidebar .ad-sidebar {
-            background: var(--nyt-gray-light);
-            height: 250px;
+            min-height: 250px;
             margin-bottom: 30px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--nyt-gray-dark);
-            font-size: 12px;
-            font-family: var(--font-sans);
-            text-align: center;
         }
 
         /* --- SIDEBAR --- */
@@ -601,7 +588,6 @@
             width: 100%;
             height: 35px;
         }
-        /* Efeito para o player no modo escuro */
         body.dark-mode .anigeek-audio-player audio {
             filter: invert(100%) hue-rotate(180deg) brightness(1.5);
         }
@@ -666,7 +652,11 @@
                 </audio>
             </div>
 
-            <div class="ad-banner">[ ANÚNCIO 728x90 – BANNER SUPERIOR ]</div>
+            <div id="anuncio-video-principal" style="margin: 20px 0; min-height: 50px;"></div>
+
+            <div class="ad-banner">
+                <div data-banner-id="1475530"></div>
+            </div>
         </header>
 
         <div class="layout">
@@ -696,7 +686,9 @@
                     <p>Quando os tambores da libertação soaram pela primeira vez em Wano, a comunidade de anime sabia que algo havia mudado. Mas é no arco atual, Egghead, que a Toei Animation consolidou uma tese visual que vinha sendo ensaiada há anos: a de que a consistência — aquela regra dourada da animação dos anos 2000 — é, na verdade, um grilhão para a criatividade em uma série de longa duração.</p>
                     <p>O que estamos testemunhando semanalmente não é apenas uma "boa animação". É um desfile de autores. Diferente de produções sazonais como <em>Demon Slayer</em>, que buscam uma uniformidade polida e quase digital, One Piece abraçou o caos artístico. O episódio desta semana, dirigido por nomes que ascendem como lendas no meio, prova que o futuro da franquia reside na sua capacidade de ser um camaleão estético.</p>
 
-                    <div class="ad-inline">[ ANÚNCIO 300x250 – MID-ARTICLE ]</div>
+                    <div class="ad-inline">
+                        <div data-banner-id="1475530"></div>
+                    </div>
 
                     <h3>O Fator "Shinya Ohira"</h3>
                     <p>Para entender Egghead, precisamos olhar para o passado. A influência da "webgen" (animadores que surgiram na internet) trouxe uma fluidez gelatinosa e expressiva para as cenas de ação. O traço perde a rigidez do modelo original de Eiichiro Oda para ganhar movimento.</p>
@@ -738,7 +730,9 @@
                 </div>
             </main>
             <aside class="sidebar">
-                <div class="ad-sidebar">[ ANÚNCIO 300x250 – SIDEBAR ]</div>
+                <div class="ad-sidebar">
+                    <div data-banner-id="1475530"></div>
+                </div>
 
                 <div class="sidebar-box">
                     <h4 class="sidebar-title">Mais Lidas da Semana</h4>
@@ -804,13 +798,11 @@
 
     <button class="back-to-top" onclick="scrollToTop()" style="position: fixed; bottom: 30px; right: 30px; padding: 15px; background: var(--text-main); color: var(--bg); border: none; opacity: 0; transition: 0.3s; cursor: pointer; font-weight: bold;">↑</button>
 
- <script type="module" src="/anigeeknews/sessao_usuario.js"></script>
+<script type="module" src="/anigeeknews/sessao_usuario.js"></script>
 <script type="module" src="/anigeeknews/main.js"></script>
-
 <script type="module" src="/anigeeknews/usuario/comentarios.js"></script>
 
 <script>
-
     function toggleMobileMenu() {
         document.getElementById('mobileMenu').classList.toggle('active');
     }
@@ -857,7 +849,6 @@
             btt.style.pointerEvents = winScroll > 300 ? "auto" : "none";
         }
     });
-
 </script>
 </body>
 </html>
