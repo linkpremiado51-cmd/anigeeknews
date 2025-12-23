@@ -1,7 +1,10 @@
 // /anigeeknews/usuario/comentarios.js
 
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+import {
+    getAuth,
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 import {
     getFirestore,
     collection,
@@ -13,7 +16,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
 /* ------------------------------------------------------------------
-   FIREBASE
+   CONFIG FIREBASE (ÚNICA)
 ------------------------------------------------------------------ */
 const firebaseConfig = {
     apiKey: "AIzaSyBC_ad4X9OwCHKvcG_pNQkKEl76Zw2tu6o",
@@ -29,12 +32,12 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 /* ------------------------------------------------------------------
-   VARIÁVEL GLOBAL DE CONTEXTO (ARTIGO ATUAL)
+   ESTADO GLOBAL (IMPORTANTE)
 ------------------------------------------------------------------ */
 let CURRENT_ARTICLE_ID = null;
 
 /* ------------------------------------------------------------------
-   INIT
+   DOM READY
 ------------------------------------------------------------------ */
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -42,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const comentariosContainer = document.getElementById("comentarios");
 
     if (!articleElement || !comentariosContainer) {
-        console.warn("Comentários não iniciados: article-id ou container ausente.");
+        console.warn("Comentários não iniciados: artigo ou container ausente.");
         return;
     }
 
@@ -65,9 +68,15 @@ function iniciarComentarios(articleId, container) {
         <div id="lista-comentarios" style="margin-top:25px;"></div>
     `;
 
+    let listenerAtivo = false;
+
     onAuthStateChanged(auth, (user) => {
         renderFormulario(user);
-        ouvirComentarios(articleId);
+
+        if (!listenerAtivo) {
+            ouvirComentarios(articleId);
+            listenerAtivo = true;
+        }
     });
 }
 
@@ -105,23 +114,20 @@ function renderFormulario(user) {
 
     document
         .getElementById("btn-enviar-comentario")
-        .addEventListener("click", () => enviarComentario(user));
+        .addEventListener("click", enviarComentario);
 }
 
 /* ------------------------------------------------------------------
-   ENVIO (BUG CORRIGIDO)
+   ENVIO
 ------------------------------------------------------------------ */
-async function enviarComentario(user) {
+async function enviarComentario() {
     const textarea = document.getElementById("texto-comentario");
-    if (!textarea) return;
+    const user = auth.currentUser;
+
+    if (!textarea || !user || !CURRENT_ARTICLE_ID) return;
 
     const texto = textarea.value.trim();
     if (!texto) return;
-
-    if (!CURRENT_ARTICLE_ID) {
-        console.error("Article ID não definido.");
-        return;
-    }
 
     try {
         await addDoc(collection(db, "comentarios"), {
