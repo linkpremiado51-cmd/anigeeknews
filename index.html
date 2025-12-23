@@ -221,18 +221,23 @@
         input:checked + .slider { background-color: var(--accent-news); }
         input:checked + .slider:before { transform: translateX(20px); }
 
-        /* --- MOBILE MENU --- */
-        .mobile-menu {
-            position: fixed; top: var(--header-h); right: -100%;
-            width: 80%; max-width: 300px;
-            height: calc(100vh - var(--header-h));
-            background: var(--bg);
-            border-left: 1px solid var(--border);
-            z-index: 2000;
-            padding: 20px;
-            transition: right 0.3s ease;
-            overflow-y: auto;
-        }
+      /* --- MOBILE MENU --- */
+.mobile-menu {
+    position: fixed; 
+    top: var(--header-h); 
+    right: -100%;
+    /* EDIÇÃO AQUI: */
+    width: 100%;          /* Mude de 80% para 100% */
+    max-width: 100%;     /* Mude de 300px para 100% ou remova a linha */
+    height: calc(100vh - var(--header-h));
+    background: var(--bg);
+    border-left: 1px solid var(--border);
+    z-index: 2000;
+    padding: 20px;
+    transition: right 0.3s ease;
+    overflow-y: auto;
+}
+
         .mobile-menu.active { right: 0; }
         .close-menu {
             position: absolute; top: 15px; right: 15px;
