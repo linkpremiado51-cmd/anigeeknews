@@ -1,20 +1,20 @@
 // /anigeeknews/usuario/comentarios.js
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-import { 
-    getAuth, 
-    onAuthStateChanged 
+import {
+    getAuth,
+    onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
-import { 
-    getFirestore, 
-    collection, 
-    addDoc, 
-    query, 
-    where, 
-    orderBy, 
-    onSnapshot, 
-    serverTimestamp 
+import {
+    getFirestore,
+    collection,
+    addDoc,
+    query,
+    where,
+    orderBy,
+    onSnapshot,
+    serverTimestamp
 } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
 // ------------------------------------------------------------------
@@ -34,52 +34,56 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 // ------------------------------------------------------------------
-// INICIALIZAÇÃO SEGURA
+// ESPERA O DOM ESTAR 100% PRONTO
 // ------------------------------------------------------------------
-const articleElement = document.querySelector('[data-article-id]');
-const comentariosContainer = document.getElementById('comentarios');
+document.addEventListener('DOMContentLoaded', () => {
 
-if (!articleElement || !comentariosContainer) {
-    console.warn('Comentários não inicializados: artigo ou container ausente.');
-} else {
-    inicializarComentarios();
-}
+    const articleElement = document.querySelector('[data-article-id]');
+    const comentariosContainer = document.getElementById('comentarios');
+
+    if (!articleElement || !comentariosContainer) {
+        console.warn('Sistema de comentários não iniciado: artigo ou container não encontrado.');
+        return;
+    }
+
+    inicializarComentarios(articleElement, comentariosContainer);
+});
 
 // ------------------------------------------------------------------
 // FUNÇÃO PRINCIPAL
 // ------------------------------------------------------------------
-function inicializarComentarios() {
+function inicializarComentarios(articleElement, comentariosContainer) {
 
     const articleId = articleElement.getAttribute('data-article-id');
 
     // ------------------------------------------------------------------
-    // RENDERIZA ESTRUTURA BASE
-    // ------------------------------------------------------------------
+    // ESTRUTURA BASE (RENDERIZA NO ARTIGO)
+// ------------------------------------------------------------------
     comentariosContainer.innerHTML = `
         <h3 style="font-family:var(--font-sans); font-size:18px; font-weight:800;">
             Comentários
         </h3>
 
-        <div id="comentarios-form"></div>
+        <div id="comentarios-form" style="margin-top:20px;"></div>
         <div id="lista-comentarios" style="margin-top:25px;"></div>
     `;
 
     let listenerAtivo = false;
 
     // ------------------------------------------------------------------
-    // OBSERVA LOGIN DO USUÁRIO
+    // OBSERVA LOGIN
     // ------------------------------------------------------------------
     onAuthStateChanged(auth, (user) => {
         renderFormulario(user);
 
         if (!listenerAtivo) {
-            carregarComentarios();
+            escutarComentarios();
             listenerAtivo = true;
         }
     });
 
     // ------------------------------------------------------------------
-    // FORMULÁRIO DE COMENTÁRIO
+    // FORMULÁRIO
     // ------------------------------------------------------------------
     function renderFormulario(user) {
         const formArea = document.getElementById('comentarios-form');
@@ -94,16 +98,16 @@ function inicializarComentarios() {
         }
 
         formArea.innerHTML = `
-            <textarea 
+            <textarea
                 id="texto-comentario"
                 placeholder="Escreva seu comentário..."
                 style="width:100%; padding:12px; border-radius:6px; resize:none;"
             ></textarea>
 
-            <button 
+            <button
                 id="enviar-comentario"
-                style="margin-top:10px;"
                 class="btn-primary"
+                style="margin-top:10px;"
             >
                 Enviar comentário
             </button>
@@ -115,7 +119,7 @@ function inicializarComentarios() {
     }
 
     // ------------------------------------------------------------------
-    // ENVIA COMENTÁRIO
+    // ENVIO
     // ------------------------------------------------------------------
     async function enviarComentario(user) {
         const textarea = document.getElementById('texto-comentario');
@@ -139,9 +143,9 @@ function inicializarComentarios() {
     }
 
     // ------------------------------------------------------------------
-    // CARREGA E ESCUTA COMENTÁRIOS DO ARTIGO
+    // LISTAGEM + TEMPO REAL
     // ------------------------------------------------------------------
-    function carregarComentarios() {
+    function escutarComentarios() {
         const lista = document.getElementById('lista-comentarios');
 
         const q = query(
