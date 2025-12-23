@@ -1,3 +1,5 @@
+// /anigeeknews/usuario/comentarios.js
+
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
 import {
     getAuth,
@@ -9,13 +11,12 @@ import {
     addDoc,
     query,
     where,
-    orderBy,
     onSnapshot,
     serverTimestamp
 } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
 /* ------------------------------------------------------------------
-   CONFIG FIREBASE (ÚNICO)
+   CONFIG FIREBASE (ÚNICA INICIALIZAÇÃO)
 ------------------------------------------------------------------ */
 const firebaseConfig = {
     apiKey: "AIzaSyBC_ad4X9OwCHKvcG_pNQkKEl76Zw2tu6o",
@@ -26,7 +27,6 @@ const firebaseConfig = {
     appId: "1:769322939926:web:6eb91a96a3f74670882737"
 };
 
-// EVITA INICIALIZAR DUAS VEZES
 const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
@@ -40,22 +40,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const comentariosContainer = document.getElementById("comentarios");
 
     if (!articleElement || !comentariosContainer) {
-        console.warn("Comentários não renderizados: container ou article-id ausente.");
+        console.warn("Sistema de comentários não iniciado (article-id ou container ausente).");
         return;
     }
 
-    iniciarSistemaComentarios(articleElement, comentariosContainer);
+    iniciarComentarios(articleElement.dataset.articleId, comentariosContainer);
 });
 
 /* ------------------------------------------------------------------
    SISTEMA PRINCIPAL
 ------------------------------------------------------------------ */
-function iniciarSistemaComentarios(articleElement, comentariosContainer) {
+function iniciarComentarios(articleId, container) {
 
-    const articleId = articleElement.dataset.articleId;
-
-    // RENDER BASE (SEMPRE APARECE)
-    comentariosContainer.innerHTML = `
+    // Estrutura SEMPRE renderizada
+    container.innerHTML = `
         <h3 style="font-family:var(--font-sans); font-size:18px; font-weight:800;">
             Comentários
         </h3>
@@ -80,12 +78,11 @@ function iniciarSistemaComentarios(articleElement, comentariosContainer) {
    FORMULÁRIO
 ------------------------------------------------------------------ */
 function renderFormulario(user) {
-    const formArea = document.getElementById("comentarios-form");
-
-    if (!formArea) return;
+    const form = document.getElementById("comentarios-form");
+    if (!form) return;
 
     if (!user) {
-        formArea.innerHTML = `
+        form.innerHTML = `
             <p style="opacity:.7;">
                 <a href="/anigeeknews/usuario/cadastro.html">Entre</a> para comentar.
             </p>
@@ -93,7 +90,7 @@ function renderFormulario(user) {
         return;
     }
 
-    formArea.innerHTML = `
+    form.innerHTML = `
         <textarea
             id="texto-comentario"
             placeholder="Escreva seu comentário..."
@@ -101,7 +98,7 @@ function renderFormulario(user) {
         ></textarea>
 
         <button
-            id="enviar-comentario"
+            id="btn-enviar-comentario"
             class="btn-primary"
             style="margin-top:10px;"
         >
@@ -110,7 +107,7 @@ function renderFormulario(user) {
     `;
 
     document
-        .getElementById("enviar-comentario")
+        .getElementById("btn-enviar-comentario")
         .addEventListener("click", () => enviarComentario(user));
 }
 
@@ -124,19 +121,23 @@ async function enviarComentario(user) {
     const texto = textarea.value.trim();
     if (!texto) return;
 
-    await addDoc(collection(db, "comentarios"), {
-        articleId: document.querySelector("[data-article-id]").dataset.articleId,
-        texto,
-        userId: user.uid,
-        userName: user.displayName || user.email.split("@")[0],
-        createdAt: serverTimestamp()
-    });
+    try {
+        await addDoc(collection(db, "comentarios"), {
+            articleId,
+            texto,
+            userId: user.uid,
+            userName: user.displayName || user.email.split("@")[0],
+            createdAt: serverTimestamp()
+        });
 
-    textarea.value = "";
+        textarea.value = "";
+    } catch (e) {
+        console.error("Erro ao enviar comentário:", e);
+    }
 }
 
 /* ------------------------------------------------------------------
-   LISTAGEM EM TEMPO REAL
+   LISTAGEM EM TEMPO REAL (SEM ORDERBY = SEM BUG)
 ------------------------------------------------------------------ */
 function ouvirComentarios(articleId) {
     const lista = document.getElementById("lista-comentarios");
@@ -144,8 +145,7 @@ function ouvirComentarios(articleId) {
 
     const q = query(
         collection(db, "comentarios"),
-        where("articleId", "==", articleId),
-        orderBy("createdAt", "desc")
+        where("articleId", "==", articleId)
     );
 
     onSnapshot(q, (snapshot) => {
@@ -166,7 +166,7 @@ function ouvirComentarios(articleId) {
                 <strong>${c.userName}</strong>
                 <p style="margin:6px 0;">${c.texto}</p>
                 <small style="opacity:.5;">
-                    ${c.createdAt?.toDate().toLocaleString("pt-BR")}
+                    ${c.createdAt ? c.createdAt.toDate().toLocaleString("pt-BR") : "agora mesmo"}
                 </small>
             `;
 
