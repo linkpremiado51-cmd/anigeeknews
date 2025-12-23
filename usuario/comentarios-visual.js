@@ -1,115 +1,89 @@
-// /anigeeknews/usuario/comentarios-visual.js
+<!-- MÓDULO DE COMENTÁRIOS -->
+<section class="comments-section" style="max-width: var(--container-w); margin: 40px auto; padding: 0 20px;">
+    <h2 class="section-title">Comentários</h2>
 
-export function aplicarEstiloFormulario(form) {
-    form.innerHTML = `
-        <textarea id="texto-comentario" placeholder="Escreva seu comentário..."></textarea>
-        <button id="btn-enviar-comentario">Enviar comentário</button>
-    `;
-
-    const style = document.createElement("style");
-    style.textContent = `
-        /* FORMULÁRIO */
-        #comentarios textarea {
+    <!-- FORMULÁRIO DE ENVIO -->
+    <div class="comment-form" style="background: var(--card-bg); border: 1px solid var(--border); padding: 20px; margin-bottom: 30px;">
+        <textarea placeholder="Deixe seu comentário..." style="
             width: 100%;
-            padding: 14px;
-            border-radius: 12px;
-            border: 1px solid #ccc;
-            font-size: 15px;
-            resize: none;
-            font-family: var(--font-sans);
-            transition: all 0.3s ease;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
-        }
-
-        #comentarios textarea::placeholder {
-            color: #999;
-            font-style: italic;
-        }
-
-        #comentarios textarea:focus {
-            border-color: #0070f3;
-            box-shadow: 0 0 8px rgba(0,112,243,0.3);
-            outline: none;
-        }
-
-        #comentarios button {
-            margin-top: 12px;
-            padding: 10px 20px;
-            border-radius: 10px;
+            font-family: var(--font-serif);
+            font-size: 14px;
+            color: var(--text-main);
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: 12px;
+            resize: vertical;
+            min-height: 80px;
+            margin-bottom: 10px;
+        "></textarea>
+        <button style="
+            background: var(--primary);
+            color: var(--bg);
             border: none;
-            background: linear-gradient(135deg, #0070f3, #005bb5);
-            color: #fff;
-            font-weight: 600;
+            padding: 12px 20px;
+            font-family: var(--font-sans);
+            font-weight: 700;
+            text-transform: uppercase;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.15);
-        }
+            transition: opacity 0.3s;
+        " onmouseover="this.style.opacity=0.9" onmouseout="this.style.opacity=1">Enviar</button>
+    </div>
 
-        #comentarios button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
-        }
-    `;
-    document.head.appendChild(style);
-}
-
-export function aplicarEstiloComentario(div, comentario, user, abrirResposta) {
-    div.style.display = "flex";
-    div.style.flexDirection = "column";
-    div.style.marginBottom = "20px";
-    div.style.marginLeft = comentario.parentId ? "40px" : "0px";
-    div.style.padding = "12px 16px";
-    div.style.borderRadius = "12px";
-    div.style.border = "1px solid #e0e0e0";
-    div.style.boxShadow = comentario.parentId ? "none" : "0 4px 12px rgba(0,0,0,0.05)";
-    div.style.backgroundColor = comentario.parentId ? "#f7f8fa" : "#fff";
-    div.style.transition = "all 0.3s ease";
-    div.style.position = "relative";
-
-    // Estrutura interna
-    div.innerHTML = `
-        <div style="display:flex; align-items:flex-start;">
-            <img src="https://i.pravatar.cc/40?u=${comentario.userId}" alt="avatar" 
-                 style="width:40px; height:40px; border-radius:50%; margin-right:12px; object-fit:cover; border:1px solid #ccc;">
-            <div style="flex:1">
-                <div style="display:flex; align-items:center; justify-content:space-between;">
-                    <strong style="font-family:var(--font-sans); font-size:15px; color:#111;">
-                        ${comentario.userName}
-                    </strong>
-                    <small style="opacity:.6; font-family:var(--font-sans); font-size:12px;">
-                        ${comentario.createdAt ? comentario.createdAt.toDate().toLocaleString("pt-BR") : "agora mesmo"}
-                    </small>
-                </div>
-                <p style="margin:6px 0 0 0; font-family:var(--font-sans); font-size:14px; color:#333; line-height:1.5;">
-                    ${comentario.texto}
-                </p>
+    <!-- LISTA DE COMENTÁRIOS -->
+    <div class="comments-list" style="display: flex; flex-direction: column; gap: 20px;">
+        <!-- COMENTÁRIO INDIVIDUAL -->
+        <div class="comment-card" style="background: var(--card-bg); border: 1px solid var(--border); padding: 15px;">
+            <div class="comment-meta" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <span style="font-family: var(--font-sans); font-weight: 700; font-size: 12px; color: var(--text-main);">Luiz Carlos</span>
+                <span style="font-family: var(--font-sans); font-size: 11px; color: var(--text-muted);">23 Dez, 2025</span>
+            </div>
+            <p style="font-family: var(--font-serif); font-size: 14px; color: var(--text-main); line-height: 1.5;">
+                Esse artigo está incrível! Adorei a análise detalhada e o cuidado com a arte visual.
+            </p>
+            <!-- BOTÕES DE INTERAÇÃO -->
+            <div class="comment-actions" style="margin-top: 10px; display: flex; gap: 15px;">
+                <button style="
+                    background: none;
+                    border: none;
+                    font-family: var(--font-sans);
+                    font-size: 12px;
+                    color: var(--primary);
+                    cursor: pointer;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    transition: opacity 0.2s;
+                " onmouseover="this.style.opacity=0.7" onmouseout="this.style.opacity=1">Responder</button>
+                <button style="
+                    background: none;
+                    border: none;
+                    font-family: var(--font-sans);
+                    font-size: 12px;
+                    color: var(--text-muted);
+                    cursor: pointer;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    transition: opacity 0.2s;
+                " onmouseover="this.style.opacity=0.7" onmouseout="this.style.opacity=1">Curtir</button>
             </div>
         </div>
-    `;
 
-    if (user) {
-        const btnResponder = document.createElement("button");
-        btnResponder.innerHTML = "&#128172; Responder"; // ícone de balão de fala
-        btnResponder.style.marginTop = "10px";
-        btnResponder.style.padding = "5px 14px";
-        btnResponder.style.fontSize = "13px";
-        btnResponder.style.cursor = "pointer";
-        btnResponder.style.borderRadius = "6px";
-        btnResponder.style.border = "1px solid #0070f3";
-        btnResponder.style.background = "transparent";
-        btnResponder.style.color = "#0070f3";
-        btnResponder.style.transition = "all 0.2s ease";
+        <!-- EXEMPLO DE RESPOSTA -->
+        <div class="comment-card reply" style="background: var(--card-bg); border: 1px solid var(--border); padding: 15px; margin-left: 30px;">
+            <div class="comment-meta" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <span style="font-family: var(--font-sans); font-weight: 700; font-size: 12px; color: var(--text-main);">Editor Chefe</span>
+                <span style="font-family: var(--font-sans); font-size: 11px; color: var(--text-muted);">23 Dez, 2025</span>
+            </div>
+            <p style="font-family: var(--font-serif); font-size: 14px; color: var(--text-main); line-height: 1.5;">
+                Obrigado pelo feedback, Luiz! Fico feliz que tenha gostado da análise.
+            </p>
+        </div>
+    </div>
+</section>
 
-        btnResponder.onmouseover = () => {
-            btnResponder.style.background = "#0070f330";
-            btnResponder.style.transform = "translateY(-1px)";
-        };
-        btnResponder.onmouseout = () => {
-            btnResponder.style.background = "transparent";
-            btnResponder.style.transform = "translateY(0)";
-        };
-        btnResponder.onclick = () => abrirResposta(div, comentario.id);
-
-        div.appendChild(btnResponder);
+<!-- RESPONSIVIDADE -->
+<style>
+    @media (max-width: 768px) {
+        .comments-section { padding: 0 15px; }
+        .comment-card.reply { margin-left: 15px; }
     }
-}
+</style>
