@@ -878,8 +878,14 @@
 
     <!-- SCRIPTS -->
     <script type="module" src="/anigeeknews/sessao_usuario.js"></script>
+    <script type="module" src="/anigeeknews/modulo-noticias.js"></script> 
     <script type="module" src="/anigeeknews/main.js"></script>
     <script>
+        function toggleMobileMenu() { document.getElementById('mobileMenu').classList.toggle('active'); }
+        function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+        
+        // ... resto do seu script de tema ...
+
         function toggleMobileMenu() { document.getElementById('mobileMenu').classList.toggle('active'); }
         function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
