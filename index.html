@@ -226,9 +226,8 @@
     position: fixed; 
     top: var(--header-h); 
     right: -100%;
-    /* EDIÇÃO AQUI: */
-    width: 100%;          /* Mude de 80% para 100% */
-    max-width: 100%;     /* Mude de 300px para 100% ou remova a linha */
+    width: 100%;
+    max-width: 100%;
     height: calc(100vh - var(--header-h));
     background: var(--bg);
     border-left: 1px solid var(--border);
@@ -882,122 +881,155 @@
     <!-- BOTÃO VOLTAR AO TOPO -->
     <button class="back-to-top" onclick="scrollToTop()" style="position: fixed; bottom: 30px; right: 30px; padding: 15px; background: var(--text-main); color: var(--bg); border: none; opacity: 0; transition: 0.3s; cursor: pointer;">↑</button>
 
-   <script type="module" src="/anigeeknews/sessao_usuario.js"></script>
-<script type="module" src="/anigeeknews/main.js"></script>
+    <script type="module" src="/anigeeknews/sessao_usuario.js"></script>
+    <script type="module" src="/anigeeknews/main.js"></script>
 
-<script>
-    // Função do Menu Mobile
-    function toggleMobileMenu() { 
-        const menu = document.getElementById('mobileMenu');
-        if (menu) menu.classList.toggle('active'); 
-    }
+    <script>
+        // Função do Menu Mobile
+        function toggleMobileMenu() { 
+            const menu = document.getElementById('mobileMenu');
+            if (menu) menu.classList.toggle('active'); 
+        }
 
-    // Função de Voltar ao Topo
-    function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+        // Função de Voltar ao Topo
+        function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
-    // Gerenciamento de Tema (Dark/Light)
-    const themeToggle = document.getElementById('themeToggle');
-    const mobileThemeToggle = document.getElementById('mobileThemeToggle');
+        // Gerenciamento de Tema (Dark/Light)
+        const themeToggle = document.getElementById('themeToggle');
+        const mobileThemeToggle = document.getElementById('mobileThemeToggle');
 
-    function applyTheme(isDark) {
-        document.body.classList.toggle('dark-mode', isDark);
-        if (themeToggle) themeToggle.checked = isDark;
-        if (mobileThemeToggle) mobileThemeToggle.checked = isDark;
-        localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    }
+        function applyTheme(isDark) {
+            document.body.classList.toggle('dark-mode', isDark);
+            if (themeToggle) themeToggle.checked = isDark;
+            if (mobileThemeToggle) mobileThemeToggle.checked = isDark;
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
 
-    if (themeToggle) themeToggle.addEventListener('change', (e) => applyTheme(e.target.checked));
-    if (mobileThemeToggle) mobileThemeToggle.addEventListener('change', (e) => applyTheme(e.target.checked));
-    
-    // Iniciar tema salvo
-    if (localStorage.getItem('theme') === 'dark') applyTheme(true);
-
-    // Barra de Progresso e Botão Voltar ao Topo
-    window.addEventListener('scroll', () => {
-        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrolled = (winScroll / height) * 100;
+        if (themeToggle) themeToggle.addEventListener('change', (e) => applyTheme(e.target.checked));
+        if (mobileThemeToggle) mobileThemeToggle.addEventListener('change', (e) => applyTheme(e.target.checked));
         
-        const progressBar = document.getElementById("progress-bar");
-        if (progressBar) progressBar.style.width = scrolled + "%";
+        // Iniciar tema salvo
+        if (localStorage.getItem('theme') === 'dark') applyTheme(true);
 
-        const btt = document.querySelector('.back-to-top');
-        if (btt) btt.style.opacity = winScroll > 300 ? "1" : "0";
-    });
-</script>
-
-<script type="module">
-    import { restaurarNoticiasSalvas } from '/anigeeknews/modulo-noticias.js';
-
-    const dynamicContent = document.getElementById('dynamic-content');
-    // Salva o HTML original para quando o usuário voltar para "manchetes"
-    let originalContent = "";
-    
-    if (dynamicContent) {
-        originalContent = dynamicContent.innerHTML;
-    }
-
-    function activateButton(section) {
-        document.querySelectorAll('.filter-tag').forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.section === section);
-        });
-    }
-
-    async function loadSection(section) {
-        if (!dynamicContent) return;
-
-        if (section === 'manchetes') {
-            dynamicContent.innerHTML = originalContent;
-            localStorage.setItem('currentSection', 'manchetes');
-            // Re-executa a restauração mesmo no conteúdo original
-            restaurarNoticiasSalvas();
-            return;
-        }
-
-        try {
-            const fetchUrl = `/anigeeknews/modulos/${section}.html`;
-            const response = await fetch(fetchUrl);
-            if (!response.ok) throw new Error('Erro ao carregar módulo');
+        // Barra de Progresso e Botão Voltar ao Topo
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
             
-            const html = await response.text();
-            dynamicContent.innerHTML = html;
+            const progressBar = document.getElementById("progress-bar");
+            if (progressBar) progressBar.style.width = scrolled + "%";
 
-            // Aguarda o DOM atualizar para restaurar os ícones de "salvo"
-            setTimeout(() => {
-                restaurarNoticiasSalvas();
-            }, 50);
-
-        } catch (error) {
-            console.error('Falha ao carregar seção:', section, error);
-            dynamicContent.innerHTML = '<p style="padding:40px; text-align:center; color:#888;">Conteúdo indisponível no momento.</p>';
-        }
-    }
-
-    // Configura os cliques nos botões de filtro
-    document.querySelectorAll('.filter-tag').forEach(button => {
-        button.addEventListener('click', () => {
-            const section = button.dataset.section;
-            if (!section) return;
-
-            localStorage.setItem('currentSection', section);
-            activateButton(section);
-            loadSection(section);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            const btt = document.querySelector('.back-to-top');
+            if (btt) btt.style.opacity = winScroll > 300 ? "1" : "0";
         });
-    });
+    </script>
 
-    // Carregamento inicial da página
-    window.addEventListener('DOMContentLoaded', () => {
-        const savedSection = localStorage.getItem('currentSection') || 'manchetes';
-        activateButton(savedSection);
-        if (savedSection !== 'manchetes') {
-            loadSection(savedSection);
-        } else {
-            // Se for manchetes, apenas garante que as notícias salvas apareçam marcadas
-            restaurarNoticiasSalvas();
+    <!-- SCRIPT DE CARREGAMENTO DINÂMICO (COM SUPORTE PARA feed/) -->
+    <script type="module">
+        import { restaurarNoticiasSalvas } from '/anigeeknews/modulo-noticias.js';
+
+        const dynamicContent = document.getElementById('dynamic-content');
+        let originalContent = "";
+
+        if (dynamicContent) {
+            originalContent = dynamicContent.innerHTML;
         }
-    });
-</script>
 
+        function activateButton(section) {
+            document.querySelectorAll('.filter-tag').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.section === section);
+            });
+        }
+
+        // Função para carregar o Feed a partir de feed/
+        async function loadFeed() {
+            if (!dynamicContent) return;
+
+            try {
+                const response = await fetch('/anigeeknews/feed/feed.html');
+                if (!response.ok) throw new Error('Erro ao carregar feed.html');
+                const html = await response.text();
+
+                dynamicContent.innerHTML = html;
+
+                // Injeta CSS
+                const cssLink = document.createElement('link');
+                cssLink.rel = 'stylesheet';
+                cssLink.href = '/anigeeknews/feed/feed.css';
+                document.head.appendChild(cssLink);
+
+                // Injeta JS
+                const script = document.createElement('script');
+                script.src = '/anigeeknews/feed/feed.js';
+                script.type = 'module';
+                script.onload = () => {
+                    console.log('Feed JS carregado.');
+                    restaurarNoticiasSalvas();
+                };
+                script.onerror = () => {
+                    console.error('Falha ao carregar feed.js');
+                };
+                document.body.appendChild(script);
+
+            } catch (error) {
+                console.error('Falha ao carregar Feed:', error);
+                dynamicContent.innerHTML = '<p style="padding:40px; text-align:center; color:#888;">Conteúdo do Feed indisponível.</p>';
+            }
+        }
+
+        // Função genérica para demais seções (analises, entrevistas, etc.)
+        async function loadSection(section) {
+            if (!dynamicContent) return;
+
+            if (section === 'manchetes') {
+                dynamicContent.innerHTML = originalContent;
+                localStorage.setItem('currentSection', 'manchetes');
+                restaurarNoticiasSalvas();
+                return;
+            }
+
+            if (section === 'feed') {
+                loadFeed();
+                return;
+            }
+
+            try {
+                const fetchUrl = `/anigeeknews/modulos/${section}.html`;
+                const response = await fetch(fetchUrl);
+                if (!response.ok) throw new Error('Erro ao carregar módulo');
+                const html = await response.text();
+                dynamicContent.innerHTML = html;
+                setTimeout(() => restaurarNoticiasSalvas(), 50);
+            } catch (error) {
+                console.error('Falha ao carregar seção:', section, error);
+                dynamicContent.innerHTML = '<p style="padding:40px; text-align:center; color:#888;">Conteúdo indisponível.</p>';
+            }
+        }
+
+        // Event listeners dos botões de filtro
+        document.querySelectorAll('.filter-tag').forEach(button => {
+            button.addEventListener('click', () => {
+                const section = button.dataset.section;
+                if (!section) return;
+
+                localStorage.setItem('currentSection', section);
+                activateButton(section);
+                loadSection(section);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+
+        // Carregamento inicial
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedSection = localStorage.getItem('currentSection') || 'manchetes';
+            activateButton(savedSection);
+            if (savedSection !== 'manchetes') {
+                loadSection(savedSection);
+            } else {
+                restaurarNoticiasSalvas();
+            }
+        });
+    </script>
 </body>
 </html>
