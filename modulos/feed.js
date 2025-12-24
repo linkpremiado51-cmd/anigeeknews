@@ -3,13 +3,21 @@ import { dadosFeed } from "../dados_de_noticias/dados-feed.js";
 const container = document.getElementById("feedContainer");
 let limite = 5; // quantidade inicial de cards
 
+// busca a categoria ativa do localStorage ou define como 'manchetes'
+let categoriaAtiva = localStorage.getItem('currentSection') || 'manchetes';
+
 function renderFeed() {
     if (!container) return;
 
     container.innerHTML = "";
 
+    // filtra os dados pela categoria ativa
+    const itensFiltrados = dadosFeed.filter(
+        item => item.categoria.toLowerCase() === categoriaAtiva.toLowerCase()
+    );
+
     // pega apenas os itens até o limite
-    const itensExibidos = dadosFeed.slice(0, limite);
+    const itensExibidos = itensFiltrados.slice(0, limite);
 
     itensExibidos.forEach(item => {
         const article = document.createElement("article");
@@ -25,7 +33,7 @@ function renderFeed() {
                 <p>${item.descricao}</p>
                 <div class="action-row">
                     <span class="meta-minimal">${item.meta}</span>
-                    <a href="${item.link}" class="read-more">Ler mais</a>
+                    <a href="${item.link || '#'}" class="read-more">Ler mais</a>
                 </div>
             </div>
         `;
@@ -36,7 +44,7 @@ function renderFeed() {
     // esconde o botão se não houver mais cards
     const btn = document.getElementById("loadMoreFeed");
     if (btn) {
-        if (limite >= dadosFeed.length) {
+        if (limite >= itensFiltrados.length) {
             btn.style.display = "none";
         } else {
             btn.style.display = "inline-block";
@@ -55,3 +63,10 @@ if (btn) {
         renderFeed();
     });
 }
+
+// função global para atualizar categoria via main.js
+window.atualizarCategoriaFeed = (novaCategoria) => {
+    categoriaAtiva = novaCategoria;
+    limite = 5; // reseta o limite
+    renderFeed();
+};
