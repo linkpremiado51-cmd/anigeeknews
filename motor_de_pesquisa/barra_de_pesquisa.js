@@ -1,42 +1,42 @@
 // motor_de_pesquisa/barra_de_pesquisa.js
-// Sistema de busca integrado ao AniGeekNews
-
 let bancoDeNoticias = [];
 
-/**
- * Carrega o banco de notícias do JSON local
- */
+// Função para remover acentos e normalizar texto
+function normalizarTexto(texto) {
+    return texto
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+}
+
 async function carregarNoticias() {
     try {
         const resposta = await fetch('./noticias.json');
-        if (!resposta.ok) {
-            throw new Error(`HTTP ${resposta.status}: Arquivo noticias.json não encontrado`);
-        }
+        if (!resposta.ok) throw new Error('noticias.json não encontrado');
         bancoDeNoticias = await resposta.json();
-        console.log(`✅ Banco de notícias carregado: ${bancoDeNoticias.length} artigos.`);
+        console.log('✅ Banco carregado:', bancoDeNoticias.length, 'artigos');
     } catch (erro) {
-        console.error('❌ Falha ao carregar banco de notícias:', erro);
+        console.error('❌ Erro ao carregar banco:', erro);
     }
 }
 
-/**
- * Realiza a busca com base em título, resumo e palavras-chave
- */
 function buscarNoticias(termo) {
-    const termoLimpo = termo.toLowerCase().trim();
-    if (!termoLimpo) return [];
+    const termoNorm = normalizarTexto(termo.trim());
+    if (!termoNorm) return [];
 
     return bancoDeNoticias.filter(noticia => {
-        const noTitulo = noticia.titulo.toLowerCase().includes(termoLimpo);
-        const noResumo = noticia.resumo.toLowerCase().includes(termoLimpo);
-        const nasPalavras = noticia.palavras_chave.some(p => p.toLowerCase().includes(termoLimpo));
-        return noTitulo || noResumo || nasPalavras;
+        const titulo = normalizarTexto(noticia.titulo);
+        const resumo = normalizarTexto(noticia.resumo);
+        const palavras = noticia.palavras_chave.map(p => normalizarTexto(p));
+
+        return (
+            titulo.includes(termoNorm) ||
+            resumo.includes(termoNorm) ||
+            palavras.some(p => p.includes(termoNorm))
+        );
     });
 }
 
-/**
- * Exibe os resultados no lugar do conteúdo principal
- */
 function exibirResultados(resultados, container) {
     if (resultados.length === 0) {
         container.innerHTML = `
@@ -84,29 +84,19 @@ function exibirResultados(resultados, container) {
     `;
 }
 
-/**
- * Inicializa a barra de pesquisa
- */
 function initSearchBar() {
     const input = document.querySelector('.search-input');
     const button = document.querySelector('.search-btn');
     const dynamicContent = document.getElementById('dynamic-content');
 
-    if (!input || !button || !dynamicContent) {
-        console.warn('⚠️ Elementos da barra de pesquisa não encontrados.');
-        return;
-    }
+    if (!input || !button || !dynamicContent) return;
 
-    // Carrega o banco assim que possível
     carregarNoticias();
 
     const handleSearch = (e) => {
         if (e) e.preventDefault();
         const termo = input.value.trim();
-        if (!termo) {
-            input.focus();
-            return;
-        }
+        if (!termo) return input.focus();
 
         const resultados = buscarNoticias(termo);
         exibirResultados(resultados, dynamicContent);
@@ -119,7 +109,6 @@ function initSearchBar() {
     });
 }
 
-// Inicialização segura
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initSearchBar);
 } else {
