@@ -1,12 +1,12 @@
 import { dadosFeed } from "../dados_de_noticias/dados-feed.js";
 
-const container = document.getElementById("feedContainer");
 let limite = 5; // quantidade inicial de cards
 
 // busca a categoria ativa do localStorage ou define como 'manchetes'
 let categoriaAtiva = localStorage.getItem('currentSection') || 'manchetes';
 
 function renderFeed() {
+    const container = document.getElementById("feedContainer");
     if (!container) return;
 
     container.innerHTML = "";
@@ -41,28 +41,27 @@ function renderFeed() {
         container.appendChild(article);
     });
 
-    // esconde o botão se não houver mais cards
+    // busca o botão sempre que renderiza
     const btn = document.getElementById("loadMoreFeed");
     if (btn) {
         if (limite >= itensFiltrados.length) {
             btn.style.display = "none";
         } else {
             btn.style.display = "inline-block";
+
+            // remove listener antigo para evitar duplicidade
+            btn.replaceWith(btn.cloneNode(true));
+            const novoBtn = document.getElementById("loadMoreFeed");
+            novoBtn.addEventListener("click", () => {
+                limite += 5;
+                renderFeed();
+            });
         }
     }
 }
 
-// inicializa feed
+// inicializa feed na primeira carga
 renderFeed();
-
-// botão carregar mais
-const btn = document.getElementById("loadMoreFeed");
-if (btn) {
-    btn.addEventListener("click", () => {
-        limite += 5; // incrementa mais 5 cards
-        renderFeed();
-    });
-}
 
 // função global para atualizar categoria via main.js
 window.atualizarCategoriaFeed = (novaCategoria) => {
