@@ -4,47 +4,111 @@
 // IMPORTAÇÃO DOS MÓDULOS
 // ------------------------------------------------------------------
 import { carregarNoticiasExtras, restaurarNoticiasSalvas } from './modulo-noticias.js';
-import { inicializarMegaMenu } from './modulos/atualizacao_do_menu.js'; // NOVO: Importação do Menu
-import { carregarPerfilLateral } from './usuario/perfil-lateral.js'; // NOVO: Importação do Perfil
+import { inicializarMegaMenu } from './modulos/atualizacao_do_menu.js';
+import { carregarPerfilLateral } from './usuario/perfil-lateral.js';
+
+// ------------------------------------------------------------------
+// IMPORTAÇÃO DOS DADOS DE NOTÍCIAS
+// ------------------------------------------------------------------
+import { dadosAnalise } from './dados_de_noticias/dados-analise.js';
+import { dadosEntrevistas } from './dados_de_noticias/dados-entrevistas.js';
+import { dadosLancamentos } from './dados_de_noticias/dados-lancamentos.js';
+import { dadosManchetes } from './dados_de_noticias/dados-manchetes.js';
+import { dadosPodcast } from './dados_de_noticias/dados-podcast.js';
+import { dadosFeed } from './dados_de_noticias/dados-feed.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     
-    // NOVO: Inicializa o perfil lateral (busca dados do usuário e injeta no HTML)
+    // ------------------------------------------------------------------
+    // INICIALIZAÇÃO DE PERFIL E MENU
+    // ------------------------------------------------------------------
     carregarPerfilLateral();
-
-    // NOVO: Inicializa o sistema de Mega Menu
     inicializarMegaMenu();
-
-    // Tenta restaurar notícias se houver progresso salvo no localStorage
-    // Agora configurado para funcionar também na Home (Manchetes)
     restaurarNoticiasSalvas();
 
     // ------------------------------------------------------------------
-    // SISTEMA DE NOTÍCIAS (DINÂMICO)
+    // FUNÇÃO NOVA: CARREGAR FEED COMPLETO
     // ------------------------------------------------------------------
-    // Ouvimos o documento todo para capturar o clique no botão que vem das abas
+    const carregarFeedCompleto = () => {
+        const feedContainer = document.querySelector('.feed');
+        if (!feedContainer) return;
+
+        // Combina todos os arrays de notícias
+        const todasNoticias = [
+            ...dadosAnalise,
+            ...dadosEntrevistas,
+            ...dadosLancamentos,
+            ...dadosManchetes,
+            ...dadosPodcast,
+            ...dadosFeed
+        ];
+
+        // Limpa o feed antes de renderizar
+        feedContainer.innerHTML = '';
+
+        // Renderiza cada notícia
+        todasNoticias.forEach(noticia => {
+            const postCard = document.createElement('article');
+            postCard.className = 'post-card';
+
+            postCard.innerHTML = `
+                <div class="post-img-wrapper">
+                    <img src="${noticia.img}" alt="${noticia.titulo}" loading="lazy">
+                </div>
+                <div class="post-content">
+                    <span class="category" style="color: ${noticia.cor || '#000'}">${noticia.categoria}</span>
+                    <h2>${noticia.titulo}</h2>
+                    <p>${noticia.descricao}</p>
+                    <div class="action-row">
+                        <span class="meta-minimal">${noticia.meta}</span>
+                        <button class="like-btn" onclick="event.preventDefault(); window.toggleLike(this)">
+                            <span>${noticia.likes}</span> recomendações
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            feedContainer.appendChild(postCard);
+        });
+
+        // Botão de "Ver Arquivo" continua no final
+        const loadMoreContainer = document.createElement('div');
+        loadMoreContainer.className = 'load-more-container';
+        loadMoreContainer.style = 'text-align: center; margin-top: 40px; border-top: 1px solid var(--border); padding-top: 20px;';
+        loadMoreContainer.innerHTML = `
+            <button class="load-more-btn" style="background: none; border: 1px solid var(--text-main); padding: 12px 30px; font-weight: 700; cursor: pointer; color: var(--text-main); text-transform: uppercase; font-size: 12px; letter-spacing: 1px;">
+                Ver Arquivo de Entrevistas
+            </button>
+        `;
+        feedContainer.appendChild(loadMoreContainer);
+    };
+
+    // Inicializa o feed completo ao carregar a aba
+    carregarFeedCompleto();
+
+    // ------------------------------------------------------------------
+    // EVENTOS DE CLIQUE
+    // ------------------------------------------------------------------
     document.addEventListener('click', (e) => {
-        // Verifica se o clique foi no botão de carregar mais
+        // Botão de carregar mais (mantido)
         if (e.target && e.target.classList.contains('load-more-btn')) {
             e.preventDefault();
-            console.log('Botão detectado! Chamando carregarNoticiasExtras...');
             carregarNoticiasExtras();
         }
 
-        // AJUSTE ESSENCIAL: Captura a troca de aba para atualizar o sistema
+        // Troca de aba
         const filterBtn = e.target.closest('.filter-tag');
         if (filterBtn) {
             const novaSecao = filterBtn.getAttribute('data-section');
             if (novaSecao) {
                 localStorage.setItem('currentSection', novaSecao);
-                // Pequeno delay para a aba carregar o HTML antes de restaurar os extras
                 setTimeout(() => restaurarNoticiasSalvas(), 50);
             }
         }
     });
 
     // ------------------------------------------------------------------
-    // FUNÇÕES DE INTERFACE (MANUTENÇÃO DO SEU CÓDIGO)
+    // FUNÇÕES DE INTERFACE
     // ------------------------------------------------------------------
     window.toggleMobileMenu = () => {
         const menu = document.getElementById('mobileMenu');
@@ -114,4 +178,3 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-
