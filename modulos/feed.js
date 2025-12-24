@@ -1,8 +1,22 @@
+// feed.js
 import { dadosFeed } from "../dados_de_noticias/dados-feed.js";
+import { dadosAnalise } from "../dados_de_noticias/dados-analise.js";
+import { dadosEntrevistas } from "../dados_de_noticias/dados-entrevistas.js";
+import { dadosLancamentos } from "../dados_de_noticias/dados-lancamentos.js";
+import { dadosManchetes } from "../dados_de_noticias/dados-manchetes.js";
+import { dadosPodcast } from "../dados_de_noticias/dados-podcast.js";
 
-let limite = 5; // quantidade inicial de cards
+// mapeamento de categorias para dados
+const categoriasMap = {
+    feed: dadosFeed,
+    analises: dadosAnalise,
+    entrevistas: dadosEntrevistas,
+    lancamentos: dadosLancamentos,
+    manchetes: dadosManchetes,
+    podcast: dadosPodcast
+};
 
-// busca a categoria ativa do localStorage ou define como 'manchetes'
+let limite = 5; // cards iniciais
 let categoriaAtiva = localStorage.getItem('currentSection') || 'manchetes';
 
 function renderFeed() {
@@ -11,13 +25,8 @@ function renderFeed() {
 
     container.innerHTML = "";
 
-    // filtra os dados pela categoria ativa
-    const itensFiltrados = dadosFeed.filter(
-        item => item.categoria.toLowerCase() === categoriaAtiva.toLowerCase()
-    );
-
-    // pega apenas os itens até o limite
-    const itensExibidos = itensFiltrados.slice(0, limite);
+    const dadosCategoria = categoriasMap[categoriaAtiva.toLowerCase()] || [];
+    const itensExibidos = dadosCategoria.slice(0, limite);
 
     itensExibidos.forEach(item => {
         const article = document.createElement("article");
@@ -37,35 +46,33 @@ function renderFeed() {
                 </div>
             </div>
         `;
-
         container.appendChild(article);
     });
 
-    // busca o botão sempre que renderiza
+    const btnContainer = document.querySelector(".load-more-container");
     const btn = document.getElementById("loadMoreFeed");
-    if (btn) {
-        if (limite >= itensFiltrados.length) {
-            btn.style.display = "none";
-        } else {
-            btn.style.display = "inline-block";
 
-            // remove listener antigo para evitar duplicidade
-            btn.replaceWith(btn.cloneNode(true));
-            const novoBtn = document.getElementById("loadMoreFeed");
-            novoBtn.addEventListener("click", () => {
-                limite += 5;
-                renderFeed();
-            });
-        }
+    // botão só aparece para o feed
+    if (categoriaAtiva.toLowerCase() === "feed" && btn) {
+        btnContainer.style.display = itensExibidos.length < dadosCategoria.length ? "block" : "none";
+
+        btn.replaceWith(btn.cloneNode(true));
+        const novoBtn = document.getElementById("loadMoreFeed");
+        novoBtn.addEventListener("click", () => {
+            limite += 5;
+            renderFeed();
+        });
+    } else if (btnContainer) {
+        btnContainer.style.display = "none";
     }
 }
 
-// inicializa feed na primeira carga
+// inicializa na primeira carga
 renderFeed();
 
-// função global para atualizar categoria via main.js
+// função global para atualizar categoria
 window.atualizarCategoriaFeed = (novaCategoria) => {
-    categoriaAtiva = novaCategoria;
-    limite = 5; // reseta o limite
+    categoriaAtiva = novaCategoria.toLowerCase();
+    limite = 5;
     renderFeed();
 };
