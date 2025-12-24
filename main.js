@@ -1,63 +1,54 @@
-// /anigeeknews/main.js
-
 // ------------------------------------------------------------------
 // IMPORTAÇÃO DOS MÓDULOS
 // ------------------------------------------------------------------
 import { carregarNoticiasExtras, restaurarNoticiasSalvas } from './modulo-noticias.js';
-import { inicializarMegaMenu } from './modulos/atualizacao_do_menu.js';
-import { carregarPerfilLateral } from './usuario/perfil-lateral.js';
-import { carregarMaisFeed, trocarCategoriaFeed } from './modulos/feed.js'; // Feed dinâmico
-
-// ------------------------------------------------------------------
-// IMPORTAÇÃO DOS DADOS DE NOTÍCIAS
-// ------------------------------------------------------------------
-import { dadosAnalise } from './dados_de_noticias/dados-analise.js';
-import { dadosEntrevistas } from './dados_de_noticias/dados-entrevistas.js';
-import { dadosLancamentos } from './dados_de_noticias/dados-lancamentos.js';
-import { dadosManchetes } from './dados_de_noticias/dados-manchetes.js';
-import { dadosPodcast } from './dados_de_noticias/dados-podcast.js';
-import { dadosFeed } from './dados_de_noticias/dados-feed.js';
+import { inicializarMegaMenu } from './modulos/atualizacao_do_menu.js'; // NOVO: Importação do Menu
+import { carregarPerfilLateral } from './usuario/perfil-lateral.js'; // NOVO: Importação do Perfil
+import { carregarMaisFeed, trocarCategoriaFeed } from './modulos/feed.js'; // NOVO: Feed
 
 document.addEventListener('DOMContentLoaded', () => {
-
-    // ------------------------------------------------------------------
-    // INICIALIZAÇÃO DE PERFIL E MENU
-    // ------------------------------------------------------------------
+    
+    // NOVO: Inicializa o perfil lateral (busca dados do usuário e injeta no HTML)
     carregarPerfilLateral();
+
+    // NOVO: Inicializa o sistema de Mega Menu
     inicializarMegaMenu();
+
+    // Tenta restaurar notícias se houver progresso salvo no localStorage
+    // Agora configurado para funcionar também na Home (Manchetes)
     restaurarNoticiasSalvas();
 
     // ------------------------------------------------------------------
-    // EVENTOS DE CLIQUE
+    // SISTEMA DE NOTÍCIAS (DINÂMICO)
     // ------------------------------------------------------------------
+    // Ouvimos o documento todo para capturar o clique no botão que vem das abas
     document.addEventListener('click', (e) => {
 
-        // Botão de carregar mais notícias
+        // Verifica se o clique foi no botão de carregar mais
         if (e.target && e.target.classList.contains('load-more-btn')) {
             e.preventDefault();
             console.log('Botão detectado! Chamando carregarMaisFeed...');
-            carregarMaisFeed();
+            carregarMaisFeed(); // chama função do feed.js
         }
 
-        // Troca de aba / categoria
+        // Captura a troca de aba para atualizar o sistema
         const filterBtn = e.target.closest('.filter-tag');
         if (filterBtn) {
             const novaSecao = filterBtn.getAttribute('data-section');
             if (novaSecao) {
                 localStorage.setItem('currentSection', novaSecao);
                 console.log(`Nova seção selecionada: ${novaSecao}`);
-                trocarCategoriaFeed(novaSecao);
+                trocarCategoriaFeed(novaSecao); // chama função do feed.js
             }
         }
     });
 
     // ------------------------------------------------------------------
-    // FUNÇÕES DE INTERFACE
+    // FUNÇÕES DE INTERFACE (MANUTENÇÃO DO SEU CÓDIGO)
     // ------------------------------------------------------------------
     window.toggleMobileMenu = () => {
         const menu = document.getElementById('mobileMenu');
         if (menu) menu.classList.toggle('active');
-        document.body.style.overflow = menu.classList.contains('active') ? 'hidden' : '';
     };
 
     window.toggleSocials = () => {
