@@ -33,7 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const feedContainer = document.querySelector('.feed');
         if (!feedContainer) return;
 
-        // Combina todos os arrays de notícias
         const todasNoticias = [
             ...dadosAnalise,
             ...dadosEntrevistas,
@@ -43,10 +42,8 @@ document.addEventListener('DOMContentLoaded', () => {
             ...dadosFeed
         ];
 
-        // Limpa o feed antes de renderizar
         feedContainer.innerHTML = '';
 
-        // Renderiza cada notícia
         todasNoticias.forEach(noticia => {
             const postCard = document.createElement('article');
             postCard.className = 'post-card';
@@ -71,7 +68,6 @@ document.addEventListener('DOMContentLoaded', () => {
             feedContainer.appendChild(postCard);
         });
 
-        // Botão de "Ver Arquivo" continua no final
         const loadMoreContainer = document.createElement('div');
         loadMoreContainer.className = 'load-more-container';
         loadMoreContainer.style = 'text-align: center; margin-top: 40px; border-top: 1px solid var(--border); padding-top: 20px;';
@@ -83,20 +79,26 @@ document.addEventListener('DOMContentLoaded', () => {
         feedContainer.appendChild(loadMoreContainer);
     };
 
-    // Inicializa o feed completo ao carregar a aba
-    carregarFeedCompleto();
+    // ------------------------------------------------------------------
+    // GARANTE QUE O FEED EXISTA ANTES DE CARREGAR
+    // ------------------------------------------------------------------
+    const esperarFeed = setInterval(() => {
+        const feedContainer = document.querySelector('.feed');
+        if (feedContainer) {
+            clearInterval(esperarFeed);
+            carregarFeedCompleto();
+        }
+    }, 50);
 
     // ------------------------------------------------------------------
     // EVENTOS DE CLIQUE
     // ------------------------------------------------------------------
     document.addEventListener('click', (e) => {
-        // Botão de carregar mais (mantido)
         if (e.target && e.target.classList.contains('load-more-btn')) {
             e.preventDefault();
             carregarNoticiasExtras();
         }
 
-        // Troca de aba
         const filterBtn = e.target.closest('.filter-tag');
         if (filterBtn) {
             const novaSecao = filterBtn.getAttribute('data-section');
@@ -112,7 +114,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // ------------------------------------------------------------------
     window.toggleMobileMenu = () => {
         const menu = document.getElementById('mobileMenu');
-        if (menu) menu.classList.toggle('active');
+        if (!menu) return;
+
+        // Corrige problema do menu não abrindo
+        menu.classList.toggle('active');
+
+        // Bloqueia scroll ao abrir
+        document.body.style.overflow = menu.classList.contains('active') ? 'hidden' : '';
     };
 
     window.toggleSocials = () => {
