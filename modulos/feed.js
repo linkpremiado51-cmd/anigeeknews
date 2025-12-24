@@ -16,7 +16,6 @@ const categoriasMap = {
     podcast: dadosPodcast
 };
 
-let limite = 5; // cards iniciais
 let categoriaAtiva = localStorage.getItem('currentSection') || 'manchetes';
 
 function renderFeed() {
@@ -25,54 +24,36 @@ function renderFeed() {
 
     container.innerHTML = "";
 
-    const dadosCategoria = categoriasMap[categoriaAtiva.toLowerCase()] || [];
-    const itensExibidos = dadosCategoria.slice(0, limite);
+    // percorre todas as categorias ou apenas a ativa
+    Object.values(categoriasMap).forEach(dadosCategoria => {
+        dadosCategoria.forEach(item => {
+            const article = document.createElement("article");
+            article.className = "post-card";
 
-    itensExibidos.forEach(item => {
-        const article = document.createElement("article");
-        article.className = "post-card";
-
-        article.innerHTML = `
-            <div class="post-img-wrapper">
-                <img src="${item.img}" alt="${item.titulo}" loading="lazy">
-            </div>
-            <div class="post-content">
-                <span class="category">${item.categoria}</span>
-                <h2>${item.titulo}</h2>
-                <p>${item.descricao}</p>
-                <div class="action-row">
-                    <span class="meta-minimal">${item.meta}</span>
-                    <a href="${item.link || '#'}" class="read-more">Ler mais</a>
+            article.innerHTML = `
+                <div class="post-img-wrapper">
+                    <img src="${item.img}" alt="${item.titulo}" loading="lazy">
                 </div>
-            </div>
-        `;
-        container.appendChild(article);
-    });
-
-    const btnContainer = document.querySelector(".load-more-container");
-    const btn = document.getElementById("loadMoreFeed");
-
-    // botão só aparece para o feed
-    if (categoriaAtiva.toLowerCase() === "feed" && btn) {
-        btnContainer.style.display = itensExibidos.length < dadosCategoria.length ? "block" : "none";
-
-        btn.replaceWith(btn.cloneNode(true));
-        const novoBtn = document.getElementById("loadMoreFeed");
-        novoBtn.addEventListener("click", () => {
-            limite += 5;
-            renderFeed();
+                <div class="post-content">
+                    <span class="category">${item.categoria}</span>
+                    <h2>${item.titulo}</h2>
+                    <p>${item.descricao}</p>
+                    <div class="action-row">
+                        <span class="meta-minimal">${item.meta}</span>
+                        <a href="${item.link || '#'}" class="read-more">Ler mais</a>
+                    </div>
+                </div>
+            `;
+            container.appendChild(article);
         });
-    } else if (btnContainer) {
-        btnContainer.style.display = "none";
-    }
+    });
 }
 
-// inicializa na primeira carga
+// inicializa feed
 renderFeed();
 
-// função global para atualizar categoria
+// função global para atualizar categoria (se você quiser filtrar)
 window.atualizarCategoriaFeed = (novaCategoria) => {
     categoriaAtiva = novaCategoria.toLowerCase();
-    limite = 5;
     renderFeed();
 };
