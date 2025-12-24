@@ -4,46 +4,47 @@
 // IMPORTAÇÃO DOS MÓDULOS
 // ------------------------------------------------------------------
 import { carregarNoticiasExtras, restaurarNoticiasSalvas } from './modulo-noticias.js';
-import { inicializarMegaMenu } from './modulos/atualizacao_do_menu.js';
-import { carregarPerfilLateral } from './usuario/perfil-lateral.js';
-import { inicializarComentarios } from './modulos/comentarios.js'; // NOVO: Comentários
+import { inicializarMegaMenu } from './modulos/atualizacao_do_menu.js'; // NOVO: Importação do Menu
+import { carregarPerfilLateral } from './usuario/perfil-lateral.js'; // NOVO: Importação do Perfil
 
 document.addEventListener('DOMContentLoaded', () => {
     
-    // PERFIL LATERAL
+    // NOVO: Inicializa o perfil lateral (busca dados do usuário e injeta no HTML)
     carregarPerfilLateral();
 
-    // MEGA MENU
+    // NOVO: Inicializa o sistema de Mega Menu
     inicializarMegaMenu();
 
-    // COMENTÁRIOS (ARTIGOS)
-    inicializarComentarios();
-
-    // RESTAURA NOTÍCIAS SALVAS
+    // Tenta restaurar notícias se houver progresso salvo no localStorage
+    // Agora configurado para funcionar também na Home (Manchetes)
     restaurarNoticiasSalvas();
 
     // ------------------------------------------------------------------
     // SISTEMA DE NOTÍCIAS (DINÂMICO)
     // ------------------------------------------------------------------
+    // Ouvimos o documento todo para capturar o clique no botão que vem das abas
     document.addEventListener('click', (e) => {
+        // Verifica se o clique foi no botão de carregar mais
         if (e.target && e.target.classList.contains('load-more-btn')) {
             e.preventDefault();
             console.log('Botão detectado! Chamando carregarNoticiasExtras...');
             carregarNoticiasExtras();
         }
 
+        // AJUSTE ESSENCIAL: Captura a troca de aba para atualizar o sistema
         const filterBtn = e.target.closest('.filter-tag');
         if (filterBtn) {
             const novaSecao = filterBtn.getAttribute('data-section');
             if (novaSecao) {
                 localStorage.setItem('currentSection', novaSecao);
+                // Pequeno delay para a aba carregar o HTML antes de restaurar os extras
                 setTimeout(() => restaurarNoticiasSalvas(), 50);
             }
         }
     });
 
     // ------------------------------------------------------------------
-    // FUNÇÕES DE INTERFACE
+    // FUNÇÕES DE INTERFACE (MANUTENÇÃO DO SEU CÓDIGO)
     // ------------------------------------------------------------------
     window.toggleMobileMenu = () => {
         const menu = document.getElementById('mobileMenu');
@@ -74,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // ------------------------------------------------------------------
-    // TEMA (DARK MODE)
+    // LÓGICA DE TEMA (DARK MODE)
     // ------------------------------------------------------------------
     const themeToggle = document.getElementById('themeToggle');
     const mobileThemeToggle = document.getElementById('mobileThemeToggle');
@@ -93,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (mobileThemeToggle) mobileThemeToggle.addEventListener('change', (e) => aplicarTema(e.target.checked));
 
     // ------------------------------------------------------------------
-    // BARRA DE PROGRESSO + VOLTAR AO TOPO
+    // BARRA DE PROGRESSO + BOTÃO "VOLTAR AO TOPO"
     // ------------------------------------------------------------------
     window.addEventListener('scroll', () => {
         const btn = document.querySelector('.back-to-top');
@@ -113,3 +114,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
