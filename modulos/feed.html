@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Feed de Notícias | Anime I Geek</title>
-    <link rel="stylesheet" href="/css/feed.css">
     <style>
         :root {
             --accent-news: #c1121f;
@@ -145,6 +144,49 @@
         </main>
     </div>
 
-    <script type="module" src="/modulos/feed.js"></script>
+    <script>
+        // dados das notícias (exemplo, substitua pelo conteúdo real)
+        const dadosFeed = [
+            { categoria: "Animes", titulo: "One Piece retorna em 2026", descricao: "O arco final promete redefinir...", img: "https://via.placeholder.com/250x160", link: "#" },
+            { categoria: "Cinema", titulo: "Novo filme de Naruto", descricao: "Estreia mundial em breve...", img: "https://via.placeholder.com/250x160", link: "#" },
+            { categoria: "Games", titulo: "Mobile Legends ganha expansão", descricao: "Novos heróis e mapas...", img: "https://via.placeholder.com/250x160", link: "#" }
+        ];
+
+        const coresCategoria = {
+            Animes: "#D32F2F",
+            Cinema: "#1976D2",
+            Games: "#388E3C",
+            Mangás: "#FBC02D",
+            Podcast: "#7B1FA2",
+            Manchetes: "#455A64",
+            Entrevistas: "#F57C00",
+            Lancamentos: "#00796B"
+        };
+
+        function renderFeed() {
+            const container = document.getElementById("feedContainer");
+            container.innerHTML = "";
+            dadosFeed.forEach(item => {
+                const article = document.createElement("article");
+                article.className = "post-card";
+                article.innerHTML = `
+                    <div class="post-img-wrapper">
+                        <img src="${item.img}" alt="${item.titulo}" loading="lazy">
+                    </div>
+                    <div class="post-content">
+                        <span class="category" style="color: ${coresCategoria[item.categoria] || "#000"}">${item.categoria}</span>
+                        <h2>${item.titulo}</h2>
+                        <p>${item.descricao}</p>
+                        <div class="action-row">
+                            <a href="${item.link}" class="read-more">Ler mais</a>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(article);
+            });
+        }
+
+        renderFeed();
+    </script>
 </body>
 </html>
