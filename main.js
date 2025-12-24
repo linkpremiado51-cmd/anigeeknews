@@ -116,10 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const menu = document.getElementById('mobileMenu');
         if (!menu) return;
 
-        // Corrige problema do menu não abrindo
         menu.classList.toggle('active');
-
-        // Bloqueia scroll ao abrir
         document.body.style.overflow = menu.classList.contains('active') ? 'hidden' : '';
     };
 
