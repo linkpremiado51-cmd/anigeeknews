@@ -11,7 +11,8 @@ function normalizarTexto(texto) {
 
 async function carregarNoticias() {
     try {
-        const resposta = await fetch('./noticias.json');
+        // ✅ CORRIGIDO: caminho completo relativo à página index.html
+        const resposta = await fetch('./motor_de_pesquisa/noticias.json');
         if (!resposta.ok) throw new Error('noticias.json não encontrado');
         bancoDeNoticias = await resposta.json();
         console.log('✅ Banco carregado:', bancoDeNoticias.length, 'artigos');
