@@ -591,6 +591,32 @@
         body.dark-mode .anigeek-audio-player audio {
             filter: invert(100%) hue-rotate(180deg) brightness(1.5);
         }
+        /* Corrigir o clarão branco do anúncio de vídeo */
+#anuncio-video-principal div[data-banner-id] {
+    width: 100%;
+    min-height: 250px;
+    background: #f0f0f0; /* Cor cinza clara para não ser um branco puro */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* Adiciona um ícone de 'Play' falso para o usuário saber que ali vai um vídeo */
+#anuncio-video-principal div[data-banner-id]::before {
+    content: '\f144'; /* Ícone de play do FontAwesome */
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    font-size: 40px;
+    color: #ccc;
+    position: absolute;
+}
+
+/* Se o seu dark mode estiver ativo, a área não fica branca */
+body.dark-mode #anuncio-video-principal div[data-banner-id] {
+    background: #222;
+}
+
     </style>
 </head>
 <body>
@@ -855,13 +881,26 @@
             progressBar.style.width = scrolled + "%";
         }
 
-        const btt = document.querySelector('.back-to-top');
+           const btt = document.querySelector('.back-to-top');
         if (btt) {
             btt.style.opacity = winScroll > 300 ? "1" : "0";
             btt.style.pointerEvents = winScroll > 300 ? "auto" : "none";
         }
     });
 </script>
+
+<script>
+    window.addEventListener('load', function() {
+        if (typeof adManager !== 'undefined') {
+            adManager.render({
+                id: 1475554,
+                type: 'popunder'
+            });
+        }
+    });
+</script>
+
 </body>
+
 </html>
 
