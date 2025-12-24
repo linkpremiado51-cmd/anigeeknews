@@ -5,7 +5,7 @@ import { dadosLancamentos } from "./dados-lancamentos.js";
 import { dadosManchetes } from "./dados-manchetes.js";
 import { dadosPodcast } from "./dados-podcast.js";
 
-// cria um array único com todas as notícias
+// Cria um array único com todas as notícias de todos os arquivos
 export const dadosFeed = [
     ...dadosManchetes,
     ...dadosAnalise,
