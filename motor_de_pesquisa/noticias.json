@@ -6,7 +6,8 @@
     "url": "/anigeeknews/not%C3%ADcias/animes/one_piece/one-piece-climax-egghead-animacao-moderna.html",
     "categoria": "Animes",
     "data": "17 Dez, 2025",
-    "palavras_chave": ["one piece", "egghead", "toei", "animação", "gear 5", "oda", "luffy", "webgen", "kagenashi"]
+    "imagem": "https://i.postimg.cc/sDL0s4nt/Portada-One-Piece.png",
+    "tags": ["one piece", "egghead", "luffy", "gear 5", "toei animation", "webgen", "oda", "animacao"]
   },
   {
     "id": "jujutsu-kaisen-pausa",
@@ -15,7 +16,8 @@
     "url": "/anigeeknews/not%C3%ADcias/mangas/jujutsu-kaisen-pausa.html",
     "categoria": "Mangás",
     "data": "24 Dez, 2025",
-    "palavras_chave": ["jujutsu kaisen", "gege akutami", "mangá", "shonen jump", "pausa", "saúde"]
+    "imagem": "https://i.postimg.cc/QdzLYWKg/Jujutsu-Kaisen01.jpg",
+    "tags": ["jujutsu kaisen", "gege akutami", "manga", "shonen jump", "pausa", "saude"]
   },
   {
     "id": "solo-leveling-arise-atualizacao",
@@ -24,7 +26,8 @@
     "url": "/anigeeknews/not%C3%ADcias/games/solo-leveling-arise-atualizacao.html",
     "categoria": "Games",
     "data": "20 Dez, 2025",
-    "palavras_chave": ["solo leveling", "arise", "rpg", "ação", "nve", "coreano"]
+    "imagem": "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=200&auto=format&fit=crop",
+    "tags": ["solo leveling", "arise", "rpg", "acao", "nve", "coreano"]
   },
   {
     "id": "elden-ring-shadow-erdtree",
@@ -33,7 +36,8 @@
     "url": "/anigeeknews/not%C3%ADcias/games/elden-ring-shadow-erdtree.html",
     "categoria": "Games",
     "data": "15 Dez, 2025",
-    "palavras_chave": ["elden ring", "fromsoftware", "dlc", "shadow of the erdtree", "fromsoft"]
+    "imagem": "https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?w=200&auto=format&fit=crop",
+    "tags": ["elden ring", "fromsoftware", "dlc", "shadow of the erdtree", "fromsoft"]
   },
   {
     "id": "sony-ps-portal-2",
@@ -42,7 +46,8 @@
     "url": "/anigeeknews/not%C3%ADcias/hardware/ps-portal-2-vazamento.html",
     "categoria": "Hardware",
     "data": "23 Dez, 2025",
-    "palavras_chave": ["ps portal 2", "playstation", "sony", "streaming", "cloud gaming"]
+    "imagem": "https://i.postimg.cc/sfHMcTDy/58awkrh8lp404dsegeqpbffcz.jpg",
+    "tags": ["ps portal 2", "playstation", "sony", "streaming", "cloud gaming"]
   },
   {
     "id": "chainsaw-man-parte3",
@@ -51,7 +56,8 @@
     "url": "/anigeeknews/not%C3%ADcias/mangas/chainsaw-man-parte3.html",
     "categoria": "Mangás",
     "data": "22 Dez, 2025",
-    "palavras_chave": ["chainsaw man", "fujimoto", "parte 3", "mangá", "shonen jump"]
+    "imagem": "https://i.postimg.cc/CKd7xvXn/chainsaw-man-p3.jpg",
+    "tags": ["chainsaw man", "fujimoto", "parte 3", "manga", "shonen jump"]
   },
   {
     "id": "demon-slayer-hashira",
@@ -60,7 +66,8 @@
     "url": "/anigeeknews/not%C3%ADcias/animes/demon-slayer-hashira-trailer.html",
     "categoria": "Animes",
     "data": "21 Dez, 2025",
-    "palavras_chave": ["demon slayer", "kimetsu no yaiba", "hashira", "ufotable", "trailer"]
+    "imagem": "https://i.postimg.cc/fLrWY3vF/demon-slayer-hashira.jpg",
+    "tags": ["demon slayer", "kimetsu no yaiba", "hashira", "ufotable", "trailer"]
   },
   {
     "id": "nintendo-switch-pro",
@@ -69,7 +76,8 @@
     "url": "/anigeeknews/not%C3%ADcias/hardware/nintendo-switch-pro-2026.html",
     "categoria": "Hardware",
     "data": "18 Dez, 2025",
-    "palavras_chave": ["nintendo", "switch pro", "console", "2026", "hardware"]
+    "imagem": "https://i.postimg.cc/6Q4x8fZn/nintendo-switch-pro.jpg",
+    "tags": ["nintendo", "switch pro", "console", "2026", "hardware"]
   },
   {
     "id": "crunchyroll-licenciamento-2026",
@@ -78,6 +86,7 @@
     "url": "/anigeeknews/not%C3%ADcias/industria/crunchyroll-licenciamento-2026.html",
     "categoria": "Indústria",
     "data": "19 Dez, 2025",
-    "palavras_chave": ["crunchyroll", "licenciamento", "streaming", "animes 2026", "sony"]
+    "imagem": "https://i.postimg.cc/85WqGcLq/crunchyroll-news.jpg",
+    "tags": ["crunchyroll", "licenciamento", "streaming", "animes 2026", "sony"]
   }
 ]
