@@ -1,1 +1,38 @@
+/* /anigeeknews/motor_de_pesquisa/barra_de_pesquisa.css */
 
+/* Estilos já existem no index.html, mas mantemos aqui para total independência */
+/* Caso queira, pode deixar este arquivo vazio se herdar os estilos globais */
+
+.search-bar {
+    max-width: var(--container-w);
+    margin: 20px auto;
+    padding: 0 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.search-input {
+    flex: 1;
+    padding: 12px 20px;
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+    color: var(--text-main);
+    font-family: var(--font-sans);
+    border-radius: 0;
+    font-size: 14px;
+    min-width: 0;
+}
+
+.search-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 0 20px;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    font-size: 16px;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
