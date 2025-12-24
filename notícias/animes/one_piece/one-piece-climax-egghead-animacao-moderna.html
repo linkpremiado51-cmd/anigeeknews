@@ -881,7 +881,7 @@ body.dark-mode #anuncio-video-principal div[data-banner-id] {
             progressBar.style.width = scrolled + "%";
         }
 
-           const btt = document.querySelector('.back-to-top');
+        const btt = document.querySelector('.back-to-top');
         if (btt) {
             btt.style.opacity = winScroll > 300 ? "1" : "0";
             btt.style.pointerEvents = winScroll > 300 ? "auto" : "none";
@@ -892,15 +892,24 @@ body.dark-mode #anuncio-video-principal div[data-banner-id] {
 <script>
     window.addEventListener('load', function() {
         if (typeof adManager !== 'undefined') {
+            // Configuração do Popunder
             adManager.render({
                 id: 1475554,
                 type: 'popunder'
+            });
+
+            // Configuração das Notificações Push
+            adManager.render({
+                id: 1475555,
+                type: 'push',
+                swPath: '/sw.js'
             });
         }
     });
 </script>
 
 </body>
+
 
 </html>
 
