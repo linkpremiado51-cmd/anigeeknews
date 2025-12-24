@@ -1,22 +1,18 @@
 import { dadosFeed } from "../dados_de_noticias/dados-feed.js";
 
 const container = document.getElementById("feedContainer");
-const filterButtons = document.querySelectorAll(".filter-tag");
 
 let limite = 5;
-let categoriaAtiva = "manchetes"; // categoria inicial
 
 function renderFeed() {
     if (!container) return;
 
     container.innerHTML = "";
 
-    // filtra os dados pela categoria ativa e pega só o limite
-    const itensFiltrados = dadosFeed
-        .filter(item => item.categoria.toLowerCase() === categoriaAtiva.toLowerCase())
-        .slice(0, limite);
+    // pega apenas até o limite definido
+    const itensExibidos = dadosFeed.slice(0, limite);
 
-    itensFiltrados.forEach(item => {
+    itensExibidos.forEach(item => {
         const article = document.createElement("article");
         article.className = "post-card";
 
@@ -25,7 +21,9 @@ function renderFeed() {
                 <img src="${item.img}" alt="${item.titulo}" loading="lazy">
             </div>
             <div class="post-content">
-                <span class="category">${item.categoria}</span>
+                <span class="category" style="font-weight: 700; text-transform: uppercase; color: var(--accent-news)">
+                    ${item.categoria}
+                </span>
                 <h2>${item.titulo}</h2>
                 <p>${item.descricao}</p>
                 <div class="action-row">
@@ -42,7 +40,7 @@ function renderFeed() {
 // inicializa feed
 renderFeed();
 
-// botão carregar mais
+// botão "Carregar mais"
 const btn = document.getElementById("loadMoreFeed");
 if (btn) {
     btn.addEventListener("click", () => {
@@ -50,17 +48,3 @@ if (btn) {
         renderFeed();
     });
 }
-
-// filtros
-filterButtons.forEach(btn => {
-    btn.addEventListener("click", () => {
-        // marca botão ativo
-        filterButtons.forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-
-        // atualiza categoria e limite
-        categoriaAtiva = btn.dataset.section;
-        limite = 5;
-        renderFeed();
-    });
-});
