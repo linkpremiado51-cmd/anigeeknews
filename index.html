@@ -157,7 +157,8 @@
             gap: 20px;
         }
         .sections-btn {
-            background: none; border: none; color: var(--text-main); cursor: pointer;
+            background: none; border: none; color: var(--text-main);
+            cursor: pointer;
             display: flex; flex-direction: column; gap: 4px; padding: 5px;
         }
         .sections-btn .bar {
@@ -226,9 +227,7 @@
     position: fixed; 
     top: var(--header-h); 
     right: -100%;
-    /* EDIÇÃO AQUI: */
-    width: 100%;          /* Mude de 80% para 100% */
-    max-width: 100%;     /* Mude de 300px para 100% ou remova a linha */
+    width: 100%;
     height: calc(100vh - var(--header-h));
     background: var(--bg);
     border-left: 1px solid var(--border);
@@ -365,7 +364,6 @@
             color: var(--accent-news);
         }
 
-        /* ✅ TÍTULO USANDO MESMA FONTES DO H3 DO ARTIGO */
         .main-text-content h1 {
             font-family: var(--font-sans);
             font-size: clamp(32px, 4.5vw, 48px);
@@ -448,65 +446,6 @@
             border-top: 2px solid var(--text-main);
             padding-top: 20px;
             width: fit-content;
-        }
-
-        .feed {
-            display: flex;
-            flex-direction: column;
-            gap: 40px;
-        }
-
-        .post-card {
-            display: grid;
-            grid-template-columns: 240px 1fr;
-            gap: 25px;
-            padding-bottom: 40px;
-            border-bottom: 1px solid var(--border);
-            text-decoration: none;
-            color: inherit;
-        }
-        .post-card:last-child { border-bottom: none; }
-        .post-img-wrapper {
-            width: 100%;
-            height: 160px;
-            overflow: hidden;
-        }
-        .post-img-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .post-content {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        .category {
-            font-family: var(--font-sans);
-            font-size: 10px;
-            font-weight: 700;
-            color: var(--primary);
-            text-transform: uppercase;
-            margin-bottom: 8px;
-            letter-spacing: 1px;
-        }
-        .post-content h2 {
-            font-family: var(--font-serif-title);
-            font-size: 20px;
-            font-weight: 700;
-            line-height: 1.3;
-            margin-bottom: 10px;
-            color: var(--text-main);
-        }
-        .post-content p {
-            font-family: var(--font-serif);
-            font-size: 14px;
-            color: var(--text-muted);
-            line-height: 1.5;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
         }
 
         /* --- ÁREAS DE ANÚNCIO --- */
@@ -739,14 +678,14 @@
     </div>
 
     <!-- FILTROS -->
-   <div class="filter-scroller" id="filterScroller">
-    <button class="filter-tag active" data-section="manchetes">Manchetes</button>
-    <button class="filter-tag" data-section="feed">Feed</button>
-    <button class="filter-tag" data-section="analises">Análises</button>
-    <button class="filter-tag" data-section="entrevistas">Entrevistas</button>
-    <button class="filter-tag" data-section="lancamentos">Lançamentos</button>
-    <button class="filter-tag" data-section="podcast">Podcast</button>
-</div>
+    <div class="filter-scroller" id="filterScroller">
+        <button class="filter-tag active" data-section="manchetes">Manchetes</button>
+        <button class="filter-tag" data-section="feed" onclick="atualizarCategoriaFeed('feed')">Feed</button>
+        <button class="filter-tag" data-section="analises" onclick="atualizarCategoriaFeed('analises')">Análises</button>
+        <button class="filter-tag" data-section="entrevistas" onclick="atualizarCategoriaFeed('entrevistas')">Entrevistas</button>
+        <button class="filter-tag" data-section="lancamentos" onclick="atualizarCategoriaFeed('lancamentos')">Lançamentos</button>
+        <button class="filter-tag" data-section="podcast" onclick="atualizarCategoriaFeed('podcast')">Podcast</button>
+    </div>
 
     <!-- CONTEÚDO DINÂMICO -->
     <div id="dynamic-content">
@@ -793,34 +732,12 @@
                 <!-- ÁREA DE ANÚNCIO NO FEED -->
                 <div class="ad-feed">[ ANÚNCIO 300x250 – MID-FEED ]</div>
 
-                <div class="feed">
-                    <a href="#" class="news-link">
-                        <article class="post-card">
-                            <div class="post-img-wrapper"><img src="https://i.postimg.cc/sfHMcTDy/58awkrh8lp404dsegeqpbffcz.jpg" loading="lazy"></div>
-                            <div class="post-content">
-                                <span class="category">Hardware</span>
-                                <h2>Vazamento detalha especificações do suposto 'PS Portal 2'</h2>
-                                <p>Fontes ligadas à cadeia de suprimentos indicam uso de telas OLED Samsung e integração nativa com nuvem.</p>
-                                <div class="meta-minimal">há 2 horas • Leitura: 3min</div>
-                            </div>
-                        </article>
-                    </a>
+                <!-- ✅ CONTAINER DO FEED DYNAMICO -->
+                <div id="feedContainer" class="feed"></div>
 
-                    <a href="#" class="news-link">
-                        <article class="post-card">
-                            <div class="post-img-wrapper"><img src="https://i.postimg.cc/QdzLYWKg/Jujutsu-Kaisen01.jpg" loading="lazy"></div>
-                            <div class="post-content">
-                                <span class="category">Manga</span>
-                                <h2>Jujutsu Kaisen: Gege Akutami anuncia pausa por saúde</h2>
-                                <p>Editorial da Jump confirma hiato de duas semanas. Fãs debatem condições de trabalho na indústria.</p>
-                                <div class="meta-minimal">há 4 horas • Leitura: 2min</div>
-                            </div>
-                        </article>
-                    </a>
-                </div>
-
+                <!-- ✅ BOTÃO "Carregar Mais" com ID correto -->
                 <div class="load-more-container" style="text-align: center; margin-top: 40px; border-top: 1px solid var(--border); padding-top: 20px;">
-                    <button class="load-more-btn" style="background: none; border: 1px solid var(--text-main); padding: 12px 30px; font-family: var(--font-sans); font-weight: 700; cursor: pointer; color: var(--text-main); text-transform: uppercase; font-size: 12px; letter-spacing: 1px;">
+                    <button id="loadMoreFeed" style="background: none; border: 1px solid var(--text-main); padding: 12px 30px; font-family: var(--font-sans); font-weight: 700; cursor: pointer; color: var(--text-main); text-transform: uppercase; font-size: 12px; letter-spacing: 1px;">
                         Carregar Mais
                     </button>
                 </div>
@@ -882,122 +799,116 @@
     <!-- BOTÃO VOLTAR AO TOPO -->
     <button class="back-to-top" onclick="scrollToTop()" style="position: fixed; bottom: 30px; right: 30px; padding: 15px; background: var(--text-main); color: var(--bg); border: none; opacity: 0; transition: 0.3s; cursor: pointer;">↑</button>
 
-   <script type="module" src="/anigeeknews/sessao_usuario.js"></script>
-<script type="module" src="/anigeeknews/main.js"></script>
+    <script type="module" src="/anigeeknews/sessao_usuario.js"></script>
+    <script type="module" src="/anigeeknews/main.js"></script>
 
-<script>
-    // Função do Menu Mobile
-    function toggleMobileMenu() { 
-        const menu = document.getElementById('mobileMenu');
-        if (menu) menu.classList.toggle('active'); 
-    }
+    <script>
+        // Função do Menu Mobile
+        function toggleMobileMenu() { 
+            const menu = document.getElementById('mobileMenu');
+            if (menu) menu.classList.toggle('active'); 
+        }
 
-    // Função de Voltar ao Topo
-    function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+        // Função de Voltar ao Topo
+        function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
-    // Gerenciamento de Tema (Dark/Light)
-    const themeToggle = document.getElementById('themeToggle');
-    const mobileThemeToggle = document.getElementById('mobileThemeToggle');
+        // Gerenciamento de Tema (Dark/Light)
+        const themeToggle = document.getElementById('themeToggle');
+        const mobileThemeToggle = document.getElementById('mobileThemeToggle');
 
-    function applyTheme(isDark) {
-        document.body.classList.toggle('dark-mode', isDark);
-        if (themeToggle) themeToggle.checked = isDark;
-        if (mobileThemeToggle) mobileThemeToggle.checked = isDark;
-        localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    }
+        function applyTheme(isDark) {
+            document.body.classList.toggle('dark-mode', isDark);
+            if (themeToggle) themeToggle.checked = isDark;
+            if (mobileThemeToggle) mobileThemeToggle.checked = isDark;
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
 
-    if (themeToggle) themeToggle.addEventListener('change', (e) => applyTheme(e.target.checked));
-    if (mobileThemeToggle) mobileThemeToggle.addEventListener('change', (e) => applyTheme(e.target.checked));
-    
-    // Iniciar tema salvo
-    if (localStorage.getItem('theme') === 'dark') applyTheme(true);
-
-    // Barra de Progresso e Botão Voltar ao Topo
-    window.addEventListener('scroll', () => {
-        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrolled = (winScroll / height) * 100;
+        if (themeToggle) themeToggle.addEventListener('change', (e) => applyTheme(e.target.checked));
+        if (mobileThemeToggle) mobileThemeToggle.addEventListener('change', (e) => applyTheme(e.target.checked));
         
-        const progressBar = document.getElementById("progress-bar");
-        if (progressBar) progressBar.style.width = scrolled + "%";
+        // Iniciar tema salvo
+        if (localStorage.getItem('theme') === 'dark') applyTheme(true);
 
-        const btt = document.querySelector('.back-to-top');
-        if (btt) btt.style.opacity = winScroll > 300 ? "1" : "0";
-    });
-</script>
-
-<script type="module">
-    import { restaurarNoticiasSalvas } from '/anigeeknews/modulo-noticias.js';
-
-    const dynamicContent = document.getElementById('dynamic-content');
-    // Salva o HTML original para quando o usuário voltar para "manchetes"
-    let originalContent = "";
-    
-    if (dynamicContent) {
-        originalContent = dynamicContent.innerHTML;
-    }
-
-    function activateButton(section) {
-        document.querySelectorAll('.filter-tag').forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.section === section);
-        });
-    }
-
-    async function loadSection(section) {
-        if (!dynamicContent) return;
-
-        if (section === 'manchetes') {
-            dynamicContent.innerHTML = originalContent;
-            localStorage.setItem('currentSection', 'manchetes');
-            // Re-executa a restauração mesmo no conteúdo original
-            restaurarNoticiasSalvas();
-            return;
-        }
-
-        try {
-            const fetchUrl = `/anigeeknews/modulos/${section}.html`;
-            const response = await fetch(fetchUrl);
-            if (!response.ok) throw new Error('Erro ao carregar módulo');
+        // Barra de Progresso e Botão Voltar ao Topo
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
             
-            const html = await response.text();
-            dynamicContent.innerHTML = html;
+            const progressBar = document.getElementById("progress-bar");
+            if (progressBar) progressBar.style.width = scrolled + "%";
 
-            // Aguarda o DOM atualizar para restaurar os ícones de "salvo"
-            setTimeout(() => {
-                restaurarNoticiasSalvas();
-            }, 50);
-
-        } catch (error) {
-            console.error('Falha ao carregar seção:', section, error);
-            dynamicContent.innerHTML = '<p style="padding:40px; text-align:center; color:#888;">Conteúdo indisponível no momento.</p>';
-        }
-    }
-
-    // Configura os cliques nos botões de filtro
-    document.querySelectorAll('.filter-tag').forEach(button => {
-        button.addEventListener('click', () => {
-            const section = button.dataset.section;
-            if (!section) return;
-
-            localStorage.setItem('currentSection', section);
-            activateButton(section);
-            loadSection(section);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            const btt = document.querySelector('.back-to-top');
+            if (btt) btt.style.opacity = winScroll > 300 ? "1" : "0";
         });
-    });
+    </script>
 
-    // Carregamento inicial da página
-    window.addEventListener('DOMContentLoaded', () => {
-        const savedSection = localStorage.getItem('currentSection') || 'manchetes';
-        activateButton(savedSection);
-        if (savedSection !== 'manchetes') {
-            loadSection(savedSection);
-        } else {
-            // Se for manchetes, apenas garante que as notícias salvas apareçam marcadas
-            restaurarNoticiasSalvas();
+    <script type="module">
+        import { restaurarNoticiasSalvas } from '/anigeeknews/modulo-noticias.js';
+
+        const dynamicContent = document.getElementById('dynamic-content');
+        let originalContent = "";
+
+        if (dynamicContent) {
+            originalContent = dynamicContent.innerHTML;
         }
-    });
-</script>
+
+        function activateButton(section) {
+            document.querySelectorAll('.filter-tag').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.section === section);
+            });
+        }
+
+        async function loadSection(section) {
+            if (!dynamicContent) return;
+
+            if (section === 'manchetes') {
+                dynamicContent.innerHTML = originalContent;
+                localStorage.setItem('currentSection', 'manchetes');
+                restaurarNoticiasSalvas();
+                return;
+            }
+
+            try {
+                const fetchUrl = `/anigeeknews/modulos/${section}.html`;
+                const response = await fetch(fetchUrl);
+                if (!response.ok) throw new Error('Erro ao carregar módulo');
+                
+                const html = await response.text();
+                dynamicContent.innerHTML = html;
+
+                setTimeout(() => {
+                    restaurarNoticiasSalvas();
+                }, 50);
+
+            } catch (error) {
+                console.error('Falha ao carregar seção:', section, error);
+                dynamicContent.innerHTML = '<p style="padding:40px; text-align:center; color:#888;">Conteúdo indisponível no momento.</p>';
+            }
+        }
+
+        document.querySelectorAll('.filter-tag').forEach(button => {
+            button.addEventListener('click', () => {
+                const section = button.dataset.section;
+                if (!section) return;
+
+                localStorage.setItem('currentSection', section);
+                activateButton(section);
+                loadSection(section);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedSection = localStorage.getItem('currentSection') || 'manchetes';
+            activateButton(savedSection);
+            if (savedSection !== 'manchetes') {
+                loadSection(savedSection);
+            } else {
+                restaurarNoticiasSalvas();
+            }
+        });
+    </script>
 
 </body>
 </html>
