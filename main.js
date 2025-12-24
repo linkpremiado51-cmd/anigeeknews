@@ -6,6 +6,7 @@
 import { carregarNoticiasExtras, restaurarNoticiasSalvas } from './modulo-noticias.js';
 import { inicializarMegaMenu } from './modulos/atualizacao_do_menu.js';
 import { carregarPerfilLateral } from './usuario/perfil-lateral.js';
+import { carregarMaisFeed, trocarCategoriaFeed } from './modulos/feed.js'; // Feed dinâmico
 
 // ------------------------------------------------------------------
 // IMPORTAÇÃO DOS DADOS DE NOTÍCIAS
@@ -18,7 +19,7 @@ import { dadosPodcast } from './dados_de_noticias/dados-podcast.js';
 import { dadosFeed } from './dados_de_noticias/dados-feed.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-    
+
     // ------------------------------------------------------------------
     // INICIALIZAÇÃO DE PERFIL E MENU
     // ------------------------------------------------------------------
@@ -27,84 +28,25 @@ document.addEventListener('DOMContentLoaded', () => {
     restaurarNoticiasSalvas();
 
     // ------------------------------------------------------------------
-    // FUNÇÃO NOVA: CARREGAR FEED COMPLETO
-    // ------------------------------------------------------------------
-    const carregarFeedCompleto = () => {
-        const feedContainer = document.querySelector('.feed');
-        if (!feedContainer) return;
-
-        const todasNoticias = [
-            ...dadosAnalise,
-            ...dadosEntrevistas,
-            ...dadosLancamentos,
-            ...dadosManchetes,
-            ...dadosPodcast,
-            ...dadosFeed
-        ];
-
-        feedContainer.innerHTML = '';
-
-        todasNoticias.forEach(noticia => {
-            const postCard = document.createElement('article');
-            postCard.className = 'post-card';
-
-            postCard.innerHTML = `
-                <div class="post-img-wrapper">
-                    <img src="${noticia.img}" alt="${noticia.titulo}" loading="lazy">
-                </div>
-                <div class="post-content">
-                    <span class="category" style="color: ${noticia.cor || '#000'}">${noticia.categoria}</span>
-                    <h2>${noticia.titulo}</h2>
-                    <p>${noticia.descricao}</p>
-                    <div class="action-row">
-                        <span class="meta-minimal">${noticia.meta}</span>
-                        <button class="like-btn" onclick="event.preventDefault(); window.toggleLike(this)">
-                            <span>${noticia.likes}</span> recomendações
-                        </button>
-                    </div>
-                </div>
-            `;
-
-            feedContainer.appendChild(postCard);
-        });
-
-        const loadMoreContainer = document.createElement('div');
-        loadMoreContainer.className = 'load-more-container';
-        loadMoreContainer.style = 'text-align: center; margin-top: 40px; border-top: 1px solid var(--border); padding-top: 20px;';
-        loadMoreContainer.innerHTML = `
-            <button class="load-more-btn" style="background: none; border: 1px solid var(--text-main); padding: 12px 30px; font-weight: 700; cursor: pointer; color: var(--text-main); text-transform: uppercase; font-size: 12px; letter-spacing: 1px;">
-                Ver Arquivo de Entrevistas
-            </button>
-        `;
-        feedContainer.appendChild(loadMoreContainer);
-    };
-
-    // ------------------------------------------------------------------
-    // GARANTE QUE O FEED EXISTA ANTES DE CARREGAR
-    // ------------------------------------------------------------------
-    const esperarFeed = setInterval(() => {
-        const feedContainer = document.querySelector('.feed');
-        if (feedContainer) {
-            clearInterval(esperarFeed);
-            carregarFeedCompleto();
-        }
-    }, 50);
-
-    // ------------------------------------------------------------------
     // EVENTOS DE CLIQUE
     // ------------------------------------------------------------------
     document.addEventListener('click', (e) => {
+
+        // Botão de carregar mais notícias
         if (e.target && e.target.classList.contains('load-more-btn')) {
             e.preventDefault();
-            carregarNoticiasExtras();
+            console.log('Botão detectado! Chamando carregarMaisFeed...');
+            carregarMaisFeed();
         }
 
+        // Troca de aba / categoria
         const filterBtn = e.target.closest('.filter-tag');
         if (filterBtn) {
             const novaSecao = filterBtn.getAttribute('data-section');
             if (novaSecao) {
                 localStorage.setItem('currentSection', novaSecao);
-                setTimeout(() => restaurarNoticiasSalvas(), 50);
+                console.log(`Nova seção selecionada: ${novaSecao}`);
+                trocarCategoriaFeed(novaSecao);
             }
         }
     });
@@ -114,9 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ------------------------------------------------------------------
     window.toggleMobileMenu = () => {
         const menu = document.getElementById('mobileMenu');
-        if (!menu) return;
-
-        menu.classList.toggle('active');
+        if (menu) menu.classList.toggle('active');
         document.body.style.overflow = menu.classList.contains('active') ? 'hidden' : '';
     };
 
