@@ -1,11 +1,10 @@
-// /anigeeknews/main.js
-
 // ------------------------------------------------------------------
 // IMPORTAÇÃO DOS MÓDULOS
 // ------------------------------------------------------------------
 import { carregarNoticiasExtras, restaurarNoticiasSalvas } from './modulo-noticias.js';
 import { inicializarMegaMenu } from './modulos/atualizacao_do_menu.js'; // NOVO: Importação do Menu
 import { carregarPerfilLateral } from './usuario/perfil-lateral.js'; // NOVO: Importação do Perfil
+import { carregarMaisFeed, trocarCategoriaFeed } from './modulos/feed.js'; // NOVO: Feed
 
 document.addEventListener('DOMContentLoaded', () => {
     
@@ -24,21 +23,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // ------------------------------------------------------------------
     // Ouvimos o documento todo para capturar o clique no botão que vem das abas
     document.addEventListener('click', (e) => {
+
         // Verifica se o clique foi no botão de carregar mais
         if (e.target && e.target.classList.contains('load-more-btn')) {
             e.preventDefault();
-            console.log('Botão detectado! Chamando carregarNoticiasExtras...');
-            carregarNoticiasExtras();
+            console.log('Botão detectado! Chamando carregarMaisFeed...');
+            carregarMaisFeed(); // chama função do feed.js
         }
 
-        // AJUSTE ESSENCIAL: Captura a troca de aba para atualizar o sistema
+        // Captura a troca de aba para atualizar o sistema
         const filterBtn = e.target.closest('.filter-tag');
         if (filterBtn) {
             const novaSecao = filterBtn.getAttribute('data-section');
             if (novaSecao) {
                 localStorage.setItem('currentSection', novaSecao);
-                // Pequeno delay para a aba carregar o HTML antes de restaurar os extras
-                setTimeout(() => restaurarNoticiasSalvas(), 50);
+                console.log(`Nova seção selecionada: ${novaSecao}`);
+                trocarCategoriaFeed(novaSecao); // chama função do feed.js
             }
         }
     });
@@ -114,4 +114,3 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-
