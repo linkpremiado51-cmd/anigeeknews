@@ -15,9 +15,15 @@ const bancoDeDados = {
 };
 
 // 3. CONTROLE DE ÍNDICES
+// Define as seções que o sistema deve gerenciar
 const secoesPermitidas = ['manchetes', 'analises', 'entrevistas', 'lancamentos', 'podcast'];
+
 let indices = JSON.parse(localStorage.getItem('indices_secoes')) || {};
-secoesPermitidas.forEach(s => { if (indices[s] === undefined) indices[s] = 0; });
+
+// Garante que todas as seções existam no objeto de índices ao carregar
+secoesPermitidas.forEach(s => {
+    if (indices[s] === undefined) indices[s] = 0;
+});
 
 // 4. ESTRUTURA HTML DA NOTÍCIA
 function criarEstruturaNoticia(noticia) {
@@ -46,11 +52,16 @@ export function restaurarNoticiasSalvas() {
     const lista = bancoDeDados[secao];
     const container = document.querySelector('.load-more-container');
     
+    // Limpa notícias injetadas anteriormente para evitar lixo visual
     document.querySelectorAll('.news-extra-persistente').forEach(el => el.remove());
+
     if (!lista || !container) return;
 
+    // Reconstrói apenas o que o usuário já tinha aberto nesta aba específica
     for (let i = 0; i < indices[secao]; i++) {
-        if (lista[i]) container.insertAdjacentHTML('beforebegin', criarEstruturaNoticia(lista[i]));
+        if (lista[i]) {
+            container.insertAdjacentHTML('beforebegin', criarEstruturaNoticia(lista[i]));
+        }
     }
     verificarFimDasNoticias(secao, lista);
 }
@@ -60,11 +71,13 @@ export async function carregarNoticiasExtras() {
     const secao = localStorage.getItem('currentSection') || 'manchetes';
     const container = document.querySelector('.load-more-container');
     const botao = document.querySelector('.load-more-btn');
+    
     if (!container || !botao) return;
 
     const lista = bancoDeDados[secao];
     if (!lista || lista.length === 0) return;
 
+    // Carrega sempre de 2 em 2
     let contador = 0;
     while (contador < 2 && indices[secao] < lista.length) {
         container.insertAdjacentHTML('beforebegin', criarEstruturaNoticia(lista[indices[secao]]));
@@ -72,41 +85,12 @@ export async function carregarNoticiasExtras() {
         contador++;
     }
 
+    // Persiste o progresso no LocalStorage
     localStorage.setItem('indices_secoes', JSON.stringify(indices));
     verificarFimDasNoticias(secao, lista);
 }
 
-// 7. FUNÇÃO NOVA: CARREGAR FEED COMPLETO
-export function carregarFeedCompleto() {
-    const feedContainer = document.querySelector('.feed');
-    if (!feedContainer) return;
-
-    const todasNoticias = [
-        ...bancoDeDados.manchetes,
-        ...bancoDeDados.analises,
-        ...bancoDeDados.entrevistas,
-        ...bancoDeDados.lancamentos,
-        ...bancoDeDados.podcast
-    ];
-
-    feedContainer.innerHTML = '';
-
-    todasNoticias.forEach(noticia => {
-        feedContainer.insertAdjacentHTML('beforeend', criarEstruturaNoticia(noticia));
-    });
-
-    const loadMoreContainer = document.createElement('div');
-    loadMoreContainer.className = 'load-more-container';
-    loadMoreContainer.style = 'text-align: center; margin-top: 40px; border-top: 1px solid var(--border); padding-top: 20px;';
-    loadMoreContainer.innerHTML = `
-        <button class="load-more-btn" style="background: none; border: 1px solid var(--text-main); padding: 12px 30px; font-weight: 700; cursor: pointer; color: var(--text-main); text-transform: uppercase; font-size: 12px; letter-spacing: 1px;">
-            Ver Arquivo de Entrevistas
-        </button>
-    `;
-    feedContainer.appendChild(loadMoreContainer);
-}
-
-// 8. VERIFICAÇÃO DE ESTADO DO BOTÃO
+// 7. VERIFICAÇÃO DE ESTADO DO BOTÃO
 function verificarFimDasNoticias(secao, lista) {
     const btn = document.querySelector('.load-more-btn');
     if (!btn) return;
@@ -123,3 +107,4 @@ function verificarFimDasNoticias(secao, lista) {
         btn.style.cursor = "pointer";
     }
 }
+
