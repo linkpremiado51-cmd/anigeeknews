@@ -6,49 +6,45 @@
 import { carregarNoticiasExtras, restaurarNoticiasSalvas } from './modulo-noticias.js';
 import { inicializarMegaMenu } from './modulos/atualizacao_do_menu.js'; // NOVO: Importação do Menu
 import { carregarPerfilLateral } from './usuario/perfil-lateral.js'; // NOVO: Importação do Perfil
-import { carregarMaisFeed, trocarCategoriaFeed } from './modulos/feed.js'; // NOVO: Feed
 
 document.addEventListener('DOMContentLoaded', () => {
     
-    // Inicializa o perfil lateral
+    // NOVO: Inicializa o perfil lateral (busca dados do usuário e injeta no HTML)
     carregarPerfilLateral();
 
-    // Inicializa o Mega Menu
+    // NOVO: Inicializa o sistema de Mega Menu
     inicializarMegaMenu();
 
-    // Restaura notícias salvas
+    // Tenta restaurar notícias se houver progresso salvo no localStorage
+    // Agora configurado para funcionar também na Home (Manchetes)
     restaurarNoticiasSalvas();
 
     // ------------------------------------------------------------------
     // SISTEMA DE NOTÍCIAS (DINÂMICO)
     // ------------------------------------------------------------------
+    // Ouvimos o documento todo para capturar o clique no botão que vem das abas
     document.addEventListener('click', (e) => {
-
-        // Botão de carregar mais
+        // Verifica se o clique foi no botão de carregar mais
         if (e.target && e.target.classList.contains('load-more-btn')) {
             e.preventDefault();
-            console.log('Botão detectado! Chamando carregarMaisFeed...');
-            carregarMaisFeed();
+            console.log('Botão detectado! Chamando carregarNoticiasExtras...');
+            carregarNoticiasExtras();
         }
 
-        // Troca de aba (preserva funcionamento do menu original)
+        // AJUSTE ESSENCIAL: Captura a troca de aba para atualizar o sistema
         const filterBtn = e.target.closest('.filter-tag');
         if (filterBtn) {
             const novaSecao = filterBtn.getAttribute('data-section');
             if (novaSecao) {
                 localStorage.setItem('currentSection', novaSecao);
-                
-                // Mantém restaurar notícias salvas (não quebra o menu)
+                // Pequeno delay para a aba carregar o HTML antes de restaurar os extras
                 setTimeout(() => restaurarNoticiasSalvas(), 50);
-                
-                // Chama função do feed.js de forma complementar
-                trocarCategoriaFeed(novaSecao);
             }
         }
     });
 
     // ------------------------------------------------------------------
-    // FUNÇÕES DE INTERFACE
+    // FUNÇÕES DE INTERFACE (MANUTENÇÃO DO SEU CÓDIGO)
     // ------------------------------------------------------------------
     window.toggleMobileMenu = () => {
         const menu = document.getElementById('mobileMenu');
@@ -118,3 +114,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
