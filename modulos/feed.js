@@ -1,15 +1,14 @@
 import { dadosFeed } from "../dados_de_noticias/dados-feed.js";
 
 const container = document.getElementById("feedContainer");
-
-let limite = 5;
+let limite = 5; // quantidade inicial de cards
 
 function renderFeed() {
     if (!container) return;
 
     container.innerHTML = "";
 
-    // pega apenas até o limite definido
+    // pega apenas os itens até o limite
     const itensExibidos = dadosFeed.slice(0, limite);
 
     itensExibidos.forEach(item => {
@@ -21,9 +20,7 @@ function renderFeed() {
                 <img src="${item.img}" alt="${item.titulo}" loading="lazy">
             </div>
             <div class="post-content">
-                <span class="category" style="font-weight: 700; text-transform: uppercase; color: var(--accent-news)">
-                    ${item.categoria}
-                </span>
+                <span class="category">${item.categoria}</span>
                 <h2>${item.titulo}</h2>
                 <p>${item.descricao}</p>
                 <div class="action-row">
@@ -35,16 +32,26 @@ function renderFeed() {
 
         container.appendChild(article);
     });
+
+    // esconde o botão se não houver mais cards
+    const btn = document.getElementById("loadMoreFeed");
+    if (btn) {
+        if (limite >= dadosFeed.length) {
+            btn.style.display = "none";
+        } else {
+            btn.style.display = "inline-block";
+        }
+    }
 }
 
 // inicializa feed
 renderFeed();
 
-// botão "Carregar mais"
+// botão carregar mais
 const btn = document.getElementById("loadMoreFeed");
 if (btn) {
     btn.addEventListener("click", () => {
-        limite += 5;
+        limite += 5; // incrementa mais 5 cards
         renderFeed();
     });
 }
