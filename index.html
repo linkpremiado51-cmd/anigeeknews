@@ -258,36 +258,6 @@
             font-size: 13px;
         }
 
-        /* --- BARRA DE PESQUISA (BOTÃO AO LADO) --- */
-        .search-bar {
-            max-width: var(--container-w);
-            margin: 20px auto;
-            padding: 0 20px;
-            display: flex;
-            gap: 10px;
-        }
-        .search-input {
-            flex: 1;
-            padding: 12px 20px;
-            border: 1px solid var(--border);
-            background: var(--card-bg);
-            color: var(--text-main);
-            font-family: var(--font-sans);
-            border-radius: 0;
-            font-size: 14px;
-            min-width: 0;
-        }
-        .search-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 0 20px;
-            cursor: pointer;
-            font-family: var(--font-sans);
-            font-size: 16px;
-            white-space: nowrap;
-        }
-
         /* --- FILTROS --- */
         .filter-scroller {
             max-width: var(--container-w);
@@ -364,7 +334,6 @@
             color: var(--accent-news);
         }
 
-        /* ✅ TÍTULO USANDO MESMA FONTES DO H3 DO ARTIGO */
         .main-text-content h1 {
             font-family: var(--font-sans);
             font-size: clamp(32px, 4.5vw, 48px);
@@ -731,26 +700,23 @@
     <!-- MEGA MENU (placeholder) -->
     <div id="megaMenuContainer"></div>
 
-    <!-- BARRA DE PESQUISA -->
-    <div class="search-bar">
-        <input type="text" class="search-input" placeholder="Pesquisar notícias, animes, jogos...">
-        <button class="search-btn"><i class="fas fa-search"></i> Buscar</button>
-    </div>
+    <!-- BARRA DE PESQUISA (DINÂMICA) -->
+    <div id="search-container"></div>
 
     <!-- FILTROS -->
-   <div class="filter-scroller" id="filterScroller">
-    <button class="filter-tag active" data-section="manchetes">Manchetes</button>
-    <button class="filter-tag" data-section="feed">Feed</button>
-    <button class="filter-tag" data-section="analises">Análises</button>
-    <button class="filter-tag" data-section="entrevistas">Entrevistas</button>
-    <button class="filter-tag" data-section="lancamentos">Lançamentos</button>
-    <button class="filter-tag" data-section="podcast">Podcast</button>
-</div>
+    <div class="filter-scroller" id="filterScroller">
+        <button class="filter-tag active" data-section="manchetes">Manchetes</button>
+        <button class="filter-tag" data-section="feed">Feed</button>
+        <button class="filter-tag" data-section="analises">Análises</button>
+        <button class="filter-tag" data-section="entrevistas">Entrevistas</button>
+        <button class="filter-tag" data-section="lancamentos">Lançamentos</button>
+        <button class="filter-tag" data-section="podcast">Podcast</button>
+    </div>
 
     <!-- CONTEÚDO DINÂMICO -->
     <div id="dynamic-content">
+        <!-- Conteúdo original permanece aqui -->
         <section class="hero">
-            <!-- ÁREA DE ANÚNCIO HERO -->
             <div class="ad-hero">[ ANÚNCIO 728x90 – HERO BANNER ]</div>
 
             <a href="https://linkpremiado51-cmd.github.io/anigeeknews/not%C3%ADcias/animes/one_piece/one-piece-climax-egghead-animacao-moderna.html" class="news-link">
@@ -788,10 +754,7 @@
                 <div class="section-header">
                     <h2 class="section-title">Últimas Notícias</h2>
                 </div>
-
-                <!-- ÁREA DE ANÚNCIO NO FEED -->
                 <div class="ad-feed">[ ANÚNCIO 300x250 – MID-FEED ]</div>
-
                 <div class="feed">
                     <a href="#" class="news-link">
                         <article class="post-card">
@@ -804,7 +767,6 @@
                             </div>
                         </article>
                     </a>
-
                     <a href="#" class="news-link">
                         <article class="post-card">
                             <div class="post-img-wrapper"><img src="https://i.postimg.cc/QdzLYWKg/Jujutsu-Kaisen01.jpg" loading="lazy"></div>
@@ -817,18 +779,14 @@
                         </article>
                     </a>
                 </div>
-
                 <div class="load-more-container" style="text-align: center; margin-top: 40px; border-top: 1px solid var(--border); padding-top: 20px;">
                     <button class="load-more-btn" style="background: none; border: 1px solid var(--text-main); padding: 12px 30px; font-family: var(--font-sans); font-weight: 700; cursor: pointer; color: var(--text-main); text-transform: uppercase; font-size: 12px; letter-spacing: 1px;">
                         Carregar Mais
                     </button>
                 </div>
             </main>
-
             <aside class="sidebar">
-                <!-- ÁREA DE ANÚNCIO SIDEBAR -->
                 <div class="ad-sidebar">[ ANÚNCIO 300x250 – SIDEBAR ]</div>
-
                 <div class="sidebar-box">
                     <h4 class="sidebar-title">Mais Lidas da Semana</h4>
                     <div class="top-list">
@@ -838,7 +796,6 @@
                         <a href="#" class="top-list-item"><span class="rank-num">4</span><p>Entrevista: O futuro de One Piece</p></a>
                     </div>
                 </div>
-
                 <div class="newsletter-card">
                     <h3>Briefing Matinal</h3>
                     <p style="font-family: var(--font-sans); font-size: 13px; color: var(--text-muted); margin-bottom: 10px;">Curadoria manual das notícias mais importantes do dia.</p>
@@ -870,7 +827,7 @@
         </div>
     </div>
 
-    <!-- RODAPÉ MINIMALISTA -->
+    <!-- RODAPÉ -->
     <footer>
         <div style="max-width: var(--container-w); margin: 0 auto;">
             <a href="/anigeeknews/index.html" class="logo">AniGeek<span>News</span></a>
@@ -885,16 +842,16 @@
     <script type="module" src="/anigeeknews/main.js"></script>
 
     <script>
-        // Função do Menu Mobile
+        // === FUNÇÕES GLOBAIS (TEMAS, MENU, ETC) ===
         function toggleMobileMenu() { 
             const menu = document.getElementById('mobileMenu');
             if (menu) menu.classList.toggle('active'); 
         }
 
-        // Função de Voltar ao Topo
-        function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+        function scrollToTop() { 
+            window.scrollTo({ top: 0, behavior: 'smooth' }); 
+        }
 
-        // Gerenciamento de Tema (Dark/Light)
         const themeToggle = document.getElementById('themeToggle');
         const mobileThemeToggle = document.getElementById('mobileThemeToggle');
 
@@ -907,34 +864,54 @@
 
         if (themeToggle) themeToggle.addEventListener('change', (e) => applyTheme(e.target.checked));
         if (mobileThemeToggle) mobileThemeToggle.addEventListener('change', (e) => applyTheme(e.target.checked));
-        
-        // Iniciar tema salvo
         if (localStorage.getItem('theme') === 'dark') applyTheme(true);
 
-        // Barra de Progresso e Botão Voltar ao Topo
         window.addEventListener('scroll', () => {
             const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             const scrolled = (winScroll / height) * 100;
-            
             const progressBar = document.getElementById("progress-bar");
             if (progressBar) progressBar.style.width = scrolled + "%";
-
             const btt = document.querySelector('.back-to-top');
             if (btt) btt.style.opacity = winScroll > 300 ? "1" : "0";
         });
     </script>
 
-    <!-- SCRIPT DE CARREGAMENTO DINÂMICO (COM SUPORTE PARA feed/) -->
+    <!-- === CARREGAMENTO DA BARRA DE PESQUISA === -->
+    <script type="module">
+        // Carrega a barra de pesquisa no início
+        async function loadSearchBar() {
+            try {
+                const res = await fetch('/anigeeknews/motor_de_pesquisa/barra_de_pesquisa.html');
+                const html = await res.text();
+                document.getElementById('search-container').innerHTML = html;
+
+                // CSS
+                const css = document.createElement('link');
+                css.rel = 'stylesheet';
+                css.href = '/anigeeknews/motor_de_pesquisa/barra_de_pesquisa.css';
+                document.head.appendChild(css);
+
+                // JS
+                const script = document.createElement('script');
+                script.src = '/anigeeknews/motor_de_pesquisa/barra_de_pesquisa.js';
+                script.type = 'module';
+                document.body.appendChild(script);
+
+            } catch (err) {
+                console.error('Falha ao carregar barra de pesquisa', err);
+            }
+        }
+
+        loadSearchBar();
+    </script>
+
+    <!-- === CARREGAMENTO DINÂMICO DE SEÇÕES (FEED, ETC) === -->
     <script type="module">
         import { restaurarNoticiasSalvas } from '/anigeeknews/modulo-noticias.js';
 
         const dynamicContent = document.getElementById('dynamic-content');
-        let originalContent = "";
-
-        if (dynamicContent) {
-            originalContent = dynamicContent.innerHTML;
-        }
+        let originalContent = dynamicContent ? dynamicContent.innerHTML : "";
 
         function activateButton(section) {
             document.querySelectorAll('.filter-tag').forEach(btn => {
@@ -942,77 +919,52 @@
             });
         }
 
-        // Função para carregar o Feed a partir de feed/
         async function loadFeed() {
             if (!dynamicContent) return;
-
             try {
                 const response = await fetch('/anigeeknews/feed/feed.html');
-                if (!response.ok) throw new Error('Erro ao carregar feed.html');
                 const html = await response.text();
-
                 dynamicContent.innerHTML = html;
 
-                // Injeta CSS
                 const cssLink = document.createElement('link');
                 cssLink.rel = 'stylesheet';
                 cssLink.href = '/anigeeknews/feed/feed.css';
                 document.head.appendChild(cssLink);
 
-                // Injeta JS
                 const script = document.createElement('script');
                 script.src = '/anigeeknews/feed/feed.js';
                 script.type = 'module';
-                script.onload = () => {
-                    console.log('Feed JS carregado.');
-                    restaurarNoticiasSalvas();
-                };
-                script.onerror = () => {
-                    console.error('Falha ao carregar feed.js');
-                };
+                script.onload = () => restaurarNoticiasSalvas();
                 document.body.appendChild(script);
-
             } catch (error) {
-                console.error('Falha ao carregar Feed:', error);
                 dynamicContent.innerHTML = '<p style="padding:40px; text-align:center; color:#888;">Conteúdo do Feed indisponível.</p>';
             }
         }
 
-        // Função genérica para demais seções (analises, entrevistas, etc.)
         async function loadSection(section) {
             if (!dynamicContent) return;
-
             if (section === 'manchetes') {
                 dynamicContent.innerHTML = originalContent;
                 localStorage.setItem('currentSection', 'manchetes');
                 restaurarNoticiasSalvas();
                 return;
             }
-
             if (section === 'feed') {
                 loadFeed();
                 return;
             }
-
             try {
-                const fetchUrl = `/anigeeknews/modulos/${section}.html`;
-                const response = await fetch(fetchUrl);
-                if (!response.ok) throw new Error('Erro ao carregar módulo');
-                const html = await response.text();
+                const html = await (await fetch(`/anigeeknews/modulos/${section}.html`)).text();
                 dynamicContent.innerHTML = html;
-                setTimeout(() => restaurarNoticiasSalvas(), 50);
-            } catch (error) {
-                console.error('Falha ao carregar seção:', section, error);
+                setTimeout(restaurarNoticiasSalvas, 50);
+            } catch {
                 dynamicContent.innerHTML = '<p style="padding:40px; text-align:center; color:#888;">Conteúdo indisponível.</p>';
             }
         }
 
-        // Event listeners dos botões de filtro
         document.querySelectorAll('.filter-tag').forEach(button => {
             button.addEventListener('click', () => {
                 const section = button.dataset.section;
-                if (!section) return;
-
                 localStorage.setItem('currentSection', section);
                 activateButton(section);
                 loadSection(section);
@@ -1020,15 +972,11 @@
             });
         });
 
-        // Carregamento inicial
         window.addEventListener('DOMContentLoaded', () => {
-            const savedSection = localStorage.getItem('currentSection') || 'manchetes';
-            activateButton(savedSection);
-            if (savedSection !== 'manchetes') {
-                loadSection(savedSection);
-            } else {
-                restaurarNoticiasSalvas();
-            }
+            const saved = localStorage.getItem('currentSection') || 'manchetes';
+            activateButton(saved);
+            if (saved !== 'manchetes') loadSection(saved);
+            else restaurarNoticiasSalvas();
         });
     </script>
 </body>
