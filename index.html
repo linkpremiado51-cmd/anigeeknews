@@ -882,7 +882,7 @@
         // Carrega a barra de pesquisa no início
         async function loadSearchBar() {
             try {
-                const res = await fetch('/anigeeknews/motor_de_pesquisa/barra_de_pesquisa.html');
+                const res = await fetch('./motor_de_pesquisa/barra_de_pesquisa.html');
                 const html = await res.text();
                 document.getElementById('search-container').innerHTML = html;
 
