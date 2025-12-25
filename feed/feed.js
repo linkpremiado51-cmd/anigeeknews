@@ -1,5 +1,3 @@
-// feed/feed.js
-
 // ✅ Garante que a função esteja no escopo global
 if (typeof window.seguirTagsDoArtigo !== 'function') {
     window.seguirTagsDoArtigo = function(tagsDoArtigo) {
@@ -7,7 +5,7 @@ if (typeof window.seguirTagsDoArtigo !== 'function') {
         let novasTags = 0;
 
         tagsDoArtigo.forEach(tag => {
-            const tagNormalizada = tag.trim();
+            const tagNormalizada = tag.trim().toUpperCase(); // Normaliza para maiúsculas
             if (!tagsSeguidas.includes(tagNormalizada)) {
                 tagsSeguidas.push(tagNormalizada);
                 novasTags++;
@@ -16,7 +14,7 @@ if (typeof window.seguirTagsDoArtigo !== 'function') {
 
         if (novasTags > 0) {
             localStorage.setItem('seguidas_tags', JSON.stringify(tagsSeguidas));
-            alert(`✅ ${novasTags} tópico(s) adicionado(s) ao seu feed!`);
+            showNotification(`✅ ${novasTags} tópico(s) adicionado(s) ao seu feed!`);
 
             // Atualiza o feed se estiver na página dele
             if (document.getElementById('feed-articles')) {
@@ -26,25 +24,74 @@ if (typeof window.seguirTagsDoArtigo !== 'function') {
     };
 }
 
+// Função para exibir notificações
+function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.textContent = message;
+    notification.style.position = 'fixed';
+    notification.style.bottom = '20px';
+    notification.style.right = '20px';
+    notification.style.background = 'var(--primary)';
+    notification.style.color = 'white';
+    notification.style.padding = '12px 20px';
+    notification.style.borderRadius = '4px';
+    notification.style.fontFamily = 'var(--font-sans)';
+    notification.style.fontSize = '14px';
+    notification.style.zIndex = '9999';
+    notification.style.opacity = '0';
+    notification.style.transform = 'translateY(20px)';
+    notification.style.transition = 'opacity 0.3s, transform 0.3s';
+
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+        notification.style.opacity = '1';
+        notification.style.transform = 'translateY(0)';
+    }, 10);
+
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        notification.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 300);
+    }, 3000);
+}
+
 let noticias = [];
 let tagsSeguidasGlobal = JSON.parse(localStorage.getItem('seguidas_tags')) || [];
 
 function carregarNoticias() {
     fetch('./motor_de_pesquisa/noticias.json')
-        .then(res => res.json())
+        .then(res => {
+            if (!res.ok) {
+                throw new Error(`Erro ${res.status}: Não foi possível carregar as notícias.`);
+            }
+            return res.json();
+        })
         .then(dados => {
             noticias = dados;
             renderizarFeedComTags(tagsSeguidasGlobal);
         })
         .catch(err => {
-            document.getElementById('feed-articles').innerHTML = 
-                '<p style="text-align:center; color:var(--text-muted);">Erro ao carregar notícias.</p>';
+            console.error('Erro ao carregar notícias:', err);
+            const container = document.getElementById('feed-articles');
+            if (container) {
+                container.innerHTML = `
+                    <p style="text-align:center; color:var(--text-muted);">
+                        Erro ao carregar notícias: ${err.message}. Tente novamente mais tarde.
+                    </p>
+                `;
+            }
         });
 }
 
 function renderizarTagsSeguidas(tagsSeguidas) {
     const container = document.getElementById('followed-tags');
-    if (!container) return;
+    if (!container) {
+        console.warn('Elemento "followed-tags" não encontrado.');
+        return;
+    }
 
     if (tagsSeguidas.length === 0) {
         container.innerHTML = '<span style="color:var(--text-muted);">Nenhum tópico seguido.</span>';
@@ -70,7 +117,10 @@ function renderizarTagsSeguidas(tagsSeguidas) {
 
 function renderizarFeedComTags(tagsSeguidas) {
     const container = document.getElementById('feed-articles');
-    if (!container) return;
+    if (!container) {
+        console.warn('Elemento "feed-articles" não encontrado.');
+        return;
+    }
 
     renderizarTagsSeguidas(tagsSeguidas);
 
@@ -84,8 +134,8 @@ function renderizarFeedComTags(tagsSeguidas) {
     }
 
     const noticiasFiltradas = noticias.filter(noticia => {
-        return noticia.tags.some(tag => 
-            tagsSeguidas.some(t => t.toLowerCase() === tag.toLowerCase())
+        return noticia.tags.some(tag =>
+            tagsSeguidas.some(t => t.toUpperCase() === tag.trim().toUpperCase())
         );
     });
 
@@ -117,5 +167,15 @@ function renderizarFeedComTags(tagsSeguidas) {
 
 // Inicialização
 document.addEventListener('DOMContentLoaded', () => {
+    // Verifica se há tags salvas temporariamente
+    const tagsTemp = localStorage.getItem('seguidas_tags_temp');
+    if (tagsTemp) {
+        const tagsArray = JSON.parse(tagsTemp);
+        window.seguirTagsDoArtigo(tagsArray);
+        localStorage.removeItem('seguidas_tags_temp');
+    }
+
+    // Carrega as notícias
     carregarNoticias();
 });
+
