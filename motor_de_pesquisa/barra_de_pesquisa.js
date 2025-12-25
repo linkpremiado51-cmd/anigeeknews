@@ -4,11 +4,6 @@
 
 /* ---------- CONFIGURAÇÕES ---------- */
 const CAMINHO_NOTICIAS = './motor_de_pesquisa/noticias.json';
-
-// 👉 caminho fixo e existente no seu projeto
-const CAMINHO_PADRAO_RESULTADO =
-    './noticias/animes/one_piece/one-piece-climax-egghead-animacao-moderna.html';
-
 const LIMITE_HISTORICO = 10;
 const STORAGE_KEY = 'historico_buscas';
 
@@ -24,7 +19,7 @@ function normalizarTexto(texto) {
         .replace(/[\u0300-\u036f]/g, '');
 }
 
-/* ---------- EXPOSIÇÃO GLOBAL ---------- */
+/* ---------- EXPOSIÇÃO GLOBAL (feed usa isso) ---------- */
 window.obterInteressesParaFeed = function () {
     return historicoBuscas.map(normalizarTexto);
 };
@@ -103,7 +98,7 @@ function renderizarResultados(lista, termo) {
 
     container.innerHTML = lista.map(noticia => `
         <a
-            href="${CAMINHO_PADRAO_RESULTADO}?q=${encodeURIComponent(termo)}"
+            href="${noticia.url}"
             class="search-result-item"
         >
             <span class="result-category">${noticia.categoria || ''}</span>
@@ -125,7 +120,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (!form || !input || !resultados || !barra) return;
 
     form.addEventListener('submit', e => {
-        e.preventDefault(); // 🔒 nunca recarrega a página
+        e.preventDefault(); // 🔒 não recarrega a página
 
         const termo = input.value.trim();
         if (!termo) return;
