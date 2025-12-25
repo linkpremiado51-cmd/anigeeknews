@@ -1,133 +1,178 @@
-// ===============================
-// MOTOR DE PESQUISA – NÚCLEO GLOBAL
-// ===============================
+// motor_de_pesquisa/barra_de_pesquisa.js
+// =====================================
+// MOTOR CENTRAL DE BUSCA + FEED
+// Fonte única de verdade para notícias
+// =====================================
 
-(function () {
+const SearchEngine = (() => {
+    let noticias = [];
     const STORAGE_KEYS = {
-        HISTORICO_BUSCAS: 'motor_historico_buscas'
+        buscas: 'historico_buscas',
+        cliques: 'historico_cliques'
     };
 
-    let noticias = [];
-    let historicoBuscas = JSON.parse(localStorage.getItem(STORAGE_KEYS.HISTORICO_BUSCAS)) || [];
+    /* =========================
+       UTILIDADES
+    ========================= */
 
-    // -------------------------------
-    // UTILIDADES
-    // -------------------------------
-    function normalizarTexto(texto) {
+    function normalizar(texto = '') {
         return texto
             .toLowerCase()
             .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '')
-            .trim();
+            .replace(/[\u0300-\u036f]/g, '');
     }
 
-    function salvarHistorico() {
-        localStorage.setItem(
-            STORAGE_KEYS.HISTORICO_BUSCAS,
-            JSON.stringify(historicoBuscas.slice(-20)) // limita histórico
-        );
+    function salvarNoStorage(chave, valor) {
+        localStorage.setItem(chave, JSON.stringify(valor));
     }
 
-    function calcularScore(noticia, termos) {
+    function lerDoStorage(chave, fallback = []) {
+        try {
+            return JSON.parse(localStorage.getItem(chave)) || fallback;
+        } catch {
+            return fallback;
+        }
+    }
+
+    /* =========================
+       CARREGAMENTO DE DADOS
+    ========================= */
+
+    async function carregarNoticias() {
+        if (noticias.length > 0) return noticias;
+
+        const res = await fetch('/anigeeknews/motor_de_pesquisa/noticias.json');
+        if (!res.ok) throw new Error('Falha ao carregar noticias.json');
+
+        noticias = await res.json();
+        return noticias;
+    }
+
+    /* =========================
+       HISTÓRICO DO USUÁRIO
+    ========================= */
+
+    function registrarBusca(termo) {
+        if (!termo || termo.length < 2) return;
+
+        const historico = lerDoStorage(STORAGE_KEYS.buscas);
+        const termoNormalizado = normalizar(termo);
+
+        const atualizado = [
+            termoNormalizado,
+            ...historico.filter(t => t !== termoNormalizado)
+        ].slice(0, 10);
+
+        salvarNoStorage(STORAGE_KEYS.buscas, atualizado);
+    }
+
+    function registrarClique(idNoticia) {
+        if (!idNoticia) return;
+
+        const cliques = lerDoStorage(STORAGE_KEYS.cliques);
+        const atualizado = [
+            idNoticia,
+            ...cliques.filter(id => id !== idNoticia)
+        ].slice(0, 20);
+
+        salvarNoStorage(STORAGE_KEYS.cliques, atualizado);
+    }
+
+    /* =========================
+       ALGORITMO DE RELEVÂNCIA
+    ========================= */
+
+    function calcularScore(noticia, contexto) {
         let score = 0;
 
-        termos.forEach(termo => {
-            if (normalizarTexto(noticia.titulo).includes(termo)) score += 5;
-            if (normalizarTexto(noticia.resumo).includes(termo)) score += 3;
-            if (noticia.tags?.some(tag => normalizarTexto(tag).includes(termo))) score += 4;
-            if (normalizarTexto(noticia.categoria).includes(termo)) score += 2;
-        });
+        const titulo = normalizar(noticia.titulo);
+        const resumo = normalizar(noticia.resumo || '');
+        const tags = (noticia.tags || []).map(normalizar);
 
-        // Popularidade e recência como reforço
-        score += (noticia.popularidade || 0) * 0.01;
+        // 🔍 BUSCA DIRETA
+        if (contexto.termo) {
+            const termo = normalizar(contexto.termo);
 
-        const dias = (Date.now() - new Date(noticia.data).getTime()) / 86400000;
-        if (dias < 7) score += 2;
-        else if (dias < 30) score += 1;
+            if (titulo.includes(termo)) score += 10;
+            if (resumo.includes(termo)) score += 5;
+            if (tags.some(t => t.includes(termo))) score += 8;
+        }
+
+        // 🧠 FEED INTELIGENTE
+        if (contexto.tipo === 'feed') {
+            const buscas = lerDoStorage(STORAGE_KEYS.buscas);
+            const cliques = lerDoStorage(STORAGE_KEYS.cliques);
+
+            buscas.forEach(b => {
+                if (titulo.includes(b)) score += 3;
+                if (tags.some(t => t.includes(b))) score += 4;
+            });
+
+            if (cliques.includes(noticia.id)) {
+                score += 6;
+            }
+        }
+
+        // 🕒 RECÊNCIA
+        if (noticia.data) {
+            const dias = (Date.now() - new Date(noticia.data)) / 86400000;
+            if (dias < 2) score += 4;
+            else if (dias < 7) score += 2;
+        }
 
         return score;
     }
 
-    // -------------------------------
-    // BUSCA EXPLÍCITA
-    // -------------------------------
-    function buscar(termo) {
-        if (!termo) return [];
+    /* =========================
+       API PÚBLICA
+    ========================= */
 
-        const termoNormalizado = normalizarTexto(termo);
-        const termos = termoNormalizado.split(' ').filter(Boolean);
+    async function getNoticiasRelevantes(opcoes = {}) {
+        await carregarNoticias();
 
-        historicoBuscas.push({
-            termo: termoNormalizado,
-            data: Date.now()
-        });
-        salvarHistorico();
-
-        const resultados = noticias
-            .map(noticia => ({
-                ...noticia,
-                _score: calcularScore(noticia, termos)
-            }))
-            .filter(n => n._score > 0)
-            .sort((a, b) => b._score - a._score);
-
-        return resultados;
-    }
-
-    // -------------------------------
-    // FEED (BUSCA IMPLÍCITA)
-    // -------------------------------
-    function gerarFeed() {
-        if (historicoBuscas.length === 0) {
-            // fallback: notícias mais populares
-            return [...noticias]
-                .sort((a, b) => (b.popularidade || 0) - (a.popularidade || 0))
-                .slice(0, 10);
-        }
-
-        const termosFrequentes = {};
-
-        historicoBuscas.forEach(b => {
-            b.termo.split(' ').forEach(t => {
-                termosFrequentes[t] = (termosFrequentes[t] || 0) + 1;
-            });
-        });
-
-        const termosOrdenados = Object.keys(termosFrequentes)
-            .sort((a, b) => termosFrequentes[b] - termosFrequentes[a])
-            .slice(0, 5);
+        const contexto = {
+            tipo: opcoes.tipo || 'feed',
+            termo: opcoes.termo || '',
+            limite: opcoes.limite || 20
+        };
 
         return noticias
-            .map(noticia => ({
-                ...noticia,
-                _score: calcularScore(noticia, termosOrdenados)
+            .map(n => ({
+                ...n,
+                _score: calcularScore(n, contexto)
             }))
+            .filter(n => n._score > 0)
             .sort((a, b) => b._score - a._score)
-            .slice(0, 10);
+            .slice(0, contexto.limite);
     }
 
-    // -------------------------------
-    // INICIALIZAÇÃO
-    // -------------------------------
-    async function carregarNoticias() {
-        try {
-            const res = await fetch('/anigeeknews/motor_de_pesquisa/noticias.json');
-            noticias = await res.json();
-        } catch (err) {
-            console.error('Erro ao carregar noticias.json', err);
-        }
-    }
-
-    carregarNoticias();
-
-    // -------------------------------
-    // API GLOBAL
-    // -------------------------------
-    window.motorPesquisa = {
-        buscar,
-        gerarFeed,
-        getHistorico() {
-            return historicoBuscas;
-        }
+    return {
+        carregarNoticias,
+        getNoticiasRelevantes,
+        registrarBusca,
+        registrarClique
     };
 })();
+
+// 🔓 Disponibiliza globalmente
+window.SearchEngine = SearchEngine;
+
+/* =========================
+   INTEGRAÇÃO COM A UI
+========================= */
+
+document.addEventListener('input', async (e) => {
+    if (!e.target.matches('[data-search-input]')) return;
+
+    const termo = e.target.value.trim();
+    SearchEngine.registrarBusca(termo);
+
+    const resultados = await SearchEngine.getNoticiasRelevantes({
+        tipo: 'busca',
+        termo
+    });
+
+    document.dispatchEvent(new CustomEvent('search:resultados', {
+        detail: resultados
+    }));
+});
