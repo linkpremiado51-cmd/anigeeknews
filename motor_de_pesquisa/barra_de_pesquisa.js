@@ -3,7 +3,7 @@
    ===================================================== */
 
 /* ---------- CONFIGURAÇÕES ---------- */
-const CAMINHO_NOTICIAS = './motor_de_pesquisa/noticias.json';
+const CAMINHO_NOTICIAS = '/anigeeknews/motor_de_pesquisa/noticias.json';
 const LIMITE_HISTORICO = 10;
 const STORAGE_KEY = 'historico_buscas';
 
@@ -19,16 +19,12 @@ function normalizarTexto(texto) {
         .replace(/[\u0300-\u036f]/g, '');
 }
 
-/* ---------- EXPOSIÇÃO GLOBAL (IMPORTANTE) ---------- */
-/*
-   O FEED DEPENDE DISSO.
-   Essa função PRECISA existir mesmo que a busca não seja usada.
-*/
+/* ---------- EXPOSIÇÃO GLOBAL (FEED DEPENDE DISSO) ---------- */
 window.obterInteressesParaFeed = function () {
     return historicoBuscas.map(normalizarTexto);
 };
 
-/* ---------- CARREGAMENTO DE DADOS ---------- */
+/* ---------- CARREGAMENTO DAS NOTÍCIAS ---------- */
 async function carregarNoticias() {
     try {
         const resposta = await fetch(CAMINHO_NOTICIAS);
@@ -58,11 +54,11 @@ function salvarBusca(termo) {
 
     localStorage.setItem(STORAGE_KEY, JSON.stringify(historicoBuscas));
 
-    // Evento global (feed pode reagir no futuro sem retrabalho)
+    // avisa o feed
     window.dispatchEvent(new CustomEvent('interessesAtualizados'));
 }
 
-/* ---------- BUSCA PRINCIPAL ---------- */
+/* ---------- BUSCA ---------- */
 function buscarNoticias(termo) {
     if (!termo) return [];
 
@@ -85,54 +81,64 @@ function buscarNoticias(termo) {
     });
 }
 
-/* ---------- RENDERIZAÇÃO DOS RESULTADOS ---------- */
+/* ---------- RENDERIZAÇÃO ---------- */
 function renderizarResultados(lista) {
-    const container = document.getElementById('resultado-pesquisa');
+    const container = document.getElementById('searchResults');
     if (!container) return;
+
+    container.classList.add('active');
 
     if (lista.length === 0) {
         container.innerHTML = `
-            <p class="search-empty">
+            <div class="search-empty">
                 Nenhum resultado encontrado.
-            </p>
+            </div>
         `;
         return;
     }
 
     container.innerHTML = lista.map(noticia => `
-        <a href="${noticia.url}" class="search-item">
-            <img 
-                src="${noticia.imagem || 'https://via.placeholder.com/120x80'}"
-                alt="${noticia.titulo}"
-                loading="lazy"
-            >
-            <div class="search-item-content">
-                <span class="category">${noticia.categoria}</span>
-                <h3>${noticia.titulo}</h3>
-                <p>${noticia.resumo}</p>
-            </div>
+        <a href="${noticia.url}" class="search-result-item">
+            <span class="result-category">${noticia.categoria || ''}</span>
+            <h4>${noticia.titulo}</h4>
+            <p>${noticia.resumo || ''}</p>
         </a>
     `).join('');
 }
 
-/* ---------- EVENTOS ---------- */
+/* ---------- INICIALIZAÇÃO ---------- */
 document.addEventListener('DOMContentLoaded', async () => {
     await carregarNoticias();
 
-    const input = document.getElementById('campo-pesquisa');
-    const form = document.getElementById('form-pesquisa');
+    const input = document.querySelector('[data-search-input]');
+    const botao = document.querySelector('.search-btn');
+    const resultados = document.getElementById('searchResults');
+    const barra = document.querySelector('.search-bar');
 
-    if (!input || !form) return;
+    if (!input || !botao || !resultados) return;
 
-    form.addEventListener('submit', e => {
-        e.preventDefault();
-
-        const termo = input.value;
-        if (!termo.trim()) return;
+    function executarBusca() {
+        const termo = input.value.trim();
+        if (!termo) return;
 
         salvarBusca(termo);
+        const encontrados = buscarNoticias(termo);
+        renderizarResultados(encontrados);
+    }
 
-        const resultados = buscarNoticias(termo);
-        renderizarResultados(resultados);
+    botao.addEventListener('click', executarBusca);
+
+    input.addEventListener('keydown', e => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            executarBusca();
+        }
+    });
+
+    // fecha resultados ao clicar fora
+    document.addEventListener('click', e => {
+        if (!barra.contains(e.target)) {
+            resultados.classList.remove('active');
+        }
     });
 });
