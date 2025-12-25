@@ -1,13 +1,40 @@
 // feed/feed.js
+
+// ✅ Garante que a função esteja no escopo global
+if (typeof window.seguirTagsDoArtigo !== 'function') {
+    window.seguirTagsDoArtigo = function(tagsDoArtigo) {
+        let tagsSeguidas = JSON.parse(localStorage.getItem('seguidas_tags')) || [];
+        let novasTags = 0;
+
+        tagsDoArtigo.forEach(tag => {
+            const tagNormalizada = tag.trim();
+            if (!tagsSeguidas.includes(tagNormalizada)) {
+                tagsSeguidas.push(tagNormalizada);
+                novasTags++;
+            }
+        });
+
+        if (novasTags > 0) {
+            localStorage.setItem('seguidas_tags', JSON.stringify(tagsSeguidas));
+            alert(`✅ ${novasTags} tópico(s) adicionado(s) ao seu feed!`);
+
+            // Atualiza o feed se estiver na página dele
+            if (document.getElementById('feed-articles')) {
+                renderizarFeedComTags(tagsSeguidas);
+            }
+        }
+    };
+}
+
 let noticias = [];
-let tagsSeguidas = JSON.parse(localStorage.getItem('seguidas_tags')) || [];
+let tagsSeguidasGlobal = JSON.parse(localStorage.getItem('seguidas_tags')) || [];
 
 function carregarNoticias() {
     fetch('./motor_de_pesquisa/noticias.json')
         .then(res => res.json())
         .then(dados => {
             noticias = dados;
-            renderizarFeed();
+            renderizarFeedComTags(tagsSeguidasGlobal);
         })
         .catch(err => {
             document.getElementById('feed-articles').innerHTML = 
@@ -15,7 +42,7 @@ function carregarNoticias() {
         });
 }
 
-function renderizarTagsSeguidas() {
+function renderizarTagsSeguidas(tagsSeguidas) {
     const container = document.getElementById('followed-tags');
     if (!container) return;
 
@@ -33,17 +60,19 @@ function renderizarTagsSeguidas() {
     container.querySelectorAll('.follow-tag-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const tag = btn.dataset.tag;
-            tagsSeguidas = tagsSeguidas.filter(t => t !== tag);
-            localStorage.setItem('seguidas_tags', JSON.stringify(tagsSeguidas));
-            renderizarTagsSeguidas();
-            renderizarFeed();
+            tagsSeguidasGlobal = tagsSeguidasGlobal.filter(t => t !== tag);
+            localStorage.setItem('seguidas_tags', JSON.stringify(tagsSeguidasGlobal));
+            renderizarTagsSeguidas(tagsSeguidasGlobal);
+            renderizarFeedComTags(tagsSeguidasGlobal);
         });
     });
 }
 
-function renderizarFeed() {
+function renderizarFeedComTags(tagsSeguidas) {
     const container = document.getElementById('feed-articles');
     if (!container) return;
+
+    renderizarTagsSeguidas(tagsSeguidas);
 
     if (tagsSeguidas.length === 0) {
         container.innerHTML = `
@@ -86,27 +115,7 @@ function renderizarFeed() {
     container.innerHTML = html;
 }
 
-window.seguirTagsDoArtigo = function(tagsDoArtigo) {
-    let novasTags = 0;
-    tagsDoArtigo.forEach(tag => {
-        const tagNormalizada = tag.trim();
-        if (!tagsSeguidas.includes(tagNormalizada)) {
-            tagsSeguidas.push(tagNormalizada);
-            novasTags++;
-        }
-    });
-
-    if (novasTags > 0) {
-        localStorage.setItem('seguidas_tags', JSON.stringify(tagsSeguidas));
-        alert(`✅ ${novasTags} tópico(s) adicionado(s) ao seu feed!`);
-        if (document.getElementById('feed-articles')) {
-            renderizarTagsSeguidas();
-            renderizarFeed();
-        }
-    }
-};
-
+// Inicialização
 document.addEventListener('DOMContentLoaded', () => {
-    renderizarTagsSeguidas();
     carregarNoticias();
 });
