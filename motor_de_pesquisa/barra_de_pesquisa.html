@@ -1,59 +1,20 @@
 <!-- motor_de_pesquisa/barra_de_pesquisa.html -->
 <section class="search-bar">
-    <div class="search-wrapper">
+
+    <form id="form-pesquisa" class="search-wrapper">
         <input
             type="text"
+            id="campo-pesquisa"
             class="search-input"
             placeholder="Buscar animes, games, mangás, análises..."
             autocomplete="off"
-            data-search-input
         />
-        <button class="search-btn" aria-label="Buscar">
-            <i class="fas fa-search"></i>
+        <button class="search-btn" type="submit" aria-label="Buscar">
+            🔍
         </button>
-    </div>
+    </form>
 
-    <!-- RESULTADOS -->
-    <div class="search-results" id="searchResults"></div>
+    <!-- RESULTADOS DA PESQUISA -->
+    <div id="resultado-pesquisa" class="search-results"></div>
+
 </section>
-
-<script>
-/* =========================
-   RENDERIZA RESULTADOS
-========================= */
-
-document.addEventListener('search:resultados', (e) => {
-    const resultados = e.detail || [];
-    const container = document.getElementById('searchResults');
-
-    if (!container) return;
-
-    if (resultados.length === 0) {
-        container.innerHTML = `
-            <div class="search-empty">
-                Nenhum resultado encontrado
-            </div>
-        `;
-        return;
-    }
-
-    container.innerHTML = resultados.map(noticia => `
-        <a href="${noticia.url}" class="search-result-item" data-id="${noticia.id}">
-            <div class="result-text">
-                <span class="result-category">${noticia.categoria || ''}</span>
-                <h4>${noticia.titulo}</h4>
-                <p>${noticia.resumo || ''}</p>
-            </div>
-        </a>
-    `).join('');
-
-    // registra cliques (aprendizado)
-    container.querySelectorAll('.search-result-item').forEach(item => {
-        item.addEventListener('click', () => {
-            if (window.SearchEngine) {
-                window.SearchEngine.registrarClique(item.dataset.id);
-            }
-        });
-    });
-});
-</script>
