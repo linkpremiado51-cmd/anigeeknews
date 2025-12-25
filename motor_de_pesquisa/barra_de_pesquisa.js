@@ -1,9 +1,13 @@
 // motor_de_pesquisa/barra_de_pesquisa.js
 
+/* =========================
+   ESTADO GLOBAL
+========================= */
 let bancoDeNoticias = [];
+let indiceCarregado = false;
 
 /* =========================
-   Normalização
+   NORMALIZAÇÃO
 ========================= */
 function normalizarTexto(texto = "") {
     return texto
@@ -14,28 +18,31 @@ function normalizarTexto(texto = "") {
 }
 
 /* =========================
-   Carregamento do índice
+   CARREGAMENTO DO ÍNDICE
 ========================= */
 async function carregarNoticias() {
     try {
-        const resposta = await fetch('./motor_de_pesquisa/noticias.json');
+        const resposta = await fetch('/motor_de_pesquisa/noticias.json');
         if (!resposta.ok) throw new Error('Falha ao carregar noticias.json');
+
         bancoDeNoticias = await resposta.json();
-        console.log('✅ Índice carregado:', bancoDeNoticias.length, 'itens');
+        indiceCarregado = true;
+
+        console.log('Índice carregado:', bancoDeNoticias.length);
     } catch (erro) {
-        console.error('❌ Erro ao carregar índice:', erro);
+        console.error('Erro ao carregar índice:', erro);
     }
 }
 
 /* =========================
-   Score de relevância
+   SCORE DE RELEVÂNCIA
 ========================= */
 function calcularScore(noticia, termo) {
     let score = 0;
     const termoNorm = normalizarTexto(termo);
 
     const titulo = normalizarTexto(noticia.conteudo.titulo);
-    const descricao = normalizarTexto(noticia.conteudo.descricao);
+    const descricao = normalizarTexto(noticia.conteudo.descricao || "");
 
     const topicos = noticia.indexacao.topicos.map(normalizarTexto);
     const tags = noticia.indexacao.tags.map(normalizarTexto);
@@ -47,7 +54,6 @@ function calcularScore(noticia, termo) {
     if (tags.some(t => t.includes(termoNorm))) score += 1;
     if (palavras.some(p => p.includes(termoNorm))) score += 2;
 
-    // sinais editoriais
     score *= noticia.sinais.peso_base;
     score *= noticia.sinais.prioridade_editorial;
 
@@ -55,9 +61,11 @@ function calcularScore(noticia, termo) {
 }
 
 /* =========================
-   Busca principal
+   BUSCA
 ========================= */
 function buscarNoticias(termo) {
+    if (!indiceCarregado) return [];
+
     const termoNorm = normalizarTexto(termo);
     if (!termoNorm) return [];
 
@@ -72,12 +80,12 @@ function buscarNoticias(termo) {
 }
 
 /* =========================
-   Renderização
+   RENDERIZAÇÃO
 ========================= */
 function exibirResultados(resultados, container) {
     if (!resultados.length) {
         container.innerHTML = `
-            <p style="text-align:center;color:var(--text-muted);margin:40px 0">
+            <p style="text-align:center;color:#666;margin:40px 0">
                 Nenhum resultado encontrado
             </p>
         `;
@@ -85,19 +93,21 @@ function exibirResultados(resultados, container) {
     }
 
     container.innerHTML = resultados.map(n => `
-        <a href="${n.conteudo.url}" class="feed-post">
-            <img src="${n.conteudo.imagem}" loading="lazy">
-            <div class="feed-post-content">
-                <span class="feed-post-meta">${n.indexacao.categoria}</span>
-                <h3>${n.conteudo.titulo}</h3>
-                <p>${n.conteudo.descricao}</p>
-            </div>
-        </a>
+        <article class="feed-card">
+            <a href="${n.conteudo.url}">
+                <img src="${n.conteudo.imagem}" loading="lazy">
+                <div class="feed-card-content">
+                    <span class="feed-card-category">${n.indexacao.categoria}</span>
+                    <h2 class="feed-card-title">${n.conteudo.titulo}</h2>
+                    <p class="feed-card-snippet">${n.conteudo.descricao}</p>
+                </div>
+            </a>
+        </article>
     `).join('');
 }
 
 /* =========================
-   Inicialização
+   INIT
 ========================= */
 function initSearchBar() {
     const input = document.querySelector('.search-input');
