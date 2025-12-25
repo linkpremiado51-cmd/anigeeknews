@@ -670,7 +670,7 @@ body.dark-mode #anuncio-video-principal div[data-banner-id] {
         <span style="font-family: var(--font-sans); font-size: 9px; color: var(--text-muted); margin-bottom: 8px; letter-spacing: 2px; font-weight: bold;">PUBLICIDADE EM VÍDEO</span>
         <div data-banner-id="1475529"></div>
     </div>
-    
+
     <header class="article-header">
         <h1 class="article-title">One Piece: O clímax de Egghead redefine a animação moderna</h1>
             <p class="article-lead">A direção de arte sacrifica a consistência visual tradicional por um impacto narrativo visceral. Por que essa foi a decisão correta para o futuro da franquia e como isso muda a indústria.</p>
@@ -682,8 +682,6 @@ body.dark-mode #anuncio-video-principal div[data-banner-id] {
                     Seu navegador não suporta o elemento de áudio.
                 </audio>
             </div>
-
-          
 
             <hr style="border: 0; border-top: 1px solid var(--border); width: 80%; margin: 20px auto;">
 
@@ -761,7 +759,7 @@ body.dark-mode #anuncio-video-principal div[data-banner-id] {
               <div style="margin-top: 40px; border-top: 1px solid var(--border); padding-top: 20px;">
     <span style="font-family: var(--font-sans); font-size: 12px; font-weight: 700; color: var(--text-muted);">TÓPICOS:</span>
     <span id="topicos-do-artigo" style="margin-left: 10px;"></span>
-    <button id="btn-seguir-topicos" 
+    <button id="btn-seguir-topicos"
             style="margin-left: 20px; background: var(--accent-news); color: white; border: none; padding: 4px 12px; font-family: var(--font-sans); font-size: 11px; font-weight: 700; cursor: pointer; text-transform: uppercase;">
         Seguir Tópicos
     </button>
@@ -774,7 +772,7 @@ if (meta) {
     const dados = JSON.parse(meta.textContent);
     const topicosDiv = document.getElementById('topicos-do-artigo');
     if (topicosDiv) {
-        topicosDiv.innerHTML = dados.tags.map(tag => 
+        topicosDiv.innerHTML = dados.tags.map(tag =>
             `<span style="color: var(--primary); font-family: var(--font-sans); font-size: 12px; font-weight: 700; text-transform: uppercase; margin-right: 10px;">${tag}</span>`
         ).join('');
 
@@ -783,12 +781,24 @@ if (meta) {
             if (typeof window.seguirTagsDoArtigo === 'function') {
                 window.seguirTagsDoArtigo(dados.tags);
             } else {
-                // Se o feed.js não foi carregado, carrega a função dinamicamente
+                // Carrega o feed.js como script clássico (sem type="module")
                 const script = document.createElement('script');
                 script.src = '/anigeeknews/feed/feed.js';
+                script.type = 'text/javascript'; // Garante que seja executado no escopo global
                 script.onload = () => {
-                    if (window.seguirTagsDoArtigo) {
+                    if (typeof window.seguirTagsDoArtigo === 'function') {
                         window.seguirTagsDoArtigo(dados.tags);
+                    } else {
+                        console.error('Função seguirTagsDoArtigo não foi carregada.');
+                        // Salva temporariamente as tags no localStorage
+                        let tagsSalvas = JSON.parse(localStorage.getItem('seguidas_tags_temp')) || [];
+                        dados.tags.forEach(tag => {
+                            if (!tagsSalvas.includes(tag.trim())) {
+                                tagsSalvas.push(tag.trim());
+                            }
+                        });
+                        localStorage.setItem('seguidas_tags_temp', JSON.stringify(tagsSalvas));
+                        alert('✅ Tópicos salvos! Abra o Feed para ver as notícias.');
                     }
                 };
                 document.head.appendChild(script);
@@ -800,7 +810,7 @@ if (meta) {
                 </div>
             </main>
             <aside class="sidebar">
-                
+
                 <div class="ad-sidebar" style="display: flex; flex-direction: column; align-items: center; border: 1px solid var(--border); padding: 15px; margin-bottom: 30px;">
                     <span style="font-family: var(--font-sans); font-size: 9px; color: var(--text-muted); margin-bottom: 10px; letter-spacing: 1px;">PUBLICIDADE</span>
                     <div data-banner-id="1475537"></div>
@@ -949,7 +959,5 @@ if (meta) {
     }
 </script>
 </body>
-
-
 </html>
 
