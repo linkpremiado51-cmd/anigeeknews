@@ -1,54 +1,116 @@
-.follow-tag-btn {
-    border: 1px solid var(--text-main);
-    background: transparent;
-    color: var(--text-main);
-    padding: 4px 10px;
-    font-family: var(--font-sans);
+/* =====================================================
+   FEED – ESTILO BASE
+   ===================================================== */
+
+.feed-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 30px 20px 60px;
+    font-family: var(--font-sans, Arial, sans-serif);
+}
+
+/* ---------- CABEÇALHO ---------- */
+.feed-header {
+    border-bottom: 1px solid var(--border, #e5e5e5);
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+}
+
+.feed-header h1 {
+    font-family: var(--font-serif-title, Georgia, serif);
+    font-size: 32px;
+    margin-bottom: 6px;
+    color: var(--text-main, #111);
+}
+
+.feed-header p {
+    font-size: 14px;
+    color: var(--text-muted, #666);
+}
+
+/* ---------- INTERESSES DO USUÁRIO ---------- */
+.feed-interesses {
+    margin-bottom: 35px;
+}
+
+.feed-interesses h2 {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    color: var(--text-muted, #666);
+}
+
+.interesses-lista {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.interesse-tag {
+    border: 1px solid var(--text-main, #111);
+    padding: 6px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: default;
+}
+
+/* ---------- FEED DE NOTÍCIAS ---------- */
+.feed-noticias h2 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: var(--text-main, #111);
+}
+
+.feed-loading {
+    text-align: center;
+    font-size: 14px;
+    color: var(--text-muted, #666);
+}
+
+/* ---------- CARD DE NOTÍCIA ---------- */
+.feed-card {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 18px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border, #e5e5e5);
+    text-decoration: none;
+    color: inherit;
+}
+
+.feed-card:hover img {
+    opacity: 0.9;
+}
+
+.feed-card img {
+    width: 140px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 2px;
+}
+
+.feed-card-content .categoria {
     font-size: 11px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    cursor: pointer;
-    transition: all 0.2s;
+    color: var(--accent-news, #c1121f);
 }
 
-.follow-tag-btn.following {
-    background: var(--accent-news);
-    color: white;
-    border-color: var(--accent-news);
+.feed-card-content h3 {
+    font-family: var(--font-serif-title, Georgia, serif);
+    font-size: 20px;
+    margin: 6px 0 8px;
+    line-height: 1.2;
 }
 
-.feed-post {
-    display: grid;
-    grid-template-columns: 100px 1fr;
-    gap: 15px;
-    padding: 15px 0;
-    border-bottom: 1px solid var(--border);
-}
-
-.feed-post img {
-    width: 100px;
-    height: 70px;
-    object-fit: cover;
-    border-radius: 2px;
-    filter: var(--img-filter);
-}
-
-.feed-post:hover img {
-    filter: var(--img-hover);
-}
-
-.feed-post-content h3 {
-    font-family: var(--font-serif-title);
-    font-size: 18px;
-    margin-bottom: 6px;
-    color: var(--text-main);
-}
-
-.feed-post-content p {
-    font-family: var(--font-serif);
-    font-size: 13px;
-    color: var(--text-muted);
+.feed-card-content p {
+    font-family: var(--font-serif, Georgia, serif);
+    font-size: 14px;
+    color: var(--text-muted, #555);
     line-height: 1.4;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -56,9 +118,32 @@
     overflow: hidden;
 }
 
-.feed-post-meta {
-    font-family: var(--font-sans);
+.feed-meta {
+    margin-top: 6px;
     font-size: 11px;
-    color: var(--text-muted);
-    margin-top: 4px;
+    color: var(--text-muted, #777);
+}
+
+/* ---------- ESTADO VAZIO ---------- */
+.feed-vazio {
+    text-align: center;
+    padding: 40px 0;
+    font-size: 14px;
+    color: var(--text-muted, #666);
+}
+
+/* ---------- RESPONSIVO ---------- */
+@media (max-width: 600px) {
+    .feed-card {
+        grid-template-columns: 1fr;
+    }
+
+    .feed-card img {
+        width: 100%;
+        height: 180px;
+    }
+
+    .feed-header h1 {
+        font-size: 26px;
+    }
 }
