@@ -7,7 +7,7 @@ const CAMINHO_NOTICIAS = '/anigeeknews/motor_de_pesquisa/noticias.json';
 const LIMITE_HISTORICO = 10;
 const STORAGE_KEY = 'historico_buscas';
 
-/* ---------- ESTADO GLOBAL ---------- */
+/* ---------- ESTADO ---------- */
 let todasNoticias = [];
 let historicoBuscas = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
 
@@ -35,7 +35,7 @@ async function carregarNoticias() {
     }
 }
 
-/* ---------- HISTÓRICO / MEMÓRIA ---------- */
+/* ---------- HISTÓRICO ---------- */
 function salvarBusca(termo) {
     termo = termo.trim();
     if (!termo) return;
@@ -54,14 +54,11 @@ function salvarBusca(termo) {
 
     localStorage.setItem(STORAGE_KEY, JSON.stringify(historicoBuscas));
 
-    // avisa o feed
     window.dispatchEvent(new CustomEvent('interessesAtualizados'));
 }
 
 /* ---------- BUSCA ---------- */
 function buscarNoticias(termo) {
-    if (!termo) return [];
-
     const termoNormalizado = normalizarTexto(termo);
 
     return todasNoticias.filter(noticia => {
@@ -83,7 +80,7 @@ function buscarNoticias(termo) {
 
 /* ---------- RENDERIZAÇÃO ---------- */
 function renderizarResultados(lista) {
-    const container = document.getElementById('searchResults');
+    const container = document.getElementById('resultado-pesquisa');
     if (!container) return;
 
     container.classList.add('active');
@@ -110,29 +107,22 @@ function renderizarResultados(lista) {
 document.addEventListener('DOMContentLoaded', async () => {
     await carregarNoticias();
 
-    const input = document.querySelector('[data-search-input]');
-    const botao = document.querySelector('.search-btn');
-    const resultados = document.getElementById('searchResults');
+    const form = document.getElementById('form-pesquisa');
+    const input = document.getElementById('campo-pesquisa');
+    const resultados = document.getElementById('resultado-pesquisa');
     const barra = document.querySelector('.search-bar');
 
-    if (!input || !botao || !resultados) return;
+    if (!form || !input || !resultados) return;
 
-    function executarBusca() {
+    form.addEventListener('submit', e => {
+        e.preventDefault(); // 🔴 impede reload da página
+
         const termo = input.value.trim();
         if (!termo) return;
 
         salvarBusca(termo);
         const encontrados = buscarNoticias(termo);
         renderizarResultados(encontrados);
-    }
-
-    botao.addEventListener('click', executarBusca);
-
-    input.addEventListener('keydown', e => {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            executarBusca();
-        }
     });
 
     // fecha resultados ao clicar fora
