@@ -1,180 +1,134 @@
-// ✅ Garante que a função esteja no escopo global
-if (typeof window.seguirTagsDoArtigo !== 'function') {
-    window.seguirTagsDoArtigo = function(tagsDoArtigo) {
-        let tagsSeguidas = JSON.parse(localStorage.getItem('seguidas_tags')) || [];
-        let novasTags = 0;
+/* =====================================================
+   FEED SOCIAL — LÓGICA PRINCIPAL
+   ===================================================== */
 
-        tagsDoArtigo.forEach(tag => {
-            const tagNormalizada = tag.trim().toUpperCase(); // Normaliza para maiúsculas
-            if (!tagsSeguidas.includes(tagNormalizada)) {
-                tagsSeguidas.push(tagNormalizada);
-                novasTags++;
-            }
-        });
+/* ---------- CONFIG ---------- */
+const CAMINHO_FEED = './feed.json';
+const STORAGE_LIKES = 'feed_likes';
 
-        if (novasTags > 0) {
-            localStorage.setItem('seguidas_tags', JSON.stringify(tagsSeguidas));
-            showNotification(`✅ ${novasTags} tópico(s) adicionado(s) ao seu feed!`);
-
-            // Atualiza o feed se estiver na página dele
-            if (document.getElementById('feed-articles')) {
-                renderizarFeedComTags(tagsSeguidas);
-            }
-        }
-    };
-}
-
-// Função para exibir notificações
-function showNotification(message) {
-    const notification = document.createElement('div');
-    notification.textContent = message;
-    notification.style.position = 'fixed';
-    notification.style.bottom = '20px';
-    notification.style.right = '20px';
-    notification.style.background = 'var(--primary)';
-    notification.style.color = 'white';
-    notification.style.padding = '12px 20px';
-    notification.style.borderRadius = '4px';
-    notification.style.fontFamily = 'var(--font-sans)';
-    notification.style.fontSize = '14px';
-    notification.style.zIndex = '9999';
-    notification.style.opacity = '0';
-    notification.style.transform = 'translateY(20px)';
-    notification.style.transition = 'opacity 0.3s, transform 0.3s';
-
-    document.body.appendChild(notification);
-
-    setTimeout(() => {
-        notification.style.opacity = '1';
-        notification.style.transform = 'translateY(0)';
-    }, 10);
-
-    setTimeout(() => {
-        notification.style.opacity = '0';
-        notification.style.transform = 'translateY(20px)';
-        setTimeout(() => {
-            document.body.removeChild(notification);
-        }, 300);
-    }, 3000);
-}
-
+/* ---------- ESTADO ---------- */
 let noticias = [];
-let tagsSeguidasGlobal = JSON.parse(localStorage.getItem('seguidas_tags')) || [];
+let likesSalvos = JSON.parse(localStorage.getItem(STORAGE_LIKES)) || {};
 
-function carregarNoticias() {
-    fetch('./motor_de_pesquisa/noticias.json')
-        .then(res => {
-            if (!res.ok) {
-                throw new Error(`Erro ${res.status}: Não foi possível carregar as notícias.`);
-            }
-            return res.json();
-        })
-        .then(dados => {
-            noticias = dados;
-            renderizarFeedComTags(tagsSeguidasGlobal);
-        })
-        .catch(err => {
-            console.error('Erro ao carregar notícias:', err);
-            const container = document.getElementById('feed-articles');
-            if (container) {
-                container.innerHTML = `
-                    <p style="text-align:center; color:var(--text-muted);">
-                        Erro ao carregar notícias: ${err.message}. Tente novamente mais tarde.
-                    </p>
-                `;
-            }
-        });
+/* ---------- UTIL ---------- */
+function salvarLikes() {
+  localStorage.setItem(STORAGE_LIKES, JSON.stringify(likesSalvos));
 }
 
-function renderizarTagsSeguidas(tagsSeguidas) {
-    const container = document.getElementById('followed-tags');
-    if (!container) {
-        console.warn('Elemento "followed-tags" não encontrado.');
-        return;
-    }
+function criarElemento(html) {
+  const div = document.createElement('div');
+  div.innerHTML = html.trim();
+  return div.firstChild;
+}
 
-    if (tagsSeguidas.length === 0) {
-        container.innerHTML = '<span style="color:var(--text-muted);">Nenhum tópico seguido.</span>';
-        return;
-    }
+/* ---------- AÇÕES ---------- */
+function curtirNoticia(id, btn) {
+  likesSalvos[id] = (likesSalvos[id] || 0) + 1;
+  salvarLikes();
 
-    container.innerHTML = tagsSeguidas.map(tag => `
-        <button class="follow-tag-btn following" data-tag="${tag}" style="cursor: pointer;">
-            ${tag} ✕
-        </button>
-    `).join('');
+  const contador = btn.querySelector('span');
+  contador.textContent = likesSalvos[id];
+}
 
-    container.querySelectorAll('.follow-tag-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const tag = btn.dataset.tag;
-            tagsSeguidasGlobal = tagsSeguidasGlobal.filter(t => t !== tag);
-            localStorage.setItem('seguidas_tags', JSON.stringify(tagsSeguidasGlobal));
-            renderizarTagsSeguidas(tagsSeguidasGlobal);
-            renderizarFeedComTags(tagsSeguidasGlobal);
-        });
+function compartilharNoticia(url, titulo) {
+  if (navigator.share) {
+    navigator.share({
+      title: titulo,
+      url: url
     });
+  } else {
+    navigator.clipboard.writeText(url);
+    alert('Link copiado para a área de transferência');
+  }
 }
 
-function renderizarFeedComTags(tagsSeguidas) {
-    const container = document.getElementById('feed-articles');
-    if (!container) {
-        console.warn('Elemento "feed-articles" não encontrado.');
-        return;
-    }
+/* ---------- RENDER ---------- */
+function renderizarFeed() {
+  const container = document.getElementById('feed-container');
+  if (!container) return;
 
-    renderizarTagsSeguidas(tagsSeguidas);
+  container.innerHTML = '';
 
-    if (tagsSeguidas.length === 0) {
-        container.innerHTML = `
-            <p style="text-align: center; color: var(--text-muted);">
-                Siga tópicos em artigos para ver notícias personalizadas aqui.
-            </p>
-        `;
-        return;
-    }
+  noticias.forEach(noticia => {
+    const likes = likesSalvos[noticia.id] || 0;
 
-    const noticiasFiltradas = noticias.filter(noticia => {
-        return noticia.tags.some(tag =>
-            tagsSeguidas.some(t => t.toUpperCase() === tag.trim().toUpperCase())
-        );
+    const card = criarElemento(`
+      <article class="feed-card">
+
+        <div class="feed-image">
+          <img
+            src="${noticia.imagem}"
+            alt="${noticia.titulo}"
+            loading="lazy"
+          />
+        </div>
+
+        <div class="feed-content">
+          <span class="feed-category">${noticia.categoria}</span>
+
+          <h2 class="feed-title-article">
+            ${noticia.titulo}
+          </h2>
+
+          <p class="feed-text">
+            ${noticia.texto}
+          </p>
+
+          <div class="feed-actions">
+            <button class="feed-btn like-btn" data-id="${noticia.id}">
+              ❤️ <span>${likes}</span>
+            </button>
+
+            <button class="feed-btn share-btn">
+              🔁 Compartilhar
+            </button>
+
+            <a
+              href="${noticia.url}"
+              class="feed-read-more"
+            >
+              Ler mais
+            </a>
+          </div>
+        </div>
+
+      </article>
+    `);
+
+    // Curtir
+    card.querySelector('.like-btn').addEventListener('click', e => {
+      const id = e.currentTarget.dataset.id;
+      curtirNoticia(id, e.currentTarget);
     });
 
-    if (noticiasFiltradas.length === 0) {
-        container.innerHTML = `
-            <p style="text-align: center; color: var(--text-muted);">
-                Nenhuma notícia encontrada para seus tópicos seguidos.
-            </p>
-        `;
-        return;
-    }
+    // Compartilhar
+    card.querySelector('.share-btn').addEventListener('click', () => {
+      compartilharNoticia(noticia.url, noticia.titulo);
+    });
 
-    const html = noticiasFiltradas.map(noticia => `
-        <a href="${noticia.url}" class="news-link">
-            <div class="feed-post">
-                <img src="${noticia.imagem || 'https://via.placeholder.com/100x70'}" loading="lazy" alt="${noticia.titulo}">
-                <div class="feed-post-content">
-                    <span class="category">${noticia.categoria}</span>
-                    <h3>${noticia.titulo}</h3>
-                    <p>${noticia.resumo}</p>
-                    <div class="feed-post-meta">${noticia.data}</div>
-                </div>
-            </div>
-        </a>
-    `).join('');
-
-    container.innerHTML = html;
+    container.appendChild(card);
+  });
 }
 
-// Inicialização
-document.addEventListener('DOMContentLoaded', () => {
-    // Verifica se há tags salvas temporariamente
-    const tagsTemp = localStorage.getItem('seguidas_tags_temp');
-    if (tagsTemp) {
-        const tagsArray = JSON.parse(tagsTemp);
-        window.seguirTagsDoArtigo(tagsArray);
-        localStorage.removeItem('seguidas_tags_temp');
+/* ---------- CARREGAMENTO ---------- */
+async function carregarFeed() {
+  try {
+    const res = await fetch(CAMINHO_FEED);
+    if (!res.ok) throw new Error('Erro ao carregar feed.json');
+    noticias = await res.json();
+    renderizarFeed();
+  } catch (err) {
+    console.error(err);
+    const container = document.getElementById('feed-container');
+    if (container) {
+      container.innerHTML = `
+        <p style="text-align:center;color:#666">
+          Erro ao carregar o feed.
+        </p>
+      `;
     }
+  }
+}
 
-    // Carrega as notícias
-    carregarNoticias();
-});
+/* ---------- INIT ---------- */
+document.addEventListener('DOMContentLoaded', carregarFeed);
