@@ -895,7 +895,7 @@
                 // JS
                 const script = document.createElement('script');
                 script.src = '/anigeeknews/motor_de_pesquisa/barra_de_pesquisa.js';
-                script.type = 'module';
+                script.defer = true;
                 document.body.appendChild(script);
 
             } catch (err) {
@@ -933,7 +933,7 @@
 
                 const script = document.createElement('script');
                 script.src = '/anigeeknews/feed/feed.js';
-                script.type = 'module';
+                script.defer = true;
                 script.onload = () => restaurarNoticiasSalvas();
                 document.body.appendChild(script);
             } catch (error) {
