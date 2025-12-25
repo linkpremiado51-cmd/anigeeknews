@@ -1,15 +1,20 @@
 <!-- motor_de_pesquisa/barra_de_pesquisa.html -->
 <section class="search-bar">
 
-    <form id="form-pesquisa" class="search-wrapper">
+    <form id="form-pesquisa" class="search-wrapper" autocomplete="off">
         <input
             type="text"
             id="campo-pesquisa"
             class="search-input"
             placeholder="Buscar animes, games, mangás, análises..."
             autocomplete="off"
+            data-search-input
         />
-        <button class="search-btn" type="submit" aria-label="Buscar">
+        <button
+            class="search-btn"
+            type="submit"
+            aria-label="Buscar"
+        >
             🔍
         </button>
     </form>
@@ -18,6 +23,7 @@
     <div
         id="resultado-pesquisa"
         class="search-results"
+        aria-live="polite"
     ></div>
 
 </section>
