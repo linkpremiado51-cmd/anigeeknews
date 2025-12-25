@@ -1,178 +1,126 @@
-// motor_de_pesquisa/barra_de_pesquisa.js
-// =====================================
-// MOTOR CENTRAL DE BUSCA + FEED
-// Fonte única de verdade para notícias
-// =====================================
+/* =====================================================
+   MOTOR DE PESQUISA + MEMÓRIA DE INTERESSES DO USUÁRIO
+   ===================================================== */
 
-const SearchEngine = (() => {
-    let noticias = [];
-    const STORAGE_KEYS = {
-        buscas: 'historico_buscas',
-        cliques: 'historico_cliques'
-    };
+/* ---------- CONFIGURAÇÕES ---------- */
+const CAMINHO_NOTICIAS = './motor_de_pesquisa/noticias.json';
+const LIMITE_HISTORICO = 10;
 
-    /* =========================
-       UTILIDADES
-    ========================= */
+/* ---------- ESTADO GLOBAL ---------- */
+let todasNoticias = [];
+let historicoBuscas = JSON.parse(localStorage.getItem('historico_buscas')) || [];
 
-    function normalizar(texto = '') {
-        return texto
-            .toLowerCase()
-            .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '');
+/* ---------- UTILIDADES ---------- */
+function normalizarTexto(texto) {
+    return texto
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '');
+}
+
+/* ---------- CARREGAMENTO DE DADOS ---------- */
+async function carregarNoticias() {
+    try {
+        const resposta = await fetch(CAMINHO_NOTICIAS);
+        if (!resposta.ok) throw new Error('Erro ao carregar noticias.json');
+        todasNoticias = await resposta.json();
+    } catch (erro) {
+        console.error('Erro no motor de pesquisa:', erro);
+    }
+}
+
+/* ---------- HISTÓRICO / MEMÓRIA ---------- */
+function salvarBusca(termo) {
+    termo = termo.trim();
+    if (!termo) return;
+
+    historicoBuscas = historicoBuscas.filter(t => t !== termo);
+    historicoBuscas.unshift(termo);
+
+    if (historicoBuscas.length > LIMITE_HISTORICO) {
+        historicoBuscas.pop();
     }
 
-    function salvarNoStorage(chave, valor) {
-        localStorage.setItem(chave, JSON.stringify(valor));
-    }
+    localStorage.setItem('historico_buscas', JSON.stringify(historicoBuscas));
+}
 
-    function lerDoStorage(chave, fallback = []) {
-        try {
-            return JSON.parse(localStorage.getItem(chave)) || fallback;
-        } catch {
-            return fallback;
-        }
-    }
+function obterInteressesDoUsuario() {
+    return historicoBuscas.map(normalizarTexto);
+}
 
-    /* =========================
-       CARREGAMENTO DE DADOS
-    ========================= */
+/* ---------- BUSCA PRINCIPAL ---------- */
+function buscarNoticias(termo) {
+    if (!termo) return [];
 
-    async function carregarNoticias() {
-        if (noticias.length > 0) return noticias;
+    const termoNormalizado = normalizarTexto(termo);
 
-        const res = await fetch('/anigeeknews/motor_de_pesquisa/noticias.json');
-        if (!res.ok) throw new Error('Falha ao carregar noticias.json');
+    return todasNoticias.filter(noticia => {
+        const titulo = normalizarTexto(noticia.titulo);
+        const resumo = normalizarTexto(noticia.resumo);
+        const categoria = normalizarTexto(noticia.categoria);
+        const tags = noticia.tags.map(tag => normalizarTexto(tag));
 
-        noticias = await res.json();
-        return noticias;
-    }
-
-    /* =========================
-       HISTÓRICO DO USUÁRIO
-    ========================= */
-
-    function registrarBusca(termo) {
-        if (!termo || termo.length < 2) return;
-
-        const historico = lerDoStorage(STORAGE_KEYS.buscas);
-        const termoNormalizado = normalizar(termo);
-
-        const atualizado = [
-            termoNormalizado,
-            ...historico.filter(t => t !== termoNormalizado)
-        ].slice(0, 10);
-
-        salvarNoStorage(STORAGE_KEYS.buscas, atualizado);
-    }
-
-    function registrarClique(idNoticia) {
-        if (!idNoticia) return;
-
-        const cliques = lerDoStorage(STORAGE_KEYS.cliques);
-        const atualizado = [
-            idNoticia,
-            ...cliques.filter(id => id !== idNoticia)
-        ].slice(0, 20);
-
-        salvarNoStorage(STORAGE_KEYS.cliques, atualizado);
-    }
-
-    /* =========================
-       ALGORITMO DE RELEVÂNCIA
-    ========================= */
-
-    function calcularScore(noticia, contexto) {
-        let score = 0;
-
-        const titulo = normalizar(noticia.titulo);
-        const resumo = normalizar(noticia.resumo || '');
-        const tags = (noticia.tags || []).map(normalizar);
-
-        // 🔍 BUSCA DIRETA
-        if (contexto.termo) {
-            const termo = normalizar(contexto.termo);
-
-            if (titulo.includes(termo)) score += 10;
-            if (resumo.includes(termo)) score += 5;
-            if (tags.some(t => t.includes(termo))) score += 8;
-        }
-
-        // 🧠 FEED INTELIGENTE
-        if (contexto.tipo === 'feed') {
-            const buscas = lerDoStorage(STORAGE_KEYS.buscas);
-            const cliques = lerDoStorage(STORAGE_KEYS.cliques);
-
-            buscas.forEach(b => {
-                if (titulo.includes(b)) score += 3;
-                if (tags.some(t => t.includes(b))) score += 4;
-            });
-
-            if (cliques.includes(noticia.id)) {
-                score += 6;
-            }
-        }
-
-        // 🕒 RECÊNCIA
-        if (noticia.data) {
-            const dias = (Date.now() - new Date(noticia.data)) / 86400000;
-            if (dias < 2) score += 4;
-            else if (dias < 7) score += 2;
-        }
-
-        return score;
-    }
-
-    /* =========================
-       API PÚBLICA
-    ========================= */
-
-    async function getNoticiasRelevantes(opcoes = {}) {
-        await carregarNoticias();
-
-        const contexto = {
-            tipo: opcoes.tipo || 'feed',
-            termo: opcoes.termo || '',
-            limite: opcoes.limite || 20
-        };
-
-        return noticias
-            .map(n => ({
-                ...n,
-                _score: calcularScore(n, contexto)
-            }))
-            .filter(n => n._score > 0)
-            .sort((a, b) => b._score - a._score)
-            .slice(0, contexto.limite);
-    }
-
-    return {
-        carregarNoticias,
-        getNoticiasRelevantes,
-        registrarBusca,
-        registrarClique
-    };
-})();
-
-// 🔓 Disponibiliza globalmente
-window.SearchEngine = SearchEngine;
-
-/* =========================
-   INTEGRAÇÃO COM A UI
-========================= */
-
-document.addEventListener('input', async (e) => {
-    if (!e.target.matches('[data-search-input]')) return;
-
-    const termo = e.target.value.trim();
-    SearchEngine.registrarBusca(termo);
-
-    const resultados = await SearchEngine.getNoticiasRelevantes({
-        tipo: 'busca',
-        termo
+        return (
+            titulo.includes(termoNormalizado) ||
+            resumo.includes(termoNormalizado) ||
+            categoria.includes(termoNormalizado) ||
+            tags.some(tag => tag.includes(termoNormalizado))
+        );
     });
+}
 
-    document.dispatchEvent(new CustomEvent('search:resultados', {
-        detail: resultados
-    }));
+/* ---------- RENDERIZAÇÃO DOS RESULTADOS ---------- */
+function renderizarResultados(lista) {
+    const container = document.getElementById('resultado-pesquisa');
+    if (!container) return;
+
+    if (lista.length === 0) {
+        container.innerHTML = `
+            <p class="search-empty">
+                Nenhum resultado encontrado.
+            </p>
+        `;
+        return;
+    }
+
+    container.innerHTML = lista.map(noticia => `
+        <a href="${noticia.url}" class="search-item">
+            <img src="${noticia.imagem}" alt="${noticia.titulo}">
+            <div class="search-item-content">
+                <span class="category">${noticia.categoria}</span>
+                <h3>${noticia.titulo}</h3>
+                <p>${noticia.resumo}</p>
+            </div>
+        </a>
+    `).join('');
+}
+
+/* ---------- CONEXÃO COM O FEED ---------- */
+/*
+   Esta função NÃO renderiza o feed.
+   Ela apenas expõe os interesses do usuário
+   para o feed usar de forma limpa.
+*/
+window.obterInteressesParaFeed = function () {
+    return obterInteressesDoUsuario();
+};
+
+/* ---------- EVENTOS ---------- */
+document.addEventListener('DOMContentLoaded', async () => {
+    await carregarNoticias();
+
+    const input = document.getElementById('campo-pesquisa');
+    const form = document.getElementById('form-pesquisa');
+
+    if (!input || !form) return;
+
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+
+        const termo = input.value;
+        salvarBusca(termo);
+
+        const resultados = buscarNoticias(termo);
+        renderizarResultados(resultados);
+    });
 });
