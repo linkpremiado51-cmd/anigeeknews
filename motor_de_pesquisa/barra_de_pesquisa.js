@@ -3,8 +3,11 @@
    ===================================================== */
 
 /* ---------- CONFIGURAÇÕES ---------- */
-// 🔴 CAMINHO RELATIVO (CORRETO PARA GITHUB PAGES)
 const CAMINHO_NOTICIAS = './motor_de_pesquisa/noticias.json';
+
+// 👉 caminho fixo e existente no seu projeto
+const CAMINHO_PADRAO_RESULTADO =
+    './noticias/animes/one_piece/one-piece-climax-egghead-animacao-moderna.html';
 
 const LIMITE_HISTORICO = 10;
 const STORAGE_KEY = 'historico_buscas';
@@ -21,7 +24,7 @@ function normalizarTexto(texto) {
         .replace(/[\u0300-\u036f]/g, '');
 }
 
-/* ---------- EXPOSIÇÃO GLOBAL (FEED DEPENDE DISSO) ---------- */
+/* ---------- EXPOSIÇÃO GLOBAL ---------- */
 window.obterInteressesParaFeed = function () {
     return historicoBuscas.map(normalizarTexto);
 };
@@ -30,9 +33,7 @@ window.obterInteressesParaFeed = function () {
 async function carregarNoticias() {
     try {
         const resposta = await fetch(CAMINHO_NOTICIAS);
-        if (!resposta.ok) {
-            throw new Error('Erro ao carregar noticias.json');
-        }
+        if (!resposta.ok) throw new Error('Erro ao carregar noticias.json');
         todasNoticias = await resposta.json();
         console.log('✅ Notícias carregadas:', todasNoticias.length);
     } catch (erro) {
@@ -43,7 +44,6 @@ async function carregarNoticias() {
 
 /* ---------- HISTÓRICO ---------- */
 function salvarBusca(termo) {
-    termo = termo.trim();
     if (!termo) return;
 
     const termoNormalizado = normalizarTexto(termo);
@@ -59,7 +59,6 @@ function salvarBusca(termo) {
     }
 
     localStorage.setItem(STORAGE_KEY, JSON.stringify(historicoBuscas));
-
     window.dispatchEvent(new CustomEvent('interessesAtualizados'));
 }
 
@@ -87,7 +86,7 @@ function buscarNoticias(termo) {
 }
 
 /* ---------- RENDERIZAÇÃO ---------- */
-function renderizarResultados(lista) {
+function renderizarResultados(lista, termo) {
     const container = document.getElementById('resultado-pesquisa');
     if (!container) return;
 
@@ -103,10 +102,13 @@ function renderizarResultados(lista) {
     }
 
     container.innerHTML = lista.map(noticia => `
-        <a href="${noticia.url}" class="search-result-item">
+        <a
+            href="${CAMINHO_PADRAO_RESULTADO}?q=${encodeURIComponent(termo)}"
+            class="search-result-item"
+        >
             <span class="result-category">${noticia.categoria || ''}</span>
             <h4>${noticia.titulo}</h4>
-            <p>${noticia.resumo}</p>
+            <p>${noticia.resumo || ''}</p>
         </a>
     `).join('');
 }
@@ -120,13 +122,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     const resultados = document.getElementById('resultado-pesquisa');
     const barra = document.querySelector('.search-bar');
 
-    if (!form || !input || !resultados || !barra) {
-        console.warn('⚠️ Elementos da busca não encontrados no DOM');
-        return;
-    }
+    if (!form || !input || !resultados || !barra) return;
 
     form.addEventListener('submit', e => {
-        e.preventDefault(); // ✅ impede reload da página
+        e.preventDefault(); // 🔒 nunca recarrega a página
 
         const termo = input.value.trim();
         if (!termo) return;
@@ -134,10 +133,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         salvarBusca(termo);
 
         const encontrados = buscarNoticias(termo);
-        renderizarResultados(encontrados);
+        renderizarResultados(encontrados, termo);
     });
 
-    // fecha resultados ao clicar fora
     document.addEventListener('click', e => {
         if (!barra.contains(e.target)) {
             resultados.classList.remove('active');
