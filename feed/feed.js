@@ -1,148 +1,180 @@
-/* =====================================================
-   FEED INTELIGENTE BASEADO EM COMPORTAMENTO
-   ===================================================== */
+// ✅ Garante que a função esteja no escopo global
+if (typeof window.seguirTagsDoArtigo !== 'function') {
+    window.seguirTagsDoArtigo = function(tagsDoArtigo) {
+        let tagsSeguidas = JSON.parse(localStorage.getItem('seguidas_tags')) || [];
+        let novasTags = 0;
 
-/* ---------- CONFIGURAÇÕES ---------- */
-const CAMINHO_NOTICIAS = '../motor_de_pesquisa/noticias.json';
-const LIMITE_FEED = 12;
+        tagsDoArtigo.forEach(tag => {
+            const tagNormalizada = tag.trim().toUpperCase(); // Normaliza para maiúsculas
+            if (!tagsSeguidas.includes(tagNormalizada)) {
+                tagsSeguidas.push(tagNormalizada);
+                novasTags++;
+            }
+        });
 
-/* ---------- ESTADO ---------- */
-let noticias = [];
-let interessesUsuario = [];
+        if (novasTags > 0) {
+            localStorage.setItem('seguidas_tags', JSON.stringify(tagsSeguidas));
+            showNotification(`✅ ${novasTags} tópico(s) adicionado(s) ao seu feed!`);
 
-/* ---------- UTILIDADES ---------- */
-function normalizarTexto(texto) {
-    return texto
-        .toLowerCase()
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '');
-}
-
-/* ---------- CARREGAMENTO DE NOTÍCIAS ---------- */
-async function carregarNoticias() {
-    try {
-        const res = await fetch(CAMINHO_NOTICIAS);
-        if (!res.ok) throw new Error('Erro ao carregar noticias.json');
-        noticias = await res.json();
-    } catch (err) {
-        console.error('Erro no feed:', err);
-        const container = document.getElementById('feed-noticias-container');
-        if (container) {
-            container.innerHTML = `
-                <p class="feed-vazio">
-                    Erro ao carregar o feed. Tente novamente mais tarde.
-                </p>
-            `;
+            // Atualiza o feed se estiver na página dele
+            if (document.getElementById('feed-articles')) {
+                renderizarFeedComTags(tagsSeguidas);
+            }
         }
-    }
+    };
 }
 
-/* ---------- INTERESSES DO USUÁRIO ---------- */
-function carregarInteresses() {
-    if (typeof window.obterInteressesParaFeed === 'function') {
-        interessesUsuario = window.obterInteressesParaFeed()
-            .map(normalizarTexto);
+// Função para exibir notificações
+function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.textContent = message;
+    notification.style.position = 'fixed';
+    notification.style.bottom = '20px';
+    notification.style.right = '20px';
+    notification.style.background = 'var(--primary)';
+    notification.style.color = 'white';
+    notification.style.padding = '12px 20px';
+    notification.style.borderRadius = '4px';
+    notification.style.fontFamily = 'var(--font-sans)';
+    notification.style.fontSize = '14px';
+    notification.style.zIndex = '9999';
+    notification.style.opacity = '0';
+    notification.style.transform = 'translateY(20px)';
+    notification.style.transition = 'opacity 0.3s, transform 0.3s';
+
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+        notification.style.opacity = '1';
+        notification.style.transform = 'translateY(0)';
+    }, 10);
+
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        notification.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 300);
+    }, 3000);
+}
+
+let noticias = [];
+let tagsSeguidasGlobal = JSON.parse(localStorage.getItem('seguidas_tags')) || [];
+
+function carregarNoticias() {
+    fetch('./motor_de_pesquisa/noticias.json')
+        .then(res => {
+            if (!res.ok) {
+                throw new Error(`Erro ${res.status}: Não foi possível carregar as notícias.`);
+            }
+            return res.json();
+        })
+        .then(dados => {
+            noticias = dados;
+            renderizarFeedComTags(tagsSeguidasGlobal);
+        })
+        .catch(err => {
+            console.error('Erro ao carregar notícias:', err);
+            const container = document.getElementById('feed-articles');
+            if (container) {
+                container.innerHTML = `
+                    <p style="text-align:center; color:var(--text-muted);">
+                        Erro ao carregar notícias: ${err.message}. Tente novamente mais tarde.
+                    </p>
+                `;
+            }
+        });
+}
+
+function renderizarTagsSeguidas(tagsSeguidas) {
+    const container = document.getElementById('followed-tags');
+    if (!container) {
+        console.warn('Elemento "followed-tags" não encontrado.');
         return;
     }
 
-    const historico = JSON.parse(localStorage.getItem('historico_buscas')) || [];
-    interessesUsuario = historico.map(normalizarTexto);
+    if (tagsSeguidas.length === 0) {
+        container.innerHTML = '<span style="color:var(--text-muted);">Nenhum tópico seguido.</span>';
+        return;
+    }
+
+    container.innerHTML = tagsSeguidas.map(tag => `
+        <button class="follow-tag-btn following" data-tag="${tag}" style="cursor: pointer;">
+            ${tag} ✕
+        </button>
+    `).join('');
+
+    container.querySelectorAll('.follow-tag-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tag = btn.dataset.tag;
+            tagsSeguidasGlobal = tagsSeguidasGlobal.filter(t => t !== tag);
+            localStorage.setItem('seguidas_tags', JSON.stringify(tagsSeguidasGlobal));
+            renderizarTagsSeguidas(tagsSeguidasGlobal);
+            renderizarFeedComTags(tagsSeguidasGlobal);
+        });
+    });
 }
 
-/* ---------- RANKING DE RELEVÂNCIA ---------- */
-function calcularRelevancia(noticia) {
-    let score = 0;
+function renderizarFeedComTags(tagsSeguidas) {
+    const container = document.getElementById('feed-articles');
+    if (!container) {
+        console.warn('Elemento "feed-articles" não encontrado.');
+        return;
+    }
 
-    const titulo = normalizarTexto(noticia.titulo || '');
-    const resumo = normalizarTexto(noticia.resumo || '');
-    const categoria = normalizarTexto(noticia.categoria || '');
-    const tags = Array.isArray(noticia.tags)
-        ? noticia.tags.map(tag => normalizarTexto(tag))
-        : [];
+    renderizarTagsSeguidas(tagsSeguidas);
 
-    interessesUsuario.forEach(interesse => {
-        if (titulo.includes(interesse)) score += 5;
-        if (tags.some(tag => tag.includes(interesse))) score += 4;
-        if (resumo.includes(interesse)) score += 3;
-        if (categoria.includes(interesse)) score += 2;
+    if (tagsSeguidas.length === 0) {
+        container.innerHTML = `
+            <p style="text-align: center; color: var(--text-muted);">
+                Siga tópicos em artigos para ver notícias personalizadas aqui.
+            </p>
+        `;
+        return;
+    }
+
+    const noticiasFiltradas = noticias.filter(noticia => {
+        return noticia.tags.some(tag =>
+            tagsSeguidas.some(t => t.toUpperCase() === tag.trim().toUpperCase())
+        );
     });
 
-    return score;
-}
-
-/* ---------- CONSTRUÇÃO DO FEED ---------- */
-function montarFeed() {
-    const container = document.getElementById('feed-noticias-container');
-    if (!container) return;
-
-    if (interessesUsuario.length === 0) {
+    if (noticiasFiltradas.length === 0) {
         container.innerHTML = `
-            <p class="feed-vazio">
-                Pesquise assuntos no site para personalizar seu feed.
+            <p style="text-align: center; color: var(--text-muted);">
+                Nenhuma notícia encontrada para seus tópicos seguidos.
             </p>
         `;
         return;
     }
 
-    const ranking = noticias
-        .map(noticia => ({
-            ...noticia,
-            score: calcularRelevancia(noticia)
-        }))
-        .filter(n => n.score > 0)
-        .sort((a, b) => b.score - a.score)
-        .slice(0, LIMITE_FEED);
-
-    if (ranking.length === 0) {
-        container.innerHTML = `
-            <p class="feed-vazio">
-                Nenhuma notícia relevante encontrada para seus interesses.
-            </p>
-        `;
-        return;
-    }
-
-    container.innerHTML = ranking.map(noticia => `
-        <a
-            href="../${noticia.url}"
-            class="feed-card"
-        >
-            <img 
-                src="${noticia.imagem || 'https://via.placeholder.com/300x180'}" 
-                alt="${noticia.titulo}" 
-                loading="lazy"
-            >
-            <div class="feed-card-content">
-                <span class="categoria">${noticia.categoria}</span>
-                <h3>${noticia.titulo}</h3>
-                <p>${noticia.resumo}</p>
-                <div class="feed-meta">${noticia.data || ''}</div>
+    const html = noticiasFiltradas.map(noticia => `
+        <a href="${noticia.url}" class="news-link">
+            <div class="feed-post">
+                <img src="${noticia.imagem || 'https://via.placeholder.com/100x70'}" loading="lazy" alt="${noticia.titulo}">
+                <div class="feed-post-content">
+                    <span class="category">${noticia.categoria}</span>
+                    <h3>${noticia.titulo}</h3>
+                    <p>${noticia.resumo}</p>
+                    <div class="feed-post-meta">${noticia.data}</div>
+                </div>
             </div>
         </a>
     `).join('');
+
+    container.innerHTML = html;
 }
 
-/* ---------- INTERESSES VISUAIS ---------- */
-function renderizarInteresses() {
-    const container = document.getElementById('interesses-usuario');
-    if (!container) return;
-
-    if (interessesUsuario.length === 0) {
-        container.innerHTML = `
-            <span class="feed-vazio">Nenhum interesse detectado</span>
-        `;
-        return;
+// Inicialização
+document.addEventListener('DOMContentLoaded', () => {
+    // Verifica se há tags salvas temporariamente
+    const tagsTemp = localStorage.getItem('seguidas_tags_temp');
+    if (tagsTemp) {
+        const tagsArray = JSON.parse(tagsTemp);
+        window.seguirTagsDoArtigo(tagsArray);
+        localStorage.removeItem('seguidas_tags_temp');
     }
 
-    container.innerHTML = interessesUsuario.map(tag => `
-        <span class="interesse-tag">${tag}</span>
-    `).join('');
-}
-
-/* ---------- INICIALIZAÇÃO ---------- */
-document.addEventListener('DOMContentLoaded', async () => {
-    await carregarNoticias();
-    carregarInteresses();
-    renderizarInteresses();
-    montarFeed();
+    // Carrega as notícias
+    carregarNoticias();
 });
