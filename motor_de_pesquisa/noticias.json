@@ -8,7 +8,7 @@
     "tags": ["IA", "TECNOLOGIA", "AUTOMAÇÃO", "MERCADO"],
     "data": "2025-01-05",
     "imagem": "https://via.placeholder.com/400x250",
-    "url": "/noticias/ia-mercado-trabalho.html"
+    "url": "./noticias/animes/one_piece/one-piece-climax-egghead-animacao-moderna.html"
   },
   {
     "id": 2,
@@ -19,7 +19,7 @@
     "tags": ["ECONOMIA", "BRASIL", "CRESCIMENTO", "MERCADO"],
     "data": "2025-01-03",
     "imagem": "https://via.placeholder.com/400x250",
-    "url": "/noticias/economia-recuperacao-2025.html"
+    "url": "./noticias/animes/one_piece/one-piece-climax-egghead-animacao-moderna.html"
   },
   {
     "id": 3,
@@ -30,7 +30,7 @@
     "tags": ["MEIO AMBIENTE", "SUSTENTABILIDADE", "CIÊNCIA", "NATUREZA"],
     "data": "2025-01-02",
     "imagem": "https://via.placeholder.com/400x250",
-    "url": "/noticias/preservacao-ambiental.html"
+    "url": "./noticias/animes/one_piece/one-piece-climax-egghead-animacao-moderna.html"
   },
   {
     "id": 4,
@@ -41,7 +41,7 @@
     "tags": ["5G", "TECNOLOGIA", "INOVAÇÃO", "CONECTIVIDADE"],
     "data": "2025-01-01",
     "imagem": "https://via.placeholder.com/400x250",
-    "url": "/noticias/tecnologia-5g.html"
+    "url": "./noticias/animes/one_piece/one-piece-climax-egghead-animacao-moderna.html"
   },
   {
     "id": 5,
@@ -52,7 +52,7 @@
     "tags": ["SAÚDE", "BEM-ESTAR", "QUALIDADE DE VIDA"],
     "data": "2024-12-29",
     "imagem": "https://via.placeholder.com/400x250",
-    "url": "/noticias/habitos-saudaveis.html"
+    "url": "./noticias/animes/one_piece/one-piece-climax-egghead-animacao-moderna.html"
   },
   {
     "id": 6,
@@ -63,6 +63,6 @@
     "tags": ["EDUCAÇÃO", "ENSINO ONLINE", "TECNOLOGIA", "APRENDIZADO"],
     "data": "2024-12-28",
     "imagem": "https://via.placeholder.com/400x250",
-    "url": "/noticias/educacao-online.html"
+    "url": "./noticias/animes/one_piece/one-piece-climax-egghead-animacao-moderna.html"
   }
 ]
