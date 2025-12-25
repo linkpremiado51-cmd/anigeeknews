@@ -1,99 +1,128 @@
-// ===============================
-// FEED DE NOTÍCIAS – CAMADA DE UI
-// ===============================
+/* =====================================================
+   FEED INTELIGENTE BASEADO EM COMPORTAMENTO
+   ===================================================== */
 
-(function () {
+/* ---------- CONFIGURAÇÕES ---------- */
+const CAMINHO_NOTICIAS = './motor_de_pesquisa/noticias.json';
+const LIMITE_FEED = 12;
 
-    function criarCardNoticia(noticia) {
-        return `
-            <a href="${noticia.url}" class="news-link" style="text-decoration:none;">
-                <div class="feed-post">
-                    <img 
-                        src="${noticia.imagem || 'https://via.placeholder.com/100x70'}"
-                        alt="${noticia.titulo}"
-                        loading="lazy"
-                    />
-                    <div class="feed-post-content">
-                        <span class="category">${noticia.categoria}</span>
-                        <h3>${noticia.titulo}</h3>
-                        <p>${noticia.resumo}</p>
-                        <div class="feed-post-meta">
-                            ${formatarData(noticia.data)} • ${noticia.tempoLeitura || 5} min
-                        </div>
-                    </div>
-                </div>
-            </a>
-        `;
+/* ---------- ESTADO ---------- */
+let noticias = [];
+let interessesUsuario = [];
+
+/* ---------- UTILIDADES ---------- */
+function normalizarTexto(texto) {
+    return texto
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '');
+}
+
+/* ---------- CARREGAMENTO ---------- */
+async function carregarNoticias() {
+    try {
+        const res = await fetch(CAMINHO_NOTICIAS);
+        if (!res.ok) throw new Error('Erro ao carregar noticias.json');
+        noticias = await res.json();
+    } catch (err) {
+        console.error('Erro no feed:', err);
     }
+}
 
-    function formatarData(dataISO) {
-        if (!dataISO) return '';
-        const data = new Date(dataISO);
-        return data.toLocaleDateString('pt-BR', {
-            day: '2-digit',
-            month: 'short',
-            year: 'numeric'
-        });
+/* ---------- INTERESSES DO USUÁRIO ---------- */
+function carregarInteresses() {
+    if (typeof window.obterInteressesParaFeed === 'function') {
+        interessesUsuario = window.obterInteressesParaFeed();
+    } else {
+        interessesUsuario = JSON.parse(localStorage.getItem('historico_buscas')) || [];
+        interessesUsuario = interessesUsuario.map(normalizarTexto);
     }
+}
 
-    function renderizarFeed() {
-        const container = document.getElementById('feed-articles');
-        if (!container) {
-            console.warn('feed-articles não encontrado.');
-            return;
-        }
+/* ---------- RANKING DE RELEVÂNCIA ---------- */
+function calcularRelevancia(noticia) {
+    let score = 0;
 
-        if (!window.motorPesquisa) {
-            container.innerHTML = `
-                <p style="text-align:center; color:var(--text-muted);">
-                    Motor de pesquisa não carregado.
-                </p>
-            `;
-            return;
-        }
+    const titulo = normalizarTexto(noticia.titulo);
+    const resumo = normalizarTexto(noticia.resumo);
+    const categoria = normalizarTexto(noticia.categoria);
+    const tags = noticia.tags.map(tag => normalizarTexto(tag));
 
-        const noticias = window.motorPesquisa.gerarFeed();
-
-        if (!noticias || noticias.length === 0) {
-            container.innerHTML = `
-                <p style="text-align:center; color:var(--text-muted);">
-                    Nenhuma notícia relevante encontrada no momento.
-                </p>
-            `;
-            return;
-        }
-
-        container.innerHTML = noticias.map(criarCardNoticia).join('');
-    }
-
-    // ---------------------------------
-    // ATUALIZAÇÃO AUTOMÁTICA DO FEED
-    // ---------------------------------
-    function observarBuscas() {
-        let historicoAnterior = JSON.stringify(
-            window.motorPesquisa?.getHistorico() || []
-        );
-
-        setInterval(() => {
-            if (!window.motorPesquisa) return;
-
-            const historicoAtual = JSON.stringify(
-                window.motorPesquisa.getHistorico()
-            );
-
-            if (historicoAtual !== historicoAnterior) {
-                historicoAnterior = historicoAtual;
-                renderizarFeed();
-            }
-        }, 1000);
-    }
-
-    // ---------------------------------
-    // INICIALIZAÇÃO
-    // ---------------------------------
-    document.addEventListener('DOMContentLoaded', () => {
-        renderizarFeed();
-        observarBuscas();
+    interessesUsuario.forEach(interesse => {
+        if (titulo.includes(interesse)) score += 5;
+        if (tags.some(tag => tag.includes(interesse))) score += 4;
+        if (resumo.includes(interesse)) score += 3;
+        if (categoria.includes(interesse)) score += 2;
     });
 
-})();
+    // bônus de conteúdo mais recente (se existir data numérica futuramente)
+    return score;
+}
+
+/* ---------- CONSTRUÇÃO DO FEED ---------- */
+function montarFeed() {
+    const container = document.getElementById('feed-noticias-container');
+    if (!container) return;
+
+    if (interessesUsuario.length === 0) {
+        container.innerHTML = `
+            <p class="feed-vazio">
+                Pesquise assuntos no site para personalizar seu feed.
+            </p>
+        `;
+        return;
+    }
+
+    const ranking = noticias
+        .map(noticia => ({
+            ...noticia,
+            score: calcularRelevancia(noticia)
+        }))
+        .filter(n => n.score > 0)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, LIMITE_FEED);
+
+    if (ranking.length === 0) {
+        container.innerHTML = `
+            <p class="feed-vazio">
+                Nenhuma notícia relevante encontrada ainda.
+            </p>
+        `;
+        return;
+    }
+
+    container.innerHTML = ranking.map(noticia => `
+        <a href="${noticia.url}" class="feed-card">
+            <img src="${noticia.imagem}" alt="${noticia.titulo}" loading="lazy">
+            <div class="feed-card-content">
+                <span class="categoria">${noticia.categoria}</span>
+                <h3>${noticia.titulo}</h3>
+                <p>${noticia.resumo}</p>
+                <div class="feed-meta">${noticia.data || ''}</div>
+            </div>
+        </a>
+    `).join('');
+}
+
+/* ---------- INTERESSES VISUAIS ---------- */
+function renderizarInteresses() {
+    const container = document.getElementById('interesses-usuario');
+    if (!container) return;
+
+    if (interessesUsuario.length === 0) {
+        container.innerHTML = `<span class="feed-vazio">Nenhum interesse detectado</span>`;
+        return;
+    }
+
+    container.innerHTML = interessesUsuario.map(tag => `
+        <span class="interesse-tag">${tag}</span>
+    `).join('');
+}
+
+/* ---------- INICIALIZAÇÃO ---------- */
+document.addEventListener('DOMContentLoaded', async () => {
+    await carregarNoticias();
+    carregarInteresses();
+    renderizarInteresses();
+    montarFeed();
+});
