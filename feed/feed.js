@@ -3,7 +3,8 @@
    ===================================================== */
 
 /* ---------- CONFIG ---------- */
-const CAMINHO_FEED = './feed.json';
+// Caminho absoluto para funcionar em qualquer contexto (index, módulos, GitHub Pages)
+const CAMINHO_FEED = '/feed/feed.json';
 const STORAGE_LIKES = 'feed_likes';
 
 /* ---------- ESTADO ---------- */
@@ -115,10 +116,12 @@ async function carregarFeed() {
   try {
     const res = await fetch(CAMINHO_FEED);
     if (!res.ok) throw new Error('Erro ao carregar feed.json');
+
     noticias = await res.json();
     renderizarFeed();
   } catch (err) {
     console.error(err);
+
     const container = document.getElementById('feed-container');
     if (container) {
       container.innerHTML = `
