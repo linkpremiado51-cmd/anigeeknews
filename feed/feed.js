@@ -6,6 +6,10 @@
 const CAMINHO_NOTICIAS = '../motor_de_pesquisa/noticias.json';
 const LIMITE_FEED = 12;
 
+// 👉 caminho real e existente
+const CAMINHO_PADRAO_NOTICIA =
+    '../noticias/animes/one_piece/one-piece-climax-egghead-animacao-moderna.html';
+
 /* ---------- ESTADO ---------- */
 let noticias = [];
 let interessesUsuario = [];
@@ -39,14 +43,12 @@ async function carregarNoticias() {
 
 /* ---------- INTERESSES DO USUÁRIO ---------- */
 function carregarInteresses() {
-    // Integração direta com o motor de busca
     if (typeof window.obterInteressesParaFeed === 'function') {
         interessesUsuario = window.obterInteressesParaFeed()
             .map(normalizarTexto);
         return;
     }
 
-    // Fallback seguro
     const historico = JSON.parse(localStorage.getItem('historico_buscas')) || [];
     interessesUsuario = historico.map(normalizarTexto);
 }
@@ -105,7 +107,10 @@ function montarFeed() {
     }
 
     container.innerHTML = ranking.map(noticia => `
-        <a href="${noticia.url}" class="feed-card">
+        <a
+            href="${CAMINHO_PADRAO_NOTICIA}?ref=feed"
+            class="feed-card"
+        >
             <img 
                 src="${noticia.imagem || 'https://via.placeholder.com/300x180'}" 
                 alt="${noticia.titulo}" 
