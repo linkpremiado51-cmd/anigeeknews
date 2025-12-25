@@ -758,11 +758,45 @@ body.dark-mode #anuncio-video-principal div[data-banner-id] {
                     <p>Estamos vendo a história sendo feita. Não apenas a história de Luffy e seus companheiros rumo ao One Piece, mas a história de como um anime semanal, muitas vezes ridicularizado por sua qualidade inconsistente no passado, tornou-se o palco onde os maiores animadores do mundo querem exibir sua arte. O clímax de Egghead não é apenas um ponto de virada na trama; é um manifesto visual.</p>
                 </div>
 <section id="comentarios"></section>
-                <div style="margin-top: 40px; border-top: 1px solid var(--border); padding-top: 20px;">
-                    <span style="font-family: var(--font-sans); font-size: 12px; font-weight: 700; color: var(--text-muted);">TÓPICOS:</span>
-                    <a href="#" style="margin-left: 10px; color: var(--primary); text-decoration: none; font-size: 12px; font-family: var(--font-sans); font-weight: 700; text-transform: uppercase;">TOEI ANIMATION</a>
-                    <a href="#" style="margin-left: 10px; color: var(--primary); text-decoration: none; font-size: 12px; font-family: var(--font-sans); font-weight: 700; text-transform: uppercase;">ONE PIECE</a>
-                    <a href="#" style="margin-left: 10px; color: var(--primary); text-decoration: none; font-size: 12px; font-family: var(--font-sans); font-weight: 700; text-transform: uppercase;">ANÁLISE</a>
+              <div style="margin-top: 40px; border-top: 1px solid var(--border); padding-top: 20px;">
+    <span style="font-family: var(--font-sans); font-size: 12px; font-weight: 700; color: var(--text-muted);">TÓPICOS:</span>
+    <span id="topicos-do-artigo" style="margin-left: 10px;"></span>
+    <button id="btn-seguir-topicos" 
+            style="margin-left: 20px; background: var(--accent-news); color: white; border: none; padding: 4px 12px; font-family: var(--font-sans); font-size: 11px; font-weight: 700; cursor: pointer; text-transform: uppercase;">
+        Seguir Tópicos
+    </button>
+</div>
+
+<script>
+// Extrai tags do script oculto e renderiza os tópicos
+const meta = document.getElementById('article-metadata');
+if (meta) {
+    const dados = JSON.parse(meta.textContent);
+    const topicosDiv = document.getElementById('topicos-do-artigo');
+    if (topicosDiv) {
+        topicosDiv.innerHTML = dados.tags.map(tag => 
+            `<span style="color: var(--primary); font-family: var(--font-sans); font-size: 12px; font-weight: 700; text-transform: uppercase; margin-right: 10px;">${tag}</span>`
+        ).join('');
+
+        // Configura o botão
+        document.getElementById('btn-seguir-topicos')?.addEventListener('click', () => {
+            if (typeof window.seguirTagsDoArtigo === 'function') {
+                window.seguirTagsDoArtigo(dados.tags);
+            } else {
+                // Se o feed.js não foi carregado, carrega a função dinamicamente
+                const script = document.createElement('script');
+                script.src = '/anigeeknews/feed/feed.js';
+                script.onload = () => {
+                    if (window.seguirTagsDoArtigo) {
+                        window.seguirTagsDoArtigo(dados.tags);
+                    }
+                };
+                document.head.appendChild(script);
+            }
+        });
+    }
+}
+</script>
                 </div>
             </main>
             <aside class="sidebar">
@@ -907,7 +941,13 @@ body.dark-mode #anuncio-video-principal div[data-banner-id] {
         }
     });
 </script>
-
+<!-- DADOS DO ARTIGO PARA INTEGRAÇÃO COM O FEED -->
+<script id="article-metadata" type="application/json">
+    {
+        "id": "one-piece-egghead",
+        "tags": ["TOEI ANIMATION", "ONE PIECE", "ANÁLISE"]
+    }
+</script>
 </body>
 
 
