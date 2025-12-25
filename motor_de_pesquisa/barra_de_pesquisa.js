@@ -3,7 +3,9 @@
    ===================================================== */
 
 /* ---------- CONFIGURAÇÕES ---------- */
-const CAMINHO_NOTICIAS = '/anigeeknews/motor_de_pesquisa/noticias.json';
+// 🔴 CAMINHO RELATIVO (CORRETO PARA GITHUB PAGES)
+const CAMINHO_NOTICIAS = './motor_de_pesquisa/noticias.json';
+
 const LIMITE_HISTORICO = 10;
 const STORAGE_KEY = 'historico_buscas';
 
@@ -28,10 +30,14 @@ window.obterInteressesParaFeed = function () {
 async function carregarNoticias() {
     try {
         const resposta = await fetch(CAMINHO_NOTICIAS);
-        if (!resposta.ok) throw new Error('Erro ao carregar noticias.json');
+        if (!resposta.ok) {
+            throw new Error('Erro ao carregar noticias.json');
+        }
         todasNoticias = await resposta.json();
+        console.log('✅ Notícias carregadas:', todasNoticias.length);
     } catch (erro) {
-        console.error('Erro no motor de pesquisa:', erro);
+        console.error('❌ Erro no motor de pesquisa:', erro);
+        todasNoticias = [];
     }
 }
 
@@ -59,6 +65,8 @@ function salvarBusca(termo) {
 
 /* ---------- BUSCA ---------- */
 function buscarNoticias(termo) {
+    if (!termo || todasNoticias.length === 0) return [];
+
     const termoNormalizado = normalizarTexto(termo);
 
     return todasNoticias.filter(noticia => {
@@ -98,7 +106,7 @@ function renderizarResultados(lista) {
         <a href="${noticia.url}" class="search-result-item">
             <span class="result-category">${noticia.categoria || ''}</span>
             <h4>${noticia.titulo}</h4>
-            <p>${noticia.resumo || ''}</p>
+            <p>${noticia.resumo}</p>
         </a>
     `).join('');
 }
@@ -112,15 +120,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     const resultados = document.getElementById('resultado-pesquisa');
     const barra = document.querySelector('.search-bar');
 
-    if (!form || !input || !resultados) return;
+    if (!form || !input || !resultados || !barra) {
+        console.warn('⚠️ Elementos da busca não encontrados no DOM');
+        return;
+    }
 
     form.addEventListener('submit', e => {
-        e.preventDefault(); // 🔴 impede reload da página
+        e.preventDefault(); // ✅ impede reload da página
 
         const termo = input.value.trim();
         if (!termo) return;
 
         salvarBusca(termo);
+
         const encontrados = buscarNoticias(termo);
         renderizarResultados(encontrados);
     });
