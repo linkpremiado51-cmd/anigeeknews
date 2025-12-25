@@ -1,23 +1,67 @@
 <!-- feed/feed.html -->
-
 <section class="feed-wrapper">
-  
-  <!-- Cabeçalho contextual do feed -->
+
+  <!-- Cabeçalho do feed -->
   <header class="feed-header">
     <h1 class="feed-title">Para você</h1>
     <p class="feed-subtitle">
-      Conteúdos selecionados com base nos seus interesses e nas tendências do momento.
+      Notícias, análises e destaques do mundo geek.
     </p>
   </header>
-  
-  <!-- Container onde o feed.js injeta os cards -->
+
+  <!-- FEED -->
   <div id="feed-container" class="feed-container">
-    <!-- Conteúdo gerado dinamicamente -->
+
+    <!-- CARD DE NOTÍCIA -->
+    <article class="feed-card">
+
+      <!-- Imagem ocupa toda a largura -->
+      <div class="feed-image">
+        <img
+          src="https://via.placeholder.com/800x450"
+          alt="Imagem da notícia"
+          loading="lazy"
+        >
+      </div>
+
+      <!-- Conteúdo -->
+      <div class="feed-content">
+
+        <span class="feed-category">ANIMES</span>
+
+        <h2 class="feed-title-article">
+          One Piece entra no clímax do arco Egghead com animação moderna
+        </h2>
+
+        <p class="feed-text">
+          O arco de Egghead em One Piece marca um dos momentos mais importantes
+          da saga recente. A animação recebeu melhorias visuais significativas,
+          com direção mais cinematográfica, cenas mais fluidas e uso intenso de
+          cores e iluminação. A narrativa se aprofunda nos mistérios do mundo,
+          enquanto personagens centrais ganham destaque em confrontos decisivos
+          que prometem mudar o rumo da história.
+        </p>
+
+        <!-- Ações -->
+        <div class="feed-actions">
+          <button class="feed-btn like-btn" aria-label="Curtir">
+            ❤️ <span>12</span>
+          </button>
+
+          <button class="feed-btn share-btn" aria-label="Compartilhar">
+            🔁 Compartilhar
+          </button>
+
+          <a href="#" class="feed-read-more">
+            Ler matéria completa →
+          </a>
+        </div>
+
+      </div>
+    </article>
+
+    <!-- Outros cards entram aqui via JS -->
+
   </div>
-  
-  <!-- Loader visual (opcional para scroll infinito) -->
-  <div id="feed-loader" class="feed-loader" hidden>
-    Carregando mais conteúdos…
-  </div>
-  
+
 </section>
