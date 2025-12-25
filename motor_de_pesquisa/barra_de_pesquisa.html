@@ -1,5 +1,59 @@
-<!-- /anigeeknews/motor_de_pesquisa/barra_de_pesquisa.html -->
-<div class="search-bar">
-    <input type="text" class="search-input" placeholder="Pesquisar notícias, animes, jogos...">
-    <button class="search-btn"><i class="fas fa-search"></i> Buscar</button>
-</div>
+<!-- motor_de_pesquisa/barra_de_pesquisa.html -->
+<section class="search-bar">
+    <div class="search-wrapper">
+        <input
+            type="text"
+            class="search-input"
+            placeholder="Buscar animes, games, mangás, análises..."
+            autocomplete="off"
+            data-search-input
+        />
+        <button class="search-btn" aria-label="Buscar">
+            <i class="fas fa-search"></i>
+        </button>
+    </div>
+
+    <!-- RESULTADOS -->
+    <div class="search-results" id="searchResults"></div>
+</section>
+
+<script>
+/* =========================
+   RENDERIZA RESULTADOS
+========================= */
+
+document.addEventListener('search:resultados', (e) => {
+    const resultados = e.detail || [];
+    const container = document.getElementById('searchResults');
+
+    if (!container) return;
+
+    if (resultados.length === 0) {
+        container.innerHTML = `
+            <div class="search-empty">
+                Nenhum resultado encontrado
+            </div>
+        `;
+        return;
+    }
+
+    container.innerHTML = resultados.map(noticia => `
+        <a href="${noticia.url}" class="search-result-item" data-id="${noticia.id}">
+            <div class="result-text">
+                <span class="result-category">${noticia.categoria || ''}</span>
+                <h4>${noticia.titulo}</h4>
+                <p>${noticia.resumo || ''}</p>
+            </div>
+        </a>
+    `).join('');
+
+    // registra cliques (aprendizado)
+    container.querySelectorAll('.search-result-item').forEach(item => {
+        item.addEventListener('click', () => {
+            if (window.SearchEngine) {
+                window.SearchEngine.registrarClique(item.dataset.id);
+            }
+        });
+    });
+});
+</script>
