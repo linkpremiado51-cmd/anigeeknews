@@ -3,8 +3,8 @@
    ===================================================== */
 
 /* ---------- CONFIG ---------- */
-// Caminho absoluto para funcionar em qualquer contexto (index, módulos, GitHub Pages)
-const CAMINHO_FEED = '/feed/feed.json';
+// ✔️ Caminho RELATIVO (correto para GitHub Pages)
+const CAMINHO_FEED = './feed.json';
 const STORAGE_LIKES = 'feed_likes';
 
 /* ---------- ESTADO ---------- */
@@ -33,10 +33,7 @@ function curtirNoticia(id, btn) {
 
 function compartilharNoticia(url, titulo) {
   if (navigator.share) {
-    navigator.share({
-      title: titulo,
-      url: url
-    });
+    navigator.share({ title: titulo, url });
   } else {
     navigator.clipboard.writeText(url);
     alert('Link copiado para a área de transferência');
@@ -84,10 +81,7 @@ function renderizarFeed() {
               🔁 Compartilhar
             </button>
 
-            <a
-              href="${noticia.url}"
-              class="feed-read-more"
-            >
+            <a href="${noticia.url}" class="feed-read-more">
               Ler mais
             </a>
           </div>
@@ -96,13 +90,10 @@ function renderizarFeed() {
       </article>
     `);
 
-    // Curtir
     card.querySelector('.like-btn').addEventListener('click', e => {
-      const id = e.currentTarget.dataset.id;
-      curtirNoticia(id, e.currentTarget);
+      curtirNoticia(e.currentTarget.dataset.id, e.currentTarget);
     });
 
-    // Compartilhar
     card.querySelector('.share-btn').addEventListener('click', () => {
       compartilharNoticia(noticia.url, noticia.titulo);
     });
