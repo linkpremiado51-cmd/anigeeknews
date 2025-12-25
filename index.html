@@ -906,6 +906,22 @@
         loadSearchBar();
     </script>
 
+    <!-- === GARANTE QUE A FUNÇÃO GLOBAL EXISTA ANTES DO FEED === -->
+    <script>
+        // ✅ Essencial: define a função global antes de carregar o feed
+        if (typeof window.seguirTagsDoArtigo !== 'function') {
+            window.seguirTagsDoArtigo = function(tags) {
+                console.warn('Feed não carregado ainda. Tags:', tags);
+                let tagsSalvas = JSON.parse(localStorage.getItem('seguidas_tags_temp')) || [];
+                tags.forEach(t => {
+                    if (!tagsSalvas.includes(t.trim())) tagsSalvas.push(t.trim());
+                });
+                localStorage.setItem('seguidas_tags_temp', JSON.stringify(tagsSalvas));
+                alert('✅ Tópicos salvos! Abra o Feed para ver as notícias.');
+            };
+        }
+    </script>
+
     <!-- === CARREGAMENTO DINÂMICO DE SEÇÕES (FEED, ETC) === -->
     <script type="module">
         import { restaurarNoticiasSalvas } from '/anigeeknews/modulo-noticias.js';
@@ -934,7 +950,18 @@
                 const script = document.createElement('script');
                 script.src = '/anigeeknews/feed/feed.js';
                 script.type = 'module';
-                script.onload = () => restaurarNoticiasSalvas();
+                script.onload = () => {
+                    // Verifica se há tags salvas temporariamente
+                    const tagsTemp = localStorage.getItem('seguidas_tags_temp');
+                    if (tagsTemp) {
+                        const tagsArray = JSON.parse(tagsTemp);
+                        if (typeof window.seguirTagsDoArtigo === 'function') {
+                            window.seguirTagsDoArtigo(tagsArray);
+                            localStorage.removeItem('seguidas_tags_temp');
+                        }
+                    }
+                    restaurarNoticiasSalvas();
+                };
                 document.body.appendChild(script);
             } catch (error) {
                 dynamicContent.innerHTML = '<p style="padding:40px; text-align:center; color:#888;">Conteúdo do Feed indisponível.</p>';
