@@ -6,10 +6,6 @@
 const CAMINHO_NOTICIAS = '../motor_de_pesquisa/noticias.json';
 const LIMITE_FEED = 12;
 
-// 👉 caminho real e existente
-const CAMINHO_PADRAO_NOTICIA =
-    '../noticias/animes/one_piece/one-piece-climax-egghead-animacao-moderna.html';
-
 /* ---------- ESTADO ---------- */
 let noticias = [];
 let interessesUsuario = [];
@@ -108,7 +104,7 @@ function montarFeed() {
 
     container.innerHTML = ranking.map(noticia => `
         <a
-            href="${CAMINHO_PADRAO_NOTICIA}?ref=feed"
+            href="../${noticia.url}"
             class="feed-card"
         >
             <img 
