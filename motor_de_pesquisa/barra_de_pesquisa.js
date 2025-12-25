@@ -5,10 +5,11 @@
 /* ---------- CONFIGURAÇÕES ---------- */
 const CAMINHO_NOTICIAS = './motor_de_pesquisa/noticias.json';
 const LIMITE_HISTORICO = 10;
+const STORAGE_KEY = 'historico_buscas';
 
 /* ---------- ESTADO GLOBAL ---------- */
 let todasNoticias = [];
-let historicoBuscas = JSON.parse(localStorage.getItem('historico_buscas')) || [];
+let historicoBuscas = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
 
 /* ---------- UTILIDADES ---------- */
 function normalizarTexto(texto) {
@@ -17,6 +18,15 @@ function normalizarTexto(texto) {
         .normalize('NFD')
         .replace(/[\u0300-\u036f]/g, '');
 }
+
+/* ---------- EXPOSIÇÃO GLOBAL (IMPORTANTE) ---------- */
+/*
+   O FEED DEPENDE DISSO.
+   Essa função PRECISA existir mesmo que a busca não seja usada.
+*/
+window.obterInteressesParaFeed = function () {
+    return historicoBuscas.map(normalizarTexto);
+};
 
 /* ---------- CARREGAMENTO DE DADOS ---------- */
 async function carregarNoticias() {
@@ -46,11 +56,10 @@ function salvarBusca(termo) {
         historicoBuscas.pop();
     }
 
-    localStorage.setItem('historico_buscas', JSON.stringify(historicoBuscas));
-}
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(historicoBuscas));
 
-function obterInteressesDoUsuario() {
-    return historicoBuscas.map(normalizarTexto);
+    // Evento global (feed pode reagir no futuro sem retrabalho)
+    window.dispatchEvent(new CustomEvent('interessesAtualizados'));
 }
 
 /* ---------- BUSCA PRINCIPAL ---------- */
@@ -93,7 +102,7 @@ function renderizarResultados(lista) {
     container.innerHTML = lista.map(noticia => `
         <a href="${noticia.url}" class="search-item">
             <img 
-                src="${noticia.imagem || 'https://via.placeholder.com/120x80'}" 
+                src="${noticia.imagem || 'https://via.placeholder.com/120x80'}"
                 alt="${noticia.titulo}"
                 loading="lazy"
             >
@@ -105,16 +114,6 @@ function renderizarResultados(lista) {
         </a>
     `).join('');
 }
-
-/* ---------- CONEXÃO COM O FEED ---------- */
-/*
-   Esta função NÃO renderiza o feed.
-   Ela apenas expõe os interesses do usuário
-   para o feed usar de forma limpa.
-*/
-window.obterInteressesParaFeed = function () {
-    return obterInteressesDoUsuario();
-};
 
 /* ---------- EVENTOS ---------- */
 document.addEventListener('DOMContentLoaded', async () => {
