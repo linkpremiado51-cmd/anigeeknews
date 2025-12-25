@@ -989,46 +989,23 @@
                 dynamicContent.innerHTML = '<p style="padding:40px; text-align:center; color:#888;">Conteúdo indisponível.</p>';
             }
         }
-    // === SELEÇÃO DE SEÇÕES / FILTROS ===
-    document.querySelectorAll('.filter-tag').forEach(button => {
-        button.addEventListener('click', () => {
-            const section = button.dataset.section;
-            localStorage.setItem('currentSection', section);
-            activateButton(section);
-            loadSection(section);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-    });
 
-    window.addEventListener('DOMContentLoaded', () => {
-        const saved = localStorage.getItem('currentSection') || 'manchetes';
-        activateButton(saved);
-        if (saved !== 'manchetes') loadSection(saved);
-    });
-
-    // === BUSCA LOCAL NO FEED ===
-    function setupSearch() {
-        const searchInput = document.querySelector('#search-input'); // ou o seletor do seu input
-        const feed = document.querySelectorAll('.post-card');
-
-        if (!searchInput || feed.length === 0) return;
-
-        searchInput.addEventListener('input', () => {
-            const term = searchInput.value.toLowerCase();
-            feed.forEach(card => {
-                const title = card.querySelector('h2')?.textContent.toLowerCase() || '';
-                const desc = card.querySelector('p')?.textContent.toLowerCase() || '';
-                card.style.display = (title.includes(term) || desc.includes(term)) ? 'grid' : 'none';
+        document.querySelectorAll('.filter-tag').forEach(button => {
+            button.addEventListener('click', () => {
+                const section = button.dataset.section;
+                localStorage.setItem('currentSection', section);
+                activateButton(section);
+                loadSection(section);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             });
         });
-    }
 
-    // --- Chama setupSearch após o feed carregar dinamicamente ---
-    const originalLoadFeed = loadFeed;
-    loadFeed = async function() {
-        await originalLoadFeed();
-        setupSearch(); // garante que a busca funcione sempre
-    };
-</script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('currentSection') || 'manchetes';
+            activateButton(saved);
+            if (saved !== 'manchetes') loadSection(saved);
+        });
+    </script>
 </body>
 </html>
+
