@@ -34,7 +34,12 @@ function salvarBusca(termo) {
     termo = termo.trim();
     if (!termo) return;
 
-    historicoBuscas = historicoBuscas.filter(t => t !== termo);
+    const termoNormalizado = normalizarTexto(termo);
+
+    historicoBuscas = historicoBuscas.filter(
+        t => normalizarTexto(t) !== termoNormalizado
+    );
+
     historicoBuscas.unshift(termo);
 
     if (historicoBuscas.length > LIMITE_HISTORICO) {
@@ -55,10 +60,12 @@ function buscarNoticias(termo) {
     const termoNormalizado = normalizarTexto(termo);
 
     return todasNoticias.filter(noticia => {
-        const titulo = normalizarTexto(noticia.titulo);
-        const resumo = normalizarTexto(noticia.resumo);
-        const categoria = normalizarTexto(noticia.categoria);
-        const tags = noticia.tags.map(tag => normalizarTexto(tag));
+        const titulo = normalizarTexto(noticia.titulo || '');
+        const resumo = normalizarTexto(noticia.resumo || '');
+        const categoria = normalizarTexto(noticia.categoria || '');
+        const tags = Array.isArray(noticia.tags)
+            ? noticia.tags.map(tag => normalizarTexto(tag))
+            : [];
 
         return (
             titulo.includes(termoNormalizado) ||
@@ -85,7 +92,11 @@ function renderizarResultados(lista) {
 
     container.innerHTML = lista.map(noticia => `
         <a href="${noticia.url}" class="search-item">
-            <img src="${noticia.imagem}" alt="${noticia.titulo}">
+            <img 
+                src="${noticia.imagem || 'https://via.placeholder.com/120x80'}" 
+                alt="${noticia.titulo}"
+                loading="lazy"
+            >
             <div class="search-item-content">
                 <span class="category">${noticia.categoria}</span>
                 <h3>${noticia.titulo}</h3>
@@ -118,6 +129,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         e.preventDefault();
 
         const termo = input.value;
+        if (!termo.trim()) return;
+
         salvarBusca(termo);
 
         const resultados = buscarNoticias(termo);
