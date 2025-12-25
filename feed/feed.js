@@ -1,3 +1,5 @@
+// feed/feed.js — ARQUIVO COMPLETO E CORRIGIDO
+
 // ===============================
 // FEED — CAMADA DE ORQUESTRAÇÃO
 // ===============================
@@ -7,14 +9,10 @@ let feedIndice = [];
 let feedCursor = 0;
 const FEED_BATCH = 5;
 
-// ----------- PERFIL DO USUÁRIO (simples por enquanto) -----------
+// ----------- PERFIL DO USUÁRIO (simples) -----------
 
 const perfilUsuario = {
-    interesses: [
-        "one piece",
-        "animes",
-        "games"
-    ]
+    interesses: ["one piece", "animes", "games"]
 };
 
 // ----------- UTILIDADES -----------
@@ -24,19 +22,19 @@ function normalizarTexto(texto = "") {
         .toLowerCase()
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[\u0300-\u036f]/g, "")
         .trim();
 }
 
 function scoreAfinidade(item) {
     let score = 0;
-    const topicos = item.indexacao.topicos.map(normalizarTexto);
-    const tags = item.indexacao.tags.map(normalizarTexto);
+
+    const topicos = (item.indexacao.topicos || []).map(normalizarTexto);
+    const tags = (item.indexacao.tags || []).map(normalizarTexto);
 
     perfilUsuario.interesses.forEach(interesse => {
         const i = normalizarTexto(interesse);
-        if (topicos.includes(i)) score += 3;
-        if (tags.includes(i)) score += 1;
+        if (topicos.some(t => t.includes(i))) score += 3;
+        if (tags.some(t => t.includes(i))) score += 1;
     });
 
     return score;
@@ -44,18 +42,16 @@ function scoreAfinidade(item) {
 
 function scoreFeed(item) {
     const base =
-        item.sinais.peso_base *
-        item.sinais.prioridade_editorial;
+        (item.sinais?.peso_base || 1) *
+        (item.sinais?.prioridade_editorial || 1);
 
-    const afinidade = scoreAfinidade(item);
-
-    return base + afinidade;
+    return base + scoreAfinidade(item);
 }
 
 // ----------- CONSTRUÇÃO DO FEED -----------
 
-function montarIndiceFeed() {
-    feedIndice = bancoDeNoticias
+function montarIndiceFeed(banco) {
+    feedIndice = banco
         .map(item => ({
             item,
             score: scoreFeed(item)
@@ -83,13 +79,13 @@ function renderizarFeed(container, itens) {
     container.insertAdjacentHTML('beforeend', html);
 }
 
-// ----------- PAGINAÇÃO INFINITA -----------
+// ----------- PAGINAÇÃO -----------
 
 function carregarMaisFeed(container) {
-    const proximoLote = feedIndice.slice(feedCursor, feedCursor + FEED_BATCH);
-    if (proximoLote.length === 0) return;
+    const lote = feedIndice.slice(feedCursor, feedCursor + FEED_BATCH);
+    if (!lote.length) return;
 
-    renderizarFeed(container, proximoLote);
+    renderizarFeed(container, lote);
     feedCursor += FEED_BATCH;
 }
 
@@ -99,11 +95,11 @@ function initFeed() {
     const container = document.getElementById('feed-container');
     if (!container) return;
 
-    // Espera o motor carregar
-    const esperarIndice = setInterval(() => {
-        if (typeof bancoDeNoticias !== 'undefined' && bancoDeNoticias.length) {
-            clearInterval(esperarIndice);
-            montarIndiceFeed();
+    // DEPENDÊNCIA EXPLÍCITA DO MOTOR DE PESQUISA
+    const esperarBanco = setInterval(() => {
+        if (window.bancoDeNoticias && window.bancoDeNoticias.length) {
+            clearInterval(esperarBanco);
+            montarIndiceFeed(window.bancoDeNoticias);
             carregarMaisFeed(container);
         }
     }, 100);
