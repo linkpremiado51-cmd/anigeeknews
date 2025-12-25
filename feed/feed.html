@@ -1,44 +1,23 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <title>Seu Feed Personalizado</title>
+<!-- feed/feed.html -->
 
-    <!-- CSS do feed -->
-    <link rel="stylesheet" href="./feed.css">
-</head>
-<body>
-
-<main class="feed-container">
-
-    <!-- Cabeçalho -->
-    <header class="feed-header">
-        <h1>Seu Feed</h1>
-        <p>Conteúdo selecionado com base no que você pesquisa</p>
-    </header>
-
-    <!-- Interesses detectados -->
-    <section class="feed-interesses">
-        <h2>Seus interesses recentes</h2>
-        <div id="interesses-usuario" class="interesses-lista">
-            <!-- Gerado via JS -->
-        </div>
-    </section>
-
-    <!-- Feed de notícias -->
-    <section class="feed-noticias">
-        <h2>Notícias recomendadas</h2>
-
-        <!-- ESTE ID É O MAIS IMPORTANTE -->
-        <div id="feed-noticias-container">
-            <p class="feed-loading">Carregando notícias...</p>
-        </div>
-    </section>
-
-</main>
-
-<!-- JS do feed -->
-<script src="./feed.js"></script>
-
-</body>
-</html>
+<section class="feed-wrapper">
+  
+  <!-- Cabeçalho contextual do feed -->
+  <header class="feed-header">
+    <h1 class="feed-title">Para você</h1>
+    <p class="feed-subtitle">
+      Conteúdos selecionados com base nos seus interesses e nas tendências do momento.
+    </p>
+  </header>
+  
+  <!-- Container onde o feed.js injeta os cards -->
+  <div id="feed-container" class="feed-container">
+    <!-- Conteúdo gerado dinamicamente -->
+  </div>
+  
+  <!-- Loader visual (opcional para scroll infinito) -->
+  <div id="feed-loader" class="feed-loader" hidden>
+    Carregando mais conteúdos…
+  </div>
+  
+</section>
