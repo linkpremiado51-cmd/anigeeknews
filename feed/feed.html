@@ -1,108 +1,43 @@
-<div class="section-header">
-    <h2 class="section-title">Seu Feed Personalizado</h2>
-</div>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Seu Feed Personalizado</title>
 
-<div class="tag-selector" style="margin: 20px 0; padding: 0 20px;">
-    <p style="font-family: var(--font-sans); font-size: 13px; margin-bottom: 10px;">
-        <strong>Seus tópicos seguidos:</strong>
-    </p>
-    <div id="followed-tags" style="display: flex; flex-wrap: wrap; gap: 8px;"></div>
-    <p style="font-family: var(--font-sans); font-size: 12px; color: var(--text-muted); margin-top: 10px;">
-        Visite artigos e clique em "Seguir Tópicos" para personalizar seu feed.
-    </p>
-</div>
+    <!-- CSS do feed -->
+    <link rel="stylesheet" href="./feed/feed.css">
+</head>
+<body>
 
-<div id="feed-articles" style="padding: 0 20px;">
-    <p style="text-align: center; color: var(--text-muted);">Carregando seu feed...</p>
-</div>
+<main class="feed-container">
 
-<div class="load-more-container" style="text-align: center; margin-top: 40px; border-top: 1px solid var(--border); padding-top: 20px;">
-    <button class="load-more-btn" style="background: none; border: 1px solid var(--text-main); padding: 12px 30px; font-family: var(--font-sans); font-weight: 700; cursor: pointer; color: var(--text-main); text-transform: uppercase; font-size: 12px; letter-spacing: 1px;">
-        Carregar Mais
-    </button>
-</div>
+    <!-- Cabeçalho -->
+    <header class="feed-header">
+        <h1>Seu Feed</h1>
+        <p>Conteúdo selecionado com base no que você pesquisa</p>
+    </header>
 
-
-
-<div class="layout">
-    <main>
-        <div class="section-header">
-            <h2 class="section-title">feed de noticias</h2>
+    <!-- Interesses detectados -->
+    <section class="feed-interesses">
+        <h2>Seus interesses recentes</h2>
+        <div id="interesses-usuario" class="interesses-lista">
+            <!-- gerado via JS -->
         </div>
-        <div class="feed">
-            <article class="post-card">
-                <div class="post-img-wrapper">
-                    <img src="https://i.postimg.cc/QdzLYWKg/Jujutsu-Kaisen01.jpg" alt="Entrevista Diretor" loading="lazy">
-                </div>
-                <div class="post-content">
-                    <span class="category" style="color: #c1121f">Exclusivo</span>
-                    <h2>"O fim está próximo": Uma conversa com o editor de Jujutsu Kaisen</h2>
-                    <p>Em uma conversa franca em Tóquio, o editor responsável pela obra revela os desafios de manter a saúde mental do autor Gege Akutami e como as decisões narrativas mais polêmicas foram tomadas. "Nós não queremos apenas entregar um final, queremos entregar um legado que desafie as convenções do gênero Shonen", afirma durante o encontro exclusivo.</p>
-                    <div class="action-row">
-                        <span class="meta-minimal">há 1 dia • Leitura: 18min</span>
-                        <button class="like-btn" onclick="event.preventDefault(); window.toggleLike(this)">
-                            <span>312</span> recomendações
-                        </button>
-                    </div>
-                </div>
-            </article>
+    </section>
 
-            <article class="post-card">
-                <div class="post-img-wrapper">
-                    <img src="https://i.postimg.cc/sfHMcTDy/58awkrh8lp404dsegeqpbffcz.jpg" alt="Entrevista Game Designer" loading="lazy">
-                </div>
-                <div class="post-content">
-                    <span class="category" style="color: #2c5282">Indústria</span>
-                    <h2>Hidetaka Miyazaki e a obsessão pela dificuldade justa</h2>
-                    <p>O mestre por trás de Elden Ring e Dark Souls discute sua filosofia de design. Nesta entrevista estendida, Miyazaki explica por que a frustração do jogador é uma ferramenta narrativa essencial e como ele enxerga o futuro dos RPGs de ação em um mercado cada vez mais focado em acessibilidade extrema. "O triunfo só existe se o perigo for real", defende o diretor.</p>
-                    <div class="action-row">
-                        <span class="meta-minimal">há 4 dias • Leitura: 22min</span>
-                        <button class="like-btn" onclick="event.preventDefault(); window.toggleLike(this)">
-                            <span>540</span> recomendações
-                        </button>
-                    </div>
-                </div>
-            </article>
+    <!-- Feed de notícias -->
+    <section class="feed-noticias">
+        <h2>Notícias recomendadas</h2>
 
-            <article class="post-card">
-                <div class="post-img-wrapper">
-                    <img src="https://via.placeholder.com/240x160?text=Cinema+Diretor" alt="Entrevista Cinema" loading="lazy">
-                </div>
-                <div class="post-content">
-                    <span class="category" style="color: #000">Cinema</span>
-                    <h2>CGI vs Efeitos Práticos: O Dilema de Hollywood em 2026</h2>
-                    <p>Entrevistamos supervisores de efeitos visuais premiados com o Oscar sobre a saturação digital no cinema geek. Eles revelam os bastidores da produção de grandes blockbusters e por que diretores como Christopher Nolan e Denis Villeneuve estão liderando um movimento de retorno aos efeitos físicos para salvar a imersão cinematográfica do espectador moderno.</p>
-                    <div class="action-row">
-                        <span class="meta-minimal">há 1 semana • Leitura: 15min</span>
-                        <button class="like-btn" onclick="event.preventDefault(); window.toggleLike(this)">
-                            <span>215</span> recomendações
-                        </button>
-                    </div>
-                </div>
-            </article>
-
-            <div class="load-more-container" style="text-align: center; margin-top: 40px; border-top: 1px solid var(--border); padding-top: 20px;">
-                <button class="load-more-btn" style="background: none; border: 1px solid var(--text-main); padding: 12px 30px; font-weight: 700; cursor: pointer; color: var(--text-main); text-transform: uppercase; font-size: 12px; letter-spacing: 1px;">
-                    Ver Arquivo de Entrevistas
-                </button>
-            </div>
+        <div id="feed-noticias-container">
+            <p class="feed-loading">Carregando notícias...</p>
         </div>
-    </main>
+    </section>
 
-    <aside>
-        <div class="sidebar-box">
-            <h4 class="sidebar-title">Série: Vozes da Indústria</h4>
-            <p style="font-size: 12px; color: var(--text-muted); line-height: 1.4;">
-                Toda terça-feira, trazemos um nome influente que molda a cultura geek global para uma conversa profunda sobre o futuro do entretenimento.
-            </p>
-        </div>
-        <div class="sidebar-box">
-            <h4 class="sidebar-title">Próximas Semanas</h4>
-            <ul style="font-size: 13px; list-style: none; color: var(--text-main);">
-                <li style="margin-bottom: 8px;">• Tite Kubo (Bleach)</li>
-                <li style="margin-bottom: 8px;">• Neil Druckmann (Naughty Dog)</li>
-                <li>• Sam Lake (Alan Wake 2)</li>
-            </ul>
-        </div>
-    </aside>
-</div>
+</main>
+
+<!-- JS do feed -->
+<script src="./feed/feed.js"></script>
+
+</body>
+</html>
