@@ -1,6 +1,6 @@
 export const dadosManchetes = [
     {
-        img: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800",
+        img: "https://i.ibb.co/ksrQfnw0/os-15-animes-mais-aguardados-de-2026-1.jpg",
         categoria: "Destaque",
         titulo: "2026 O ano dos retornos épicos os animes mais aguardados",
         descricao: "O mercado de animes deve receber um investimento recorde no próximo ano, com foco em adaptações de Manhwas.",
