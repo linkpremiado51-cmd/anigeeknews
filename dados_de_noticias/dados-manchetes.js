@@ -2,7 +2,7 @@ export const dadosManchetes = [
     {
         img: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800",
         categoria: "Destaque",
-        titulo: "Novas produções originais são anunciadas para 2026",
+        titulo: "2026 O ano dos retornos épicos os animes mais aguardados",
         descricao: "O mercado de animes deve receber um investimento recorde no próximo ano, com foco em adaptações de Manhwas.",
         meta: "há 1 hora • Leitura: 5min",
         likes: 120,
