@@ -37,12 +37,12 @@ export const dadosManchetes = [
     },
     {
         
-    img: "https://i.postimg.cc/bJJzXy1c/file-00000000b27871f5af03310b200a341a.png",
+    img: "https://i.ibb.co/CK7yQXT6/header-2.jpg",
     categoria: "Games",
     titulo: "Solo Leveling: ARISE ganha grande atualização de conteúdo",
     descricao: "A Netmarble lançou a primeira atualização do ano para Solo Leveling: ARISE, com raid cooperativa, novo Hunter e eventos por tempo limitado.",
     meta: "17 Jan, 2025 • Atualização",
     likes: 0,
-    url: "https://linkpremiado51-cmd.github.io/anigeeknews/notícias/games/solo-leveling-arise-atualizacao.html"
+    url: "https://linkpremiado51-cmd.github.io/anigeeknews/not%C3%ADcias/games/solo-leveling-arise-grande-atualizacao.html"
 }
 ];
