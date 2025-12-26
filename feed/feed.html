@@ -1,1 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AniGeek Social | Feed</title>
 
+    <!-- Ícones e fontes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+
+    <!-- CSS do Feed -->
+    <link rel="stylesheet" href="./feed.css">
+</head>
+<body>
+
+<header class="top-nav">
+    <div class="nav-left">
+        <div class="logo">AG</div>
+        <div class="search-container">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Buscar no AniGeek...">
+        </div>
+    </div>
+    <div class="nav-right">
+        <div class="nav-icon" id="btn-dark"><i class="fas fa-moon"></i></div>
+        <div class="nav-icon"><i class="fas fa-plus"></i></div>
+        <div class="nav-icon"><i class="fas fa-comment-dots"></i></div>
+    </div>
+</header>
+
+<div class="app-shell">
+
+    <aside class="sidebar">
+        <p class="sidebar-title">Atalhos</p>
+
+        <div class="sidebar-item">
+            <i class="fas fa-tv"></i>
+            <span>Animes da Temporada</span>
+        </div>
+
+        <div class="sidebar-item">
+            <i class="fas fa-bookmark"></i>
+            <span>Salvos</span>
+        </div>
+    </aside>
+
+    <main class="feed-container">
+
+        <!-- STORIES -->
+        <div class="stories-wrapper">
+            <div class="story-card" style="background-image:url('https://images.unsplash.com/photo-1614728263952-84ea206f9c45?w=200')">
+                <img src="https://i.pravatar.cc/100?u=1" class="story-avatar">
+                <span class="story-name">Seu Story</span>
+            </div>
+
+            <div class="story-card" style="background-image:url('https://images.unsplash.com/photo-1578632292335-df3abbb0d586?w=200')">
+                <img src="https://i.pravatar.cc/100?u=2" class="story-avatar">
+                <span class="story-name">Ana_Chan</span>
+            </div>
+
+            <div class="story-card" style="background-image:url('https://images.unsplash.com/photo-1542751371-adc38448a05e?w=200')">
+                <img src="https://i.pravatar.cc/100?u=3" class="story-avatar">
+                <span class="story-name">GamerPro</span>
+            </div>
+
+            <div class="story-card" style="background-image:url('https://images.unsplash.com/photo-1534423861386-85a16f5d13fd?w=200')">
+                <img src="https://i.pravatar.cc/100?u=4" class="story-avatar">
+                <span class="story-name">Crunchy_News</span>
+            </div>
+        </div>
+
+        <!-- FEED DINÂMICO -->
+        <div id="feed-target"></div>
+
+        <!-- Skeleton -->
+        <div class="post-card">
+            <div class="skeleton w40"></div>
+            <div class="skeleton w90"></div>
+            <div class="skeleton w70"></div>
+            <div class="skeleton-img"></div>
+        </div>
+
+    </main>
+
+    <aside class="sidebar right">
+        <p class="sidebar-title">Patrocinado</p>
+        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=300">
+        <p class="ad-text">
+            Acessórios Geek com 30% OFF usando o cupom ANIGEEK.
+        </p>
+    </aside>
+
+</div>
+
+<nav class="mobile-tab-bar">
+    <div class="tab-item active"><i class="fas fa-home"></i></div>
+    <div class="tab-item"><i class="fas fa-play-circle"></i></div>
+    <div class="tab-item"><i class="fas fa-users"></i></div>
+    <div class="tab-item">
+        <i class="fas fa-bell"></i>
+        <span class="badge">9+</span>
+    </div>
+    <div class="tab-item"><i class="fas fa-bars"></i></div>
+</nav>
+
+<!-- JS do Feed -->
+<script src="./feed.js"></script>
+</body>
+</html>
