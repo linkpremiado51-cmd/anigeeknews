@@ -9,11 +9,11 @@ export const dadosManchetes = [
         url: "https://linkpremiado51-cmd.github.io/anigeeknews/notícias/animes/2026/2026-o-ano-dos-retornos-epicos.html"
     },
     {
-        img: "https://i.postimg.cc/sfHMcTDy/58awkrh8lp404dsegeqpbffcz.jpg",
+        img: "https://i.ibb.co/RGqJx4jr/filters-quality-95-format-webp-4.png",
         categoria: "Mercado",
-        titulo: "Sony confirma evento focado em hardware para o próximo mês",
-        descricao: "Rumores indicam que o sucessor do PlayStation Portal será o grande protagonista da apresentação.",
-        meta: "há 3 horas • Leitura: 4min",
+        titulo: "Crescimento da indústria de anime em 2024",
+        descricao: "A indústria de anime atingiu US$ 25 bilhões em 2024, com 56% da receita vinda do mercado internacional. Entenda como o setor está se expandindo globalmente e quais são as perspectivas para os próximos anos.",
+        meta: "3 de nov. de 2025 • Leitura: 4min",
         likes: 85,
         url: "https://linkpremiado51-cmd.github.io/anigeeknews/notícias/animes/2026/2026-o-ano-dos-retornos-epicos.html"
     },
