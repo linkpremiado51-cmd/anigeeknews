@@ -34,5 +34,15 @@ export const dadosManchetes = [
         meta: "há 4 horas • Leitura: 2min",
         likes: 0,
         url: "https://linkpremiado51-cmd.github.io/anigeeknews/notícias/mangas/jujutsu-kaisen-pausa.html"
-    }
+    },
+    {
+        
+    img: "https://i.postimg.cc/bJJzXy1c/file-00000000b27871f5af03310b200a341a.png",
+    categoria: "Games",
+    titulo: "Solo Leveling: ARISE ganha grande atualização de conteúdo",
+    descricao: "A Netmarble lançou a primeira atualização do ano para Solo Leveling: ARISE, com raid cooperativa, novo Hunter e eventos por tempo limitado.",
+    meta: "17 Jan, 2025 • Atualização",
+    likes: 0,
+    url: "https://linkpremiado51-cmd.github.io/anigeeknews/notícias/games/solo-leveling-arise-atualizacao.html"
+}
 ];
