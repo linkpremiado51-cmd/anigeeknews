@@ -3,7 +3,6 @@
 // ------------------------------------------------------------------
 // IMPORTAÇÃO DOS MÓDULOS
 // ------------------------------------------------------------------
-import { initFeed } from './feed/feed.js';
 import { carregarNoticiasExtras, restaurarNoticiasSalvas } from './modulo-noticias.js';
 import { inicializarMegaMenu } from './modulos/atualizacao_do_menu.js'; // NOVO: Importação do Menu
 import { carregarPerfilLateral } from './usuario/perfil-lateral.js'; // NOVO: Importação do Perfil
@@ -38,19 +37,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const novaSecao = filterBtn.getAttribute('data-section');
             if (novaSecao) {
                 localStorage.setItem('currentSection', novaSecao);
-
                 // Pequeno delay para a aba carregar o HTML antes de restaurar os extras
-                setTimeout(() => {
-                    restaurarNoticiasSalvas();
-
-                    // --------------------------------------------------
-                    // ✅ INICIALIZA O FEED QUANDO A ABA "FEED" É ATIVADA
-                    // --------------------------------------------------
-                    if (novaSecao === 'feed') {
-                        initFeed();
-                    }
-
-                }, 50);
+                setTimeout(() => restaurarNoticiasSalvas(), 50);
             }
         }
     });
@@ -126,3 +114,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
