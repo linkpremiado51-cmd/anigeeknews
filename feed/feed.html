@@ -1,7 +1,144 @@
-<!-- feed/feed.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Feed</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    /* =====================================================
+       FEED — ESTILO SOCIAL
+       ===================================================== */
+
+    :root {
+      --bg-main: #ffffff;
+      --bg-card: #ffffff;
+      --border: #e4e6eb;
+      --text-main: #050505;
+      --text-muted: #65676b;
+      --accent: #1877f2;
+      --danger: #e0245e;
+
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+      --font-serif: Georgia, "Times New Roman", serif;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg-main);
+    }
+
+    .feed-wrapper {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 16px 0 60px;
+    }
+
+    .feed-header {
+      padding: 0 16px 16px;
+    }
+
+    .feed-header .feed-title {
+      font-family: var(--font-sans);
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .feed-header .feed-subtitle {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .feed-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .feed-card {
+      background: var(--bg-card);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .feed-image img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .feed-content {
+      padding: 12px 16px 16px;
+    }
+
+    .feed-category {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 6px;
+      display: inline-block;
+    }
+
+    .feed-title-article {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .feed-text {
+      font-family: var(--font-serif);
+      font-size: 15px;
+      line-height: 1.55;
+      margin-bottom: 14px;
+
+      display: -webkit-box;
+      -webkit-line-clamp: 8;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .feed-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .feed-btn {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      background: #f0f2f5;
+      border: none;
+      border-radius: 20px;
+      padding: 6px 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .feed-btn:hover {
+      background: #e4e6eb;
+    }
+
+    .feed-read-more {
+      margin-left: auto;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
 <section class="feed-wrapper">
 
-  <!-- Cabeçalho do feed -->
   <header class="feed-header">
     <h1 class="feed-title">Para você</h1>
     <p class="feed-subtitle">
@@ -9,59 +146,97 @@
     </p>
   </header>
 
-  <!-- FEED -->
-  <div id="feed-container" class="feed-container">
-
-    <!-- CARD DE NOTÍCIA -->
-    <article class="feed-card">
-
-      <!-- Imagem ocupa toda a largura -->
-      <div class="feed-image">
-        <img
-          src="https://via.placeholder.com/800x450"
-          alt="Imagem da notícia"
-          loading="lazy"
-        >
-      </div>
-
-      <!-- Conteúdo -->
-      <div class="feed-content">
-
-        <span class="feed-category">ANIMES</span>
-
-        <h2 class="feed-title-article">
-          One Piece entra no clímax do arco Egghead com animação moderna
-        </h2>
-
-        <p class="feed-text">
-          O arco de Egghead em One Piece marca um dos momentos mais importantes
-          da saga recente. A animação recebeu melhorias visuais significativas,
-          com direção mais cinematográfica, cenas mais fluidas e uso intenso de
-          cores e iluminação. A narrativa se aprofunda nos mistérios do mundo,
-          enquanto personagens centrais ganham destaque em confrontos decisivos
-          que prometem mudar o rumo da história.
-        </p>
-
-        <!-- Ações -->
-        <div class="feed-actions">
-          <button class="feed-btn like-btn" aria-label="Curtir">
-            ❤️ <span>12</span>
-          </button>
-
-          <button class="feed-btn share-btn" aria-label="Compartilhar">
-            🔁 Compartilhar
-          </button>
-
-          <a href="#" class="feed-read-more">
-            Ler matéria completa →
-          </a>
-        </div>
-
-      </div>
-    </article>
-
-    <!-- Outros cards entram aqui via JS -->
-
-  </div>
+  <div id="feed-container" class="feed-container"></div>
 
 </section>
+
+<script>
+  /* =====================================================
+     FEED — LÓGICA INTERNA (SEM FETCH)
+     ===================================================== */
+
+  const STORAGE_LIKES = 'feed_likes';
+
+  const noticias = [
+    {
+      id: "feed-001",
+      categoria: "ANIM6E",
+      titulo: "One Piece entra em nova fase e fãs apontam o arco mais intenso da história",
+      imagem: "https://i.ibb.co/JFnKKy46/96501221-6689-437b-873b-3d81141ac16b.jpg",
+      texto: "O arco atual de One Piece vem sendo apontado por fãs como um dos momentos mais intensos de toda a obra. A narrativa ganhou um ritmo mais acelerado, com revelações importantes sobre o passado do mundo.",
+      url: "../noticias/animes/one_piece/one-piece-climax-egghead-animacao-moderna.html"
+    },
+    {
+      id: "feed-002",
+      categoria: "TECNOLOGIA",
+      titulo: "IA passa a influenciar decisões criativas no entretenimento",
+      imagem: "https://i.ibb.co/JFnKKy46/96501221-6689-437b-873b-3d81141ac16b.jpg",
+      texto: "A inteligência artificial deixou de ser apenas apoio técnico e passou a influenciar diretamente decisões criativas na indústria do entretenimento.",
+      url: "../noticias/tecnologia/ia-entretenimento.html"
+    },
+    {
+      id: "feed-003",
+      categoria: "CULTURA POP",
+      titulo: "Animes clássicos voltam a ganhar popularidade",
+      imagem: "https://i.ibb.co/JFnKKy46/96501221-6689-437b-873b-3d81141ac16b.jpg",
+      texto: "Animes clássicos estão sendo redescobertos por uma nova geração graças ao streaming e às redes sociais.",
+      url: "../noticias/animes/classicos-retorno.html"
+    }
+  ];
+
+  const likesSalvos = JSON.parse(localStorage.getItem(STORAGE_LIKES)) || {};
+
+  function salvarLikes() {
+    localStorage.setItem(STORAGE_LIKES, JSON.stringify(likesSalvos));
+  }
+
+  function renderizarFeed() {
+    const container = document.getElementById('feed-container');
+    container.innerHTML = '';
+
+    noticias.forEach(noticia => {
+      const likes = likesSalvos[noticia.id] || 0;
+
+      const card = document.createElement('article');
+      card.className = 'feed-card';
+
+      card.innerHTML = `
+        <div class="feed-image">
+          <img src="${noticia.imagem}" alt="${noticia.titulo}">
+        </div>
+
+        <div class="feed-content">
+          <span class="feed-category">${noticia.categoria}</span>
+
+          <h2 class="feed-title-article">${noticia.titulo}</h2>
+
+          <p class="feed-text">${noticia.texto}</p>
+
+          <div class="feed-actions">
+            <button class="feed-btn like-btn">
+              ❤️ <span>${likes}</span>
+            </button>
+
+            <a href="${noticia.url}" class="feed-read-more">
+              Ler mais →
+            </a>
+          </div>
+        </div>
+      `;
+
+      const btnLike = card.querySelector('.like-btn');
+      btnLike.addEventListener('click', () => {
+        likesSalvos[noticia.id] = (likesSalvos[noticia.id] || 0) + 1;
+        btnLike.querySelector('span').textContent = likesSalvos[noticia.id];
+        salvarLikes();
+      });
+
+      container.appendChild(card);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', renderizarFeed);
+</script>
+
+</body>
+</html>
