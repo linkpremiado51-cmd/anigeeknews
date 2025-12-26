@@ -3,9 +3,9 @@ export const dadosManchetes = [
         img: "https://i.ibb.co/ksrQfnw0/os-15-animes-mais-aguardados-de-2026-1.jpg",
         categoria: "Destaque",
         titulo: "2026 O ano dos retornos épicos os animes mais aguardados",
-        descricao: "O mercado de animes deve receber um investimento recorde no próximo ano, com foco em adaptações de Manhwas.",
+        descricao: "Os fãs de anime têm motivos de sobra para comemorar: 2026 promete ser um ano repleto de continuações, conclusões e surpresas que vão agitar a comunidade otaku.",
         meta: "há 1 hora • Leitura: 5min",
-        likes: 120,
+        likes: 23,
         url: "https://linkpremiado51-cmd.github.io/anigeeknews/notícias/animes/2026/2026-o-ano-dos-retornos-epicos.html"
     },
     {
