@@ -21,7 +21,13 @@ const bancoDeDados = {
 // ==================================================
 // 3. CONTROLE DE ÍNDICES
 // ==================================================
-const secoesPermitidas = ['manchetes', 'analises', 'entrevistas', 'lancamentos', 'podcast'];
+const secoesPermitidas = [
+    'manchetes',
+    'analises',
+    'entrevistas',
+    'lancamentos',
+    'podcast'
+];
 
 let indices = JSON.parse(localStorage.getItem('indices_secoes')) || {};
 
@@ -42,18 +48,41 @@ function gerarSlug(titulo) {
 
 // ==================================================
 // 5. ORDENA NOTÍCIAS PELOS GOSTOS DO USUÁRIO
+// ✔ Categoria + Subcategoria
+// ✔ Normalização
 // ==================================================
 function ordenarPorGostos(listaOriginal) {
-    const gostos = JSON.parse(localStorage.getItem('gostosUsuario')) || [];
 
-    if (!gostos.length) return [...listaOriginal];
+    if (!Array.isArray(listaOriginal)) return [];
+
+    const gostosUsuario = JSON.parse(
+        localStorage.getItem('gostosUsuario')
+    ) || [];
+
+    if (!gostosUsuario.length) return [...listaOriginal];
+
+    const gostosNormalizados = gostosUsuario.map(g =>
+        String(g).toLowerCase()
+    );
 
     const prioridade = [];
     const resto = [];
 
     listaOriginal.forEach(noticia => {
-        const categoria = noticia.category || noticia.categoria;
-        if (gostos.includes(categoria)) {
+
+        const categoria = noticia.categoria
+            ? String(noticia.categoria).toLowerCase()
+            : null;
+
+        const subcategoria = noticia.subcategoria
+            ? String(noticia.subcategoria).toLowerCase()
+            : null;
+
+        const combina =
+            (categoria && gostosNormalizados.includes(categoria)) ||
+            (subcategoria && gostosNormalizados.includes(subcategoria));
+
+        if (combina) {
             prioridade.push(noticia);
         } else {
             resto.push(noticia);
@@ -67,27 +96,23 @@ function ordenarPorGostos(listaOriginal) {
 // 6. ESTRUTURA HTML DA NOTÍCIA
 // ==================================================
 function criarEstruturaNoticia(noticia) {
+
     const slug = noticia.url
         ? noticia.url
-        : `/anigeeknews/noticias/animes/2026/${gerarSlug(noticia.titulo)}.html`;
+        : `/anigeeknews/noticias/2026/${gerarSlug(noticia.titulo)}.html`;
 
     return `
         <a href="${slug}" class="news-link news-extra-persistente">
             <article class="post-card">
                 <div class="post-img-wrapper">
-                    <img src="${noticia.img}" loading="lazy">
+                    <img src="${noticia.imagem || noticia.img}" loading="lazy">
                 </div>
                 <div class="post-content">
-                    <span class="category">${noticia.category || noticia.categoria}</span>
+                    <span class="category">
+                        ${noticia.categoria}${noticia.subcategoria ? ' • ' + noticia.subcategoria : ''}
+                    </span>
                     <h2>${noticia.titulo}</h2>
-                    <p>${noticia.descricao}</p>
-                    <div class="action-row">
-                        <span class="meta-minimal">${noticia.meta}</span>
-                        <button class="like-btn"
-                            onclick="event.preventDefault(); if(window.toggleLike) window.toggleLike(this)">
-                            <span>${noticia.likes || 0}</span> leitores
-                        </button>
-                    </div>
+                    <p>${noticia.resumo || noticia.descricao || ''}</p>
                 </div>
             </article>
         </a>
@@ -98,16 +123,17 @@ function criarEstruturaNoticia(noticia) {
 // 7. RESTAURA NOTÍCIAS SALVAS (COM PERSONALIZAÇÃO)
 // ==================================================
 export function restaurarNoticiasSalvas() {
+
     const secao = localStorage.getItem('currentSection') || 'manchetes';
     const container = document.querySelector('.load-more-container');
 
     if (!bancoDeDados[secao] || !container) return;
 
-    // Garante índice válido
     if (indices[secao] === undefined) indices[secao] = 0;
 
-    // Remove notícias antigas
-    document.querySelectorAll('.news-extra-persistente').forEach(el => el.remove());
+    document
+        .querySelectorAll('.news-extra-persistente')
+        .forEach(el => el.remove());
 
     const listaOrdenada = ordenarPorGostos(bancoDeDados[secao]);
 
@@ -127,6 +153,7 @@ export function restaurarNoticiasSalvas() {
 // 8. CARREGAR MAIS NOTÍCIAS
 // ==================================================
 export function carregarNoticiasExtras() {
+
     const secao = localStorage.getItem('currentSection') || 'manchetes';
     const container = document.querySelector('.load-more-container');
     const botao = document.querySelector('.load-more-btn');
@@ -147,7 +174,11 @@ export function carregarNoticiasExtras() {
         contador++;
     }
 
-    localStorage.setItem('indices_secoes', JSON.stringify(indices));
+    localStorage.setItem(
+        'indices_secoes',
+        JSON.stringify(indices)
+    );
+
     verificarFimDasNoticias(secao, listaOrdenada);
 }
 
@@ -155,6 +186,7 @@ export function carregarNoticiasExtras() {
 // 9. CONTROLE DO BOTÃO "CARREGAR MAIS"
 // ==================================================
 function verificarFimDasNoticias(secao, lista) {
+
     const btn = document.querySelector('.load-more-btn');
     if (!btn) return;
 
