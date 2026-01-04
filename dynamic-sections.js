@@ -35,7 +35,6 @@ async function loadFeed() {
 async function loadSection(section) {
     if (!dynamicContent) return;
 
-    // Caso seja a Home (Manchetes)
     if (section === 'manchetes') {
         dynamicContent.innerHTML = originalContent;
         localStorage.setItem('currentSection', 'manchetes');
@@ -43,28 +42,27 @@ async function loadSection(section) {
         return;
     }
 
-    // Caso seja o Feed Social
     if (section === 'feed') {
         loadFeed();
         return;
     }
 
-    // Para as outras abas (Analises, Entrevistas, etc)
     try {
         const response = await fetch(`/anigeeknews/modulos/${section}.html`);
         const html = await response.text();
         dynamicContent.innerHTML = html;
 
-        // --- INÍCIO DA LÓGICA DE MÓDULOS ROBUSTOS ---
-        // Se a seção for "analises", carregamos o script de lógica dela
+        // --- LÓGICA DE CARREGAMENTO PARA O CELULAR ---
         if (section === 'analises') {
-            import('./modulos/analises-logic.js')
-                .then(module => {
-                    module.initAnalises();
-                })
-                .catch(err => console.error("Erro ao carregar o script de análises:", err));
+            // Tenta o caminho absoluto primeiro
+            import('/anigeeknews/modulos/analises-logic.js')
+                .then(module => module.initAnalises())
+                .catch(() => {
+                    // Se falhar (comum no celular), tenta o caminho relativo
+                    import('./modulos/analises-logic.js').then(module => module.initAnalises());
+                });
         }
-        // --- FIM DA LÓGICA DE MÓDULOS ROBUSTOS ---
+        // ---------------------------------------------
 
         setTimeout(restaurarNoticiasSalvas, 50);
     } catch (error) {
@@ -90,3 +88,4 @@ window.addEventListener('DOMContentLoaded', () => {
     if (saved !== 'manchetes') loadSection(saved);
     else restaurarNoticiasSalvas();
 });
+
