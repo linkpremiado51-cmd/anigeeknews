@@ -1,25 +1,42 @@
-// algoritmo-gostos.js
+// Arquivo: /anigeeknews/modulos/algoritmos-gostos.js
 
-export function aplicarPreferencias(listaOriginal) {
-    if (!Array.isArray(listaOriginal)) return listaOriginal;
+/**
+ * Essa função reorganiza as notícias
+ * colocando primeiro as que combinam
+ * com os gostos do usuário.
+ * 
+ * Ela NÃO remove notícias.
+ * Ela apenas muda a ordem.
+ */
+export function ordenarNoticiasPorGostos(listaDeNoticias) {
+    
+    // Segurança: se não for uma lista, devolve como está
+    if (!Array.isArray(listaDeNoticias)) {
+        return listaDeNoticias;
+    }
 
-    const gostos = JSON.parse(localStorage.getItem('gostosUsuario')) || [];
+    // Lê os gostos do usuário salvos no navegador
+    const gostosUsuario = JSON.parse(localStorage.getItem('gostosUsuario')) || [];
 
-    // Se não tiver gostos, retorna tudo normal
-    if (gostos.length === 0) return listaOriginal;
+    // Se o usuário não escolheu nada, não muda a ordem
+    if (gostosUsuario.length === 0) {
+        return listaDeNoticias;
+    }
 
-    const comPreferencia = [];
-    const semPreferencia = [];
+    // Separa notícias que combinam com os gostos
+    const noticiasPreferidas = [];
+    const outrasNoticias = [];
 
-    listaOriginal.forEach(noticia => {
-        const categoria = noticia.categoria || noticia.category;
-        if (gostos.includes(categoria)) {
-            comPreferencia.push(noticia);
+    listaDeNoticias.forEach(noticia => {
+        const categoriaNoticia = noticia.categoria || noticia.category;
+
+        if (gostosUsuario.includes(categoriaNoticia)) {
+            noticiasPreferidas.push(noticia);
         } else {
-            semPreferencia.push(noticia);
+            outrasNoticias.push(noticia);
         }
     });
 
-    // Prioriza, não remove nada
-    return [...comPreferencia, ...semPreferencia];
+    // Junta tudo: primeiro as preferidas, depois o resto
+    return [...noticiasPreferidas, ...outrasNoticias];
 }
