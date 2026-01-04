@@ -33,6 +33,13 @@ if (signupBtn) {
         const senha = document.getElementById('senha').value.trim();
         try {
             await createUserWithEmailAndPassword(auth, email, senha);
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+const gostos = Array.from(checkboxes).map(cb => cb.value);
+
+localStorage.setItem("const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+const gostos = Array.from(checkboxes).map(cb => cb.value);
+
+localStorage.setItem("gostosUsuario", JSON.stringify(gostos));", JSON.stringify(gostos));
             exibirMensagem("Conta criada com sucesso!", "green");
             setTimeout(() => window.location.href = "../index.html", 2000);
         } catch (error) { tratarErro(error); }
