@@ -1,218 +1,98 @@
-<style>
-/* ===============================
-   EDITORIAL MOBILE-FIRST
-================================ */
-
-:root {
-    --text-main: #111;
-    --text-muted: #6b7280;
-    --border: #e5e7eb;
-    --accent-news: #b91c1c;
-    --bg: #ffffff;
-}
-
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--text-main);
-    font-family: Georgia, "Times New Roman", serif;
-}
-
-/* Layout base */
-.layout {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: clamp(16px, 4vw, 48px);
-}
-
-/* Cabeçalho */
-.section-title {
-    font-size: clamp(22px, 4.5vw, 36px);
-    font-weight: 700;
-    border-bottom: 2px solid var(--text-main);
-    padding-bottom: 12px;
-    margin-bottom: 32px;
-}
-
-/* Feed */
-.feed {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-}
-
-/* Artigo */
-.post-card {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 16px;
-    padding-bottom: 28px;
-    border-bottom: 1px solid var(--border);
-}
-
-/* Imagem */
-.post-img-wrapper img {
-    width: 100%;
-    height: auto;
-    border-radius: 2px;
-}
-
-/* Categoria */
-.category {
-    font-size: clamp(10px, 2.5vw, 12px);
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    font-weight: 700;
-    margin-bottom: 4px;
-    display: inline-block;
-}
-
-/* Título */
-.post-card h2 {
-    font-size: clamp(18px, 4vw, 26px);
-    line-height: 1.25;
-    margin: 6px 0 10px;
-}
-
-/* Texto */
-.post-card p {
-    font-size: clamp(14px, 3.5vw, 17px);
-    line-height: 1.65;
-    color: #222;
-}
-
-/* Meta e ações */
-.action-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 12px;
-}
-
-.meta-minimal {
-    font-size: clamp(11px, 2.8vw, 13px);
-    color: var(--text-muted);
-    font-style: italic;
-}
-
-.like-btn {
-    background: none;
-    border: none;
-    font-size: clamp(11px, 2.8vw, 13px);
-    font-weight: 700;
-    cursor: pointer;
-    letter-spacing: 0.5px;
-}
-
-/* Desktop */
-@media (min-width: 768px) {
-    .post-card {
-        grid-template-columns: 240px 1fr;
-        gap: 28px;
-    }
-
-    .post-img-wrapper img {
-        height: 160px;
-        object-fit: cover;
-    }
-}
-
-/* Botão carregar */
-.load-more-container {
-    text-align: center;
-    margin-top: 40px;
-}
-
-.load-more-btn {
-    background: transparent;
-    border: 1px solid var(--text-main);
-    padding: 14px 36px;
-    font-size: 12px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    cursor: pointer;
-}
-</style>
-
 <div class="layout">
-    <h2 class="section-title">Análises e Críticas Profundas</h2>
-
-    <div class="feed">
-
-        <!-- 1 -->
-        <article class="post-card">
-            <div class="post-img-wrapper">
-                <img src="https://i.postimg.cc/sDL0s4nt/Portada-One-Piece.png">
-            </div>
-            <div>
-                <span class="category" style="color:var(--accent-news)">Anime</span>
-                <h2>Egghead e a Reinvenção Visual de One Piece</h2>
-                <p>A saga Egghead marca uma ruptura estética consciente, onde fluidez e exagero expressivo substituem a rigidez clássica, refletindo o peso narrativo do arco.</p>
-                <div class="action-row">
-                    <span class="meta-minimal">há 2 dias • 12 min</span>
-                    <button class="like-btn">142 recomendações</button>
+    <main>
+        <div class="section-header">
+            <h2 class="section-title">Análises e Críticas Profundas</h2>
+        </div>
+        <div class="feed">
+            <article class="post-card">
+                <div class="post-img-wrapper">
+                    <img src="https://i.postimg.cc/sDL0s4nt/Portada-One-Piece.png" alt="Análise Anime" loading="lazy">
                 </div>
-            </div>
-        </article>
-
-        <!-- 2 -->
-        <article class="post-card">
-            <div class="post-img-wrapper">
-                <img src="https://i.postimg.cc/sfHMcTDy/58awkrh8lp404dsegeqpbffcz.jpg">
-            </div>
-            <div>
-                <span class="category" style="color:#2c5282">Games</span>
-                <h2>Elden Ring e o Design da Solidão</h2>
-                <p>A FromSoftware redefine mundos abertos ao permitir que arquitetura e silêncio guiem o jogador, eliminando interfaces invasivas.</p>
-                <div class="action-row">
-                    <span class="meta-minimal">há 3 dias • 15 min</span>
-                    <button class="like-btn">210 recomendações</button>
+                <div class="post-content">
+                    <span class="category" style="color: var(--accent-news)">Anime</span>
+                    <h2>O Impacto Visual de Egghead: Experimentalismo ou Caos?</h2>
+                    <p>A nova estética de One Piece em 2025 divide opiniões. Nossa análise explora como a direção de arte abriu mão do traço rígido para abraçar uma fluidez que remete aos clássicos da animação francesa, priorizando a expressão emocional sobre a fidelidade absoluta ao design original. É uma evolução necessária para suportar o peso narrativo do clímax da saga.</p>
+                    <div class="action-row">
+                        <span class="meta-minimal">há 2 dias • Leitura: 12min</span>
+                        <button class="like-btn" onclick="event.preventDefault(); window.toggleLike(this)">
+                            <span>142</span> recomendações
+                        </button>
+                    </div>
                 </div>
+            </article>
+
+            <article class="post-card">
+                <div class="post-img-wrapper">
+                    <img src="https://i.postimg.cc/sfHMcTDy/58awkrh8lp404dsegeqpbffcz.jpg" alt="Análise Games" loading="lazy">
+                </div>
+                <div class="post-content">
+                    <span class="category" style="color: #2c5282">Games</span>
+                    <h2>Elden Ring e a Anatomia do Mundo Aberto Silencioso</h2>
+                    <p>Diferente da tendência da indústria em preencher mapas com ícones, Elden Ring utiliza a arquitetura como guia. Analisamos como a FromSoftware utiliza 'pontos de interesse visuais' para manipular a curiosidade do jogador sem a necessidade de textos explicativos. Um estudo sobre design de níveis que deve pautar os próximos dez anos do gênero RPG.</p>
+                    <div class="action-row">
+                        <span class="meta-minimal">há 3 dias • Leitura: 15min</span>
+                        <button class="like-btn" onclick="event.preventDefault(); window.toggleLike(this)">
+                            <span>210</span> recomendações
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="post-card">
+                <div class="post-img-wrapper">
+                    <img src="https://i.postimg.cc/QdzLYWKg/Jujutsu-Kaisen01.jpg" alt="Análise Mangá" loading="lazy">
+                </div>
+                <div class="post-content">
+                    <span class="category" style="color: #000">Mangá</span>
+                    <h2>Jujutsu Kaisen: O Desconstrucionismo de Gege Akutami</h2>
+                    <p>Exploramos a técnica de narrativa de Akutami, que frequentemente sacrifica personagens queridos para manter a tensão realista. Esta análise foca na geometria dos painéis de luta e como o autor utiliza o contraste de sombras para ditar o ritmo da leitura, criando uma experiência cinematográfica dentro das páginas estáticas do mangá.</p>
+                    <div class="action-row">
+                        <span class="meta-minimal">há 1 semana • Leitura: 10min</span>
+                        <button class="like-btn" onclick="event.preventDefault(); window.toggleLike(this)">
+                            <span>98</span> recomendações
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="post-card">
+                <div class="post-img-wrapper">
+                    <img src="https://via.placeholder.com/240x160?text=Cinema+Geek" alt="Análise Cinema" loading="lazy">
+                </div>
+                <div class="post-content">
+                    <span class="category" style="color: #c1121f">Cinema</span>
+                    <h2>A Crise dos Blockbusters e o Resgate do Terror Autoral</h2>
+                    <p>O cinema geek está em mutação. Enquanto grandes franquias sofrem com o cansaço do público, produções de médio orçamento focadas em terror e ficção científica autoral estão dominando as bilheterias. Analisamos por que a audiência está trocando heróis invencíveis por narrativas de sobrevivência mais humanas e visceralmente filmadas.</p>
+                    <div class="action-row">
+                        <span class="meta-minimal">há 5 dias • Leitura: 14min</span>
+                        <button class="like-btn" onclick="event.preventDefault(); window.toggleLike(this)">
+                            <span>156</span> recomendações
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+            <div class="load-more-container" style="text-align: center; margin-top: 40px; border-top: 1px solid var(--border); padding-top: 20px;">
+                <button class="load-more-btn" style="background: none; border: 1px solid var(--text-main); padding: 12px 30px; font-weight: 700; cursor: pointer; color: var(--text-main); text-transform: uppercase; font-size: 12px; letter-spacing: 1px;">
+                    Carregar Mais Análises
+                </button>
             </div>
-        </article>
+        </div>
+    </main>
 
-        <!-- 3 a 10 -->
-        <!-- Repito estrutura mudando conteúdo -->
-
-        <article class="post-card">
-            <div class="post-img-wrapper"><img src="https://i.postimg.cc/QdzLYWKg/Jujutsu-Kaisen01.jpg"></div>
-            <div>
-                <span class="category">Mangá</span>
-                <h2>Jujutsu Kaisen e o Sacrifício Narrativo</h2>
-                <p>Akutami rompe expectativas ao usar perdas permanentes como ferramenta estrutural de tensão.</p>
-                <div class="action-row"><span class="meta-minimal">1 semana • 10 min</span><button class="like-btn">98 recomendações</button></div>
+    <aside>
+        <div class="sidebar-box">
+            <h4 class="sidebar-title">Guia de Notas</h4>
+            <div style="font-size: 13px; color: var(--text-muted);">
+                <p>Nossas análises utilizam o critério técnico baseado em:</p>
+                <ul style="margin-top: 10px; padding-left: 15px;">
+                    <li>Direção de Arte</li>
+                    <li>Estrutura Narrativa</li>
+                    <li>Inovação de Gênero</li>
+                </ul>
             </div>
-        </article>
-
-        <article class="post-card">
-            <div class="post-img-wrapper"><img src="https://via.placeholder.com/400x250"></div>
-            <div>
-                <span class="category">Cinema</span>
-                <h2>O Retorno do Terror Autoral</h2>
-                <p>Produções médias dominam bilheterias ao focar medo humano e linguagem cinematográfica crua.</p>
-                <div class="action-row"><span class="meta-minimal">5 dias • 14 min</span><button class="like-btn">156 recomendações</button></div>
-            </div>
-        </article>
-
-        <article class="post-card"><div class="post-img-wrapper"><img src="https://via.placeholder.com/400x250"></div><div><span class="category">Anime</span><h2>Frieren e o Tempo como Tema Central</h2><p>A narrativa desacelera para refletir sobre memória, perda e permanência.</p><div class="action-row"><span class="meta-minimal">4 dias • 11 min</span><button class="like-btn">121 recomendações</button></div></div></article>
-
-        <article class="post-card"><div class="post-img-wrapper"><img src="https://via.placeholder.com/400x250"></div><div><span class="category">Games</span><h2>Death Stranding e o Espaço Vazio</h2><p>O vazio como mecânica ativa de conexão emocional.</p><div class="action-row"><span class="meta-minimal">6 dias • 13 min</span><button class="like-btn">177 recomendações</button></div></div></article>
-
-        <article class="post-card"><div class="post-img-wrapper"><img src="https://via.placeholder.com/400x250"></div><div><span class="category">Mangá</span><h2>Berserk e a Violência Existencial</h2><p>A brutalidade como espelho psicológico.</p><div class="action-row"><span class="meta-minimal">2 semanas • 18 min</span><button class="like-btn">312 recomendações</button></div></div></article>
-
-        <article class="post-card"><div class="post-img-wrapper"><img src="https://via.placeholder.com/400x250"></div><div><span class="category">Cinema</span><h2>A24 e o Novo Horror</h2><p>O terror como linguagem autoral contemporânea.</p><div class="action-row"><span class="meta-minimal">8 dias • 12 min</span><button class="like-btn">201 recomendações</button></div></div></article>
-
-        <article class="post-card"><div class="post-img-wrapper"><img src="https://via.placeholder.com/400x250"></div><div><span class="category">Anime</span><h2>Chainsaw Man e o Caos Controlado</h2><p>Violência estilizada como comentário emocional.</p><div class="action-row"><span class="meta-minimal">9 dias • 11 min</span><button class="like-btn">189 recomendações</button></div></div></article>
-
-        <article class="post-card"><div class="post-img-wrapper"><img src="https://via.placeholder.com/400x250"></div><div><span class="category">Games</span><h2>Shadow of the Colossus e o Silêncio Moral</h2><p>A ausência de trilha como narrativa ética.</p><div class="action-row"><span class="meta-minimal">3 semanas • 16 min</span><button class="like-btn">260 recomendações</button></div></div></article>
-
-    </div>
-
-    <div class="load-more-container">
-        <button class="load-more-btn">Carregar Mais Análises</button>
-    </div>
+        </div>
+    </aside>
 </div>
+
+
