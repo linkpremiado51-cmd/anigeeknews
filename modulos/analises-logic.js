@@ -1,19 +1,14 @@
 // /modulos/analises-logic.js
 
 export function initAnalises() {
-    console.log("🚀 Lógica da aba de Análises carregada com sucesso!");
-
-    // Aqui vamos colocar coisas avançadas depois, como:
-    // - Filtros de notas (Z-A)
-    // - Contador de reviews
-    // - Animações exclusivas
-    
-    const container = document.querySelector('.section-header');
-    if (container) {
-        const badge = document.createElement('span');
-        badge.innerText = " ✨ Módulo Interativo Ativo";
-        badge.style.fontSize = "10px";
-        badge.style.color = "var(--accent-news)";
-        container.appendChild(badge);
+    // 1. Muda a cor do título para termos certeza que o JS rodou
+    const titulo = document.querySelector('.section-title');
+    if (titulo) {
+        titulo.style.color = 'red';
+        titulo.innerText = titulo.innerText + " (Módulo Ativo ✅)";
     }
+
+    // 2. Um alerta simples que aparece na tela do celular
+    alert("O módulo de Análises foi carregado com sucesso!");
 }
+
