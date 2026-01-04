@@ -41,12 +41,11 @@ function gerarSlug(titulo) {
 }
 
 // ==================================================
-// 5. FUNÇÃO: ORDENA NOTÍCIAS PELOS GOSTOS DO USUÁRIO
+// 5. ORDENA NOTÍCIAS PELOS GOSTOS DO USUÁRIO
 // ==================================================
 function ordenarPorGostos(listaOriginal) {
     const gostos = JSON.parse(localStorage.getItem('gostosUsuario')) || [];
 
-    // Se não tiver gostos, retorna a lista normal
     if (!gostos.length) return [...listaOriginal];
 
     const prioridade = [];
@@ -104,10 +103,12 @@ export function restaurarNoticiasSalvas() {
 
     if (!bancoDeDados[secao] || !container) return;
 
+    // Garante índice válido
+    if (indices[secao] === undefined) indices[secao] = 0;
+
     // Remove notícias antigas
     document.querySelectorAll('.news-extra-persistente').forEach(el => el.remove());
 
-    // 👉 AQUI A MÁGICA
     const listaOrdenada = ordenarPorGostos(bancoDeDados[secao]);
 
     for (let i = 0; i < indices[secao]; i++) {
@@ -133,7 +134,7 @@ export function carregarNoticiasExtras() {
     if (!container || !botao) return;
 
     const listaOrdenada = ordenarPorGostos(bancoDeDados[secao]);
-    if (!listaOrdenada || !listaOrdenada.length) return;
+    if (!listaOrdenada.length) return;
 
     let contador = 0;
 
