@@ -1,42 +1,51 @@
 // Arquivo: /anigeeknews/modulos/algoritmos-gostos.js
 
 /**
- * Essa função reorganiza as notícias
- * colocando primeiro as que combinam
- * com os gostos do usuário.
- * 
- * Ela NÃO remove notícias.
- * Ela apenas muda a ordem.
+ * Reorganiza as notícias colocando primeiro
+ * aquelas que combinam com os gostos do usuário.
+ *
+ * - NÃO remove notícias
+ * - Apenas altera a ordem
+ * - Considera categoria e subcategoria
  */
 export function ordenarNoticiasPorGostos(listaDeNoticias) {
-    
-    // Segurança: se não for uma lista, devolve como está
+
+    // Segurança: se não for array, devolve como está
     if (!Array.isArray(listaDeNoticias)) {
         return listaDeNoticias;
     }
 
-    // Lê os gostos do usuário salvos no navegador
-    const gostosUsuario = JSON.parse(localStorage.getItem('gostosUsuario')) || [];
+    // Lê os gostos do usuário
+    const gostosUsuario = JSON.parse(
+        localStorage.getItem('gostosUsuario')
+    ) || [];
 
-    // Se o usuário não escolheu nada, não muda a ordem
+    // Se não houver gostos definidos, mantém ordem original
     if (gostosUsuario.length === 0) {
         return listaDeNoticias;
     }
 
-    // Separa notícias que combinam com os gostos
     const noticiasPreferidas = [];
     const outrasNoticias = [];
 
     listaDeNoticias.forEach(noticia => {
-        const categoriaNoticia = noticia.categoria || noticia.category;
 
-        if (gostosUsuario.includes(categoriaNoticia)) {
+        // Padronização de leitura
+        const categoria = noticia.categoria || noticia.category || null;
+        const subcategoria = noticia.subcategoria || null;
+
+        // Verifica se combina com algum gosto
+        const combinaComGosto =
+            (categoria && gostosUsuario.includes(categoria)) ||
+            (subcategoria && gostosUsuario.includes(subcategoria));
+
+        if (combinaComGosto) {
             noticiasPreferidas.push(noticia);
         } else {
             outrasNoticias.push(noticia);
         }
     });
 
-    // Junta tudo: primeiro as preferidas, depois o resto
+    // Retorna priorizadas primeiro
     return [...noticiasPreferidas, ...outrasNoticias];
 }
