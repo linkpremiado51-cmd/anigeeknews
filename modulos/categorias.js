@@ -11,7 +11,8 @@ export const categorias = {
     "Redes",
     "Segurança",
     "Realidade Virtual",
-    "Wearables"
+    "Wearables",
+    "Indústria" // ← usado em entrevistas
   ],
 
   Animes: [
@@ -24,7 +25,11 @@ export const categorias = {
     "Romance",
     "Ação",
     "Fantasia",
-    "Comédia"
+    "Comédia",
+    "Entrevista",   // ← usado
+    "Especial",     // ← usado
+    "Lançamentos",  // ← usado
+    "Destaque"      // ← usado
   ],
 
   Games: [
@@ -37,7 +42,8 @@ export const categorias = {
     "Esportes",
     "Estratégia",
     "Survival",
-    "Retro"
+    "Retro",
+    "Lançamentos" // ← usado
   ],
 
   Mangás: [
@@ -50,33 +56,8 @@ export const categorias = {
     "Manhwa",
     "Manhua",
     "Slice of Life",
-    "Fantasia"
-  ],
-
-  Filmes: [
-    "Ação",
-    "Drama",
-    "Ficção Científica",
-    "Terror",
-    "Suspense",
-    "Comédia",
-    "Animação",
     "Fantasia",
-    "Aventura",
-    "Documentário"
-  ],
-
-  Séries: [
-    "Drama",
-    "Ação",
-    "Sci-Fi",
-    "Fantasia",
-    "Comédia",
-    "Suspense",
-    "Crime",
-    "Animação",
-    "Reality",
-    "Documentário"
+    "Terror" // ← usado (Junji Ito)
   ],
 
   Cinema: [
@@ -89,6 +70,15 @@ export const categorias = {
     "Roteiros",
     "Trilhas Sonoras",
     "Análises",
-    "Curiosidades"
+    "Curiosidades",
+    "Épico" // ← usado (Gladiador II)
+  ],
+
+  Podcast: [
+    "Animes",
+    "Mangás",
+    "Games",
+    "Tecnologia",
+    "Especial"
   ]
 };
