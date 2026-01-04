@@ -35,6 +35,7 @@ async function loadFeed() {
 async function loadSection(section) {
     if (!dynamicContent) return;
 
+    // Caso seja a Home (Manchetes)
     if (section === 'manchetes') {
         dynamicContent.innerHTML = originalContent;
         localStorage.setItem('currentSection', 'manchetes');
@@ -42,16 +43,32 @@ async function loadSection(section) {
         return;
     }
 
+    // Caso seja o Feed Social
     if (section === 'feed') {
         loadFeed();
         return;
     }
 
+    // Para as outras abas (Analises, Entrevistas, etc)
     try {
-        const html = await (await fetch(`/anigeeknews/modulos/${section}.html`)).text();
+        const response = await fetch(`/anigeeknews/modulos/${section}.html`);
+        const html = await response.text();
         dynamicContent.innerHTML = html;
+
+        // --- INÍCIO DA LÓGICA DE MÓDULOS ROBUSTOS ---
+        // Se a seção for "analises", carregamos o script de lógica dela
+        if (section === 'analises') {
+            import('./modulos/analises-logic.js')
+                .then(module => {
+                    module.initAnalises();
+                })
+                .catch(err => console.error("Erro ao carregar o script de análises:", err));
+        }
+        // --- FIM DA LÓGICA DE MÓDULOS ROBUSTOS ---
+
         setTimeout(restaurarNoticiasSalvas, 50);
-    } catch {
+    } catch (error) {
+        console.error("Erro ao carregar seção:", error);
         dynamicContent.innerHTML =
             '<p style="padding:40px; text-align:center; color:#888;">Conteúdo indisponível.</p>';
     }
