@@ -10,23 +10,21 @@
     "imagem": "https://i.postimg.cc/sDL0s4nt/Portada-One-Piece.png",
     "tags": ["one piece", "egghead", "luffy", "gear 5"]
   },
-
   {
     "id": "jujutsu-kaisen-pausa",
     "titulo": "Jujutsu Kaisen: Gege Akutami anuncia pausa por saúde",
-    "resumo": "Editorial da Jump confirma hiato de duas semanas.",
+    "resumo": "Editorial da Jump confirma hiato de duas semanas por motivos médicos.",
     "url": "/anigeeknews/notícias/mangas/jujutsu-kaisen-pausa.html",
     "categoria": "Mangás",
     "subcategoria": "Shonen",
     "data": "24 Dez, 2025",
     "imagem": "https://i.postimg.cc/QdzLYWKg/Jujutsu-Kaisen01.jpg",
-    "tags": ["jujutsu kaisen", "shonen jump"]
+    "tags": ["jujutsu kaisen", "shonen jump", "gege akutami"]
   },
-
   {
     "id": "elden-ring-shadow-erdtree",
     "titulo": "Elden Ring: Shadow of the Erdtree redefine DLCs",
-    "resumo": "Expansão ultrapassa expectativas com mundo novo.",
+    "resumo": "Expansão ultrapassa expectativas com mundo novo e desafios épicos.",
     "url": "/anigeeknews/notícias/games/elden-ring-shadow-erdtree.html",
     "categoria": "Games",
     "subcategoria": "RPG",
@@ -34,28 +32,159 @@
     "imagem": "https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf",
     "tags": ["elden ring", "fromsoftware", "rpg"]
   },
-
   {
     "id": "sony-ps-portal-2",
     "titulo": "Vazamento detalha especificações do suposto PS Portal 2",
-    "resumo": "Uso de telas OLED e integração com nuvem.",
+    "resumo": "Uso de telas OLED e integração nativa com processamento em nuvem.",
     "url": "/anigeeknews/notícias/hardware/ps-portal-2-vazamento.html",
     "categoria": "Tecnologia",
     "subcategoria": "Hardware",
     "data": "23 Dez, 2025",
     "imagem": "https://i.postimg.cc/sfHMcTDy/58awkrh8lp404dsegeqpbffcz.jpg",
-    "tags": ["sony", "hardware", "cloud gaming"]
+    "tags": ["sony", "hardware", "ps portal"]
   },
-
   {
     "id": "nintendo-switch-pro",
     "titulo": "Nintendo confirma novo console híbrido para 2026",
-    "resumo": "Protótipos já estão em testes.",
+    "resumo": "Protótipos já estão em testes finais para garantir o lançamento.",
     "url": "/anigeeknews/notícias/hardware/nintendo-switch-pro-2026.html",
     "categoria": "Tecnologia",
     "subcategoria": "Consoles",
     "data": "18 Dez, 2025",
     "imagem": "https://i.postimg.cc/6Q4x8fZn/nintendo-switch-pro.jpg",
-    "tags": ["nintendo", "console", "hardware"]
+    "tags": ["nintendo", "console", "switch"]
+  },
+  {
+    "id": "analise-solo-leveling-traco",
+    "titulo": "A Evolução do Traço em Solo Leveling: O que mudou?",
+    "resumo": "Analisamos detalhadamente a transição do traço do manhwa para a animação da A-1 Pictures.",
+    "url": "/anigeeknews/notícias/animes/solo-leveling-analise.html",
+    "categoria": "Animes",
+    "subcategoria": "Ação",
+    "data": "02 Jan, 2026",
+    "imagem": "https://i.postimg.cc/QdzLYWKg/Jujutsu-Kaisen01.jpg",
+    "tags": ["solo leveling", "manhwa", "a-1 pictures"]
+  },
+  {
+    "id": "analise-gladiador-2",
+    "titulo": "Gladiador II: Ridley Scott ainda consegue chocar?",
+    "resumo": "Análise profunda sobre o uso de efeitos práticos versus CGI na sequência do épico.",
+    "url": "/anigeeknews/notícias/cinema/gladiador-2-analise.html",
+    "categoria": "Cinema",
+    "subcategoria": "Épico",
+    "data": "01 Jan, 2026",
+    "imagem": "https://via.placeholder.com/240x160?text=Gladiador+II",
+    "tags": ["cinema", "gladiador", "ridley scott"]
+  },
+  {
+    "id": "analise-ghost-yotei",
+    "titulo": "Ghost of Yotei: O que o novo cenário significa para a franquia?",
+    "resumo": "Exploramos as referências históricas do Monte Yotei e como isso impacta a jogabilidade.",
+    "url": "/anigeeknews/notícias/games/ghost-of-yotei-analise.html",
+    "categoria": "Games",
+    "subcategoria": "Ação",
+    "data": "30 Dez, 2025",
+    "imagem": "https://i.postimg.cc/sfHMcTDy/58awkrh8lp404dsegeqpbffcz.jpg",
+    "tags": ["ghost of yotei", "playstation", "sucker punch"]
+  },
+  {
+    "id": "analise-junji-ito",
+    "titulo": "O Horror Corporal de Junji Ito e sua influência moderna",
+    "resumo": "Como as obras de Junji Ito moldaram o terror visual moderno nos mangás.",
+    "url": "/anigeeknews/notícias/mangas/junji-ito-horror.html",
+    "categoria": "Mangás",
+    "subcategoria": "Terror",
+    "data": "28 Dez, 2025",
+    "imagem": "https://via.placeholder.com/240x160?text=Junji+Ito+Art",
+    "tags": ["junji ito", "horror", "mangás"]
+  },
+  {
+    "id": "entrevista-gege-akutami",
+    "titulo": "Exclusivo: Gege Akutami fala sobre o futuro após o hiato",
+    "resumo": "O autor de Jujutsu Kaisen revela os impactos da pressão da indústria na sua saúde.",
+    "url": "/anigeeknews/notícias/animes/entrevista-gege-akutami.html",
+    "categoria": "Animes",
+    "subcategoria": "Entrevista",
+    "data": "03 Jan, 2026",
+    "imagem": "https://i.postimg.cc/QdzLYWKg/Jujutsu-Kaisen01.jpg",
+    "tags": ["gege akutami", "jujutsu kaisen", "entrevista"]
+  },
+  {
+    "id": "entrevista-dubladores-ia",
+    "titulo": "Dubladores brasileiros lutam contra o uso de IA na dublagem",
+    "resumo": "Entrevistamos os maiores nomes da dublagem nacional sobre inteligência artificial.",
+    "url": "/anigeeknews/notícias/tecnologia/dublagem-ia-brasil.html",
+    "categoria": "Tecnologia",
+    "subcategoria": "Indústria",
+    "data": "01 Jan, 2026",
+    "imagem": "https://images.unsplash.com/photo-1542751371-adc38448a05e",
+    "tags": ["dublagem", "ia", "brasil"]
+  },
+  {
+    "id": "entrevista-eiichiro-oda",
+    "titulo": "Eiichiro Oda: 'O final de One Piece já está desenhado e guardado'",
+    "resumo": "Oda reforça que o desfecho da jornada de Luffy não sofrerá alterações.",
+    "url": "/anigeeknews/notícias/animes/eiichiro-oda-entrevista-final.html",
+    "categoria": "Animes",
+    "subcategoria": "Especial",
+    "data": "04 Jan, 2026",
+    "imagem": "https://i.postimg.cc/sDL0s4nt/Portada-One-Piece.png",
+    "tags": ["one piece", "oda", "final"]
+  },
+  {
+    "id": "lancamento-solo-leveling-s2",
+    "titulo": "Solo Leveling: Segunda Temporada ganha data oficial de estreia",
+    "resumo": "Crunchyroll confirma o retorno de Sung Jinwoo para janeiro de 2026.",
+    "url": "/anigeeknews/notícias/animes/solo-leveling-segunda-temporada.html",
+    "categoria": "Animes",
+    "subcategoria": "Lançamentos",
+    "data": "04 Jan, 2026",
+    "imagem": "https://i.postimg.cc/QdzLYWKg/Jujutsu-Kaisen01.jpg",
+    "tags": ["solo leveling", "crunchyroll", "animes"]
+  },
+  {
+    "id": "lancamento-gta-6",
+    "titulo": "GTA VI: Rockstar reafirma janela de lançamento para o outono",
+    "resumo": "Take-Two garante que o título mais aguardado da década não será adiado.",
+    "url": "/anigeeknews/notícias/games/gta-vi-lancamento.html",
+    "categoria": "Games",
+    "subcategoria": "Lançamentos",
+    "data": "04 Jan, 2026",
+    "imagem": "https://i.postimg.cc/sfHMcTDy/58awkrh8lp404dsegeqpbffcz.jpg",
+    "tags": ["gta vi", "rockstar", "games"]
+  },
+  {
+    "id": "manchete-animes-2026",
+    "titulo": "2026 O ano dos retornos épicos os animes mais aguardados",
+    "resumo": "Um guia completo sobre as continuações e estreias mais esperadas.",
+    "url": "https://linkpremiado51-cmd.github.io/anigeeknews/notícias/animes/2026/2026-o-ano-dos-retornos-epicos.html",
+    "categoria": "Animes",
+    "subcategoria": "Destaque",
+    "data": "04 Jan, 2026",
+    "imagem": "https://i.ibb.co/ksrQfnw0/os-15-animes-mais-aguardados-de-2026-1.jpg",
+    "tags": ["2026", "animes", "destaque"]
+  },
+  {
+    "id": "podcast-egghead-animacao",
+    "titulo": "AniGeek Cast #42: O Legado de Egghead e o Futuro da Animação",
+    "resumo": "Debatemos com especialistas como One Piece elevou o nível técnico das animações.",
+    "url": "/anigeeknews/podcast/anigeek-cast-42.html",
+    "categoria": "Podcast",
+    "subcategoria": "Animes",
+    "data": "04 Jan, 2026",
+    "imagem": "https://i.postimg.cc/sDL0s4nt/Portada-One-Piece.png",
+    "tags": ["podcast", "one piece", "animes"]
+  },
+  {
+    "id": "podcast-manga-akutami",
+    "titulo": "Manga Minute: Jujutsu Kaisen - Teorias para o retorno de Akutami",
+    "resumo": "Analisamos os últimos capítulos e discutimos o destino de Yuji Itadori.",
+    "url": "/anigeeknews/podcast/manga-minute-jujutsu.html",
+    "categoria": "Podcast",
+    "subcategoria": "Mangás",
+    "data": "28 Dez, 2025",
+    "imagem": "https://i.postimg.cc/QdzLYWKg/Jujutsu-Kaisen01.jpg",
+    "tags": ["podcast", "jujutsu kaisen", "mangás"]
   }
 ]
+
