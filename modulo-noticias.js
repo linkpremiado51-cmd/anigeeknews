@@ -21,82 +21,68 @@ const bancoDeDados = {
 // ==================================================
 // 3. CONTROLE DE ÍNDICES
 // ==================================================
-const secoesPermitidas = [
-    'manchetes',
-    'analises',
-    'entrevistas',
-    'lancamentos',
-    'podcast'
-];
+const secoesPermitidas = Object.keys(bancoDeDados);
 
 let indices = JSON.parse(localStorage.getItem('indices_secoes')) || {};
 
 secoesPermitidas.forEach(secao => {
-    if (indices[secao] === undefined) indices[secao] = 0;
+    if (typeof indices[secao] !== 'number') indices[secao] = 0;
 });
 
 // ==================================================
-// 4. FUNÇÃO AUXILIAR: GERAR SLUG
+// 4. UTILITÁRIOS
 // ==================================================
-function gerarSlug(titulo) {
-    return titulo
+function normalizarTexto(texto = '') {
+    return texto
+        .toString()
         .toLowerCase()
-        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/(^-|-$)/g, '');
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .trim();
+}
+
+function gerarSlug(titulo) {
+    return normalizarTexto(titulo).replace(/[^a-z0-9]+/g, '-');
 }
 
 // ==================================================
-// 5. ORDENA NOTÍCIAS PELOS GOSTOS DO USUÁRIO
-// ✔ Categoria + Subcategoria
-// ✔ Normalização
+// 5. SISTEMA DE RECOMENDAÇÃO (CORRIGIDO)
 // ==================================================
-function ordenarPorGostos(listaOriginal) {
+function ordenarPorRelevancia(listaOriginal) {
+    const gostos = (JSON.parse(localStorage.getItem('gostosUsuario')) || [])
+        .map(g => normalizarTexto(g));
 
-    if (!Array.isArray(listaOriginal)) return [];
+    if (!gostos.length) return [...listaOriginal];
 
-    const gostosUsuario = JSON.parse(
-        localStorage.getItem('gostosUsuario')
-    ) || [];
+    return listaOriginal
+        .map(noticia => {
+            let score = 0;
 
-    if (!gostosUsuario.length) return [...listaOriginal];
+            const categoria = normalizarTexto(
+                noticia.category || noticia.categoria
+            );
 
-    const gostosNormalizados = gostosUsuario.map(g =>
-        String(g).toLowerCase()
-    );
+            // Peso alto para categoria
+            if (gostos.includes(categoria)) {
+                score += 5;
+            }
 
-    const prioridade = [];
-    const resto = [];
+            // Peso médio para título
+            gostos.forEach(gosto => {
+                if (normalizarTexto(noticia.titulo).includes(gosto)) {
+                    score += 2;
+                }
+            });
 
-    listaOriginal.forEach(noticia => {
-
-        const categoria = noticia.categoria
-            ? String(noticia.categoria).toLowerCase()
-            : null;
-
-        const subcategoria = noticia.subcategoria
-            ? String(noticia.subcategoria).toLowerCase()
-            : null;
-
-        const combina =
-            (categoria && gostosNormalizados.includes(categoria)) ||
-            (subcategoria && gostosNormalizados.includes(subcategoria));
-
-        if (combina) {
-            prioridade.push(noticia);
-        } else {
-            resto.push(noticia);
-        }
-    });
-
-    return [...prioridade, ...resto];
+            return { ...noticia, score };
+        })
+        .sort((a, b) => b.score - a.score);
 }
 
 // ==================================================
-// 6. ESTRUTURA HTML DA NOTÍCIA
+// 6. HTML DA NOTÍCIA
 // ==================================================
 function criarEstruturaNoticia(noticia) {
-
     const slug = noticia.url
         ? noticia.url
         : `/anigeeknews/noticias/2026/${gerarSlug(noticia.titulo)}.html`;
@@ -105,14 +91,19 @@ function criarEstruturaNoticia(noticia) {
         <a href="${slug}" class="news-link news-extra-persistente">
             <article class="post-card">
                 <div class="post-img-wrapper">
-                    <img src="${noticia.imagem || noticia.img}" loading="lazy">
+                    <img src="${noticia.img}" loading="lazy" alt="${noticia.titulo}">
                 </div>
                 <div class="post-content">
-                    <span class="category">
-                        ${noticia.categoria}${noticia.subcategoria ? ' • ' + noticia.subcategoria : ''}
-                    </span>
+                    <span class="category">${noticia.category || noticia.categoria}</span>
                     <h2>${noticia.titulo}</h2>
-                    <p>${noticia.resumo || noticia.descricao || ''}</p>
+                    <p>${noticia.descricao}</p>
+                    <div class="action-row">
+                        <span class="meta-minimal">${noticia.meta}</span>
+                        <button class="like-btn"
+                            onclick="event.preventDefault(); window.toggleLike?.(this)">
+                            <span>${noticia.likes || 0}</span> leitores
+                        </button>
+                    </div>
                 </div>
             </article>
         </a>
@@ -120,22 +111,19 @@ function criarEstruturaNoticia(noticia) {
 }
 
 // ==================================================
-// 7. RESTAURA NOTÍCIAS SALVAS (COM PERSONALIZAÇÃO)
+// 7. RESTAURAR NOTÍCIAS
 // ==================================================
 export function restaurarNoticiasSalvas() {
-
     const secao = localStorage.getItem('currentSection') || 'manchetes';
     const container = document.querySelector('.load-more-container');
 
-    if (!bancoDeDados[secao] || !container) return;
+    if (!container || !bancoDeDados[secao]) return;
 
-    if (indices[secao] === undefined) indices[secao] = 0;
+    document.querySelectorAll('.news-extra-persistente').forEach(el => el.remove());
 
-    document
-        .querySelectorAll('.news-extra-persistente')
-        .forEach(el => el.remove());
+    indices[secao] = indices[secao] || 0;
 
-    const listaOrdenada = ordenarPorGostos(bancoDeDados[secao]);
+    const listaOrdenada = ordenarPorRelevancia(bancoDeDados[secao]);
 
     for (let i = 0; i < indices[secao]; i++) {
         if (listaOrdenada[i]) {
@@ -150,55 +138,43 @@ export function restaurarNoticiasSalvas() {
 }
 
 // ==================================================
-// 8. CARREGAR MAIS NOTÍCIAS
+// 8. CARREGAR MAIS
 // ==================================================
 export function carregarNoticiasExtras() {
-
     const secao = localStorage.getItem('currentSection') || 'manchetes';
     const container = document.querySelector('.load-more-container');
     const botao = document.querySelector('.load-more-btn');
 
     if (!container || !botao) return;
 
-    const listaOrdenada = ordenarPorGostos(bancoDeDados[secao]);
-    if (!listaOrdenada.length) return;
+    const listaOrdenada = ordenarPorRelevancia(bancoDeDados[secao]);
 
-    let contador = 0;
+    let adicionadas = 0;
 
-    while (contador < 2 && indices[secao] < listaOrdenada.length) {
+    while (adicionadas < 2 && indices[secao] < listaOrdenada.length) {
         container.insertAdjacentHTML(
             'beforebegin',
             criarEstruturaNoticia(listaOrdenada[indices[secao]])
         );
         indices[secao]++;
-        contador++;
+        adicionadas++;
     }
 
-    localStorage.setItem(
-        'indices_secoes',
-        JSON.stringify(indices)
-    );
-
+    localStorage.setItem('indices_secoes', JSON.stringify(indices));
     verificarFimDasNoticias(secao, listaOrdenada);
 }
 
 // ==================================================
-// 9. CONTROLE DO BOTÃO "CARREGAR MAIS"
+// 9. BOTÃO "CARREGAR MAIS"
 // ==================================================
 function verificarFimDasNoticias(secao, lista) {
-
     const btn = document.querySelector('.load-more-btn');
     if (!btn) return;
 
-    if (indices[secao] >= lista.length) {
-        btn.disabled = true;
-        btn.textContent = 'Fim do conteúdo';
-        btn.style.opacity = '0.5';
-        btn.style.cursor = 'not-allowed';
-    } else {
-        btn.disabled = false;
-        btn.textContent = 'Carregar Mais';
-        btn.style.opacity = '1';
-        btn.style.cursor = 'pointer';
-    }
+    const acabou = indices[secao] >= lista.length;
+
+    btn.disabled = acabou;
+    btn.textContent = acabou ? 'Fim do conteúdo' : 'Carregar Mais';
+    btn.style.opacity = acabou ? '0.5' : '1';
+    btn.style.cursor = acabou ? 'not-allowed' : 'pointer';
 }
