@@ -1,0 +1,77 @@
+<!-- /anigeeknews/usuario/preferencias.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Meus Gostos - AniGeekNews</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #0f0f0f;
+    color: #fff;
+    padding: 20px;
+}
+
+h1 {
+    margin-bottom: 10px;
+}
+
+.temas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin-top: 20px;
+}
+
+label {
+    background: #1c1c1c;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button {
+    margin-top: 20px;
+    padding: 12px 20px;
+    font-size: 16px;
+    background: #c1121f;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Escolha seus temas favoritos</h1>
+<p>Isso ajuda o AniGeekNews a mostrar notícias que combinam com você.</p>
+
+<div class="temas">
+    <label><input type="checkbox" value="Animes"> Animes</label>
+    <label><input type="checkbox" value="Games"> Games</label>
+    <label><input type="checkbox" value="Mangás"> Mangás</label>
+    <label><input type="checkbox" value="Cinema"> Cinema</label>
+    <label><input type="checkbox" value="Séries"> Séries</label>
+    <label><input type="checkbox" value="Filmes"> Filmes</label>
+    <label><input type="checkbox" value="Tecnologia"> Tecnologia</label>
+</div>
+
+<button onclick="salvarPreferencias()">Salvar Preferências</button>
+
+<script>
+function salvarPreferencias() {
+    const selecionados = [];
+    document.querySelectorAll("input[type=checkbox]:checked")
+        .forEach(item => selecionados.push(item.value));
+
+    localStorage.setItem("temasFavoritos", JSON.stringify(selecionados));
+
+    alert("Preferências salvas com sucesso!");
+    window.location.href = "../index.html";
+}
+</script>
+
+</body>
+</html>
