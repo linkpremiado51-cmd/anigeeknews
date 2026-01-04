@@ -2,121 +2,60 @@
   {
     "id": "one-piece-egghead",
     "titulo": "One Piece: O clímax de Egghead redefine a animação moderna",
-    "resumo": "Direção de arte sacrifica consistência visual por impacto narrativo. Por que essa foi a decisão correta para o futuro da franquia.",
-    "url": "/anigeeknews/not%C3%ADcias/animes/one_piece/one-piece-climax-egghead-animacao-moderna.html",
+    "resumo": "Direção de arte sacrifica consistência visual por impacto narrativo.",
+    "url": "/anigeeknews/notícias/animes/one_piece/one-piece-climax-egghead-animacao-moderna.html",
     "categoria": "Animes",
+    "subcategoria": "Shonen",
     "data": "17 Dez, 2025",
     "imagem": "https://i.postimg.cc/sDL0s4nt/Portada-One-Piece.png",
-    "tags": ["one piece", "egghead", "luffy", "gear 5", "toei animation", "webgen", "oda", "animacao"]
+    "tags": ["one piece", "egghead", "luffy", "gear 5"]
   },
+
   {
     "id": "jujutsu-kaisen-pausa",
     "titulo": "Jujutsu Kaisen: Gege Akutami anuncia pausa por saúde",
-    "resumo": "Editorial da Jump confirma hiato de duas semanas. Fãs debatem condições de trabalho na indústria.",
-    "url": "/anigeeknews/not%C3%ADcias/mangas/jujutsu-kaisen-pausa.html",
+    "resumo": "Editorial da Jump confirma hiato de duas semanas.",
+    "url": "/anigeeknews/notícias/mangas/jujutsu-kaisen-pausa.html",
     "categoria": "Mangás",
+    "subcategoria": "Shonen",
     "data": "24 Dez, 2025",
     "imagem": "https://i.postimg.cc/QdzLYWKg/Jujutsu-Kaisen01.jpg",
-    "tags": ["jujutsu kaisen", "gege akutami", "manga", "shonen jump", "pausa", "saude"]
+    "tags": ["jujutsu kaisen", "shonen jump"]
   },
+
   {
     "id": "elden-ring-shadow-erdtree",
     "titulo": "Elden Ring: Shadow of the Erdtree redefine DLCs",
-    "resumo": "Expansão ultrapassa expectativas com mundo novo, chefes épicos e lore profunda.",
-    "url": "/anigeeknews/not%C3%ADcias/games/elden-ring-shadow-erdtree.html",
+    "resumo": "Expansão ultrapassa expectativas com mundo novo.",
+    "url": "/anigeeknews/notícias/games/elden-ring-shadow-erdtree.html",
     "categoria": "Games",
+    "subcategoria": "RPG",
     "data": "15 Dez, 2025",
-    "imagem": "https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?w=200&auto=format&fit=crop",
-    "tags": ["elden ring", "fromsoftware", "dlc", "shadow of the erdtree", "fromsoft"]
+    "imagem": "https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf",
+    "tags": ["elden ring", "fromsoftware", "rpg"]
   },
+
   {
     "id": "sony-ps-portal-2",
-    "titulo": "Vazamento detalha especificações do suposto \"PS Portal 2\"",
-    "resumo": "Fontes ligadas à cadeia de suprimentos indicam uso de telas OLED Samsung e integração nativa com nuvem.",
-    "url": "/anigeeknews/not%C3%ADcias/hardware/ps-portal-2-vazamento.html",
-    "categoria": "Hardware",
+    "titulo": "Vazamento detalha especificações do suposto PS Portal 2",
+    "resumo": "Uso de telas OLED e integração com nuvem.",
+    "url": "/anigeeknews/notícias/hardware/ps-portal-2-vazamento.html",
+    "categoria": "Tecnologia",
+    "subcategoria": "Hardware",
     "data": "23 Dez, 2025",
     "imagem": "https://i.postimg.cc/sfHMcTDy/58awkrh8lp404dsegeqpbffcz.jpg",
-    "tags": ["ps portal 2", "playstation", "sony", "streaming", "cloud gaming"]
+    "tags": ["sony", "hardware", "cloud gaming"]
   },
-  {
-    "id": "chainsaw-man-parte3",
-    "titulo": "Mangá de Chainsaw Man Parte 3 terá lançamento mensal",
-    "resumo": "Tatsuki Fujimoto opta por ritmo mais lento para maior qualidade artística.",
-    "url": "/anigeeknews/not%C3%ADcias/mangas/chainsaw-man-parte3.html",
-    "categoria": "Mangás",
-    "data": "22 Dez, 2025",
-    "imagem": "https://i.postimg.cc/CKd7xvXn/chainsaw-man-p3.jpg",
-    "tags": ["chainsaw man", "fujimoto", "parte 3", "manga", "shonen jump"]
-  },
-  {
-    "id": "demon-slayer-hashira",
-    "titulo": "Demon Slayer: Hashira Training Arc ganha trailer final",
-    "resumo": "Novo arco promete revelar segredos sobre o passado de cada Hashira.",
-    "url": "/anigeeknews/not%C3%ADcias/animes/demon-slayer-hashira-trailer.html",
-    "categoria": "Animes",
-    "data": "21 Dez, 2025",
-    "imagem": "https://i.postimg.cc/fLrWY3vF/demon-slayer-hashira.jpg",
-    "tags": ["demon slayer", "kimetsu no yaiba", "hashira", "ufotable", "trailer"]
-  },
+
   {
     "id": "nintendo-switch-pro",
-    "titulo": "Nintendo confirma novo console híbrido para final de 2026",
-    "resumo": "Protótipos com chips customizados já estão em testes com desenvolvedores.",
-    "url": "/anigeeknews/not%C3%ADcias/hardware/nintendo-switch-pro-2026.html",
-    "categoria": "Hardware",
+    "titulo": "Nintendo confirma novo console híbrido para 2026",
+    "resumo": "Protótipos já estão em testes.",
+    "url": "/anigeeknews/notícias/hardware/nintendo-switch-pro-2026.html",
+    "categoria": "Tecnologia",
+    "subcategoria": "Consoles",
     "data": "18 Dez, 2025",
     "imagem": "https://i.postimg.cc/6Q4x8fZn/nintendo-switch-pro.jpg",
-    "tags": ["nintendo", "switch pro", "console", "2026", "hardware"]
-  },
-  {
-    "id": "crunchyroll-licenciamento-2026",
-    "titulo": "Crunchyroll anuncia licenciamento de 12 novos animes para 2026",
-    "resumo": "A plataforma reforça presença no mercado latino com exclusividades da temporada de inverno.",
-    "url": "/anigeeknews/not%C3%ADcias/industria/crunchyroll-licenciamento-2026.html",
-    "categoria": "Indústria",
-    "data": "19 Dez, 2025",
-    "imagem": "https://i.postimg.cc/85WqGcLq/crunchyroll-news.jpg",
-    "tags": ["crunchyroll", "licenciamento", "streaming", "animes 2026", "sony"]
-  },
-  {
-    "id": "industria-anime-crescimento-2026",
-    "titulo": "Indústria de animes cresce 15% e impulsiona mercado internacional",
-    "resumo": "Relatório aponta crescimento recorde da indústria de animes em 2026, com expansão global e novos investimentos.",
-    "url": "https://linkpremiado51-cmd.github.io/anigeeknews/notícias/animes/2026/industria-anime-crescimento-15-mercado-internacional.html",
-    "categoria": "Animes",
-    "data": "2026",
-    "imagem": "https://i.ibb.co/HTRrwKvb/FB-IMG-1764634289372.jpg",
-    "tags": ["industria anime", "mercado internacional", "crescimento", "2026", "investimento"]
-  },
-  {
-    "id": "retornos-epicos-2026",
-    "titulo": "2026: O ano dos retornos épicos no mundo dos animes",
-    "resumo": "Grandes franquias retornam em 2026, prometendo movimentar o mercado e reacender o hype entre os fãs.",
-    "url": "https://linkpremiado51-cmd.github.io/anigeeknews/notícias/animes/2026/2026-o-ano-dos-retornos-epicos.html",
-    "categoria": "Animes",
-    "data": "2026",
-    "imagem": "https://i.ibb.co/ksrQfnw0/os-15-animes-mais-aguardados-de-2026-1.jpg",
-    "tags": ["animes 2026", "retornos", "franquias", "temporadas", "hype"]
-  },
-  {
-    "id": "solo-leveling-arise-atualizacao",
-    "titulo": "Solo Leveling: ARISE ganha grande atualização de conteúdo",
-    "resumo": "A Netmarble lançou a primeira atualização do ano para Solo Leveling: ARISE, trazendo raid cooperativa, nova caçadora e eventos por tempo limitado.",
-    "url": "https://linkpremiado51-cmd.github.io/anigeeknews/notícias/games/solo-leveling-arise-grande-atualizacao.html",
-    "categoria": "Games",
-    "data": "17 Jan, 2025",
-    "imagem": "https://i.ibb.co/CK7yQXT6/header-2.jpg",
-    "tags": ["solo leveling", "solo leveling arise", "netmarble", "atualização", "raid cooperativa", "novo hunter", "games mobile", "rpg de ação"]
-  },
-  {
-    "id": "industria-anime-crescimento-15-mercado-internacional",
-    "titulo": "Indústria de anime registra crescimento de 15% impulsionado pelo mercado internacional",
-    "resumo": "A indústria de anime atingiu US$ 25 bilhões em 2024, com mais da metade da receita vinda do mercado internacional, consolidando a expansão global do setor.",
-    "url": "https://linkpremiado51-cmd.github.io/anigeeknews/notícias/animes/mercado/crescimento-anime-15-mercado-internacional.html",
-    "categoria": "Animes",
-    "data": "30 Out, 2025",
-    "imagem": "https://i.ibb.co/RGqJx4jr/filters-quality-95-format-webp-4.png",
-    "tags": ["indústria de anime", "crescimento", "mercado internacional", "streaming", "economia criativa", "animes"]
+    "tags": ["nintendo", "console", "hardware"]
   }
 ]
