@@ -12,8 +12,8 @@ export const dadosEntrevistas = [
     },
     {
         img: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&auto=format&fit=crop",
-        categoria: "Indústria",
-        subcategoria: "IA",
+        categoria: "Tecnologia",
+        subcategoria: "Indústria",
         titulo: "Dubladores brasileiros lutam contra o uso de IA na dublagem",
         descricao: "Entrevistamos os maiores nomes da dublagem nacional sobre os riscos da inteligência artificial.",
         meta: "há 3 dias • Leitura: 12min",
@@ -22,7 +22,7 @@ export const dadosEntrevistas = [
     {
         img: "https://i.postimg.cc/sfHMcTDy/58awkrh8lp404dsegeqpbffcz.jpg",
         categoria: "Tecnologia",
-        subcategoria: "Desenvolvimento",
+        subcategoria: "Consoles",
         titulo: "O que a Sony planeja para o futuro dos consoles portáteis?",
         descricao: "Conversamos com engenheiros da divisão PlayStation sobre novos hardwares.",
         meta: "há 1 semana • Leitura: 6min",
@@ -49,7 +49,7 @@ export const dadosEntrevistas = [
     {
         img: "https://i.postimg.cc/QdzLYWKg/Jujutsu-Kaisen01.jpg",
         categoria: "Animes",
-        subcategoria: "Produção",
+        subcategoria: "Especial",
         titulo: "Diretor de animação de Chainsaw Man detalha o uso de CGI",
         descricao: "Discussão técnica sobre integrar 3D sem perder o traço manual.",
         meta: "há 1 dia • Leitura: 9min",
