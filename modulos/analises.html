@@ -1,6 +1,6 @@
 <style>
 /* ===============================
-   BASE EDITORIAL — NYT STYLE
+   EDITORIAL MOBILE-FIRST
 ================================ */
 
 :root {
@@ -8,247 +8,211 @@
     --text-muted: #6b7280;
     --border: #e5e7eb;
     --accent-news: #b91c1c;
+    --bg: #ffffff;
 }
 
-/* Layout geral */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text-main);
+    font-family: Georgia, "Times New Roman", serif;
+}
+
+/* Layout base */
 .layout {
-    display: grid;
-    grid-template-columns: 1fr 300px;
-    gap: 60px;
-    max-width: 1200px;
+    max-width: 1100px;
     margin: 0 auto;
-    padding: 60px 20px;
+    padding: clamp(16px, 4vw, 48px);
 }
 
-/* Conteúdo principal */
-main {
-    max-width: 860px;
-    margin: 0 auto;
-}
-
-/* Cabeçalho da seção */
-.section-header {
-    margin-bottom: 40px;
-}
-
+/* Cabeçalho */
 .section-title {
-    font-family: "Georgia", "Times New Roman", serif;
-    font-size: 34px;
+    font-size: clamp(22px, 4.5vw, 36px);
     font-weight: 700;
     border-bottom: 2px solid var(--text-main);
     padding-bottom: 12px;
+    margin-bottom: 32px;
 }
 
-/* Artigos */
+/* Feed */
 .feed {
     display: flex;
     flex-direction: column;
+    gap: 32px;
 }
 
+/* Artigo */
 .post-card {
-    display: flex;
-    gap: 28px;
-    padding: 32px 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding-bottom: 28px;
     border-bottom: 1px solid var(--border);
 }
 
-/* Imagens */
+/* Imagem */
 .post-img-wrapper img {
-    width: 240px;
-    height: 160px;
-    object-fit: cover;
-    filter: grayscale(8%);
-}
-
-/* Corpo editorial */
-.post-content {
-    flex: 1;
-}
-
-.editorial-body {
-    max-width: 520px;
+    width: 100%;
+    height: auto;
+    border-radius: 2px;
 }
 
 /* Categoria */
 .category {
-    font-size: 11px;
+    font-size: clamp(10px, 2.5vw, 12px);
     letter-spacing: 1.5px;
-    font-weight: 700;
     text-transform: uppercase;
-    display: block;
-    margin-bottom: 6px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    display: inline-block;
 }
 
 /* Título */
-.post-content h2 {
-    font-family: "Georgia", serif;
-    font-size: 26px;
+.post-card h2 {
+    font-size: clamp(18px, 4vw, 26px);
     line-height: 1.25;
-    font-weight: 700;
-    margin: 6px 0 14px;
-    color: var(--text-main);
+    margin: 6px 0 10px;
 }
 
 /* Texto */
-.post-content p {
-    font-family: "Georgia", serif;
-    font-size: 17px;
+.post-card p {
+    font-size: clamp(14px, 3.5vw, 17px);
     line-height: 1.65;
     color: #222;
 }
 
-/* Ações */
+/* Meta e ações */
 .action-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 16px;
+    margin-top: 12px;
 }
 
-/* Meta */
 .meta-minimal {
-    font-size: 12px;
+    font-size: clamp(11px, 2.8vw, 13px);
     color: var(--text-muted);
     font-style: italic;
 }
 
-/* Botão recomendação */
 .like-btn {
     background: none;
     border: none;
-    font-size: 12px;
+    font-size: clamp(11px, 2.8vw, 13px);
     font-weight: 700;
     cursor: pointer;
-    color: var(--text-main);
-    text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
-/* Carregar mais */
+/* Desktop */
+@media (min-width: 768px) {
+    .post-card {
+        grid-template-columns: 240px 1fr;
+        gap: 28px;
+    }
+
+    .post-img-wrapper img {
+        height: 160px;
+        object-fit: cover;
+    }
+}
+
+/* Botão carregar */
 .load-more-container {
     text-align: center;
-    margin-top: 50px;
-    padding-top: 30px;
-    border-top: 1px solid var(--border);
+    margin-top: 40px;
 }
 
 .load-more-btn {
     background: transparent;
     border: 1px solid var(--text-main);
-    padding: 14px 34px;
-    font-family: "Georgia", serif;
-    font-weight: 700;
-    cursor: pointer;
-    text-transform: uppercase;
+    padding: 14px 36px;
+    font-size: 12px;
     letter-spacing: 1px;
-}
-
-/* Sidebar */
-aside {
-    border-left: 1px solid var(--border);
-    padding-left: 30px;
-}
-
-.sidebar-box {
-    position: sticky;
-    top: 40px;
-}
-
-.sidebar-title {
-    font-family: "Georgia", serif;
-    font-size: 16px;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 8px;
-    margin-bottom: 12px;
-}
-
-/* Responsivo */
-@media (max-width: 900px) {
-    .layout {
-        grid-template-columns: 1fr;
-    }
-
-    aside {
-        border-left: none;
-        padding-left: 0;
-        margin-top: 40px;
-    }
-
-    .post-card {
-        flex-direction: column;
-    }
-
-    .post-img-wrapper img {
-        width: 100%;
-        height: auto;
-    }
+    text-transform: uppercase;
+    cursor: pointer;
 }
 </style>
 
 <div class="layout">
-    <main>
-        <div class="section-header">
-            <h2 class="section-title">Análises e Críticas Profundas</h2>
-        </div>
+    <h2 class="section-title">Análises e Críticas Profundas</h2>
 
-        <div class="feed">
+    <div class="feed">
 
-            <article class="post-card">
-                <div class="post-img-wrapper">
-                    <img src="https://i.postimg.cc/sDL0s4nt/Portada-One-Piece.png" alt="Análise Anime">
-                </div>
-                <div class="post-content">
-                    <div class="editorial-body">
-                        <span class="category" style="color: var(--accent-news)">Anime</span>
-                        <h2>O Impacto Visual de Egghead: Experimentalismo ou Caos?</h2>
-                        <p>A nova estética de One Piece em 2025 divide opiniões. Nossa análise explora como a direção de arte abriu mão do traço rígido para abraçar uma fluidez que remete aos clássicos da animação francesa, priorizando a expressão emocional sobre a fidelidade absoluta ao design original.</p>
-                        <div class="action-row">
-                            <span class="meta-minimal">há 2 dias • Leitura: 12min</span>
-                            <button class="like-btn" onclick="event.preventDefault(); window.toggleLike(this)">
-                                <span>142</span> recomendações
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </article>
-
-            <article class="post-card">
-                <div class="post-img-wrapper">
-                    <img src="https://i.postimg.cc/sfHMcTDy/58awkrh8lp404dsegeqpbffcz.jpg" alt="Análise Games">
-                </div>
-                <div class="post-content">
-                    <div class="editorial-body">
-                        <span class="category" style="color:#2c5282">Games</span>
-                        <h2>Elden Ring e a Anatomia do Mundo Aberto Silencioso</h2>
-                        <p>Diferente da tendência da indústria em preencher mapas com ícones, Elden Ring utiliza a arquitetura como guia. A análise explora como o design visual conduz o jogador sem depender de interfaces intrusivas.</p>
-                        <div class="action-row">
-                            <span class="meta-minimal">há 3 dias • Leitura: 15min</span>
-                            <button class="like-btn" onclick="event.preventDefault(); window.toggleLike(this)">
-                                <span>210</span> recomendações
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </article>
-
-            <div class="load-more-container">
-                <button class="load-more-btn">Carregar Mais Análises</button>
+        <!-- 1 -->
+        <article class="post-card">
+            <div class="post-img-wrapper">
+                <img src="https://i.postimg.cc/sDL0s4nt/Portada-One-Piece.png">
             </div>
+            <div>
+                <span class="category" style="color:var(--accent-news)">Anime</span>
+                <h2>Egghead e a Reinvenção Visual de One Piece</h2>
+                <p>A saga Egghead marca uma ruptura estética consciente, onde fluidez e exagero expressivo substituem a rigidez clássica, refletindo o peso narrativo do arco.</p>
+                <div class="action-row">
+                    <span class="meta-minimal">há 2 dias • 12 min</span>
+                    <button class="like-btn">142 recomendações</button>
+                </div>
+            </div>
+        </article>
 
-        </div>
-    </main>
+        <!-- 2 -->
+        <article class="post-card">
+            <div class="post-img-wrapper">
+                <img src="https://i.postimg.cc/sfHMcTDy/58awkrh8lp404dsegeqpbffcz.jpg">
+            </div>
+            <div>
+                <span class="category" style="color:#2c5282">Games</span>
+                <h2>Elden Ring e o Design da Solidão</h2>
+                <p>A FromSoftware redefine mundos abertos ao permitir que arquitetura e silêncio guiem o jogador, eliminando interfaces invasivas.</p>
+                <div class="action-row">
+                    <span class="meta-minimal">há 3 dias • 15 min</span>
+                    <button class="like-btn">210 recomendações</button>
+                </div>
+            </div>
+        </article>
 
-    <aside>
-        <div class="sidebar-box">
-            <h4 class="sidebar-title">Guia Editorial</h4>
-            <p style="font-size:13px;color:var(--text-muted)">
-                As análises seguem critérios técnicos rigorosos:
-            </p>
-            <ul style="font-size:13px;color:var(--text-muted);padding-left:15px">
-                <li>Direção de Arte</li>
-                <li>Estrutura Narrativa</li>
-                <li>Inovação de Linguagem</li>
-            </ul>
-        </div>
-    </aside>
+        <!-- 3 a 10 -->
+        <!-- Repito estrutura mudando conteúdo -->
+
+        <article class="post-card">
+            <div class="post-img-wrapper"><img src="https://i.postimg.cc/QdzLYWKg/Jujutsu-Kaisen01.jpg"></div>
+            <div>
+                <span class="category">Mangá</span>
+                <h2>Jujutsu Kaisen e o Sacrifício Narrativo</h2>
+                <p>Akutami rompe expectativas ao usar perdas permanentes como ferramenta estrutural de tensão.</p>
+                <div class="action-row"><span class="meta-minimal">1 semana • 10 min</span><button class="like-btn">98 recomendações</button></div>
+            </div>
+        </article>
+
+        <article class="post-card">
+            <div class="post-img-wrapper"><img src="https://via.placeholder.com/400x250"></div>
+            <div>
+                <span class="category">Cinema</span>
+                <h2>O Retorno do Terror Autoral</h2>
+                <p>Produções médias dominam bilheterias ao focar medo humano e linguagem cinematográfica crua.</p>
+                <div class="action-row"><span class="meta-minimal">5 dias • 14 min</span><button class="like-btn">156 recomendações</button></div>
+            </div>
+        </article>
+
+        <article class="post-card"><div class="post-img-wrapper"><img src="https://via.placeholder.com/400x250"></div><div><span class="category">Anime</span><h2>Frieren e o Tempo como Tema Central</h2><p>A narrativa desacelera para refletir sobre memória, perda e permanência.</p><div class="action-row"><span class="meta-minimal">4 dias • 11 min</span><button class="like-btn">121 recomendações</button></div></div></article>
+
+        <article class="post-card"><div class="post-img-wrapper"><img src="https://via.placeholder.com/400x250"></div><div><span class="category">Games</span><h2>Death Stranding e o Espaço Vazio</h2><p>O vazio como mecânica ativa de conexão emocional.</p><div class="action-row"><span class="meta-minimal">6 dias • 13 min</span><button class="like-btn">177 recomendações</button></div></div></article>
+
+        <article class="post-card"><div class="post-img-wrapper"><img src="https://via.placeholder.com/400x250"></div><div><span class="category">Mangá</span><h2>Berserk e a Violência Existencial</h2><p>A brutalidade como espelho psicológico.</p><div class="action-row"><span class="meta-minimal">2 semanas • 18 min</span><button class="like-btn">312 recomendações</button></div></div></article>
+
+        <article class="post-card"><div class="post-img-wrapper"><img src="https://via.placeholder.com/400x250"></div><div><span class="category">Cinema</span><h2>A24 e o Novo Horror</h2><p>O terror como linguagem autoral contemporânea.</p><div class="action-row"><span class="meta-minimal">8 dias • 12 min</span><button class="like-btn">201 recomendações</button></div></div></article>
+
+        <article class="post-card"><div class="post-img-wrapper"><img src="https://via.placeholder.com/400x250"></div><div><span class="category">Anime</span><h2>Chainsaw Man e o Caos Controlado</h2><p>Violência estilizada como comentário emocional.</p><div class="action-row"><span class="meta-minimal">9 dias • 11 min</span><button class="like-btn">189 recomendações</button></div></div></article>
+
+        <article class="post-card"><div class="post-img-wrapper"><img src="https://via.placeholder.com/400x250"></div><div><span class="category">Games</span><h2>Shadow of the Colossus e o Silêncio Moral</h2><p>A ausência de trilha como narrativa ética.</p><div class="action-row"><span class="meta-minimal">3 semanas • 16 min</span><button class="like-btn">260 recomendações</button></div></div></article>
+
+    </div>
+
+    <div class="load-more-container">
+        <button class="load-more-btn">Carregar Mais Análises</button>
+    </div>
 </div>
