@@ -8,16 +8,13 @@ let restaurarNoticiasSalvas = () => {
     console.warn("Módulo de notícias não carregado ou aguardando..."); 
 };
 
-// 1. Tenta carregar o módulo de notícias de forma segura
-import('/anigeeknews/modulo-noticias.js')
+// 1. Tenta carregar o módulo de notícias de forma segura (Ajustado para GitHub)
+import('./modulo-noticias.js')
     .then(m => { 
         restaurarNoticiasSalvas = m.restaurarNoticiasSalvas; 
-        // Se já terminou de carregar a página, restaura as notícias
         if (document.readyState === 'complete') restaurarNoticiasSalvas();
     })
-    .catch(e => {
-        console.error("Falha ao carregar modulo-noticias.js. Verifique caminhos e acentos:", e);
-    });
+    .catch(e => console.error("Erro ao carregar modulo-noticias:", e));
 
 function activateButton(section) {
     document.querySelectorAll('.filter-tag').forEach(btn => {
@@ -28,7 +25,6 @@ function activateButton(section) {
 async function loadSection(section) {
     if (!dynamicContent) return;
 
-    // Caso seja a Home
     if (section === 'manchetes') {
         dynamicContent.innerHTML = originalContent;
         localStorage.setItem('currentSection', 'manchetes');
@@ -37,44 +33,37 @@ async function loadSection(section) {
     }
 
     try {
-        // 2. Carrega o arquivo HTML da pasta modulos
-        const response = await fetch(`/anigeeknews/modulos/${section}.html`);
+        // 2. Carrega o HTML da seção
+        const response = await fetch(`./modulos/${section}.html`);
         const html = await response.text();
         dynamicContent.innerHTML = html;
 
-        // 3. Lógica específica para a aba de Análises
+        // 3. ATIVA A BUSCA (Integrada no seu arquivo de dados)
         if (section === 'analises') {
-            console.log("Tentando ativar lógica de análises...");
+            console.log("Ativando sistema de busca de análises...");
             
-            // Tentativa de carregar o script com caminho reforçado
-            import('./modulos/analises-logic.js')
-                .then(mod => {
-                    if (mod.initAnalises) {
-                        mod.initAnalises();
+            // Importamos o seu arquivo de dados que agora tem a lógica de busca
+            import('./dados_de_noticias/dados-analise.js')
+                .then(module => {
+                    // Chama a função que criamos dentro do seu arquivo de dados
+                    if (module.initBuscaAnalises) {
+                        module.initBuscaAnalises();
                     }
                 })
-                .catch(err => {
-                    console.error("Não foi possível carregar analises-logic.js. Tentando caminho alternativo...");
-                    // Tentativa 2: Caminho absoluto
-                    import('/anigeeknews/modulos/analises-logic.js')
-                        .then(mod => mod.initAnalises());
-                });
+                .catch(err => console.error("Erro ao carregar busca do arquivo de dados:", err));
         }
 
-        // Dá um pequeno tempo para o HTML assentar e tenta renderizar as notícias
         setTimeout(() => {
-            if (typeof restaurarNoticiasSalvas === 'function') {
-                restaurarNoticiasSalvas();
-            }
+            if (typeof restaurarNoticiasSalvas === 'function') restaurarNoticiasSalvas();
         }, 100);
 
     } catch (error) {
-        console.error("Erro ao carregar HTML da seção:", error);
-        dynamicContent.innerHTML = '<p style="text-align:center; padding:50px; color:gray;">Conteúdo indisponível no momento.</p>';
+        console.error("Erro ao carregar seção:", error);
+        dynamicContent.innerHTML = '<p style="text-align:center; padding:50px; color:gray;">Conteúdo indisponível.</p>';
     }
 }
 
-// Ouvinte de cliques nos botões do menu/tags
+// Eventos de clique
 document.querySelectorAll('.filter-tag').forEach(button => {
     button.addEventListener('click', () => {
         const section = button.dataset.section;
@@ -85,15 +74,10 @@ document.querySelectorAll('.filter-tag').forEach(button => {
     });
 });
 
-// Inicialização ao carregar a página
 window.addEventListener('DOMContentLoaded', () => {
     const saved = localStorage.getItem('currentSection') || 'manchetes';
     activateButton(saved);
-    if (saved !== 'manchetes') {
-        loadSection(saved);
-    } else {
-        // Pequeno delay para garantir que o import do modulo-noticias terminou
-        setTimeout(restaurarNoticiasSalvas, 500);
-    }
+    if (saved !== 'manchetes') loadSection(saved);
+    else setTimeout(restaurarNoticiasSalvas, 500);
 });
 
