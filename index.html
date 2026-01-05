@@ -334,9 +334,10 @@
             color: var(--accent-news);
         }
 
-        .main-text-content h1 {
+       .main-text-content h1 {
     font-family: var(--font-sans);
-    font-size: clamp(20px, 4.5vw, 48px);
+    /* Diminuído para caber em 2 linhas no mobile */
+    font-size: clamp(20px, 4vw, 32px); 
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -344,13 +345,22 @@
     color: var(--text-main);
     border-top: 2px solid var(--text-main);
     padding-top: 20px;
-
-    /* --- CORREÇÃO PARA O CHROME --- */
-    display: block;        /* Força a ser bloco */
-    width: 100%;           /* Força a largura total */
-    box-sizing: border-box; /* Garante que a borda não empurre o elemento para fora */
-    clear: both;           /* Garante que não haja interferência de floats */
+    
+    /* Correção para tocar as margens no Chrome */
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
 }
+@media (max-width: 900px) {
+    .hero {
+        padding: 0 10px; /* Diminui a margem branca nas laterais */
+    }
+    .main-text-content h1 {
+        font-size: 22px; /* Tamanho fixo para garantir as 2 linhas no celular */
+        line-height: 1.2;
+    }
+}
+
 
 
 
