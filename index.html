@@ -335,17 +335,24 @@
         }
 
         .main-text-content h1 {
-            font-family: var(--font-sans);
-            font-size: clamp(32px, 4.5vw, 48px);
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 15px;
-            color: var(--text-main);
-            border-top: 2px solid var(--text-main);
-            padding-top: 20px;
-            width: fit-content;
-        }
+    font-family: var(--font-sans);
+    font-size: clamp(24px, 4.5vw, 48px);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 15px;
+    color: var(--text-main);
+    border-top: 2px solid var(--text-main);
+    padding-top: 20px;
+    
+    /* 1. Remova ou comente a linha abaixo */
+    /* width: fit-content; */ 
+    
+    /* 2. Garante que ele ocupe toda a largura */
+    display: block;
+    width: 100%;
+}
+
 
         .main-text-content p {
             font-family: var(--font-serif);
