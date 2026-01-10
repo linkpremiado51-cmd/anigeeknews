@@ -14,15 +14,16 @@
         status.style.marginBottom = "12px";
     }
 
-    // Caso o HTML ainda não tenha sido injetado
-    let tentativas = 0;
-    const intervalo = setInterval(() => {
-        tentativas++;
-        const status = document.getElementById("destaque-status");
-
-        if (status || tentativas > 20) {
-            clearInterval(intervalo);
+    // Observa o DOM porque este HTML é carregado via fetch
+    const observer = new MutationObserver(() => {
+        if (document.getElementById("destaque-status")) {
             ativarStatus();
+            observer.disconnect();
         }
-    }, 50);
+    });
+
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
 })();
