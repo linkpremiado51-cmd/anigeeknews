@@ -9,8 +9,25 @@ function activateButton(section) {
     });
 }
 
+// Remove scripts antigos dos módulos
+function limparScriptsModulos() {
+    document.querySelectorAll('script[data-modulo]').forEach(s => s.remove());
+}
+
+function carregarScriptModulo(src) {
+    return new Promise(resolve => {
+        const script = document.createElement('script');
+        script.src = src;
+        script.defer = true;
+        script.dataset.modulo = "true";
+        script.onload = resolve;
+        document.body.appendChild(script);
+    });
+}
+
 async function loadFeed() {
     if (!dynamicContent) return;
+
     try {
         const response = await fetch('/anigeeknews/feed/feed.html');
         const html = await response.text();
@@ -21,11 +38,10 @@ async function loadFeed() {
         cssLink.href = '/anigeeknews/feed/feed.css';
         document.head.appendChild(cssLink);
 
-        const script = document.createElement('script');
-        script.src = '/anigeeknews/feed/feed.js';
-        script.defer = true;
-        script.onload = () => restaurarNoticiasSalvas();
-        document.body.appendChild(script);
+        limparScriptsModulos();
+        await carregarScriptModulo('/anigeeknews/feed/feed.js');
+
+        restaurarNoticiasSalvas();
     } catch (error) {
         dynamicContent.innerHTML =
             '<p style="padding:40px; text-align:center; color:#888;">Conteúdo do Feed indisponível.</p>';
@@ -34,6 +50,8 @@ async function loadFeed() {
 
 async function loadSection(section) {
     if (!dynamicContent) return;
+
+    limparScriptsModulos();
 
     if (section === 'manchetes') {
         dynamicContent.innerHTML = originalContent;
@@ -46,12 +64,19 @@ async function loadSection(section) {
         loadFeed();
         return;
     }
-if (section === 'destaque') {
-localStorage.setItem('currentSection', 'destaque');
-const html = await (await fetch('/anigeeknews/modulos/conteudo_de_destaque.html')).text();
-dynamicContent.innerHTML = html;
-return;
-}
+
+    if (section === 'destaque') {
+        localStorage.setItem('currentSection', 'destaque');
+
+        const html = await (await fetch('/anigeeknews/modulos/conteudo_de_destaque.html')).text();
+        dynamicContent.innerHTML = html;
+
+        // AQUI está o conserto real 👇
+        await carregarScriptModulo('/anigeeknews/modulos/conteudo_de_destaque.js');
+
+        return;
+    }
+
     try {
         const html = await (await fetch(`/anigeeknews/modulos/${section}.html`)).text();
         dynamicContent.innerHTML = html;
