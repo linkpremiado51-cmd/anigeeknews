@@ -46,7 +46,12 @@ async function loadSection(section) {
         loadFeed();
         return;
     }
-
+if (section === 'destaque') {
+localStorage.setItem('currentSection', 'destaque');
+const html = await (await fetch('/anigeeknews/modulos/conteudo_de_destaque.html')).text();
+dynamicContent.innerHTML = html;
+return;
+}
     try {
         const html = await (await fetch(`/anigeeknews/modulos/${section}.html`)).text();
         dynamicContent.innerHTML = html;
@@ -73,4 +78,3 @@ window.addEventListener('DOMContentLoaded', () => {
     if (saved !== 'manchetes') loadSection(saved);
     else restaurarNoticiasSalvas();
 });
-
