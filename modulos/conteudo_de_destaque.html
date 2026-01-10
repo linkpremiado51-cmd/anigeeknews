@@ -26,3 +26,29 @@
         <img src="https://i.postimg.cc/sfHMcTDy/58awkrh8lp404dsegeqpbffcz.jpg" loading="lazy">
     </a>
 </div>
+
+<!-- LOG VISUAL DO JAVASCRIPT -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    console.log("JS carregado com sucesso");
+
+    const logBox = document.createElement("div");
+    logBox.innerText = "🟢 JS ATIVO";
+    
+    logBox.style.position = "fixed";
+    logBox.style.bottom = "15px";
+    logBox.style.right = "15px";
+    logBox.style.background = "#00ff88";
+    logBox.style.color = "#000";
+    logBox.style.padding = "8px 14px";
+    logBox.style.borderRadius = "8px";
+    logBox.style.fontWeight = "bold";
+    logBox.style.fontSize = "13px";
+    logBox.style.zIndex = "99999";
+    logBox.style.boxShadow = "0 0 10px rgba(0,255,140,0.8)";
+
+    document.body.appendChild(logBox);
+
+});
+</script>
