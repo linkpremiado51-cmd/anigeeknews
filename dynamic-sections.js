@@ -9,24 +9,15 @@ function activateButton(section) {
     });
 }
 
-// Remove scripts antigos dos módulos
+/* Remove scripts antigos dos módulos (evita conflito) */
 function limparScriptsModulos() {
     document.querySelectorAll('script[data-modulo]').forEach(s => s.remove());
 }
 
-function carregarScriptModulo(src) {
-    return new Promise(resolve => {
-        const script = document.createElement('script');
-        script.src = src;
-        script.defer = true;
-        script.dataset.modulo = "true";
-        script.onload = resolve;
-        document.body.appendChild(script);
-    });
-}
-
 async function loadFeed() {
     if (!dynamicContent) return;
+
+    limparScriptsModulos();
 
     try {
         const response = await fetch('/anigeeknews/feed/feed.html');
@@ -38,10 +29,13 @@ async function loadFeed() {
         cssLink.href = '/anigeeknews/feed/feed.css';
         document.head.appendChild(cssLink);
 
-        limparScriptsModulos();
-        await carregarScriptModulo('/anigeeknews/feed/feed.js');
+        const script = document.createElement('script');
+        script.src = '/anigeeknews/feed/feed.js';
+        script.defer = true;
+        script.setAttribute('data-modulo', 'feed');
+        script.onload = () => restaurarNoticiasSalvas();
+        document.body.appendChild(script);
 
-        restaurarNoticiasSalvas();
     } catch (error) {
         dynamicContent.innerHTML =
             '<p style="padding:40px; text-align:center; color:#888;">Conteúdo do Feed indisponível.</p>';
@@ -53,6 +47,7 @@ async function loadSection(section) {
 
     limparScriptsModulos();
 
+    /* === MANCHEtes === */
     if (section === 'manchetes') {
         dynamicContent.innerHTML = originalContent;
         localStorage.setItem('currentSection', 'manchetes');
@@ -60,23 +55,31 @@ async function loadSection(section) {
         return;
     }
 
+    /* === FEED === */
     if (section === 'feed') {
+        localStorage.setItem('currentSection', 'feed');
         loadFeed();
         return;
     }
 
+    /* === SUBMÓDULO: CONTEÚDO DE DESTAQUE (dentro de Manchetes) === */
     if (section === 'destaque') {
         localStorage.setItem('currentSection', 'destaque');
 
         const html = await (await fetch('/anigeeknews/modulos/conteudo_de_destaque.html')).text();
         dynamicContent.innerHTML = html;
 
-        // AQUI está o conserto real 👇
-        await carregarScriptModulo('/anigeeknews/modulos/conteudo_de_destaque.js');
+        // FORÇA o JavaScript do submódulo a rodar
+        const script = document.createElement('script');
+        script.src = '/anigeeknews/modulos/conteudo_de_destaque.js';
+        script.defer = true;
+        script.setAttribute('data-modulo', 'destaque');
+        document.body.appendChild(script);
 
         return;
     }
 
+    /* === OUTROS MÓDULOS === */
     try {
         const html = await (await fetch(`/anigeeknews/modulos/${section}.html`)).text();
         dynamicContent.innerHTML = html;
@@ -87,6 +90,7 @@ async function loadSection(section) {
     }
 }
 
+/* Eventos dos botões */
 document.querySelectorAll('.filter-tag').forEach(button => {
     button.addEventListener('click', () => {
         const section = button.dataset.section;
@@ -97,9 +101,11 @@ document.querySelectorAll('.filter-tag').forEach(button => {
     });
 });
 
+/* Restaura aba salva */
 window.addEventListener('DOMContentLoaded', () => {
     const saved = localStorage.getItem('currentSection') || 'manchetes';
     activateButton(saved);
+
     if (saved !== 'manchetes') loadSection(saved);
     else restaurarNoticiasSalvas();
 });
