@@ -864,6 +864,7 @@
     carregarPerfilLateral();
     
     const dynamicContent = document.getElementById('dynamic-content');
+    // Salva o estado original do HTML para quando o usuário clicar em "Manchetes"
     let originalContent = dynamicContent ? dynamicContent.innerHTML : "";
     
     function activateButton(section) {
@@ -872,14 +873,25 @@
         });
     }
 
-    // NOVA FUNÇÃO PARA CARREGAR O MÓDULO DE DESTAQUE
+    // FUNÇÃO CORRIGIDA PARA CARREGAR O MÓDULO DE DESTAQUE E EXECUTAR SCRIPTS
     async function carregarDestaques() {
         const container = document.getElementById('conteudo_de_destaque');
         if (!container) return;
         try {
-            const response = await fetch('/anigeeknews/modulos/conteudo_de_destaque.html');
+            // Usando caminho relativo para garantir compatibilidade
+            const response = await fetch('./modulos/conteudo_de_destaque.html');
             if (response.ok) {
-                container.innerHTML = await response.text();
+                const html = await response.text();
+                container.innerHTML = html;
+
+                // Força a execução de scripts injetados (essencial para o sorteio de notícias)
+                const scripts = container.querySelectorAll("script");
+                scripts.forEach(oldScript => {
+                    const newScript = document.createElement("script");
+                    Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+                    newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+                    oldScript.parentNode.replaceChild(newScript, oldScript);
+                });
             }
         } catch (error) {
             console.error("Erro ao carregar módulo de destaque:", error);
@@ -914,9 +926,9 @@
         if (section === 'manchetes') {
             dynamicContent.innerHTML = originalContent;
             localStorage.setItem('currentSection', 'manchetes');
-            // Recarrega os destaques caso volte para manchetes
+            // Recarrega os destaques sempre que voltar para manchetes
             carregarDestaques();
-            restaurarNoticiasSalvas();
+            setTimeout(restaurarNoticiasSalvas, 50);
             return;
         }
         
@@ -945,6 +957,7 @@
         });
     });
     
+    // Execução imediata ao carregar a página
     window.addEventListener('DOMContentLoaded', () => {
         const saved = localStorage.getItem('currentSection') || 'manchetes';
         activateButton(saved);
