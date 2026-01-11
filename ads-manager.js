@@ -1,5 +1,5 @@
 (function() {
-    // 1. Cria o container do anúncio Interstitial (Tela Cheia)
+    // 1. CRIAÇÃO DO ELEMENTO (O anúncio em si)
     const adOverlay = document.createElement('div');
     adOverlay.id = 'interstitial-ad-overlay';
     adOverlay.innerHTML = `
@@ -8,13 +8,13 @@
             <div class="ad-content-full">
                 <p class="ad-label">PUBLICIDADE</p>
                 <div id="interstitial-slot">
-                    <img src="https://via.placeholder.com/300x450" alt="Anúncio" style="max-width: 100%; border-radius: 8px;">
+                    <img src="https://via.placeholder.com/300x450" alt="Anúncio" style="max-width: 100%; border-radius: 8px; display: block; margin: 0 auto;">
                 </div>
             </div>
         </div>
     `;
 
-    // 2. CSS com efeito de desfoque (Blur) e botão arrumado
+    // 2. ESTILIZAÇÃO (Resolve o botão cortado e adiciona o desfoque)
     const style = document.createElement('style');
     style.textContent = `
         #interstitial-ad-overlay {
@@ -23,15 +23,15 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.6); /* Fundo escuro leve */
-            backdrop-filter: blur(10px); /* O efeito embaçado no seu site */
-            -webkit-backdrop-filter: blur(10px);
-            z-index: 999999;
-            display: none; /* Começa escondido */
+            background: rgba(0, 0, 0, 0.7); 
+            backdrop-filter: blur(12px); /* Efeito de vidro embaçado */
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 1000000;
+            display: none; /* Invisível até o tempo de ativação */
             align-items: center;
             justify-content: center;
             opacity: 0;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.6s ease;
         }
 
         #interstitial-ad-overlay.show {
@@ -41,72 +41,78 @@
 
         .ad-modal {
             position: relative;
-            width: 90%;
-            max-width: 400px;
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            text-align: center;
+            width: 85%;
+            max-width: 350px;
+            background: #fff;
+            padding: 25px 15px 15px 15px;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
 
-        /* Botão de Fechar Arrumado (Não fica cortado) */
+        /* AJUSTE DO BOTÃO: Fora da caixa para não cortar */
         #close-ad-timer {
             position: absolute;
-            top: -50px; /* Fica acima da caixa branca */
+            top: -45px;
             right: 0;
-            background: #fff;
+            background: #ffffff;
             border: none;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-family: sans-serif;
-            font-size: 14px;
-            font-weight: bold;
-            color: #333;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-family: 'Franklin Gothic', sans-serif;
+            font-size: 13px;
+            font-weight: 800;
+            color: #000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             cursor: not-allowed;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            min-width: 100px;
         }
 
         #close-ad-timer.ready {
             cursor: pointer;
-            background: #c1121f; /* Cor do seu site */
-            color: white;
+            background: #c1121f; /* Vermelho da sua marca */
+            color: #fff;
         }
 
         .ad-label {
             font-family: sans-serif;
-            font-size: 10px;
-            color: #999;
-            margin-bottom: 10px;
-            letter-spacing: 1px;
+            font-size: 9px;
+            font-weight: bold;
+            color: #bbb;
+            text-align: center;
+            margin-bottom: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
     `;
 
     document.head.appendChild(style);
     document.body.appendChild(adOverlay);
 
-    // 3. Lógica de Tempo (Aparece após 10s e libera o fechar)
+    // 3. LÓGICA DE TEMPO
+    // O anúncio aparece 10 segundos após carregar o site
     setTimeout(() => {
         adOverlay.classList.add('show');
-        iniciarContagemRegressiva(5); // 5 segundos para poder fechar após aparecer
-    }, 10000); // Aparece após 10 segundos de site aberto
+        iniciarContagem(7); // O usuário deve esperar 7 segundos para fechar
+    }, 10000); 
 
-    function iniciarContagemRegressiva(segundos) {
-        const btn = document.getElementById('close-ad-timer');
-        let restante = segundos;
+    function iniciarContagem(tempo) {
+        const botao = document.getElementById('close-ad-timer');
+        let contador = tempo;
 
-        const intervalo = setInterval(() => {
-            if (restante > 0) {
-                btn.innerText = `Fechar em ${restante}s`;
-                restante--;
+        const contagemRegressiva = setInterval(() => {
+            if (contador > 0) {
+                botao.innerText = `FECHAR EM ${contador}s`;
+                contador--;
             } else {
-                clearInterval(intervalo);
-                btn.innerText = 'Fechar X';
-                btn.disabled = false;
-                btn.classList.add('ready');
-                btn.onclick = () => {
+                clearInterval(contagemRegressiva);
+                botao.innerText = "FECHAR X";
+                botao.disabled = false;
+                botao.classList.add('ready');
+                
+                // Ação de fechar
+                botao.onclick = () => {
                     adOverlay.style.opacity = '0';
-                    setTimeout(() => adOverlay.remove(), 500);
+                    setTimeout(() => adOverlay.remove(), 600);
                 };
             }
         }, 1000);
