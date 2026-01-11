@@ -104,11 +104,12 @@
             filter: var(--img-hover);
         }
 
-        /* --- HEADER (EDITADO: Removido position sticky) --- */
+        /* --- HEADER --- */
         header {
             background: var(--bg);
             border-bottom: 2px solid var(--text-main);
-            position: relative; /* Mudado de sticky para relative */
+            position: sticky;
+            top: 0;
             z-index: 1000;
         }
         .nav-container {
@@ -220,21 +221,20 @@
         input:checked + .slider { background-color: var(--accent-news); }
         input:checked + .slider:before { transform: translateX(20px); }
 
-      /* --- MOBILE MENU (Ajustado para acompanhar o cabeçalho não fixo) --- */
+      /* --- MOBILE MENU --- */
 .mobile-menu {
-    position: absolute; /* Mudado de fixed para absolute */
+    position: fixed; 
     top: var(--header-h); 
     right: -100%;
     width: 100%;
     max-width: 100%;
-    height: auto; /* Ajustado para caber o conteúdo */
-    min-height: calc(100vh - var(--header-h));
+    height: calc(100vh - var(--header-h));
     background: var(--bg);
     border-left: 1px solid var(--border);
     z-index: 2000;
     padding: 20px;
     transition: right 0.3s ease;
-    overflow-y: visible;
+    overflow-y: auto;
 }
 
         .mobile-menu.active { right: 0; }
@@ -288,7 +288,7 @@
             text-underline-offset: 4px;
         }
 
-        /* --- HERO --- */
+        /* --- HERO (ESTILO ARTIGO) --- */
         .hero {
             max-width: var(--container-w);
             margin: 20px auto;
@@ -335,20 +335,24 @@
         }
 
         .main-text-content h1 {
-            font-family: var(--font-sans);
-            font-size: clamp(20px, 4.5vw, 48px);
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 15px;
-            color: var(--text-main);
-            border-top: 2px solid var(--text-main);
-            padding-top: 20px;
-            display: block;
-            width: 100%;
-            box-sizing: border-box;
-            clear: both;
-        }
+    font-family: var(--font-sans);
+    font-size: clamp(20px, 4.5vw, 48px);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 15px;
+    color: var(--text-main);
+    border-top: 2px solid var(--text-main);
+    padding-top: 20px;
+
+    /* --- CORREÇÃO PARA O CHROME --- */
+    display: block;        /* Força a ser bloco */
+    width: 100%;           /* Força a largura total */
+    box-sizing: border-box; /* Garante que a borda não empurre o elemento para fora */
+    clear: both;           /* Garante que não haja interferência de floats */
+}
+
+
 
         .main-text-content p {
             font-family: var(--font-serif);
@@ -594,7 +598,7 @@
         }
         .newsletter-card button:hover { opacity: 0.9; }
 
-        /* --- FOOTER --- */
+        /* --- FOOTER MINIMALISTA --- */
         footer {
             border-top: 1px solid var(--border);
             padding: 20px 0;
@@ -636,13 +640,29 @@
                 gap: 15px;
             }
             .post-img-wrapper { height: 200px; }
+            .search-bar { flex-wrap: wrap; }
+            .search-input, .search-btn { width: auto; min-width: 120px; }
         }
 
         @media (max-width: 768px) {
             .nav-container { padding: 0 15px; height: 60px; }
             --header-h: 60px;
+            .mobile-menu { width: 100%; max-width: none; }
             .main-feat-img-box { height: 240px; }
             .main-text-content h1 { font-size: clamp(20px, 8vw, 32px); }
+            footer { padding: 15px 0; }
+        }
+
+        @media (max-width: 480px) {
+            .nav-container { padding: 0 10px; }
+            .logo { font-size: 18px; }
+            .search-bar { padding: 0 10px; margin: 15px auto; }
+            .search-input { padding: 10px 15px; font-size: 13px; }
+            .search-btn { padding: 10px 15px; font-size: 14px; }
+            .main-feat-img-box { height: 200px; }
+            .main-text-content h1 { font-size: clamp(20px, 10vw, 28px); }
+            .main-text-content p { font-size: 14px; }
+            footer .logo { font-size: 20px; }
         }
     </style>
 </head>
@@ -682,23 +702,27 @@
             </div>
         </div>
     </header>
-
-    <div id="container-menu-perfil" class="sidebar-box"></div>
+<div id="container-menu-perfil" class="sidebar-box"></div>
     <div id="megaMenuContainer"></div>
+
     <div id="search-container"></div>
 
     <div class="filter-scroller" id="filterScroller">
         <button class="filter-tag active" data-section="manchetes">Manchetes</button>
+       
         <button class="filter-tag" data-section="analises">Análises</button>
         <button class="filter-tag" data-section="entrevistas">Entrevistas</button>
         <button class="filter-tag" data-section="lancamentos">Lançamentos</button>
         <button class="filter-tag" data-section="podcast">Podcast</button>
+        
     </div>
 
     <div id="dynamic-content">
         <section class="hero">
             <div class="ad-hero">[ ANÚNCIO 728x90 – HERO BANNER ]</div>
-            <div id="conteudo_de_destaque" style="display: contents;"></div>
+            
+            <div id="conteudo_de_destaque" style="display: contents;">
+                 </div>
         </section>
 
         <div class="layout">
@@ -707,7 +731,9 @@
                     <h2 class="section-title">Últimas Notícias</h2>
                 </div>
                 <div class="ad-feed">[ ANÚNCIO 300x250 – MID-FEED ]</div>
-                <div class="feed"></div>
+                <div class="feed">
+                 
+                </div>
                 <div class="load-more-container" style="text-align: center; margin-top: 40px; border-top: 1px solid var(--border); padding-top: 20px;">
                     <button class="load-more-btn" style="background: none; border: 1px solid var(--text-main); padding: 12px 30px; font-family: var(--font-sans); font-weight: 700; cursor: pointer; color: var(--text-main); text-transform: uppercase; font-size: 12px; letter-spacing: 1px;">
                         Carregar Mais
@@ -749,6 +775,10 @@
                 <span class="slider"></span>
             </label>
         </div>
+        <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid var(--text-main);">
+            <a href="/anigeeknews/index.html" class="logo" style="font-size: 20px; font-family: var(--font-logo);">AniGeek<span>News</span></a>
+            <p style="font-family: var(--font-serif); font-size: 12px; color: var(--text-muted); font-style: italic;">Jornalismo independente sobre cultura pop.</p>
+        </div>
     </div>
 
     <footer>
@@ -764,6 +794,7 @@
     <script type="module" src="/anigeeknews/main.js"></script>
 
     <script>
+        // === FUNÇÕES GLOBAIS (TEMAS, MENU, ETC) ===
         function toggleMobileMenu() { 
             const menu = document.getElementById('mobileMenu');
             if (menu) menu.classList.toggle('active'); 
@@ -799,41 +830,61 @@
     </script>
 
     <script type="module">
+        // Carrega a barra de pesquisa no início
         async function loadSearchBar() {
             try {
                 const res = await fetch('./motor_de_pesquisa/barra_de_pesquisa.html');
                 const html = await res.text();
                 document.getElementById('search-container').innerHTML = html;
+
+                // CSS
                 const css = document.createElement('link');
                 css.rel = 'stylesheet';
                 css.href = '/anigeeknews/motor_de_pesquisa/barra_de_pesquisa.css';
                 document.head.appendChild(css);
+
+                // JS
                 const script = document.createElement('script');
                 script.src = '/anigeeknews/motor_de_pesquisa/barra_de_pesquisa.js';
                 script.type = 'module';
                 document.body.appendChild(script);
-            } catch (err) { console.error(err); }
+
+            } catch (err) {
+                console.error('Falha ao carregar barra de pesquisa', err);
+            }
         }
+
         loadSearchBar();
    </script>
 
 <script type="module">
     import { restaurarNoticiasSalvas } from '/anigeeknews/modulo-noticias.js';
     import { carregarPerfilLateral } from '/anigeeknews/usuario/perfil-lateral.js';
+    
     carregarPerfilLateral();
+    
     const dynamicContent = document.getElementById('dynamic-content');
+    // Salva o estado original do HTML para quando o usuário clicar em "Manchetes"
     let originalContent = dynamicContent ? dynamicContent.innerHTML : "";
+    
     function activateButton(section) {
-        document.querySelectorAll('.filter-tag').forEach(btn => btn.classList.toggle('active', btn.dataset.section === section));
+        document.querySelectorAll('.filter-tag').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.section === section);
+        });
     }
+
+    // FUNÇÃO CORRIGIDA PARA CARREGAR O MÓDULO DE DESTAQUE E EXECUTAR SCRIPTS
     async function carregarDestaques() {
         const container = document.getElementById('conteudo_de_destaque');
         if (!container) return;
         try {
+            // Usando caminho relativo para garantir compatibilidade
             const response = await fetch('./modulos/conteudo_de_destaque.html');
             if (response.ok) {
                 const html = await response.text();
                 container.innerHTML = html;
+
+                // Força a execução de scripts injetados (essencial para o sorteio de notícias)
                 const scripts = container.querySelectorAll("script");
                 scripts.forEach(oldScript => {
                     const newScript = document.createElement("script");
@@ -842,23 +893,60 @@
                     oldScript.parentNode.replaceChild(newScript, oldScript);
                 });
             }
-        } catch (error) { console.error(error); }
+        } catch (error) {
+            console.error("Erro ao carregar módulo de destaque:", error);
+        }
     }
+    
+    async function loadFeed() {
+        if (!dynamicContent) return;
+        try {
+            const response = await fetch('/anigeeknews/feed/feed.html');
+            const html = await response.text();
+            dynamicContent.innerHTML = html;
+            
+            const cssLink = document.createElement('link');
+            cssLink.rel = 'stylesheet';
+            cssLink.href = '/anigeeknews/feed/feed.css';
+            document.head.appendChild(cssLink);
+            
+            const script = document.createElement('script');
+            script.src = '/anigeeknews/feed/feed.js';
+            script.type = 'module';
+            script.onload = () => restaurarNoticiasSalvas();
+            document.body.appendChild(script);
+        } catch (error) {
+            dynamicContent.innerHTML = '<p style="padding:40px; text-align:center; color:#888;">Conteúdo do Feed indisponível.</p>';
+        }
+    }
+    
     async function loadSection(section) {
         if (!dynamicContent) return;
+        
         if (section === 'manchetes') {
             dynamicContent.innerHTML = originalContent;
+            localStorage.setItem('currentSection', 'manchetes');
+            // Recarrega os destaques sempre que voltar para manchetes
             carregarDestaques();
             setTimeout(restaurarNoticiasSalvas, 50);
             return;
         }
+        
+        if (section === 'feed') {
+            loadFeed();
+            return;
+        }
+        
         try {
             const response = await fetch(`/anigeeknews/modulos/${section}.html`);
             const html = await response.text();
             dynamicContent.innerHTML = html;
             setTimeout(restaurarNoticiasSalvas, 50);
-        } catch { dynamicContent.innerHTML = '<p>Erro.</p>'; }
+        } catch {
+            dynamicContent.innerHTML = '<p style="padding:40px; text-align:center; color:#888;">Conteúdo indisponível.</p>';
+        }
     }
+    
     document.querySelectorAll('.filter-tag').forEach(button => {
         button.addEventListener('click', () => {
             const section = button.dataset.section;
@@ -868,11 +956,17 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     });
+    
+    // Execução imediata ao carregar a página
     window.addEventListener('DOMContentLoaded', () => {
         const saved = localStorage.getItem('currentSection') || 'manchetes';
         activateButton(saved);
-        if (saved !== 'manchetes') loadSection(saved);
-        else { carregarDestaques(); restaurarNoticiasSalvas(); }
+        if (saved !== 'manchetes') {
+            loadSection(saved);
+        } else {
+            carregarDestaques();
+            restaurarNoticiasSalvas();
+        }
     });
 </script>
 </body>
