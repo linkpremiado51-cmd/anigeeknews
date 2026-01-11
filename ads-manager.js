@@ -1,99 +1,139 @@
 (function() {
-    // === CONFIGURAÇÃO DE ESTADO (MELHORIA 6: PAUSA NO CRONÔMETRO) ===
+    // === ESTADO E MONITORAMENTO ===
     let isTabActive = true;
     document.addEventListener("visibilitychange", () => {
         isTabActive = !document.hidden;
     });
 
-    // === 1. ESTRUTURA DOS BLOCOS ===
+    // === 1. ESTRUTURA DOS BLOCOS (EXECUTIVA) ===
 
     // BLOCO 1 (GAVETA INFERIOR)
     const bloco1 = document.createElement('div');
     bloco1.id = 'ads-bloco-1';
     bloco1.innerHTML = `
-        <div class="bloco-wrapper-bottom">
-            <button id="close-b1" class="btn-close-rect ad-click-effect">FECHAR</button>
-            <div class="ad-content">
-                <p class="ad-tag">PUBLICIDADE | BLOCO 1</p>
-                <div id="slot-b1" style="height:100px; background:#eee; display:flex; align-items:center; justify-content:center; cursor:pointer;">
-                    <span style="font-family:sans-serif; color:#999; font-size:12px;">BANNER PUBLICITÁRIO</span>
-                </div>
+        <div class="corporate-drawer">
+            <button id="close-b1" class="corp-close-btn">&times;</button>
+            <div class="corp-ad-header">PUBLICIDADE</div>
+            <div id="slot-b1" class="corp-slot-small">
+                <span class="placeholder-text">Conteúdo Publicitário</span>
             </div>
         </div>
     `;
 
-    // BLOCO 2 (INTERSTITIAL REFINADO)
+    // BLOCO 2 (INTERSTITIAL PREMIUM)
     const bloco2 = document.createElement('div');
     bloco2.id = 'ads-bloco-2';
     bloco2.innerHTML = `
-        <button id="close-b2" class="btn-glass-top-left ad-click-effect" disabled>FECHAR</button>
-        <div class="interstitial-modal">
-            <div class="media-container-rect">
-                <p class="ad-tag">PUBLICIDADE | BLOCO 2</p>
-                <div id="slot-b2" style="height:350px; background:#ddd; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden;">
-                    <a href="#" target="_blank" class="btn-learn-more ad-click-effect">SABER MAIS</a>
-                </div>
-                <div class="progress-container">
-                    <div id="progress-bar-b2"></div>
+        <div class="corp-overlay">
+            <div class="corp-modal-card">
+                <button id="close-b2" class="corp-modal-close" disabled>&times;</button>
+                <div class="corp-ad-header">PUBLICIDADE EXCLUSIVA</div>
+                
+                <div id="slot-b2" class="corp-slot-main">
+                    </div>
+
+                <div class="corp-footer">
+                    <div class="corp-progress-bg">
+                        <div id="progress-bar-b2" class="corp-progress-fill"></div>
+                    </div>
+                    <div id="timer-b2" class="corp-timer-text">Aguarde...</div>
+                    <a href="#" target="_blank" id="btn-cta-b2" class="corp-cta-button">VISITAR WEBSITE</a>
                 </div>
             </div>
         </div>
-        <div id="timer-b2" class="timer-glass-bottom-right">AGUARDE...</div>
     `;
 
-    // BLOCO 3 (TOPO - 30% DA TELA)
+    // BLOCO 3 (TOPO)
     const bloco3 = document.createElement('div');
     bloco3.id = 'ads-bloco-3';
     bloco3.innerHTML = `
-        <div class="bloco-wrapper-top">
-            <div class="ad-content">
-                <p class="ad-tag">PUBLICIDADE | BLOCO 3</p>
-                <div id="slot-b3" style="height:100px; background:#eee; display:flex; align-items:center; justify-content:center; cursor:pointer;">
-                    <span style="font-family:sans-serif; color:#999; font-size:12px;">BANNER TOPO</span>
-                </div>
+        <div class="corporate-top-banner">
+            <div class="corp-ad-header">PUBLICIDADE</div>
+            <div id="slot-b3" class="corp-slot-small">
+                <span class="placeholder-text">Anúncio Institucional</span>
             </div>
-            <button id="close-b3" class="btn-close-rect-bottom ad-click-effect">FECHAR</button>
+            <button id="close-b3" class="corp-close-btn-bottom">FECHAR</button>
         </div>
     `;
 
-    // === 2. ESTILIZAÇÃO COMPLETA ===
+    // === 2. ESTILIZAÇÃO PROFISSIONAL (CSS) ===
     const style = document.createElement('style');
     style.textContent = `
-        .ad-tag { font-size: 8px; color: #888; text-align: center; font-weight: 700; letter-spacing: 2px; margin: 4px 0; font-family: sans-serif; }
-        
-        /* Melhoria 5: Feedback de Clique */
-        .ad-click-effect:active { transform: scale(0.92); }
-        .ad-click-effect { transition: transform 0.15s ease; }
+        :root {
+            --corp-bg: #ffffff;
+            --corp-text: #1a1a1b;
+            --corp-accent: #0066cc; /* Azul Corporativo */
+            --corp-gray: #f6f7f8;
+            --corp-border: #edeff1;
+        }
 
-        /* BLOCO 1 - INFERIOR */
-        #ads-bloco-1 { position: fixed; bottom: -100%; left: 0; width: 100%; z-index: 9999; transition: bottom 0.6s cubic-bezier(0.2, 1, 0.3, 1); display: flex; justify-content: center; }
-        .bloco-wrapper-bottom { width: 100%; max-width: 500px; background: #fff; border-top: 3px solid #121212; padding: 10px; box-shadow: 0 -5px 20px rgba(0,0,0,0.2); position: relative; }
-        .btn-close-rect { position: absolute; top: -28px; right: 0; background: #121212; color: #fff; border: none; padding: 5px 15px; font-size: 10px; font-weight: 800; cursor: pointer; }
+        .corp-ad-header { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-size: 10px; color: #878a8c; font-weight: 700; letter-spacing: 1px;
+            text-align: center; margin-bottom: 8px;
+        }
 
-        /* BLOCO 3 - SUPERIOR */
-        #ads-bloco-3 { position: fixed; top: -100%; left: 0; width: 100%; height: 30%; z-index: 9998; transition: top 0.6s cubic-bezier(0.2, 1, 0.3, 1); display: flex; justify-content: center; }
-        .bloco-wrapper-top { width: 100%; height: 100%; max-width: 500px; background: #fff; border-bottom: 3px solid #121212; padding: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); position: relative; display: flex; flex-direction: column; justify-content: center; }
-        .btn-close-rect-bottom { position: absolute; bottom: -28px; right: 0; background: #121212; color: #fff; border: none; padding: 5px 15px; font-size: 10px; font-weight: 800; cursor: pointer; }
+        /* BLOCO 1 - DRAWER */
+        #ads-bloco-1 { position: fixed; bottom: -200px; left: 0; width: 100%; z-index: 9999; transition: bottom 0.5s ease; display: flex; justify-content: center; }
+        .corporate-drawer { 
+            width: 100%; max-width: 600px; background: var(--corp-bg); 
+            border: 1px solid var(--corp-border); border-radius: 8px 8px 0 0;
+            padding: 15px; box-shadow: 0 -4px 12px rgba(0,0,0,0.08); position: relative;
+        }
 
-        /* BLOCO 2 - INTERSTITIAL GLASS */
-        #ads-bloco-2 { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 15, 15, 0.7); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); z-index: 10000; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.5s; }
-        
-        .btn-glass-top-left { position: fixed; top: 30px; left: 30px; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: rgba(255, 255, 255, 0.6); padding: 8px 16px; font-size: 11px; font-weight: 600; letter-spacing: 2px; backdrop-filter: blur(10px); cursor: not-allowed; transition: all 0.3s; }
-        .btn-glass-top-left.ready { background: rgba(193, 18, 31, 0.8); color: #fff; border-color: transparent; cursor: pointer; opacity: 1; }
-        
-        /* Melhoria 3: Botão Saber Mais */
-        .btn-learn-more { position: absolute; bottom: 20px; background: #121212; color: #fff; text-decoration: none; padding: 12px 25px; font-family: sans-serif; font-weight: 800; font-size: 12px; letter-spacing: 1px; box-shadow: 6px 6px 0px rgba(0,0,0,0.2); }
-        
-        .timer-glass-bottom-right { position: fixed; bottom: 30px; right: 30px; background: rgba(40, 40, 40, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); color: #ddd; padding: 8px 16px; font-size: 10px; font-weight: 700; letter-spacing: 1px; backdrop-filter: blur(10px); }
-        .progress-container { width: 100%; height: 4px; background: #eee; margin-top: 5px; overflow: hidden; }
-        #progress-bar-b2 { width: 0%; height: 100%; background: #c1121f; transition: width 0.1s linear; }
-        .media-container-rect { background: #fff; padding: 6px; box-shadow: 0 30px 60px rgba(0,0,0,0.5); width: 80vw; max-width: 320px; }
+        /* BLOCO 3 - TOP BANNER */
+        #ads-bloco-3 { position: fixed; top: -200px; left: 0; width: 100%; z-index: 9998; transition: top 0.5s ease; display: flex; justify-content: center; }
+        .corporate-top-banner { 
+            width: 100%; max-width: 600px; background: var(--corp-bg); 
+            border: 1px solid var(--corp-border); border-radius: 0 0 8px 8px;
+            padding: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); position: relative;
+        }
 
-        /* RESPONSIVIDADE LANDSCAPE */
-        @media (orientation: landscape) and (max-height: 500px) {
-            .media-container-rect { width: 50vw; max-height: 75vh; }
-            #slot-b2 { height: 180px !important; }
-            #ads-bloco-3 { display: none; }
+        .corp-close-btn, .corp-close-btn-bottom {
+            position: absolute; background: var(--corp-gray); border: none; color: #555;
+            cursor: pointer; font-size: 14px; padding: 2px 8px; border-radius: 4px;
+        }
+        .corp-close-btn { top: 10px; right: 10px; }
+        .corp-close-btn-bottom { bottom: -25px; right: 10px; font-size: 10px; background: #fff; border: 1px solid var(--corp-border); }
+
+        /* BLOCO 2 - OVERLAY EXECUTIVO */
+        #ads-bloco-2 { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10000; display: none; opacity: 0; transition: opacity 0.4s ease; }
+        .corp-overlay { 
+            width: 100%; height: 100%; background: rgba(26, 26, 27, 0.9); 
+            display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px);
+        }
+        .corp-modal-card { 
+            width: 90%; max-width: 400px; background: #fff; border-radius: 12px;
+            padding: 20px; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        .corp-modal-close { 
+            position: absolute; top: -15px; right: -15px; width: 35px; height: 35px;
+            background: #fff; border: none; border-radius: 50%; font-size: 22px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2); cursor: pointer; display: none;
+        }
+        .corp-modal-close:not([disabled]) { display: block; }
+
+        .corp-slot-main { height: 300px; background: var(--corp-gray); border-radius: 6px; margin-bottom: 15px; border: 1px solid var(--corp-border); }
+        .corp-slot-small { height: 90px; background: var(--corp-gray); border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+
+        .placeholder-text { color: #bcc0c4; font-size: 12px; font-family: sans-serif; font-weight: 500; }
+
+        /* FOOTER & PROGRESS */
+        .corp-progress-bg { width: 100%; height: 3px; background: var(--corp-gray); border-radius: 2px; margin-bottom: 10px; overflow: hidden; }
+        .corp-progress-fill { width: 0%; height: 100%; background: var(--corp-accent); transition: width 0.1s linear; }
+        .corp-timer-text { font-family: sans-serif; font-size: 11px; color: #878a8c; text-align: center; margin-bottom: 15px; }
+        
+        .corp-cta-button { 
+            display: block; width: 100%; padding: 14px; background: var(--corp-accent);
+            color: #fff; text-align: center; text-decoration: none; border-radius: 6px;
+            font-family: sans-serif; font-weight: 700; font-size: 14px; transition: filter 0.2s;
+        }
+        .corp-cta-button:active { transform: scale(0.98); }
+
+        /* RESPONSIVIDADE */
+        @media (max-height: 550px) {
+            .corp-slot-main { height: 150px; }
+            .corp-modal-card { padding: 10px; }
         }
     `;
 
@@ -102,71 +142,63 @@
     document.body.appendChild(bloco2);
     document.body.appendChild(bloco3);
 
-    // === 3. LÓGICA DE TEMPOS E REPETIÇÃO ===
+    // === 3. LÓGICA DE EXECUÇÃO ===
 
-    // BLOCO 1 - REAPARECE EM 20S
     function runBloco1() {
         setTimeout(() => { bloco1.style.bottom = "0"; }, 2000);
     }
     document.getElementById('close-b1').onclick = () => {
-        bloco1.style.bottom = "-100%";
+        bloco1.style.bottom = "-200px";
         setTimeout(runBloco1, 20000);
     };
 
-    // BLOCO 3 - REAPARECE EM 25S
     function runBloco3() {
         setTimeout(() => { bloco3.style.top = "0"; }, 4000);
     }
     document.getElementById('close-b3').onclick = () => {
-        bloco3.style.top = "-100%";
+        bloco3.style.top = "-200px";
         setTimeout(runBloco3, 25000);
     };
 
-    // BLOCO 2 - REAPARECE EM 2 MINUTOS (Loop infinito)
     function runBloco2() {
         setTimeout(() => {
-            bloco2.style.display = "flex";
+            bloco2.style.display = "block";
             setTimeout(() => { bloco2.style.opacity = "1"; }, 50);
             
-            let totalTime = 10;
-            let remainingTime = totalTime;
-            const btn = document.getElementById('close-b2');
-            const timerLabel = document.getElementById('timer-b2');
-            const progressBar = document.getElementById('progress-bar-b2');
+            let time = 10;
+            const btnClose = document.getElementById('close-b2');
+            const timer = document.getElementById('timer-b2');
+            const progress = document.getElementById('progress-bar-b2');
             
-            btn.disabled = true;
-            btn.classList.remove('ready');
-            progressBar.style.width = "0%";
+            btnClose.disabled = true;
 
-            const counter = setInterval(() => {
+            const interval = setInterval(() => {
                 if (isTabActive) {
-                    if (remainingTime > 0) {
-                        remainingTime--;
-                        timerLabel.innerText = `DISPONÍVEL EM ${remainingTime}S`;
-                        let progress = ((totalTime - remainingTime) / totalTime) * 100;
-                        progressBar.style.width = `${progress}%`;
+                    if (time > 0) {
+                        time--;
+                        timer.innerText = `O conteúdo será liberado em ${time}s`;
+                        progress.style.width = `${(10 - time) * 10}%`;
                     } else {
-                        clearInterval(counter);
-                        timerLabel.innerText = "PRONTO PARA FECHAR";
-                        btn.disabled = false;
-                        btn.classList.add('ready');
+                        clearInterval(interval);
+                        timer.innerText = "Conteúdo Liberado";
+                        btnClose.disabled = false;
                     }
                 } else {
-                    timerLabel.innerText = "PAUSADO (VOLTE)";
+                    timer.innerText = "Cronômetro pausado...";
                 }
             }, 1000);
-        }, 10000); // Surge pela primeira vez em 10s
+        }, 10000);
     }
 
     document.getElementById('close-b2').onclick = () => {
         bloco2.style.opacity = "0";
         setTimeout(() => { 
             bloco2.style.display = "none";
-            setTimeout(runBloco2, 120000); // 2 minutos (120.000ms)
-        }, 500);
+            setTimeout(runBloco2, 120000); 
+        }, 4000);
     };
 
-    // INICIAR TODOS OS BLOCOS AO CARREGAR O SCRIPT
+    // INICIAR
     runBloco1();
     runBloco2();
     runBloco3();
