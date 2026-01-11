@@ -52,6 +52,14 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        /* --- SOLUÇÃO PARA AS LINHAS NOS TEXTOS --- */
+        /* Isso remove o sublinhado e a cor azul de TODOS os links do site */
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
         body {
             font-family: var(--font-sans);
             background: var(--bg);
@@ -62,7 +70,6 @@
         }
 
         /* --- CONTROLE DE FIXAÇÃO (STICKY GROUP) --- */
-        /* Isso agrupa Header, Pesquisa e Filtros para ficarem fixos juntos */
         .sticky-header-group {
             position: sticky;
             top: 0;
@@ -76,7 +83,6 @@
         header {
             background: var(--bg);
             border-bottom: 1px solid var(--border);
-            /* Removido position sticky daqui pois agora o pai (.sticky-header-group) controla isso */
         }
         .nav-container {
             max-width: var(--container-w);
@@ -135,18 +141,15 @@
             background: none; border: none; font-size: 20px; color: var(--text-main); cursor: pointer; display: none;
         }
 
-        /* --- CONFIG DROPDOWN --- */
-        .nav-item.config { position: relative; list-style: none; }
+        /* Dropdown removido do header, mas estilos mantidos caso precise futuramente */
         .config-dropdown {
             position: absolute; top: 100%; right: 0; background: var(--card-bg);
             min-width: 200px; border: 1px solid var(--border); opacity: 0; visibility: hidden;
             transform: translateY(5px); transition: all 0.3s var(--ease-editorial);
             padding: 15px; z-index: 1100; box-shadow: 0 4px 20px rgba(0,0,0,0.05);
         }
-        .nav-item.config:hover .config-dropdown {
-            opacity: 1; visibility: visible; transform: translateY(0);
-        }
-
+        
+        /* --- TOGGLE TEMA --- */
         .theme-toggle-container {
             display: flex;
             align-items: center;
@@ -252,7 +255,7 @@
             font-size: 13px;
         }
 
-        /* --- ESTILOS DO CONTAINER DE PESQUISA (Para garantir que fique bonito no sticky) --- */
+        /* --- ESTILOS DO CONTAINER DE PESQUISA --- */
         #search-container {
             background: var(--bg);
             padding-bottom: 10px;
@@ -262,13 +265,13 @@
         /* --- FILTROS --- */
         .filter-scroller {
             max-width: var(--container-w);
-            margin: 0 auto; /* Removido margin bottom grande para ficar compacto */
+            margin: 0 auto;
             padding: 0 20px 15px 20px;
             display: flex;
             gap: 20px;
             overflow-x: auto;
             border-bottom: 1px solid var(--border);
-            background: var(--bg); /* Garante que o fundo não seja transparente ao rolar */
+            background: var(--bg);
         }
         .filter-tag {
             font-family: var(--font-sans);
@@ -292,7 +295,7 @@
         /* --- HERO --- */
         .hero {
             max-width: var(--container-w);
-            margin: 40px auto; /* Aumentado um pouco pois removemos os ads */
+            margin: 40px auto;
             padding: 0 20px;
             display: grid;
             grid-template-columns: 2fr 1fr;
@@ -528,18 +531,6 @@
                     <li class="nav-item" id="area-usuario"><span>Verificando...</span></li>
                 </ul>
                 <div class="header-actions">
-                    <li class="nav-item config">
-                        <a href="#" style="color: var(--text-main); font-size: 18px;"><i class="fas fa-cog"></i></a>
-                        <div class="config-dropdown">
-                            <div class="theme-toggle-container">
-                                <span class="theme-toggle-label">Tema Escuro</span>
-                                <label class="theme-toggle">
-                                    <input type="checkbox" id="themeToggle">
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-                        </div>
-                    </li>
                     <button class="sections-btn" onclick="if(window.abrirMegaMenu) window.abrirMegaMenu()">
                         <span class="bar"></span>
                         <span class="bar"></span>
@@ -611,13 +602,15 @@
         <div class="mobile-menu-item"><a href="#">Animes</a></div>
         <div class="mobile-menu-item"><a href="#">Games</a></div>
         <div class="mobile-menu-item"><a href="#">Mangás</a></div>
+        
         <div class="theme-toggle-container" style="padding: 20px 0; border-top: 1px solid var(--border); margin-top: 10px;">
-            <span style="font-size: 13px; font-family: var(--font-sans); font-weight: 700;">TEMA ESCURO</span>
+            <span id="mobileThemeLabel" style="font-size: 13px; font-family: var(--font-sans); font-weight: 700;">TEMA ESCURO</span>
             <label class="theme-toggle">
                 <input type="checkbox" id="mobileThemeToggle">
                 <span class="slider"></span>
             </label>
         </div>
+        
         <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid var(--text-main);">
             <a href="/anigeeknews/index.html" class="logo" style="font-size: 20px; font-family: var(--font-logo);">AniGeek<span>News</span></a>
             <p style="font-family: var(--font-serif); font-size: 12px; color: var(--text-muted); font-style: italic;">Jornalismo independente sobre cultura pop.</p>
@@ -647,13 +640,25 @@
             window.scrollTo({ top: 0, behavior: 'smooth' }); 
         }
 
-        const themeToggle = document.getElementById('themeToggle');
+        const themeToggle = document.getElementById('themeToggle'); // Pode não existir se removemos do HTML, mas o código lida com isso
         const mobileThemeToggle = document.getElementById('mobileThemeToggle');
 
+        // MODIFICADO: Função applyTheme agora atualiza o texto do menu lateral
         function applyTheme(isDark) {
             document.body.classList.toggle('dark-mode', isDark);
+            
+            // Verifica se os elementos existem antes de tentar alterar
             if (themeToggle) themeToggle.checked = isDark;
             if (mobileThemeToggle) mobileThemeToggle.checked = isDark;
+            
+            // Atualiza o texto do rótulo no menu mobile
+            const mobileLabel = document.getElementById('mobileThemeLabel');
+            if (mobileLabel) {
+                // Se está escuro, mostra "TEMA CLARO" (para indicar a ação de mudar para claro)
+                // Se está claro, mostra "TEMA ESCURO" (para indicar a ação de mudar para escuro)
+                mobileLabel.textContent = isDark ? "TEMA CLARO" : "TEMA ESCURO";
+            }
+
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
         }
 
@@ -716,7 +721,7 @@
             });
         }
 
-        // FUNÇÃO CORRIGIDA PARA CARREGAR O MÓDULO DE DESTAQUE E EXECUTAR SCRIPTS
+        // FUNÇÃO PARA CARREGAR O MÓDULO DE DESTAQUE E EXECUTAR SCRIPTS
         async function carregarDestaques() {
             const container = document.getElementById('conteudo_de_destaque');
             if (!container) return;
