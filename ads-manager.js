@@ -1,43 +1,50 @@
 (function() {
-    // === CONFIGURAÇÃO DE AMBIENTE ===
+    // === CONFIGURAÇÃO DE ESTADO ===
     let isTabActive = true;
     document.addEventListener("visibilitychange", () => isTabActive = !document.hidden);
 
-    // === 1. COMPONENTES DE INTERFACE (UI) ===
+    // === 1. COMPONENTES DE INTERFACE (UI ELITE) ===
 
-    // BLOCO 1 (BOTTOM SNACKBAR STYLE)
+    // BLOCO 1 (GAVETA INFERIOR - ESTILO SNACKBAR MODERNA)
     const bloco1 = document.createElement('div');
     bloco1.id = 'ads-bloco-1';
     bloco1.innerHTML = `
-        <div class="ad-unit-card snackbar">
-            <div class="ad-header">
-                <span class="ad-badge">Anúncio</span>
-                <button id="close-b1" class="ad-icon-close">&times;</button>
+        <div class="elite-card elite-snackbar">
+            <div class="elite-header">
+                <span class="elite-tag">Patrocinado</span>
+                <button id="close-b1" class="elite-icon-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                </button>
             </div>
-            <div id="slot-b1" class="ad-slot skeleton-loading"></div>
+            <div id="slot-b1" class="elite-slot elite-skeleton"></div>
         </div>
     `;
 
-    // BLOCO 2 (MODAL INTERSTITIAL ELITE)
+    // BLOCO 2 (INTERSTITIAL - FULL EXPERIENCE GOOGLE STYLE)
     const bloco2 = document.createElement('div');
     bloco2.id = 'ads-bloco-2';
     bloco2.innerHTML = `
-        <div class="ad-backdrop">
-            <div class="ad-modal-canvas">
-                <div class="ad-modal-top">
-                    <span class="ad-badge">Patrocinado</span>
-                    <button id="close-b2" class="ad-btn-exit" disabled>Aguarde...</button>
-                </div>
-                <div id="slot-b2" class="ad-slot-large skeleton-loading"></div>
-                <div class="ad-modal-footer">
-                    <div class="ad-progress-track">
-                        <div id="progress-bar-b2" class="ad-progress-bar"></div>
+        <div class="elite-overlay">
+            <div class="elite-modal">
+                <div class="elite-modal-header">
+                    <div class="elite-tag-group">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="#0b57d0"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                        <span class="elite-tag blue">Anúncio Premium</span>
                     </div>
-                    <div class="ad-action-area">
-                        <div id="timer-b2" class="ad-status-text">Carregando experiência...</div>
-                        <a href="#" target="_blank" class="ad-prime-button">
-                            <span>Saber mais</span>
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+                    <button id="close-b2" class="elite-btn-exit" disabled>Aguarde...</button>
+                </div>
+                
+                <div id="slot-b2" class="elite-slot-hero elite-skeleton"></div>
+
+                <div class="elite-modal-footer">
+                    <div class="elite-progress-container">
+                        <div id="progress-bar-b2" class="elite-progress-fill"></div>
+                    </div>
+                    <div class="elite-action-bar">
+                        <span id="timer-b2" class="elite-timer-label">Sincronizando...</span>
+                        <a href="#" target="_blank" class="elite-main-button">
+                            Acessar Agora
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                         </a>
                     </div>
                 </div>
@@ -45,16 +52,16 @@
         </div>
     `;
 
-    // BLOCO 3 (TOP STICKY BANNER)
+    // BLOCO 3 (TOPO - STICKY BANNER)
     const bloco3 = document.createElement('div');
     bloco3.id = 'ads-bloco-3';
     bloco3.innerHTML = `
-        <div class="ad-unit-card top-banner">
-            <div class="ad-header">
-                <span class="ad-badge">Publicidade</span>
-                <button id="close-b3" class="ad-btn-minimal">Fechar</button>
+        <div class="elite-card elite-top-banner">
+            <div class="elite-header">
+                <span class="elite-tag">Informativo</span>
+                <button id="close-b3" class="elite-btn-text">FECHAR</button>
             </div>
-            <div id="slot-b3" class="ad-slot skeleton-loading"></div>
+            <div id="slot-b3" class="elite-slot elite-skeleton"></div>
         </div>
     `;
 
@@ -62,55 +69,80 @@
     const style = document.createElement('style');
     style.textContent = `
         :root {
-            --ad-surface: #ffffff;
-            --ad-on-surface: #1f1f1f;
-            --ad-primary: #0b57d0; /* Google Blue */
-            --ad-outline: #e3e3e3;
-            --ad-shimmer: linear-gradient(90deg, #f0f0f0 25%, #f8f8f8 50%, #f0f0f0 75%);
+            --elite-blue: #0b57d0;
+            --elite-surface: #ffffff;
+            --elite-on-surface: #1f1f1f;
+            --elite-gray: #f8f9fa;
+            --elite-outline: #e3e3e3;
+            --elite-shadow: 0 12px 32px rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.06);
         }
 
-        /* TIPOGRAFIA E BADGES */
-        .ad-badge { font-family: 'Segoe UI', Roboto, Helvetica, sans-serif; font-size: 11px; font-weight: 600; color: #5f6368; text-transform: uppercase; letter-spacing: 0.5px; }
-        .ad-status-text { font-family: 'Segoe UI', sans-serif; font-size: 13px; color: #444746; }
+        /* ANIMAÇÃO SKELETON (SHIMMER) */
+        .elite-skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #f8f8f8 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: elite-shimmer 2s infinite linear;
+        }
+        @keyframes elite-shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
-        /* SKELETON ANIMATION */
-        .skeleton-loading { background: var(--ad-shimmer); background-size: 200% 100%; animation: shimmer 1.5s infinite linear; }
-        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        /* BASE DOS CARDS */
+        .elite-card { 
+            position: fixed; background: var(--elite-surface); border: 1px solid var(--elite-outline);
+            padding: 16px; z-index: 9999; transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+            width: 92%; max-width: 550px; box-shadow: var(--elite-shadow);
+        }
+        .elite-snackbar { bottom: -250px; left: 50%; transform: translateX(-50%); border-radius: 24px; }
+        .elite-top-banner { top: -250px; left: 50%; transform: translateX(-50%); border-radius: 0 0 24px 24px; border-top: none; }
 
-        /* CARDS E ESTRUTURA */
-        .ad-unit-card { position: fixed; background: var(--ad-surface); border: 1px solid var(--ad-outline); box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 9999; transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); width: 95%; max-width: 500px; padding: 12px; border-radius: 16px; }
-        .snackbar { bottom: -200px; left: 50%; transform: translateX(-50%); }
-        .top-banner { top: -200px; left: 50%; transform: translateX(-50%); border-radius: 0 0 16px 16px; }
+        .elite-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .elite-tag { font-family: 'Google Sans', Roboto, Arial, sans-serif; font-size: 11px; font-weight: 700; color: #5f6368; text-transform: uppercase; letter-spacing: 0.8px; }
+        .elite-tag.blue { color: var(--elite-blue); }
+        .elite-tag-group { display: flex; align-items: center; gap: 6px; }
 
-        .ad-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        .ad-slot { height: 100px; border-radius: 8px; border: 1px dashed #d1d1d1; }
-        .ad-slot-large { height: 320px; border-radius: 12px; background: #f8f9fa; }
+        .elite-slot { height: 100px; border-radius: 12px; }
+        .elite-slot-hero { height: 320px; border-radius: 16px; margin-bottom: 20px; }
 
-        /* BOTÕES EXECUTIVOS */
-        .ad-icon-close { background: none; border: none; font-size: 20px; color: #5f6368; cursor: pointer; padding: 0 5px; }
-        .ad-btn-minimal { background: none; border: 1px solid var(--ad-outline); border-radius: 20px; padding: 4px 12px; font-size: 11px; color: #5f6368; cursor: pointer; }
+        /* MODAL INTERSTITIAL */
+        .elite-overlay { 
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            z-index: 10000; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.5s ease;
+        }
+        .elite-modal { 
+            background: #fff; width: 92%; max-width: 440px; border-radius: 32px; padding: 28px;
+            box-shadow: 0 24px 64px rgba(0,0,0,0.3); transform: translateY(20px); transition: transform 0.6s ease;
+        }
+        .elite-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
 
-        /* MODAL INTERSTITIAL ELITE */
-        #ads-bloco-2 { position: fixed; inset: 0; z-index: 10000; display: none; opacity: 0; transition: opacity 0.4s ease; }
-        .ad-backdrop { width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; }
-        .ad-modal-canvas { background: #fff; width: 90%; max-width: 420px; border-radius: 28px; padding: 24px; box-shadow: 0 24px 48px rgba(0,0,0,0.2); }
-        .ad-modal-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        /* BOTÕES */
+        .elite-icon-btn { background: none; border: none; cursor: pointer; color: #5f6368; border-radius: 50%; padding: 4px; transition: background 0.2s; }
+        .elite-icon-btn:hover { background: var(--elite-gray); }
+        .elite-btn-text { background: none; border: none; color: var(--elite-blue); font-weight: 700; font-size: 12px; cursor: pointer; }
         
-        .ad-btn-exit { background: #f1f3f4; border: none; border-radius: 20px; padding: 8px 16px; font-weight: 600; color: #3c4043; cursor: not-allowed; font-size: 13px; }
-        .ad-btn-exit.ready { background: var(--ad-primary); color: #fff; cursor: pointer; }
+        .elite-btn-exit { 
+            background: var(--elite-gray); border: none; border-radius: 100px; padding: 10px 20px;
+            font-size: 13px; font-weight: 600; color: #3c4043; cursor: not-allowed; transition: all 0.3s;
+        }
+        .elite-btn-exit.ready { background: #fce8e6; color: #d93025; cursor: pointer; }
+        .elite-btn-exit.ready:hover { background: #fad2cf; }
 
-        .ad-modal-footer { margin-top: 20px; }
-        .ad-progress-track { width: 100%; height: 4px; background: #e8eaed; border-radius: 2px; overflow: hidden; margin-bottom: 16px; }
-        .ad-progress-bar { width: 0%; height: 100%; background: var(--ad-primary); transition: width 0.1s linear; }
-        
-        .ad-action-area { display: flex; justify-content: space-between; align-items: center; }
-        .ad-prime-button { display: flex; align-items: center; gap: 8px; background: var(--ad-primary); color: #fff; padding: 10px 20px; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-        .ad-prime-button:hover { filter: brightness(1.1); }
+        /* ACTION BAR & PROGRESS */
+        .elite-progress-container { width: 100%; height: 6px; background: #e8eaed; border-radius: 100px; overflow: hidden; margin-bottom: 16px; }
+        .elite-progress-fill { width: 0%; height: 100%; background: var(--elite-blue); transition: width 0.1s linear; }
+        .elite-action-bar { display: flex; justify-content: space-between; align-items: center; }
+        .elite-timer-label { font-family: sans-serif; font-size: 13px; font-weight: 500; color: #5f6368; }
+
+        .elite-main-button { 
+            display: flex; align-items: center; gap: 8px; background: var(--elite-blue); color: #fff;
+            padding: 12px 24px; border-radius: 16px; text-decoration: none; font-weight: 600; font-size: 14px;
+            box-shadow: 0 4px 12px rgba(11, 87, 208, 0.25); transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .elite-main-button:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(11, 87, 208, 0.35); }
+        .elite-main-button:active { transform: scale(0.96); }
 
         /* RESPONSIVIDADE */
         @media (max-width: 480px) {
-            .ad-modal-canvas { width: 95%; padding: 16px; border-radius: 24px; }
-            .ad-slot-large { height: 250px; }
+            .elite-modal { padding: 20px; border-radius: 28px; }
+            .elite-slot-hero { height: 260px; }
         }
     `;
 
@@ -119,67 +151,72 @@
     document.body.appendChild(bloco2);
     document.body.appendChild(bloco3);
 
-    // === 3. LÓGICA DE MOVIMENTO E TEMPO ===
+    // === 3. LÓGICA DE EXECUÇÃO (ENGINE) ===
 
-    const showUnit = (el, prop, val) => { el.style[prop] = val; };
+    const toggleDisplay = (id, property, value) => { document.getElementById(id).style[property] = value; };
 
-    function runBloco1() {
-        setTimeout(() => showUnit(bloco1, 'bottom', '20px'), 2000);
-    }
+    // BLOCO 1
+    function startB1() { setTimeout(() => toggleDisplay('ads-bloco-1', 'bottom', '24px'), 2000); }
     document.getElementById('close-b1').onclick = () => {
-        showUnit(bloco1, 'bottom', '-200px');
-        setTimeout(runBloco1, 20000);
+        toggleDisplay('ads-bloco-1', 'bottom', '-250px');
+        setTimeout(startB1, 20000);
     };
 
-    function runBloco3() {
-        setTimeout(() => showUnit(bloco3, 'top', '0px'), 4000);
-    }
+    // BLOCO 3
+    function startB3() { setTimeout(() => toggleDisplay('ads-bloco-3', 'top', '0px'), 4000); }
     document.getElementById('close-b3').onclick = () => {
-        showUnit(bloco3, 'top', '-200px');
-        setTimeout(runBloco3, 25000);
+        toggleDisplay('ads-bloco-3', 'top', '-250px');
+        setTimeout(startB3, 25000);
     };
 
-    function runBloco2() {
+    // BLOCO 2 (INTERSTITIAL)
+    function startB2() {
         setTimeout(() => {
-            bloco2.style.display = "block";
-            setTimeout(() => bloco2.style.opacity = "1", 50);
+            const overlay = document.getElementById('ads-bloco-2');
+            overlay.style.display = "flex";
+            setTimeout(() => { 
+                overlay.style.opacity = "1";
+                overlay.querySelector('.elite-modal').style.transform = "translateY(0)";
+            }, 50);
             
-            let time = 10;
-            const btn = document.getElementById('close-b2');
-            const bar = document.getElementById('progress-bar-b2');
-            const status = document.getElementById('timer-b2');
+            let remaining = 10;
+            const btnExit = document.getElementById('close-b2');
+            const timerLabel = document.getElementById('timer-b2');
+            const progressFill = document.getElementById('progress-bar-b2');
 
-            const timer = setInterval(() => {
+            const countdown = setInterval(() => {
                 if (isTabActive) {
-                    if (time > 0) {
-                        time--;
-                        status.innerText = `Livre em ${time}s`;
-                        bar.style.width = `${(10 - time) * 10}%`;
+                    if (remaining > 0) {
+                        remaining--;
+                        timerLabel.innerText = `Próximo passo em ${remaining}s`;
+                        progressFill.style.width = `${(10 - remaining) * 10}%`;
                     } else {
-                        clearInterval(timer);
-                        status.innerText = "Pronto para continuar";
-                        btn.innerText = "Fechar";
-                        btn.disabled = false;
-                        btn.classList.add('ready');
+                        clearInterval(countdown);
+                        timerLabel.innerText = "Acesso liberado";
+                        btnExit.innerText = "Pular anúncio";
+                        btnExit.disabled = false;
+                        btnExit.classList.add('ready');
                     }
                 } else {
-                    status.innerText = "Pausado...";
+                    timerLabel.innerText = "Aguardando seu retorno...";
                 }
             }, 1000);
         }, 10000);
     }
 
     document.getElementById('close-b2').onclick = () => {
-        bloco2.style.opacity = "0";
-        setTimeout(() => {
-            bloco2.style.display = "none";
-            setTimeout(runBloco2, 120000);
+        const overlay = document.getElementById('ads-bloco-2');
+        overlay.style.opacity = "0";
+        overlay.querySelector('.elite-modal').style.transform = "translateY(20px)";
+        setTimeout(() => { 
+            overlay.style.display = "none";
+            setTimeout(startB2, 120000); 
         }, 500);
     };
 
-    // START
-    runBloco1();
-    runBloco2();
-    runBloco3();
+    // INICIALIZAÇÃO GLOBAL
+    startB1();
+    startB2();
+    startB3();
 
 })();
