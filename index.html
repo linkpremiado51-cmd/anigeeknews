@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        /* --- VARIÁVEIS IDÊNTICAS AO ARTIGO --- */
+        /* --- VARIÁVEIS --- */
         :root {
             --nyt-black: #121212;
             --nyt-ink: #202020;
@@ -61,56 +61,22 @@
             transition: background var(--duration) var(--ease-editorial), color var(--duration) var(--ease-editorial);
         }
 
-        /* --- ÁREA DO USUÁRIO --- */
-        #area-usuario, #area-usuario-mobile {
-            display: flex;
-            align-items: center;
-            font-family: var(--font-sans);
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-        .user-logged { display: flex; align-items: center; gap: 15px; color: var(--text-main); }
-        .user-logged span strong { color: var(--accent-news); }
-        .btn-entrar, .btn-sair {
-            text-decoration: none;
-            color: var(--text-main);
-            border: 1px solid var(--text-main);
-            padding: 5px 12px;
-            transition: all 0.3s;
-            cursor: pointer;
-            background: transparent;
-            font-family: var(--font-sans);
-            font-size: 11px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .btn-entrar:hover { background: var(--text-main); color: var(--bg); }
-        .btn-sair { border-color: #999; color: #999; }
-        .btn-sair:hover { border-color: var(--accent-news); color: var(--accent-news); }
-
-        .news-link { text-decoration: none; color: inherit; display: block; }
-
-        img {
-            display: block;
-            max-width: 100%;
-            filter: var(--img-filter);
-            transition: filter 0.6s var(--ease-editorial), transform 0.8s var(--ease-editorial);
-        }
-        .post-card:hover img,
-        .main-feat:hover img,
-        .sub-feat:hover img {
-            filter: var(--img-hover);
+        /* --- CONTROLE DE FIXAÇÃO (STICKY GROUP) --- */
+        /* Isso agrupa Header, Pesquisa e Filtros para ficarem fixos juntos */
+        .sticky-header-group {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: var(--bg);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: background var(--duration) var(--ease-editorial);
         }
 
         /* --- HEADER --- */
         header {
             background: var(--bg);
-            border-bottom: 2px solid var(--text-main);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+            /* Removido position sticky daqui pois agora o pai (.sticky-header-group) controla isso */
         }
         .nav-container {
             max-width: var(--container-w);
@@ -221,22 +187,50 @@
         input:checked + .slider { background-color: var(--accent-news); }
         input:checked + .slider:before { transform: translateX(20px); }
 
-      /* --- MOBILE MENU --- */
-.mobile-menu {
-    position: fixed; 
-    top: var(--header-h); 
-    right: -100%;
-    width: 100%;
-    max-width: 100%;
-    height: calc(100vh - var(--header-h));
-    background: var(--bg);
-    border-left: 1px solid var(--border);
-    z-index: 2000;
-    padding: 20px;
-    transition: right 0.3s ease;
-    overflow-y: auto;
-}
+        /* --- ÁREA DO USUÁRIO --- */
+        #area-usuario, #area-usuario-mobile {
+            display: flex;
+            align-items: center;
+            font-family: var(--font-sans);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .user-logged { display: flex; align-items: center; gap: 15px; color: var(--text-main); }
+        .user-logged span strong { color: var(--accent-news); }
+        .btn-entrar, .btn-sair {
+            text-decoration: none;
+            color: var(--text-main);
+            border: 1px solid var(--text-main);
+            padding: 5px 12px;
+            transition: all 0.3s;
+            cursor: pointer;
+            background: transparent;
+            font-family: var(--font-sans);
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .btn-entrar:hover { background: var(--text-main); color: var(--bg); }
+        .btn-sair { border-color: #999; color: #999; }
+        .btn-sair:hover { border-color: var(--accent-news); color: var(--accent-news); }
 
+        /* --- MOBILE MENU --- */
+        .mobile-menu {
+            position: fixed; 
+            top: var(--header-h); 
+            right: -100%;
+            width: 100%;
+            max-width: 100%;
+            height: calc(100vh - var(--header-h));
+            background: var(--bg);
+            border-left: 1px solid var(--border);
+            z-index: 2000;
+            padding: 20px;
+            transition: right 0.3s ease;
+            overflow-y: auto;
+        }
         .mobile-menu.active { right: 0; }
         .close-menu {
             position: absolute; top: 15px; right: 15px;
@@ -258,16 +252,23 @@
             font-size: 13px;
         }
 
+        /* --- ESTILOS DO CONTAINER DE PESQUISA (Para garantir que fique bonito no sticky) --- */
+        #search-container {
+            background: var(--bg);
+            padding-bottom: 10px;
+            padding-top: 10px;
+        }
+
         /* --- FILTROS --- */
         .filter-scroller {
             max-width: var(--container-w);
-            margin: 0 auto 40px;
-            padding: 0 20px;
+            margin: 0 auto; /* Removido margin bottom grande para ficar compacto */
+            padding: 0 20px 15px 20px;
             display: flex;
             gap: 20px;
             overflow-x: auto;
             border-bottom: 1px solid var(--border);
-            padding-bottom: 15px;
+            background: var(--bg); /* Garante que o fundo não seja transparente ao rolar */
         }
         .filter-tag {
             font-family: var(--font-sans);
@@ -288,10 +289,10 @@
             text-underline-offset: 4px;
         }
 
-        /* --- HERO (ESTILO ARTIGO) --- */
+        /* --- HERO --- */
         .hero {
             max-width: var(--container-w);
-            margin: 20px auto;
+            margin: 40px auto; /* Aumentado um pouco pois removemos os ads */
             padding: 0 20px;
             display: grid;
             grid-template-columns: 2fr 1fr;
@@ -300,11 +301,7 @@
             padding-bottom: 40px;
         }
 
-        .main-feat {
-            position: relative;
-            cursor: pointer;
-        }
-
+        .main-feat { position: relative; cursor: pointer; }
         .main-feat-img-box {
             width: 100%;
             height: 450px;
@@ -315,11 +312,10 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            filter: var(--img-filter);
+            transition: filter 0.6s var(--ease-editorial), transform 0.8s var(--ease-editorial);
         }
-
-        .main-feat:hover .main-feat-img-box img {
-            transform: scale(1.02);
-        }
+        .main-feat:hover .main-feat-img-box img { transform: scale(1.02); filter: var(--img-hover); }
 
         .main-text-content .tag-label {
             display: inline-block;
@@ -333,27 +329,18 @@
             border-bottom: 1px solid currentColor;
             color: var(--accent-news);
         }
-
         .main-text-content h1 {
-    font-family: var(--font-sans);
-    font-size: clamp(20px, 4.5vw, 48px);
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 15px;
-    color: var(--text-main);
-    border-top: 2px solid var(--text-main);
-    padding-top: 20px;
-
-    /* --- CORREÇÃO PARA O CHROME --- */
-    display: block;        /* Força a ser bloco */
-    width: 100%;           /* Força a largura total */
-    box-sizing: border-box; /* Garante que a borda não empurre o elemento para fora */
-    clear: both;           /* Garante que não haja interferência de floats */
-}
-
-
-
+            font-family: var(--font-sans);
+            font-size: clamp(20px, 4.5vw, 48px);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+            color: var(--text-main);
+            border-top: 2px solid var(--text-main);
+            padding-top: 20px;
+            display: block; width: 100%; box-sizing: border-box; clear: both;
+        }
         .main-text-content p {
             font-family: var(--font-serif);
             font-size: 18px;
@@ -361,7 +348,6 @@
             line-height: 1.5;
             max-width: 90%;
         }
-
         .meta-minimal {
             font-family: var(--font-sans);
             font-size: 12px;
@@ -370,11 +356,7 @@
         }
 
         /* --- SUB FEATURES --- */
-        .sub-feat-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0;
-        }
+        .sub-feat-list { display: flex; flex-direction: column; gap: 0; }
         .sub-feat {
             display: grid;
             grid-template-columns: 1fr 90px;
@@ -396,10 +378,10 @@
         }
         .sub-feat:hover h3 { color: var(--primary); }
         .sub-feat img {
-            width: 90px;
-            height: 60px;
-            object-fit: cover;
+            width: 90px; height: 60px; object-fit: cover;
+            filter: var(--img-filter);
         }
+        .sub-feat:hover img { filter: var(--img-hover); }
 
         /* --- LAYOUT PRINCIPAL --- */
         .layout {
@@ -410,10 +392,7 @@
             grid-template-columns: 1fr 300px;
             gap: 60px;
         }
-
-        .section-header {
-            margin-bottom: 30px;
-        }
+        .section-header { margin-bottom: 30px; }
         .section-title {
             font-family: var(--font-sans);
             font-weight: 800;
@@ -424,196 +403,84 @@
             padding-top: 20px;
             width: fit-content;
         }
-
-        .feed {
-            display: flex;
-            flex-direction: column;
-            gap: 40px;
-        }
-
+        .feed { display: flex; flex-direction: column; gap: 40px; }
         .post-card {
-            display: grid;
-            grid-template-columns: 240px 1fr;
-            gap: 25px;
-            padding-bottom: 40px;
-            border-bottom: 1px solid var(--border);
-            text-decoration: none;
-            color: inherit;
+            display: grid; grid-template-columns: 240px 1fr; gap: 25px;
+            padding-bottom: 40px; border-bottom: 1px solid var(--border);
+            text-decoration: none; color: inherit;
         }
         .post-card:last-child { border-bottom: none; }
-        .post-img-wrapper {
-            width: 100%;
-            height: 160px;
-            overflow: hidden;
-        }
+        .post-img-wrapper { width: 100%; height: 160px; overflow: hidden; }
         .post-img-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            width: 100%; height: 100%; object-fit: cover;
+            filter: var(--img-filter);
         }
-        .post-content {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
+        .post-card:hover img { filter: var(--img-hover); }
+        .post-content { display: flex; flex-direction: column; justify-content: center; }
         .category {
-            font-family: var(--font-sans);
-            font-size: 10px;
-            font-weight: 700;
-            color: var(--primary);
-            text-transform: uppercase;
-            margin-bottom: 8px;
-            letter-spacing: 1px;
+            font-family: var(--font-sans); font-size: 10px; font-weight: 700;
+            color: var(--primary); text-transform: uppercase;
+            margin-bottom: 8px; letter-spacing: 1px;
         }
         .post-content h2 {
-            font-family: var(--font-serif-title);
-            font-size: 20px;
-            font-weight: 700;
-            line-height: 1.3;
-            margin-bottom: 10px;
-            color: var(--text-main);
+            font-family: var(--font-serif-title); font-size: 20px; font-weight: 700;
+            line-height: 1.3; margin-bottom: 10px; color: var(--text-main);
         }
         .post-content p {
-            font-family: var(--font-serif);
-            font-size: 14px;
-            color: var(--text-muted);
-            line-height: 1.5;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        /* --- ÁREAS DE ANÚNCIO --- */
-        .ad-hero {
-            background: var(--nyt-gray-light);
-            height: 90px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 20px 0;
-            color: var(--nyt-gray-dark);
-            font-size: 12px;
-            font-family: var(--font-sans);
-            text-align: center;
-        }
-        .ad-feed {
-            background: var(--nyt-gray-light);
-            height: 250px;
-            margin: 30px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--nyt-gray-dark);
-            font-size: 12px;
-            font-family: var(--font-sans);
-            text-align: center;
-        }
-        .sidebar .ad-sidebar {
-            background: var(--nyt-gray-light);
-            height: 250px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--nyt-gray-dark);
-            font-size: 12px;
-            font-family: var(--font-sans);
-            text-align: center;
+            font-family: var(--font-serif); font-size: 14px; color: var(--text-muted);
+            line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical; overflow: hidden;
         }
 
         /* --- SIDEBAR --- */
-        .sidebar-box {
-            margin-bottom: 50px;
-        }
+        .sidebar-box { margin-bottom: 50px; }
         .sidebar-title {
-            font-family: var(--font-sans);
-            font-size: 13px;
-            font-weight: 800;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-            text-transform: uppercase;
+            font-family: var(--font-sans); font-size: 13px; font-weight: 800;
+            border-bottom: 1px solid var(--border); padding-bottom: 10px;
+            margin-bottom: 20px; text-transform: uppercase;
         }
         .top-list-item {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #f0f0f0;
-            align-items: baseline;
-            text-decoration: none;
+            display: flex; gap: 15px; margin-bottom: 15px; padding-bottom: 15px;
+            border-bottom: 1px solid #f0f0f0; align-items: baseline; text-decoration: none;
         }
         body.dark-mode .top-list-item { border-bottom-color: #222; }
         .rank-num {
-            font-family: var(--font-sans);
-            font-size: 20px;
-            font-weight: 800;
-            color: var(--border);
+            font-family: var(--font-sans); font-size: 20px; font-weight: 800; color: var(--border);
         }
         .top-list-item p {
-            font-family: var(--font-sans);
-            font-size: 14px;
-            line-height: 1.4;
-            color: var(--text-main);
-            font-weight: 500;
+            font-family: var(--font-sans); font-size: 14px; line-height: 1.4;
+            color: var(--text-main); font-weight: 500;
         }
-        .top-list-item:hover p {
-            color: var(--accent-news);
-            text-decoration: underline;
-        }
+        .top-list-item:hover p { color: var(--accent-news); text-decoration: underline; }
 
         .newsletter-card {
-            background: #f5f5f5;
-            padding: 30px 20px;
-            text-align: left;
-            border: 1px solid transparent;
+            background: #f5f5f5; padding: 30px 20px; text-align: left; border: 1px solid transparent;
         }
         body.dark-mode .newsletter-card { background: #222; }
         .newsletter-card h3 {
-            font-family: var(--font-serif);
-            font-size: 18px;
-            margin-bottom: 10px;
+            font-family: var(--font-serif); font-size: 18px; margin-bottom: 10px;
         }
         .newsletter-card input {
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            border: 1px solid #ccc;
-            background: var(--bg);
-            color: var(--text-main);
+            width: 100%; padding: 10px; margin-top: 10px;
+            border: 1px solid #ccc; background: var(--bg); color: var(--text-main);
             font-family: var(--font-sans);
         }
         .newsletter-card button {
-            width: 100%;
-            padding: 12px;
-            margin-top: 10px;
-            background: var(--text-main);
-            color: var(--bg);
-            border: none;
-            font-family: var(--font-sans);
-            font-weight: 600;
-            cursor: pointer;
-            letter-spacing: 1px;
+            width: 100%; padding: 12px; margin-top: 10px;
+            background: var(--text-main); color: var(--bg); border: none;
+            font-family: var(--font-sans); font-weight: 600; cursor: pointer; letter-spacing: 1px;
         }
         .newsletter-card button:hover { opacity: 0.9; }
 
-        /* --- FOOTER MINIMALISTA --- */
+        /* --- FOOTER --- */
         footer {
-            border-top: 1px solid var(--border);
-            padding: 20px 0;
-            margin-top: 60px;
-            text-align: center;
-            font-family: var(--font-sans);
-            font-size: 12px;
-            color: var(--text-muted);
+            border-top: 1px solid var(--border); padding: 20px 0;
+            margin-top: 60px; text-align: center;
+            font-family: var(--font-sans); font-size: 12px; color: var(--text-muted);
         }
         footer .logo {
-            font-size: 22px;
-            display: inline-block;
-            margin-bottom: 5px;
-            font-family: var(--font-logo);
-            color: var(--text-main);
+            font-size: 22px; display: inline-block; margin-bottom: 5px;
+            font-family: var(--font-logo); color: var(--text-main);
         }
 
         /* --- MEDIA QUERIES --- */
@@ -621,29 +488,14 @@
             .nav-menu { display: none; }
             .menu-toggle { display: block; }
             .logo { font-size: 22px; }
-            .hero {
-                grid-template-columns: 1fr;
-                gap: 20px;
-                padding: 0 15px;
-                margin: 20px auto;
-            }
+            .hero { grid-template-columns: 1fr; gap: 20px; padding: 0 15px; margin: 20px auto; }
             .main-feat-img-box { height: 280px; }
             .main-text-content h1 { font-size: 20px; }
             .main-text-content p { font-size: 16px; }
-            .layout {
-                grid-template-columns: 1fr;
-                gap: 40px;
-                padding: 0 15px;
-            }
-            .post-card {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
+            .layout { grid-template-columns: 1fr; gap: 40px; padding: 0 15px; }
+            .post-card { grid-template-columns: 1fr; gap: 15px; }
             .post-img-wrapper { height: 200px; }
-            .search-bar { flex-wrap: wrap; }
-            .search-input, .search-btn { width: auto; min-width: 120px; }
         }
-
         @media (max-width: 768px) {
             .nav-container { padding: 0 15px; height: 60px; }
             --header-h: 60px;
@@ -652,13 +504,9 @@
             .main-text-content h1 { font-size: clamp(20px, 8vw, 32px); }
             footer { padding: 15px 0; }
         }
-
         @media (max-width: 480px) {
             .nav-container { padding: 0 10px; }
             .logo { font-size: 18px; }
-            .search-bar { padding: 0 10px; margin: 15px auto; }
-            .search-input { padding: 10px 15px; font-size: 13px; }
-            .search-btn { padding: 10px 15px; font-size: 14px; }
             .main-feat-img-box { height: 200px; }
             .main-text-content h1 { font-size: clamp(20px, 10vw, 28px); }
             .main-text-content p { font-size: 14px; }
@@ -669,60 +517,54 @@
 <body>
     <div id="progress-bar" style="position: fixed; top: 0; left: 0; height: 3px; background: var(--primary); width: 0%; z-index: 1001; transition: width 0.1s;"></div>
 
-    <header>
-        <div class="nav-container">
-            <a href="/anigeeknews/index.html" class="logo">AniGeekNews<span></span></a>
-            <ul class="nav-menu" id="navMenu">
-                <li class="nav-item"><a href="#">Animes</a></li>
-                <li class="nav-item"><a href="#">Games</a></li>
-                <li class="nav-item"><a href="#">Mangás</a></li>
-                <li class="nav-item" id="area-usuario"><span>Verificando...</span></li>
-            </ul>
-            <div class="header-actions">
-                <li class="nav-item config">
-                    <a href="#" style="color: var(--text-main); font-size: 18px;"><i class="fas fa-cog"></i></a>
-                    <div class="config-dropdown">
-                        <div class="theme-toggle-container">
-                            <span class="theme-toggle-label">Tema Escuro</span>
-                            <label class="theme-toggle">
-                                <input type="checkbox" id="themeToggle">
-                                <span class="slider"></span>
-                            </label>
+    <div class="sticky-header-group">
+        <header>
+            <div class="nav-container">
+                <a href="/anigeeknews/index.html" class="logo">AniGeekNews<span></span></a>
+                <ul class="nav-menu" id="navMenu">
+                    <li class="nav-item"><a href="#">Animes</a></li>
+                    <li class="nav-item"><a href="#">Games</a></li>
+                    <li class="nav-item"><a href="#">Mangás</a></li>
+                    <li class="nav-item" id="area-usuario"><span>Verificando...</span></li>
+                </ul>
+                <div class="header-actions">
+                    <li class="nav-item config">
+                        <a href="#" style="color: var(--text-main); font-size: 18px;"><i class="fas fa-cog"></i></a>
+                        <div class="config-dropdown">
+                            <div class="theme-toggle-container">
+                                <span class="theme-toggle-label">Tema Escuro</span>
+                                <label class="theme-toggle">
+                                    <input type="checkbox" id="themeToggle">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
                         </div>
-                    </div>
-                </li>
-                <button class="sections-btn" onclick="if(window.abrirMegaMenu) window.abrirMegaMenu()">
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                </button>
-                <button class="menu-toggle" onclick="toggleMobileMenu()">
-                    <i class="fas fa-bars"></i>
-                </button>
+                    </li>
+                    <button class="sections-btn" onclick="if(window.abrirMegaMenu) window.abrirMegaMenu()">
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                    <button class="menu-toggle" onclick="toggleMobileMenu()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
             </div>
+        </header>
+
+        <div id="search-container"></div>
+
+        <div class="filter-scroller" id="filterScroller">
+            <button class="filter-tag active" data-section="manchetes">Manchetes</button>
+            <button class="filter-tag" data-section="analises">Análises</button>
+            <button class="filter-tag" data-section="entrevistas">Entrevistas</button>
+            <button class="filter-tag" data-section="lancamentos">Lançamentos</button>
+            <button class="filter-tag" data-section="podcast">Podcast</button>
         </div>
-    </header>
-<div id="container-menu-perfil" class="sidebar-box"></div>
-    <div id="megaMenuContainer"></div>
-
-    <div id="search-container"></div>
-
-    <div class="filter-scroller" id="filterScroller">
-        <button class="filter-tag active" data-section="manchetes">Manchetes</button>
-       
-        <button class="filter-tag" data-section="analises">Análises</button>
-        <button class="filter-tag" data-section="entrevistas">Entrevistas</button>
-        <button class="filter-tag" data-section="lancamentos">Lançamentos</button>
-        <button class="filter-tag" data-section="podcast">Podcast</button>
-        
     </div>
-
     <div id="dynamic-content">
         <section class="hero">
-            <div class="ad-hero">[ ANÚNCIO 728x90 – HERO BANNER ]</div>
-            
-            <div id="conteudo_de_destaque" style="display: contents;">
-                 </div>
+            <div id="conteudo_de_destaque" style="display: contents;"></div>
         </section>
 
         <div class="layout">
@@ -730,10 +572,8 @@
                 <div class="section-header">
                     <h2 class="section-title">Últimas Notícias</h2>
                 </div>
-                <div class="ad-feed">[ ANÚNCIO 300x250 – MID-FEED ]</div>
                 <div class="feed">
-                 
-                </div>
+                    </div>
                 <div class="load-more-container" style="text-align: center; margin-top: 40px; border-top: 1px solid var(--border); padding-top: 20px;">
                     <button class="load-more-btn" style="background: none; border: 1px solid var(--text-main); padding: 12px 30px; font-family: var(--font-sans); font-weight: 700; cursor: pointer; color: var(--text-main); text-transform: uppercase; font-size: 12px; letter-spacing: 1px;">
                         Carregar Mais
@@ -741,7 +581,6 @@
                 </div>
             </main>
             <aside class="sidebar">
-                <div class="ad-sidebar">[ ANÚNCIO 300x250 – SIDEBAR ]</div>
                 <div class="sidebar-box">
                     <h4 class="sidebar-title">Mais Lidas da Semana</h4>
                     <div class="top-list">
@@ -763,6 +602,10 @@
 
     <div class="mobile-menu" id="mobileMenu">
         <button class="close-menu" onclick="toggleMobileMenu()">×</button>
+        
+        <div id="container-menu-perfil" class="sidebar-box"></div>
+        <div id="megaMenuContainer"></div>
+        
         <div class="mobile-menu-item" id="area-usuario-mobile"><span>Verificando...</span></div>
         <div class="mobile-menu-item"><a href="/anigeeknews/index.html">Início</a></div>
         <div class="mobile-menu-item"><a href="#">Animes</a></div>
@@ -857,117 +700,117 @@
         loadSearchBar();
    </script>
 
-<script type="module">
-    import { restaurarNoticiasSalvas } from '/anigeeknews/modulo-noticias.js';
-    import { carregarPerfilLateral } from '/anigeeknews/usuario/perfil-lateral.js';
-    
-    carregarPerfilLateral();
-    
-    const dynamicContent = document.getElementById('dynamic-content');
-    // Salva o estado original do HTML para quando o usuário clicar em "Manchetes"
-    let originalContent = dynamicContent ? dynamicContent.innerHTML : "";
-    
-    function activateButton(section) {
-        document.querySelectorAll('.filter-tag').forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.section === section);
-        });
-    }
+    <script type="module">
+        import { restaurarNoticiasSalvas } from '/anigeeknews/modulo-noticias.js';
+        import { carregarPerfilLateral } from '/anigeeknews/usuario/perfil-lateral.js';
+        
+        carregarPerfilLateral();
+        
+        const dynamicContent = document.getElementById('dynamic-content');
+        // Salva o estado original do HTML para quando o usuário clicar em "Manchetes"
+        let originalContent = dynamicContent ? dynamicContent.innerHTML : "";
+        
+        function activateButton(section) {
+            document.querySelectorAll('.filter-tag').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.section === section);
+            });
+        }
 
-    // FUNÇÃO CORRIGIDA PARA CARREGAR O MÓDULO DE DESTAQUE E EXECUTAR SCRIPTS
-    async function carregarDestaques() {
-        const container = document.getElementById('conteudo_de_destaque');
-        if (!container) return;
-        try {
-            // Usando caminho relativo para garantir compatibilidade
-            const response = await fetch('./modulos/conteudo_de_destaque.html');
-            if (response.ok) {
-                const html = await response.text();
-                container.innerHTML = html;
+        // FUNÇÃO CORRIGIDA PARA CARREGAR O MÓDULO DE DESTAQUE E EXECUTAR SCRIPTS
+        async function carregarDestaques() {
+            const container = document.getElementById('conteudo_de_destaque');
+            if (!container) return;
+            try {
+                // Usando caminho relativo para garantir compatibilidade
+                const response = await fetch('./modulos/conteudo_de_destaque.html');
+                if (response.ok) {
+                    const html = await response.text();
+                    container.innerHTML = html;
 
-                // Força a execução de scripts injetados (essencial para o sorteio de notícias)
-                const scripts = container.querySelectorAll("script");
-                scripts.forEach(oldScript => {
-                    const newScript = document.createElement("script");
-                    Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
-                    newScript.appendChild(document.createTextNode(oldScript.innerHTML));
-                    oldScript.parentNode.replaceChild(newScript, oldScript);
-                });
+                    // Força a execução de scripts injetados
+                    const scripts = container.querySelectorAll("script");
+                    scripts.forEach(oldScript => {
+                        const newScript = document.createElement("script");
+                        Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+                        newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+                        oldScript.parentNode.replaceChild(newScript, oldScript);
+                    });
+                }
+            } catch (error) {
+                console.error("Erro ao carregar módulo de destaque:", error);
             }
-        } catch (error) {
-            console.error("Erro ao carregar módulo de destaque:", error);
         }
-    }
-    
-    async function loadFeed() {
-        if (!dynamicContent) return;
-        try {
-            const response = await fetch('/anigeeknews/feed/feed.html');
-            const html = await response.text();
-            dynamicContent.innerHTML = html;
+        
+        async function loadFeed() {
+            if (!dynamicContent) return;
+            try {
+                const response = await fetch('/anigeeknews/feed/feed.html');
+                const html = await response.text();
+                dynamicContent.innerHTML = html;
+                
+                const cssLink = document.createElement('link');
+                cssLink.rel = 'stylesheet';
+                cssLink.href = '/anigeeknews/feed/feed.css';
+                document.head.appendChild(cssLink);
+                
+                const script = document.createElement('script');
+                script.src = '/anigeeknews/feed/feed.js';
+                script.type = 'module';
+                script.onload = () => restaurarNoticiasSalvas();
+                document.body.appendChild(script);
+            } catch (error) {
+                dynamicContent.innerHTML = '<p style="padding:40px; text-align:center; color:#888;">Conteúdo do Feed indisponível.</p>';
+            }
+        }
+        
+        async function loadSection(section) {
+            if (!dynamicContent) return;
             
-            const cssLink = document.createElement('link');
-            cssLink.rel = 'stylesheet';
-            cssLink.href = '/anigeeknews/feed/feed.css';
-            document.head.appendChild(cssLink);
+            if (section === 'manchetes') {
+                dynamicContent.innerHTML = originalContent;
+                localStorage.setItem('currentSection', 'manchetes');
+                // Recarrega os destaques sempre que voltar para manchetes
+                carregarDestaques();
+                setTimeout(restaurarNoticiasSalvas, 50);
+                return;
+            }
             
-            const script = document.createElement('script');
-            script.src = '/anigeeknews/feed/feed.js';
-            script.type = 'module';
-            script.onload = () => restaurarNoticiasSalvas();
-            document.body.appendChild(script);
-        } catch (error) {
-            dynamicContent.innerHTML = '<p style="padding:40px; text-align:center; color:#888;">Conteúdo do Feed indisponível.</p>';
-        }
-    }
-    
-    async function loadSection(section) {
-        if (!dynamicContent) return;
-        
-        if (section === 'manchetes') {
-            dynamicContent.innerHTML = originalContent;
-            localStorage.setItem('currentSection', 'manchetes');
-            // Recarrega os destaques sempre que voltar para manchetes
-            carregarDestaques();
-            setTimeout(restaurarNoticiasSalvas, 50);
-            return;
+            if (section === 'feed') {
+                loadFeed();
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/anigeeknews/modulos/${section}.html`);
+                const html = await response.text();
+                dynamicContent.innerHTML = html;
+                setTimeout(restaurarNoticiasSalvas, 50);
+            } catch {
+                dynamicContent.innerHTML = '<p style="padding:40px; text-align:center; color:#888;">Conteúdo indisponível.</p>';
+            }
         }
         
-        if (section === 'feed') {
-            loadFeed();
-            return;
-        }
-        
-        try {
-            const response = await fetch(`/anigeeknews/modulos/${section}.html`);
-            const html = await response.text();
-            dynamicContent.innerHTML = html;
-            setTimeout(restaurarNoticiasSalvas, 50);
-        } catch {
-            dynamicContent.innerHTML = '<p style="padding:40px; text-align:center; color:#888;">Conteúdo indisponível.</p>';
-        }
-    }
-    
-    document.querySelectorAll('.filter-tag').forEach(button => {
-        button.addEventListener('click', () => {
-            const section = button.dataset.section;
-            localStorage.setItem('currentSection', section);
-            activateButton(section);
-            loadSection(section);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        document.querySelectorAll('.filter-tag').forEach(button => {
+            button.addEventListener('click', () => {
+                const section = button.dataset.section;
+                localStorage.setItem('currentSection', section);
+                activateButton(section);
+                loadSection(section);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
         });
-    });
-    
-    // Execução imediata ao carregar a página
-    window.addEventListener('DOMContentLoaded', () => {
-        const saved = localStorage.getItem('currentSection') || 'manchetes';
-        activateButton(saved);
-        if (saved !== 'manchetes') {
-            loadSection(saved);
-        } else {
-            carregarDestaques();
-            restaurarNoticiasSalvas();
-        }
-    });
-</script>
+        
+        // Execução imediata ao carregar a página
+        window.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('currentSection') || 'manchetes';
+            activateButton(saved);
+            if (saved !== 'manchetes') {
+                loadSection(saved);
+            } else {
+                carregarDestaques();
+                restaurarNoticiasSalvas();
+            }
+        });
+    </script>
 </body>
 </html>
