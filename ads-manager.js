@@ -1,5 +1,5 @@
 (function() {
-    // === 1. CONFIGURAÇÃO DA GAVETA (BOTTOM DRAWER - 2 SEGUNDOS) ===
+    // === 1. GAVETA (BOTTOM DRAWER) ===
     const drawer = document.createElement('div');
     drawer.id = 'ads-bottom-drawer';
     drawer.innerHTML = `
@@ -7,30 +7,34 @@
             <button id="close-drawer-btn">×</button>
             <div class="drawer-content">
                 <p class="ad-tag">PUBLICIDADE</p>
-                <div id="drawer-ad-slot">
-                    <img src="https://via.placeholder.com/320x50" alt="Banner" style="max-width:100%">
-                </div>
+                <div id="drawer-ad-slot" style="width:320px; height:50px; background:#f0f0f0; margin:0 auto;">
+                    </div>
             </div>
         </div>
     `;
 
-    // === 2. CONFIGURAÇÃO DO INTERSTITIAL (TELA CHEIA - 10 SEGUNDOS) ===
+    // === 2. INTERSTITIAL (TELA CHEIA) ===
     const interstitial = document.createElement('div');
     interstitial.id = 'ads-full-overlay';
     interstitial.innerHTML = `
         <div class="interstitial-modal">
-            <button id="close-full-btn" disabled>Aguarde...</button>
-            <div class="interstitial-content">
+            <button id="close-full-btn" disabled>X</button>
+            
+            <div class="interstitial-media-container">
                 <p class="ad-tag">PUBLICIDADE</p>
-                <img src="https://via.placeholder.com/300x400" alt="Ads" style="max-width:100%; border-radius:8px;">
+                <div id="interstitial-media-slot">
+                    <img src="https://via.placeholder.com/300x450" alt="Ads" style="max-width:100%; height:auto; display:block; border-radius:8px;">
+                </div>
             </div>
+
+            <div id="ad-timer-display">Aguarde...</div>
         </div>
     `;
 
-    // === 3. ESTILIZAÇÃO UNIFICADA ===
+    // === 3. ESTILIZAÇÃO (LAYOUT E BOTÕES) ===
     const style = document.createElement('style');
     style.textContent = `
-        /* Estilos da Gaveta */
+        /* Gaveta */
         #ads-bottom-drawer {
             position: fixed; bottom: -120px; left: 0; width: 100%;
             z-index: 99999; transition: bottom 0.5s ease;
@@ -47,24 +51,50 @@
             background: #fff; border: 1px solid #ddd; border-radius: 50%; cursor: pointer;
         }
 
-        /* Estilos do Interstitial (Tela Cheia) */
+        /* Interstitial Adaptado */
         #ads-full-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
             z-index: 1000000; display: none; align-items: center; justify-content: center;
             opacity: 0; transition: opacity 0.5s ease;
         }
         #ads-full-overlay.show { display: flex; opacity: 1; }
+        
         .interstitial-modal {
-            position: relative; width: 85%; max-width: 350px; background: #fff;
-            padding: 20px; border-radius: 20px; text-align: center;
+            position: relative; 
+            width: 90%; 
+            max-width: 350px; 
+            min-height: 400px;
+            background: transparent; /* Fundo transparente para focar na mídia */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
+
+        /* Botão Superior Esquerdo */
         #close-full-btn {
-            position: absolute; top: -45px; right: 0; padding: 8px 15px;
-            background: #fff; border: none; border-radius: 20px; font-weight: bold;
-            cursor: not-allowed; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            position: absolute; top: -40px; left: 0;
+            width: 35px; height: 35px; border-radius: 50%;
+            border: none; background: #fff; color: #000;
+            font-weight: bold; font-size: 18px; cursor: not-allowed;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0.5;
         }
-        #close-full-btn.ready { cursor: pointer; background: #c1121f; color: #fff; }
+        #close-full-btn.ready { opacity: 1; cursor: pointer; background: #c1121f; color: #fff; }
+
+        /* Mídia Container */
+        .interstitial-media-container {
+            background: #fff; padding: 10px; border-radius: 12px;
+            width: 100%; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* Cronômetro Inferior Direito */
+        #ad-timer-display {
+            position: absolute; bottom: -40px; right: 0;
+            background: rgba(255,255,255,0.9); padding: 5px 15px;
+            border-radius: 20px; font-family: sans-serif; font-size: 12px;
+            font-weight: bold; color: #333;
+        }
 
         .ad-tag { font-size: 9px; color: #999; margin-bottom: 5px; text-align: center; font-family: sans-serif; }
     `;
@@ -73,32 +103,29 @@
     document.body.appendChild(drawer);
     document.body.appendChild(interstitial);
 
-    // === 4. LÓGICA DE ATIVAÇÃO ===
+    // === 4. LÓGICA ===
 
-    // Gatilho da Gaveta (2 segundos)
-    setTimeout(() => {
-        drawer.classList.add('active');
-    }, 2000);
+    // Gaveta
+    setTimeout(() => { drawer.classList.add('active'); }, 2000);
+    document.getElementById('close-drawer-btn').onclick = () => { drawer.classList.remove('active'); };
 
-    document.getElementById('close-drawer-btn').onclick = () => {
-        drawer.classList.remove('active');
-    };
-
-    // Gatilho do Interstitial (10 segundos)
+    // Interstitial
     setTimeout(() => {
         interstitial.classList.add('show');
-        let count = 5;
-        const btn = document.getElementById('close-full-btn');
-        const timer = setInterval(() => {
+        let count = 10; // Cronômetro de 10 segundos
+        const btnClose = document.getElementById('close-full-btn');
+        const timerLabel = document.getElementById('ad-timer-display');
+        
+        const countdown = setInterval(() => {
             if(count > 0) {
-                btn.innerText = `Fechar em ${count}s`;
+                timerLabel.innerText = `O anúncio fechará em ${count}s`;
                 count--;
             } else {
-                clearInterval(timer);
-                btn.innerText = "FECHAR X";
-                btn.disabled = false;
-                btn.classList.add('ready');
-                btn.onclick = () => {
+                clearInterval(countdown);
+                timerLabel.innerText = "Você já pode fechar";
+                btnClose.disabled = false;
+                btnClose.classList.add('ready');
+                btnClose.onclick = () => {
                     interstitial.style.opacity = '0';
                     setTimeout(() => interstitial.remove(), 500);
                 };
