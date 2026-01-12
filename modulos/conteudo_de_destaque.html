@@ -28,26 +28,13 @@
       margin: 0 auto;
     }
 
-    /* 7. SELO DE QUALIDADE (BADGE) */
-    .destaque-badge {
-      display: inline-block;
-      background: #121212;
-      color: #fff;
-      font-size: 10px;
-      padding: 4px 8px;
-      font-weight: 800;
-      text-transform: uppercase;
-      margin-bottom: 10px;
-      letter-spacing: 1px;
-    }
-
     .destaque-categoria {
       color: #9d0208;
       font-size: 12px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 1.5px;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
       display: flex;
       align-items: center;
       gap: 8px;
@@ -69,7 +56,7 @@
       max-width: 800px;
     }
 
-    /* 11. TEMPO DE VÍDEO E INDICADOR */
+    /* 11. META INFO (TEMPO DE VÍDEO) */
     .destaque-meta-info {
       display: flex;
       align-items: center;
@@ -96,9 +83,10 @@
       display: flex;
       align-items: center;
       gap: 5px;
+      text-transform: uppercase;
     }
 
-    /* MÍDIA */
+    /* MÍDIA (IFRAME) */
     .destaque-media {
       width: 100%;
       background: #000;
@@ -112,7 +100,7 @@
       display: block;
     }
 
-    /* 12. BOTÕES PROFISSIONAIS (COMPARTILHAMENTO) */
+    /* 12. BOTÕES PROFISSIONAIS (BORDAS RETAS) */
     .destaque-acoes {
       display: flex;
       padding: 20px 25px 40px;
@@ -125,7 +113,7 @@
       border: 1px solid #d1d1d1;
       background: transparent;
       padding: 10px 18px;
-      border-radius: 0px;
+      border-radius: 0px; /* REMOVIDO ARREDONDAMENTO */
       font-weight: 600;
       font-size: 13px;
       text-transform: uppercase;
@@ -134,45 +122,13 @@
       align-items: center;
       gap: 8px;
       transition: all 0.3s ease;
+      color: #121212;
     }
 
     .btn-acao:hover {
       background: #121212;
       color: #fff;
       border-color: #121212;
-    }
-
-    /* 18. VÍDEOS RELACIONADOS */
-    .relacionados-container {
-      background: #f9f9f9;
-      padding: 50px 25px;
-    }
-
-    .relacionados-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .relacionado-card {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    .relacionado-thumb {
-      width: 100%;
-      aspect-ratio: 16/9;
-      background: #ddd;
-      margin-bottom: 10px;
-      object-fit: cover;
-    }
-
-    .relacionado-titulo {
-      font-size: 14px;
-      font-weight: 700;
-      line-height: 1.3;
     }
 
     @media (max-width: 768px) {
@@ -183,10 +139,9 @@
 
   <article class="destaque-secao">
     <div class="destaque-padding">
-      <span class="destaque-badge">Editor's Choice</span>
       <div class="destaque-categoria"><i class="fa-solid fa-video"></i> Vídeo Análise</div>
       <h2 class="destaque-titulo">Por que Egghead é o melhor arco de One Piece em décadas</h2>
-      <p class="destaque-resumo">Um mergulho técnico sobre como a Toei Animation elevou o nível da indústria com uma direção de arte experimental.</p>
+      <p class="destaque-resumo">Um mergulho técnico sobre como a Toei Animation elevou o nível da indústria com uma direção de arte experimental e fluida.</p>
       
       <div class="destaque-meta-info">
         <a href="#" class="destaque-indicador">ASSISTIR AGORA</a>
@@ -207,8 +162,8 @@
   <article class="destaque-secao">
     <div class="destaque-padding">
       <div class="destaque-categoria"><i class="fa-solid fa-video"></i> Vídeo Análise</div>
-      <h2 class="destaque-titulo">Solo Leveling: A anatomia de um sucesso global</h2>
-      <p class="destaque-resumo">Analisamos como a adaptação expandiu as cenas de combate para o formato de TV com fluidez cinematográfica.</p>
+      <h2 class="destaque-titulo">Solo Leveling: A anatomia de um sucesso coreano no Japão</h2>
+      <p class="destaque-resumo">Analisamos como a adaptação respeitou o material original enquanto expandiu as cenas de combate para o formato de TV.</p>
       
       <div class="destaque-meta-info">
         <a href="#" class="destaque-indicador">ASSISTIR AGORA</a>
@@ -226,11 +181,11 @@
     </div>
   </article>
 
-  <article class="destaque-secao">
+  <article class="destaque-secao" style="border-bottom: none;">
     <div class="destaque-padding">
       <div class="destaque-categoria"><i class="fa-solid fa-video"></i> Vídeo Análise</div>
       <h2 class="destaque-titulo">O impacto visual de Elden Ring: Shadow of the Erdtree</h2>
-      <p class="destaque-resumo">Como o design de mundo da FromSoftware redefine a narrativa ambiental em 2024.</p>
+      <p class="destaque-resumo">Como o design de mundo e a cinematografia in-game contam uma história sem a necessidade de diálogos extensos.</p>
       
       <div class="destaque-meta-info">
         <a href="#" class="destaque-indicador">ASSISTIR AGORA</a>
@@ -247,24 +202,4 @@
       <button class="btn-acao"><i class="fa-solid fa-share-nodes"></i> Compartilhar</button>
     </div>
   </article>
-
-  <section class="relacionados-container">
-    <div class="destaque-padding">
-      <div class="destaque-categoria" style="margin-bottom: 30px;">Análises Recomendadas</div>
-      <div class="relacionados-grid">
-        <a href="#" class="relacionado-card">
-          <img src="https://i.ytimg.com/vi/S8_YwFLCh4U/mqdefault.jpg" class="relacionado-thumb">
-          <h3 class="relacionado-titulo">O futuro da animação japonesa: O que esperar de 2026?</h3>
-        </a>
-        <a href="#" class="relacionado-card">
-          <img src="https://i.ytimg.com/vi/uNfU_p_UsqU/mqdefault.jpg" class="relacionado-thumb">
-          <h3 class="relacionado-titulo">Por que os Manhwas estão dominando o mercado?</h3>
-        </a>
-        <a href="#" class="relacionado-card">
-          <img src="https://i.ytimg.com/vi/qLZenOn7WUo/mqdefault.jpg" class="relacionado-thumb">
-          <h3 class="relacionado-titulo">A trilha sonora épica de Shadow of the Erdtree.</h3>
-        </a>
-      </div>
-    </div>
-  </section>
 </div>
