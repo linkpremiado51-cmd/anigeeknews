@@ -19,118 +19,138 @@ const bancoDeDados = {
 };
 
 // ==================================================
-// 3. UTILITÁRIOS DE FORMATAÇÃO
+// 3. CONTROLE DE ÍNDICES
+// ==================================================
+const secoesPermitidas = Object.keys(bancoDeDados);
+
+let indices = JSON.parse(localStorage.getItem('indices_secoes')) || {};
+
+secoesPermitidas.forEach(secao => {
+    if (typeof indices[secao] !== 'number') indices[secao] = 0;
+});
+
+// ==================================================
+// 4. UTILITÁRIOS
 // ==================================================
 function normalizarTexto(texto = '') {
-    return texto.toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+    return texto
+        .toString()
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .trim();
 }
 
-function definirClasseTema(noticia) {
-    const busca = normalizarTexto(`${noticia.titulo} ${noticia.category || noticia.categoria}`);
-    if (busca.includes('one piece')) return 'secao-onepiece';
-    if (busca.includes('solo leveling')) return 'secao-sololeveling';
-    if (busca.includes('elden ring') || busca.includes('games')) return 'secao-eldenring';
-    return ''; 
+function gerarSlug(titulo) {
+    return normalizarTexto(titulo).replace(/[^a-z0-9]+/g, '-');
 }
 
 // ==================================================
-// 4. HTML DA NOTÍCIA (DESIGN EDITORIAL COM IMAGEM)
+// 5. SISTEMA DE RECOMENDAÇÃO (CORRIGIDO)
+// ==================================================
+function ordenarPorRelevancia(listaOriginal) {
+    const gostos = (JSON.parse(localStorage.getItem('gostosUsuario')) || [])
+        .map(g => normalizarTexto(g));
+
+    if (!gostos.length) return [...listaOriginal];
+
+    return listaOriginal
+        .map(noticia => {
+            let score = 0;
+
+            const categoria = normalizarTexto(
+                noticia.category || noticia.categoria
+            );
+
+            // Peso alto para categoria
+            if (gostos.includes(categoria)) {
+                score += 5;
+            }
+
+            // Peso médio para título
+            gostos.forEach(gosto => {
+                if (normalizarTexto(noticia.titulo).includes(gosto)) {
+                    score += 2;
+                }
+            });
+
+            return { ...noticia, score };
+        })
+        .sort((a, b) => b.score - a.score);
+}
+
+// ==================================================
+// 6. HTML DA NOTÍCIA
 // ==================================================
 function criarEstruturaNoticia(noticia) {
-    const temaClasse = definirClasseTema(noticia);
-    const linkArtigo = noticia.url || "#";
-    // Usa a imagem do banco de dados ou um placeholder de alta qualidade
-    const imagemURL = noticia.img || "https://via.placeholder.com/1200x675?text=Anigeek+News";
+    const slug = noticia.url
+        ? noticia.url
+        : `/anigeeknews/noticias/2026/${gerarSlug(noticia.titulo)}.html`;
 
     return `
-    <article class="destaque-secao ${temaClasse} news-extra-persistente">
-        <div class="destaque-padding">
-            <div class="destaque-categoria">
-                <i class="fa-solid fa-layer-group"></i> ${noticia.category || noticia.categoria || 'Geral'}
-            </div>
-            
-            <div class="destaque-header">
-                <h2 class="destaque-titulo">${noticia.titulo}</h2>
-                <div class="menu-opcoes-container" tabindex="0">
-                    <button class="btn-tres-pontos" aria-label="Mais opções">
-                        <i class="fa-solid fa-ellipsis"></i>
-                    </button>
-                    <div class="dropdown-conteudo">
-                        <a href="#"><i class="fa-regular fa-bookmark"></i> Salvar Artigo</a>
-                        <a href="#"><i class="fa-solid fa-headphones"></i> Fazer Leitura</a>
-                        <a href="#"><i class="fa-regular fa-face-smile"></i> Tenho interesse</a>
-                        <a href="#"><i class="fa-regular fa-face-frown"></i> Não tenho interesse</a>
-                        <a href="javascript:void(0)" onclick="navigator.clipboard.writeText(window.location.href)">
-                            <i class="fa-regular fa-copy"></i> Copiar Link
-                        </a>
+        <a href="${slug}" class="news-link news-extra-persistente">
+            <article class="post-card">
+                <div class="post-img-wrapper">
+                    <img src="${noticia.img}" loading="lazy" alt="${noticia.titulo}">
+                </div>
+                <div class="post-content">
+                    <span class="category">${noticia.category || noticia.categoria}</span>
+                    <h2>${noticia.titulo}</h2>
+                    <p>${noticia.descricao}</p>
+                    <div class="action-row">
+                        <span class="meta-minimal">${noticia.meta}</span>
+                        <button class="like-btn"
+                            onclick="event.preventDefault(); window.toggleLike?.(this)">
+                            <span>${noticia.likes || 0}</span> leitores
+                        </button>
                     </div>
                 </div>
-            </div>
-
-            <p class="destaque-resumo">${noticia.descricao || noticia.resumo}</p>
-            
-            <div class="destaque-info-grid">
-                <div class="info-item">
-                    <span class="info-label">Produção</span>
-                    <span class="info-valor">${noticia.estudio || noticia.fonte || 'Anigeek News'}</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label">Tags</span>
-                    <span class="info-valor">${noticia.tags || 'Destaque'}</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label">Autor</span>
-                    <span class="info-valor">${noticia.autor || 'Redação'}</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label">Data</span>
-                    <span class="info-valor">${noticia.data || '2026'}</span>
-                </div>
-            </div>
-
-            <div class="destaque-meta-info">
-                <a href="${linkArtigo}" class="destaque-indicador">ABRIR CONTEÚDO</a>
-                <span class="tempo-video">
-                    <i class="fa-regular fa-clock"></i> ${noticia.meta || noticia.leitura || '5:00'} MIN
-                </span>
-            </div>
-        </div>
-        
-        <div class="destaque-media">
-            <a href="${linkArtigo}">
-                <img src="${imagemURL}" alt="${noticia.titulo}" loading="lazy" 
-                     style="width:100%; aspect-ratio:16/9; object-fit:cover; display:block;">
-            </a>
-        </div>
-
-        <div class="destaque-acoes">
-            <button class="btn-acao" onclick="window.toggleLike?.(this)">
-                <i class="fa-regular fa-thumbs-up"></i> Útil (${noticia.likes || 0})
-            </button>
-            <button class="btn-acao">
-                <i class="fa-solid fa-share-nodes"></i> Compartilhar
-            </button>
-        </div>
-    </article>
+            </article>
+        </a>
     `;
 }
 
 // ==================================================
-// 5. SISTEMA DE CARREGAMENTO E PERSISTÊNCIA
+// 7. RESTAURAR NOTÍCIAS
 // ==================================================
-let indices = JSON.parse(localStorage.getItem('indices_secoes')) || {};
-
-export function carregarNoticiasExtras() {
+export function restaurarNoticiasSalvas() {
     const secao = localStorage.getItem('currentSection') || 'manchetes';
     const container = document.querySelector('.load-more-container');
 
     if (!container || !bancoDeDados[secao]) return;
 
-    const listaOrdenada = ordenarPorRelevancia(bancoDeDados[secao]);
+    document.querySelectorAll('.news-extra-persistente').forEach(el => el.remove());
+
     indices[secao] = indices[secao] || 0;
 
+    const listaOrdenada = ordenarPorRelevancia(bancoDeDados[secao]);
+
+    for (let i = 0; i < indices[secao]; i++) {
+        if (listaOrdenada[i]) {
+            container.insertAdjacentHTML(
+                'beforebegin',
+                criarEstruturaNoticia(listaOrdenada[i])
+            );
+        }
+    }
+
+    verificarFimDasNoticias(secao, listaOrdenada);
+}
+
+// ==================================================
+// 8. CARREGAR MAIS
+// ==================================================
+export function carregarNoticiasExtras() {
+    const secao = localStorage.getItem('currentSection') || 'manchetes';
+    const container = document.querySelector('.load-more-container');
+    const botao = document.querySelector('.load-more-btn');
+
+    if (!container || !botao) return;
+
+    const listaOrdenada = ordenarPorRelevancia(bancoDeDados[secao]);
+
     let adicionadas = 0;
-    // Carrega 2 por vez para manter o design preenchido
+
     while (adicionadas < 2 && indices[secao] < listaOrdenada.length) {
         container.insertAdjacentHTML(
             'beforebegin',
@@ -145,42 +165,16 @@ export function carregarNoticiasExtras() {
 }
 
 // ==================================================
-// 6. RECOMENDAÇÃO E RESTAURAÇÃO
+// 9. BOTÃO "CARREGAR MAIS"
 // ==================================================
-function ordenarPorRelevancia(listaOriginal) {
-    const gostos = (JSON.parse(localStorage.getItem('gostosUsuario')) || []).map(g => normalizarTexto(g));
-    if (!gostos.length) return [...listaOriginal];
-
-    return listaOriginal.map(noticia => {
-        let score = 0;
-        const textoBusca = normalizarTexto(`${noticia.titulo} ${noticia.category || noticia.categoria}`);
-        gostos.forEach(gosto => {
-            if (textoBusca.includes(gosto)) score += 5;
-        });
-        return { ...noticia, score };
-    }).sort((a, b) => b.score - a.score);
-}
-
-export function restaurarNoticiasSalvas() {
-    const secao = localStorage.getItem('currentSection') || 'manchetes';
-    const container = document.querySelector('.load-more-container');
-    if (!container || !bancoDeDados[secao]) return;
-
-    document.querySelectorAll('.news-extra-persistente').forEach(el => el.remove());
-    const listaOrdenada = ordenarPorRelevancia(bancoDeDados[secao]);
-
-    for (let i = 0; i < (indices[secao] || 0); i++) {
-        if (listaOrdenada[i]) {
-            container.insertAdjacentHTML('beforebegin', criarEstruturaNoticia(listaOrdenada[i]));
-        }
-    }
-    verificarFimDasNoticias(secao, listaOrdenada);
-}
-
 function verificarFimDasNoticias(secao, lista) {
     const btn = document.querySelector('.load-more-btn');
     if (!btn) return;
+
     const acabou = indices[secao] >= lista.length;
+
     btn.disabled = acabou;
-    btn.textContent = acabou ? 'Fim do conteúdo' : 'Carregar Mais Conteúdo';
+    btn.textContent = acabou ? 'Fim do conteúdo' : 'Carregar Mais';
+    btn.style.opacity = acabou ? '0.5' : '1';
+    btn.style.cursor = acabou ? 'not-allowed' : 'pointer';
 }
