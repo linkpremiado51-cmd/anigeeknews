@@ -150,20 +150,21 @@
     const openB1 = () => { b1.style.bottom = '0px'; };
     const openB3 = () => { b3.style.top = '0px'; };
 
-    // Lógica Bloco 1 (Inferior)
+    // Lógica Bloco 1 (Inferior) - Reaparece em 80s (20s originais + 60s)
     document.getElementById('ind-close-1').onclick = () => {
         b1.style.bottom = '-600px';
-        setTimeout(openB1, 20000);
+        setTimeout(openB1, 80000);
     };
 
-    // Lógica Bloco 3 (Superior)
+    // Lógica Bloco 3 (Superior) - Reaparece em 85s (25s originais + 60s)
     document.getElementById('ind-close-3').onclick = () => {
         b3.style.top = '-600px';
-        setTimeout(openB3, 25000);
+        setTimeout(openB3, 85000);
     };
 
     // Motor do Interstitial (Bloco 2)
     function startInterstitial() {
+        // Primeira exibição ocorre em 70s (10s originais + 60s)
         setTimeout(() => {
             b2Overlay.style.display = 'flex';
             setTimeout(() => {
@@ -171,7 +172,8 @@
                 b2Modal.style.transform = 'translateY(0)';
             }, 50);
 
-            let timeLeft = 10;
+            let timeLeft = 70; // 10s originais + 60s
+            const totalDuration = 70;
             const btn = document.getElementById('ind-close-2');
             const prog = document.getElementById('ind-prog-2');
             const txt = document.getElementById('ind-timer-txt');
@@ -181,7 +183,7 @@
                     if (timeLeft > 0) {
                         timeLeft--;
                         txt.innerText = `ACESSO EM ${timeLeft}S`;
-                        prog.style.width = `${(10 - timeLeft) * 10}%`;
+                        prog.style.width = `${((totalDuration - timeLeft) / totalDuration) * 100}%`;
                     } else {
                         clearInterval(countdown);
                         txt.innerText = "PRONTO PARA ACESSAR";
@@ -199,23 +201,23 @@
                 b2Modal.style.transform = 'translateY(20px)';
                 setTimeout(() => {
                     b2Overlay.style.display = 'none';
-                    // Reinicia após 120 segundos
-                    setTimeout(startInterstitial, 120000);
+                    // Reinicia após 180 segundos (120s originais + 60s)
+                    setTimeout(startInterstitial, 180000);
                 }, 500);
                 
                 // Reset imediato para próximo ciclo
-                timeLeft = 10;
+                timeLeft = 70;
                 btn.disabled = true;
                 btn.classList.remove('ready');
                 btn.innerText = "Aguarde";
                 prog.style.width = "0%";
             };
-        }, 10000);
+        }, 70000);
     }
 
-    // Inicialização do Sistema com Timings Originais
-    setTimeout(openB1, 2000); 
-    setTimeout(openB3, 4000); 
+    // Inicialização do Sistema com +60s nos delays iniciais
+    setTimeout(openB1, 62000); // 2s original + 60s
+    setTimeout(openB3, 64000); // 4s original + 60s
     startInterstitial();
 
 })();
