@@ -1,93 +1,97 @@
+// =======================================================
+// IMPORTA OS BANCOS DE DADOS DE CADA FRANQUIA
+// =======================================================
+import { onepiece } from './onepiece.js';
+import { sololeveling } from './sololeveling.js';
+import { eldenring } from './eldenring.js';
+
+// =======================================================
+// BANCO CENTRAL DE DESTAQUES
+// =======================================================
 export const destaques = [
-  {
-    id: "onepiece",
-    categoria: "Análise Técnica",
-    titulo: "Por que Egghead é o melhor arco de One Piece em décadas",
-    resumo: "Uma análise profunda sobre a mudança estética da Toei Animation e o impacto da direção de arte de Sota Shigeshita.",
-    temaCor: "#e63946",
-    playerId: "player-onepiece",
-    videoPrincipal: "uJMdqWHlnD4",
-
-    ficha: {
-      estudio: "Toei Animation",
-      direcao: "Sota Shigeshita",
-      analista: "Gustavo Lima",
-      edicao: "Equipe Técnica"
-    },
-
-    temas: [
-      {
-        video: "uJMdqWHlnD4",
-        titulo: "EGGHEAD SE TORNOU O MELHOR ARCO DE ONE PIECE E EU POSSO PROVAR!"
-      },
-      {
-        video: "rHI0D2BF2Vs",
-        titulo: "EGGHEAD o MELHOR ARCO de ONE PIECE?! (com debate/canal Katon)"
-      },
-      {
-        video: "ZVFltoxPPDE",
-        titulo: "OS 5 PONTOS POSITIVOS DO ARCO DE EGGHEAD EM ONE PIECE"
-      },
-      {
-        video: "T7d40y8PxEI",
-        titulo: "O ARCO DE EGGHEAD É SÓ UM ARCO DE PASSAGEM???"
-      },
-      {
-        video: "A028M50_6Ok",
-        titulo: "Esse ARCO foi uma VERDADEIRA OBRA DE ARTE em ONE PIECE"
-      }
-    ]
-  },
-
-  {
-    id: "sololeveling",
-    categoria: "Análise de Produção",
-    titulo: "Solo Leveling: A anatomia de um sucesso global",
-    resumo: "Como a A-1 Pictures transformou o Manhwa em um fenômeno visual, mantendo a fidelidade à obra original.",
-    temaCor: "#4361ee",
-    playerId: "player-solo",
-    videoPrincipal: "uNfU_p_UsqU",
-
-    ficha: {
-      estudio: "A-1 Pictures",
-      original: "Chugong (Webtoon)",
-      analista: "Mariana Silva",
-      edicao: "Equipe Técnica"
-    },
-
-    temas: [
-      {
-        video: "uNfU_p_UsqU",
-        titulo: "Bastidores: A animação de Solo Leveling"
-      },
-      {
-        video: "uNfU_p_UsqU",
-        titulo: "A trilha sonora épica de Hiroyuki Sawano"
-      }
-    ]
-  },
-
-  {
-    id: "eldenring",
-    categoria: "Análise de Design",
-    titulo: "O impacto visual de Shadow of the Erdtree",
-    resumo: "Explorando a narrativa ambiental e a cinematografia in-game que definiram o padrão de expansões para RPGs.",
-    temaCor: "#b79ced",
-    playerId: "player-elden",
-    videoPrincipal: "qLZenOn7WUo",
-
-    ficha: {
-      desenvolvedora: "FromSoftware",
-      analista: "Ricardo Alves",
-      captura: "Modo In-Game",
-      edicao: "Equipe Técnica"
-    },
-
-    temas: [
-      {
-        video: "qLZenOn7WUo",
-        titulo: "Quem é Messmer, o Empalador? Lore completa"
-      }
-    ]
-  }
+  ...onepiece,
+  ...sololeveling,
+  ...eldenring
 ];
+
+// =======================================================
+// INJETOR AUTOMÁTICO NO HTML
+// =======================================================
+const container = document.getElementById('destaques-container');
+
+if (container) {
+  destaques.forEach(secao => {
+    container.insertAdjacentHTML('beforeend', criarSecao(secao));
+  });
+}
+
+// =======================================================
+// TEMPLATE HTML COMPLETO DE CADA SEÇÃO
+// =======================================================
+function criarSecao(secao) {
+  return `
+  <article class="destaque-secao secao-${secao.secao}">
+    <div class="destaque-padding">
+
+      <div class="destaque-header">
+        <h1 class="destaque-titulo">${secao.titulo}</h1>
+
+        <div class="menu-opcoes-container">
+          <button class="btn-tres-pontos">⋮</button>
+          <div class="dropdown-conteudo header-dropdown">
+            <a href="#"><i class="fa-solid fa-share"></i> Compartilhar</a>
+            <a href="#"><i class="fa-solid fa-bookmark"></i> Salvar</a>
+            <a href="#"><i class="fa-solid fa-flag"></i> Reportar</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="destaque-categoria">
+        <span>■</span> ${secao.categoria}
+      </div>
+
+      <p class="destaque-resumo">${secao.resumo}</p>
+
+      <a class="btn-ver-artigo" href="${secao.link}">
+        Ler artigo completo <i class="fa-solid fa-arrow-right"></i>
+      </a>
+
+      <div class="destaque-info-grid">
+        <div class="info-item">
+          <span class="info-label">Autor</span>
+          <span class="info-valor">${secao.autor}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Fonte</span>
+          <span class="info-valor">${secao.fonte}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Publicado</span>
+          <span class="info-valor">${secao.data}</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="destaque-media">
+      <iframe id="player-${secao.secao}" src="https://www.youtube.com/embed/${secao.video}" allowfullscreen></iframe>
+    </div>
+
+    <div class="destaque-acoes">
+
+      <div class="menu-opcoes-container">
+        <button class="btn-acao">Vídeos relacionados</button>
+        <div class="dropdown-conteudo acoes-dropdown">
+          ${secao.temas.map(t => `
+            <a href="#" onclick="pedirTroca('player-${secao.secao}','${t.id}','${t.titulo}','${secao.cor}')">
+              ▶ ${t.titulo}
+            </a>
+          `).join('')}
+        </div>
+      </div>
+
+    </div>
+
+  </article>
+  `;
+}
