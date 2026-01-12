@@ -4,20 +4,22 @@
   <style>
     /* RESET E LARGURA TOTAL */
     .destaque-wrapper {
-      width: 100vw; /* Ocupa 100% da largura da janela */
+      width: 100vw;
       position: relative;
       left: 50%;
       right: 50%;
       margin-left: -50vw;
       margin-right: -50vw;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #fff;
-      color: #1a1a1a;
+      font-family: 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif;
+      background: #ffffff;
+      color: #121212;
+      overflow-x: hidden;
     }
 
     .destaque-secao {
       width: 100%;
-      margin-bottom: 60px;
+      margin-bottom: 80px;
+      border-bottom: 1px solid #eaeaea;
     }
 
     /* TÍTULOS E LINKS */
@@ -27,126 +29,115 @@
       display: block;
     }
 
-    .destaque-link:hover .destaque-titulo {
-      color: #c1121f;
-      text-decoration: underline;
-    }
-
-    /* TEXTOS COM PADDING PARA NÃO TOCAR NA BORDA DA TELA */
     .destaque-padding {
       padding: 0 25px;
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
     .destaque-categoria {
-      color: #c1121f;
-      font-size: 13px;
-      font-weight: 800;
+      color: #9d0208;
+      font-size: 12px;
+      font-weight: 700;
       text-transform: uppercase;
-      margin-bottom: 8px;
+      letter-spacing: 1.5px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .destaque-titulo {
-      font-size: 34px;
-      font-weight: 900;
-      line-height: 1.1;
-      margin-bottom: 12px;
-      transition: 0.2s;
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 800;
+      line-height: 1.05;
+      margin-bottom: 15px;
+      letter-spacing: -0.5px;
     }
 
     .destaque-resumo {
-      font-size: 19px;
-      color: #444;
-      margin-bottom: 15px;
+      font-size: 18px;
+      line-height: 1.5;
+      color: #4a4a4a;
+      margin-bottom: 25px;
+      max-width: 800px;
     }
 
-    .destaque-indicador {
-      font-size: 14px;
-      font-weight: bold;
-      color: #777;
-      text-transform: uppercase;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      margin-bottom: 20px;
-    }
-
-    /* MÍDIA (VÍDEO E IMAGEM) TOTALMENTE ALINHADOS */
+    /* MÍDIA (VÍDEO) */
     .destaque-media {
       width: 100%;
-      line-height: 0;
+      background: #000;
+      margin: 20px 0;
     }
 
     .destaque-media iframe {
       width: 100%;
       aspect-ratio: 16 / 9;
       border: none;
+      display: block;
     }
 
-    .destaque-media img {
-      width: 100%;
-      height: auto;
-    }
-
-    /* BOTÕES PROFISSIONAIS */
+    /* BOTÕES PROFISSIONAIS (BORDAS RETAS) */
     .destaque-acoes {
       display: flex;
-      padding: 20px 25px;
-      gap: 15px;
-      border-bottom: 1px solid #eee;
+      padding: 30px 25px;
+      gap: 10px;
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
     .btn-acao {
-      border: none;
-      background: #f0f0f0;
-      padding: 12px 20px;
-      border-radius: 30px;
-      font-weight: 700;
-      font-size: 14px;
+      border: 1px solid #d1d1d1;
+      background: transparent;
+      padding: 10px 18px;
+      border-radius: 0px; /* BORDAS QUADRADAS */
+      font-weight: 600;
+      font-size: 13px;
+      text-transform: uppercase;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 10px;
-      transition: all 0.2s;
+      gap: 8px;
+      transition: all 0.3s ease;
+      color: #333;
     }
 
     .btn-acao:hover {
-      background: #e2e2e2;
-      transform: scale(1.05);
+      background: #121212;
+      color: #fff;
+      border-color: #121212;
     }
 
-    .btn-like:hover { color: #0056b3; }
-    .btn-dislike:hover { color: #b30000; }
-    .btn-share:hover { color: #157347; }
-
-    /* LISTA SIMPLES */
-    .destaque-lista {
-      padding: 20px 25px;
+    .btn-acao i {
+      font-size: 14px;
     }
 
-    .destaque-item {
-      padding: 18px 0;
-      border-bottom: 1px solid #eee;
-      font-size: 18px;
+    /* INDICADOR DE PLAY */
+    .destaque-indicador {
+      font-size: 13px;
       font-weight: 700;
+      color: #121212;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #121212;
+      padding-bottom: 4px;
     }
 
-    .destaque-item a {
-      text-decoration: none;
-      color: #222;
+    @media (max-width: 768px) {
+      .destaque-titulo { font-size: 26px; }
+      .destaque-resumo { font-size: 16px; }
     }
-
-    .destaque-item a:hover { color: #c1121f; }
   </style>
 
   <article class="destaque-secao">
-    <a href="LINK_DA_NOTICIA_AQUI" class="destaque-link">
+    <a href="#" class="destaque-link">
       <div class="destaque-padding">
-        <div class="destaque-categoria">Vídeo Análise</div>
-        <h2 class="destaque-titulo">Por que Egghead é o melhor arco de One Piece</h2>
-        <p class="destaque-resumo">Um divisor de águas técnico e narrativo que redefiniu o padrão da animação.</p>
-        <div class="destaque-indicador">
-          <i class="fa-solid fa-circle-play"></i> Ver notícia completa
-        </div>
+        <div class="destaque-categoria"><i class="fa-solid fa-video"></i> Vídeo Análise</div>
+        <h2 class="destaque-titulo">Por que Egghead é o melhor arco de One Piece em décadas</h2>
+        <p class="destaque-resumo">Um mergulho técnico sobre como a Toei Animation elevou o nível da indústria com uma direção de arte experimental e fluida.</p>
+        <div class="destaque-indicador">ASSISTIR ANÁLISE</div>
       </div>
     </a>
     
@@ -155,37 +146,48 @@
     </div>
 
     <div class="destaque-acoes">
-      <button class="btn-acao btn-like"><i class="fa-solid fa-thumbs-up"></i> Curti</button>
-      <button class="btn-acao btn-dislike"><i class="fa-solid fa-thumbs-down"></i> Não curti</button>
-      <button class="btn-acao btn-share"><i class="fa-solid fa-share-nodes"></i></button>
+      <button class="btn-acao"><i class="fa-regular fa-thumbs-up"></i> Útil</button>
+      <button class="btn-acao"><i class="fa-solid fa-share-nodes"></i> Compartilhar</button>
     </div>
   </article>
 
   <article class="destaque-secao">
-    <a href="LINK_DA_NOTICIA_AQUI" class="destaque-link">
+    <a href="#" class="destaque-link">
       <div class="destaque-padding">
-        <div class="destaque-categoria">Análise de Capa</div>
-        <h2 class="destaque-titulo">One Piece redefine a animação moderna no arco Egghead</h2>
-        <p class="destaque-resumo">A Toei rompe padrões e cria uma experiência visual intensa e emocional.</p>
-        <div class="destaque-indicador">
-          <i class="fa-solid fa-plus"></i> Ler mais
-        </div>
+        <div class="destaque-categoria"><i class="fa-solid fa-video"></i> Vídeo Análise</div>
+        <h2 class="destaque-titulo">Solo Leveling: A anatomia de um sucesso coreano no Japão</h2>
+        <p class="destaque-resumo">Analisamos como a adaptação respeitou o material original enquanto expandiu as cenas de combate para o formato de TV.</p>
+        <div class="destaque-indicador">ASSISTIR ANÁLISE</div>
       </div>
     </a>
-
+    
     <div class="destaque-media">
-      <img src="https://i.postimg.cc/sDL0s4nt/Portada-One-Piece.png">
+      <iframe src="https://www.youtube.com/embed/uNfU_p_UsqU" allowfullscreen></iframe>
     </div>
 
     <div class="destaque-acoes">
-      <button class="btn-acao btn-like"><i class="fa-solid fa-thumbs-up"></i> Curti</button>
-      <button class="btn-acao btn-dislike"><i class="fa-solid fa-thumbs-down"></i> Não curti</button>
-      <button class="btn-acao btn-share"><i class="fa-solid fa-share-nodes"></i></button>
+      <button class="btn-acao"><i class="fa-regular fa-thumbs-up"></i> Útil</button>
+      <button class="btn-acao"><i class="fa-solid fa-share-nodes"></i> Compartilhar</button>
     </div>
   </article>
 
-  <div class="destaque-lista">
-    <div class="destaque-item"><a href="#"><i class="fa-solid fa-chevron-right" style="font-size:12px"></i> Solo Leveling recebe atualização competitiva.</a></div>
-    <div class="destaque-item"><a href="#"><i class="fa-solid fa-chevron-right" style="font-size:12px"></i> Elden Ring redefine o padrão de DLCs.</a></div>
-  </div>
+  <article class="destaque-secao">
+    <a href="#" class="destaque-link">
+      <div class="destaque-padding">
+        <div class="destaque-categoria"><i class="fa-solid fa-video"></i> Vídeo Análise</div>
+        <h2 class="destaque-titulo">O impacto visual de Elden Ring: Shadow of the Erdtree</h2>
+        <p class="destaque-resumo">Como o design de mundo e a cinematografia in-game contam uma história sem a necessidade de diálogos extensos.</p>
+        <div class="destaque-indicador">ASSISTIR ANÁLISE</div>
+      </div>
+    </a>
+    
+    <div class="destaque-media">
+      <iframe src="https://www.youtube.com/embed/qLZenOn7WUo" allowfullscreen></iframe>
+    </div>
+
+    <div class="destaque-acoes">
+      <button class="btn-acao"><i class="fa-regular fa-thumbs-up"></i> Útil</button>
+      <button class="btn-acao"><i class="fa-solid fa-share-nodes"></i> Compartilhar</button>
+    </div>
+  </article>
 </div>
