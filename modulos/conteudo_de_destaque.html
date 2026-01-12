@@ -722,7 +722,7 @@
     <button class="btn-confirmar-video" id="btn-confirmar">Confirmar</button>
     <i class="fa-solid fa-xmark" style="cursor:pointer; padding: 5px;" onclick="fecharNotif()"></i>
   </div>
-
+<div id="area-noticias"></div>
   <script>
     let playerAlvo = '';
     let urlAlvo = '';
@@ -766,5 +766,52 @@
       atualizarContador('container-solo', 'count-solo');
       atualizarContador('container-elden', 'count-elden');
     });
+    <script src="data/noticias.js"></script>
+
+<script>
+const area = document.getElementById("area-noticias");
+
+NOTICIAS.forEach(noticia => {
+  area.innerHTML += `
+    <article class="destaque-secao ${noticia.classe}">
+      <div class="destaque-padding">
+        <div class="destaque-categoria">
+          <i class="fa-solid ${noticia.icone}"></i> ${noticia.categoria}
+        </div>
+
+        <h2 class="destaque-titulo">${noticia.titulo}</h2>
+        <p class="destaque-resumo">${noticia.resumo}</p>
+
+        <div class="destaque-info-grid">
+          ${noticia.ficha.map(item => `
+            <div class="info-item">
+              <span class="info-label">${item[0]}</span>
+              <span class="info-valor">${item[1]}</span>
+            </div>
+          `).join("")}
+        </div>
+      </div>
+
+      <div class="destaque-media">
+        <iframe src="https://www.youtube.com/embed/${noticia.videoPrincipal}" allowfullscreen></iframe>
+      </div>
+
+      <div class="carrossel-temas">
+        <div class="temas-scroll-wrapper">
+          <div class="temas-container">
+            ${noticia.videos.map(v => `
+              <div class="tema-card"
+                   onclick="pedirTroca('player-${noticia.id}', '${v.id}', '${v.titulo}', '${noticia.temaCor}')">
+                <img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg" class="tema-thumb">
+                <div class="tema-titulo">${v.titulo}</div>
+              </div>
+            `).join("")}
+          </div>
+        </div>
+      </div>
+    </article>
+  `;
+});
+</script>
   </script>
 </div>
