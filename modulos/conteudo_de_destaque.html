@@ -1,6 +1,7 @@
 <div class="destaque-wrapper">
 
 <style>
+/* CONTAINER PRINCIPAL */
 .destaque-wrapper{
 max-width:1100px;
 margin:0 auto;
@@ -8,25 +9,21 @@ padding:20px;
 font-family:Arial, sans-serif;
 color:#111;
 background:#fff;
+overflow:hidden;
 }
 
-#destaque-status{
-margin-bottom:12px;
-font-weight:bold;
-font-size:13px;
-}
-
+/* TOPO */
 .destaque-topo{
 text-align:center;
 border-bottom:2px solid #000;
-padding-bottom:10px;
-margin-bottom:30px;
+padding-bottom:12px;
+margin-bottom:25px;
 }
 
 .destaque-logo{
-font-size:28px;
+font-size:26px;
 font-weight:900;
-letter-spacing:6px;
+letter-spacing:5px;
 }
 
 .destaque-subtitulo{
@@ -35,8 +32,9 @@ color:#777;
 text-transform:uppercase;
 }
 
-.destaque-principal{
-margin-bottom:50px;
+/* ÁREA HERO (TÍTULO + VÍDEO) */
+.destaque-hero{
+margin-top:30px;
 }
 
 .destaque-categoria{
@@ -48,9 +46,9 @@ margin-bottom:8px;
 }
 
 .destaque-titulo{
-font-size:34px;
+font-size:32px;
 font-weight:800;
-line-height:1.1;
+line-height:1.15;
 margin-bottom:12px;
 }
 
@@ -60,24 +58,47 @@ color:#444;
 margin-bottom:20px;
 }
 
-.destaque-imagem img,
-.destaque-video iframe{
-width:100%;
-border-radius:6px;
+/* VÍDEO – QUEBRA O PADDING E VAI ATÉ A BORDA */
+.destaque-video{
+position:relative;
+left:50%;
+right:50%;
+width:100vw;
+margin-left:-50vw;
+margin-right:-50vw;
+margin-top:20px;
+margin-bottom:30px;
 }
 
+.destaque-video iframe{
+width:100vw;
+height:56vw;
+max-height:500px;
+border:none;
+display:block;
+}
+
+/* IMAGENS */
+.destaque-imagem img{
+width:100%;
+border-radius:8px;
+}
+
+/* TEXTO */
 .destaque-texto{
 font-size:17px;
-line-height:1.6;
+line-height:1.65;
 margin-top:20px;
 }
 
+/* BLOCOS */
 .destaque-bloco{
 border-top:1px solid #eee;
-padding-top:30px;
+padding-top:35px;
 margin-top:40px;
 }
 
+/* LISTA */
 .destaque-lista{
 margin-top:50px;
 border-top:2px solid #000;
@@ -86,26 +107,47 @@ border-top:2px solid #000;
 .destaque-item{
 padding:14px 0;
 border-bottom:1px solid #eee;
-font-size:18px;
+font-size:17px;
 font-weight:600;
 }
 
-/* Responsivo */
-@media (max-width:700px){
-.destaque-titulo{font-size:26px;}
-.destaque-resumo{font-size:16px;}
+/* MOBILE */
+@media(max-width:700px){
+.destaque-titulo{font-size:24px;}
+.destaque-resumo{font-size:15px;}
 }
 </style>
-
-<div id="destaque-status"></div>
 
 <div class="destaque-topo">
 <div class="destaque-logo">ANIGEEKNEWS</div>
 <div class="destaque-subtitulo">Jornalismo Geek Independente</div>
 </div>
 
+<!-- HERO -->
+<div class="destaque-hero">
+
+<div class="destaque-categoria">Vídeo Análise</div>
+
+<div class="destaque-titulo">
+Por que Egghead é o melhor arco de One Piece
+</div>
+
+<div class="destaque-resumo">
+Um divisor de águas técnico e narrativo que redefiniu o padrão da animação japonesa.
+</div>
+
+<div class="destaque-video">
+<iframe src="https://www.youtube.com/embed/S8_YwFLCh4U" allowfullscreen></iframe>
+</div>
+
+<div class="destaque-texto">
+Egghead representa uma virada histórica para One Piece. A direção, a trilha sonora e a animação se unem para criar uma experiência cinematográfica jamais vista antes na franquia.
+</div>
+
+</div>
+
 <!-- NOTÍCIA PRINCIPAL -->
-<div class="destaque-principal">
+<div class="destaque-bloco">
 
 <div class="destaque-categoria">Análise de Capa</div>
 
@@ -114,7 +156,7 @@ One Piece redefine a animação moderna no arco Egghead
 </div>
 
 <div class="destaque-resumo">
-A Toei Animation rompe padrões visuais e cria uma experiência cinematográfica no clímax de Egghead.
+A Toei rompe padrões e cria uma experiência visual intensa e emocional.
 </div>
 
 <div class="destaque-imagem">
@@ -122,9 +164,7 @@ A Toei Animation rompe padrões visuais e cria uma experiência cinematográfica
 </div>
 
 <div class="destaque-texto">
-O arco Egghead representa uma revolução técnica dentro de One Piece. A animação ganhou fluidez extrema, sombras dinâmicas e enquadramentos cinematográficos que aumentam o impacto emocional das cenas.
-<br><br>
-Essa decisão colocou a série em um novo patamar de qualidade visual, aproximando o anime de produções de alto orçamento do cinema.
+A animação passou a usar distorções, sombras dinâmicas e fluidez extrema. O resultado é um anime que hoje se parece mais com cinema do que com televisão tradicional.
 </div>
 
 </div>
@@ -139,7 +179,7 @@ O streaming está mudando o futuro dos animes
 </div>
 
 <div class="destaque-resumo">
-Maratonas, algoritmos e lançamentos globais estão redefinindo como as séries são produzidas.
+Maratonas e algoritmos estão redefinindo a produção japonesa.
 </div>
 
 <div class="destaque-imagem">
@@ -147,30 +187,7 @@ Maratonas, algoritmos e lançamentos globais estão redefinindo como as séries 
 </div>
 
 <div class="destaque-texto">
-Hoje, os estúdios planejam animes pensando em consumo rápido. Isso influencia roteiro, duração de episódios e até o estilo de animação, tudo para agradar plataformas como Netflix e Crunchyroll.
-</div>
-
-</div>
-
-<!-- NOTÍCIA COM VÍDEO -->
-<div class="destaque-bloco">
-
-<div class="destaque-categoria">Vídeo</div>
-
-<div class="destaque-titulo">
-Por que Egghead é o melhor arco de One Piece
-</div>
-
-<div class="destaque-resumo">
-Um vídeo analisa os motivos técnicos e narrativos que fazem de Egghead um divisor de águas.
-</div>
-
-<div class="destaque-video">
-<iframe src="https://www.youtube.com/embed/S8_YwFLCh4U" allowfullscreen></iframe>
-</div>
-
-<div class="destaque-texto">
-A análise mostra como trilha sonora, direção e animação trabalham juntas para criar um impacto emocional jamais visto antes na franquia.
+Hoje, os estúdios produzem pensando em binge-watch. Isso muda a escrita, o ritmo dos episódios e até o estilo da animação.
 </div>
 
 </div>
@@ -181,19 +198,5 @@ A análise mostra como trilha sonora, direção e animação trabalham juntas pa
 <div class="destaque-item">Elden Ring redefine o padrão de DLCs.</div>
 <div class="destaque-item">Nintendo prepara o Switch 2.</div>
 </div>
-
-<script>
-(function(){
-const status = document.getElementById("destaque-status");
-if(status){
-status.textContent = "JavaScript ativo";
-status.style.color = "lime";
-status.style.background = "#000";
-status.style.display = "inline-block";
-status.style.padding = "6px 10px";
-status.style.borderRadius = "6px";
-}
-})();
-</script>
 
 </div>
