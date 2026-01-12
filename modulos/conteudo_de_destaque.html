@@ -1,217 +1,191 @@
 <div class="destaque-wrapper">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
-<style>
-.destaque-wrapper{
-width:100%;
-max-width:100%;
-margin:0;
-padding:0;
-font-family:Arial, sans-serif;
-color:#111;
-background:#fff;
-}
+  <style>
+    /* RESET E LARGURA TOTAL */
+    .destaque-wrapper {
+      width: 100vw; /* Ocupa 100% da largura da janela */
+      position: relative;
+      left: 50%;
+      right: 50%;
+      margin-left: -50vw;
+      margin-right: -50vw;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #fff;
+      color: #1a1a1a;
+    }
 
-/* força todos os blocos a encostarem na tela */
-.full{
-width:100%;
-padding:16px;
-box-sizing:border-box;
-}
+    .destaque-secao {
+      width: 100%;
+      margin-bottom: 60px;
+    }
 
-/* HERO */
-.destaque-hero{
-padding-top:20px;
-}
+    /* TÍTULOS E LINKS */
+    .destaque-link {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
 
-.destaque-categoria{
-color:#c1121f;
-font-size:12px;
-font-weight:bold;
-text-transform:uppercase;
-margin-bottom:6px;
-}
+    .destaque-link:hover .destaque-titulo {
+      color: #c1121f;
+      text-decoration: underline;
+    }
 
-.destaque-titulo{
-font-size:28px;
-font-weight:800;
-line-height:1.15;
-margin-bottom:10px;
-}
+    /* TEXTOS COM PADDING PARA NÃO TOCAR NA BORDA DA TELA */
+    .destaque-padding {
+      padding: 0 25px;
+    }
 
-.destaque-titulo a{
-color:#111;
-text-decoration:none;
-}
+    .destaque-categoria {
+      color: #c1121f;
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
 
-.destaque-titulo a:hover{
-text-decoration:underline;
-}
+    .destaque-titulo {
+      font-size: 34px;
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 12px;
+      transition: 0.2s;
+    }
 
-.destaque-resumo{
-font-size:16px;
-color:#444;
-margin-bottom:18px;
-}
+    .destaque-resumo {
+      font-size: 19px;
+      color: #444;
+      margin-bottom: 15px;
+    }
 
-/* vídeo */
-.destaque-video iframe{
-width:100%;
-height:56vw;
-max-height:500px;
-border:none;
-display:block;
-}
+    .destaque-indicador {
+      font-size: 14px;
+      font-weight: bold;
+      color: #777;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 20px;
+    }
 
-/* imagem */
-.destaque-imagem img{
-width:100%;
-border-radius:8px;
-margin-top:12px;
-}
+    /* MÍDIA (VÍDEO E IMAGEM) TOTALMENTE ALINHADOS */
+    .destaque-media {
+      width: 100%;
+      line-height: 0;
+    }
 
-/* texto */
-.destaque-texto{
-font-size:16px;
-line-height:1.6;
-margin-top:16px;
-}
+    .destaque-media iframe {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: none;
+    }
 
-/* blocos */
-.destaque-bloco{
-border-top:1px solid #eee;
-margin-top:40px;
-padding-top:28px;
-}
+    .destaque-media img {
+      width: 100%;
+      height: auto;
+    }
 
-/* ações */
-.news-actions{
-display:flex;
-gap:18px;
-margin-top:18px;
-font-size:14px;
-}
+    /* BOTÕES PROFISSIONAIS */
+    .destaque-acoes {
+      display: flex;
+      padding: 20px 25px;
+      gap: 15px;
+      border-bottom: 1px solid #eee;
+    }
 
-.news-actions span{
-cursor:pointer;
-color:#444;
-user-select:none;
-}
+    .btn-acao {
+      border: none;
+      background: #f0f0f0;
+      padding: 12px 20px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.2s;
+    }
 
-.news-actions span:hover{
-color:#000;
-}
+    .btn-acao:hover {
+      background: #e2e2e2;
+      transform: scale(1.05);
+    }
 
-/* lista */
-.destaque-lista{
-margin-top:40px;
-border-top:2px solid #000;
-}
+    .btn-like:hover { color: #0056b3; }
+    .btn-dislike:hover { color: #b30000; }
+    .btn-share:hover { color: #157347; }
 
-.destaque-item{
-padding:14px 16px;
-border-bottom:1px solid #eee;
-font-size:16px;
-font-weight:600;
-}
+    /* LISTA SIMPLES */
+    .destaque-lista {
+      padding: 20px 25px;
+    }
 
-@media(max-width:700px){
-.destaque-titulo{font-size:22px;}
-.destaque-resumo{font-size:14px;}
-}
-</style>
+    .destaque-item {
+      padding: 18px 0;
+      border-bottom: 1px solid #eee;
+      font-size: 18px;
+      font-weight: 700;
+    }
 
-<!-- HERO -->
-<div class="destaque-hero full">
+    .destaque-item a {
+      text-decoration: none;
+      color: #222;
+    }
 
-<div class="destaque-categoria">Vídeo</div>
+    .destaque-item a:hover { color: #c1121f; }
+  </style>
 
-<div class="destaque-titulo">
-<a href="#">Por que Egghead é o melhor arco de One Piece</a>
-</div>
+  <article class="destaque-secao">
+    <a href="LINK_DA_NOTICIA_AQUI" class="destaque-link">
+      <div class="destaque-padding">
+        <div class="destaque-categoria">Vídeo Análise</div>
+        <h2 class="destaque-titulo">Por que Egghead é o melhor arco de One Piece</h2>
+        <p class="destaque-resumo">Um divisor de águas técnico e narrativo que redefiniu o padrão da animação.</p>
+        <div class="destaque-indicador">
+          <i class="fa-solid fa-circle-play"></i> Ver notícia completa
+        </div>
+      </div>
+    </a>
+    
+    <div class="destaque-media">
+      <iframe src="https://www.youtube.com/embed/S8_YwFLCh4U" allowfullscreen></iframe>
+    </div>
 
-<div class="destaque-resumo">
-Toque no título para abrir a matéria completa.
-</div>
+    <div class="destaque-acoes">
+      <button class="btn-acao btn-like"><i class="fa-solid fa-thumbs-up"></i> Curti</button>
+      <button class="btn-acao btn-dislike"><i class="fa-solid fa-thumbs-down"></i> Não curti</button>
+      <button class="btn-acao btn-share"><i class="fa-solid fa-share-nodes"></i></button>
+    </div>
+  </article>
 
-<div class="destaque-video">
-<iframe src="https://www.youtube.com/embed/S8_YwFLCh4U" allowfullscreen></iframe>
-</div>
+  <article class="destaque-secao">
+    <a href="LINK_DA_NOTICIA_AQUI" class="destaque-link">
+      <div class="destaque-padding">
+        <div class="destaque-categoria">Análise de Capa</div>
+        <h2 class="destaque-titulo">One Piece redefine a animação moderna no arco Egghead</h2>
+        <p class="destaque-resumo">A Toei rompe padrões e cria uma experiência visual intensa e emocional.</p>
+        <div class="destaque-indicador">
+          <i class="fa-solid fa-plus"></i> Ler mais
+        </div>
+      </div>
+    </a>
 
-<div class="destaque-texto">
-Egghead representa uma virada histórica para One Piece, combinando direção cinematográfica, trilha épica e animação fluida.
-</div>
+    <div class="destaque-media">
+      <img src="https://i.postimg.cc/sDL0s4nt/Portada-One-Piece.png">
+    </div>
 
-<div class="news-actions">
-<span>👍 Gostei</span>
-<span>👎 Não gostei</span>
-<span>🔗 Compartilhar</span>
-</div>
+    <div class="destaque-acoes">
+      <button class="btn-acao btn-like"><i class="fa-solid fa-thumbs-up"></i> Curti</button>
+      <button class="btn-acao btn-dislike"><i class="fa-solid fa-thumbs-down"></i> Não curti</button>
+      <button class="btn-acao btn-share"><i class="fa-solid fa-share-nodes"></i></button>
+    </div>
+  </article>
 
-</div>
-
-<!-- NOTÍCIA 1 -->
-<div class="destaque-bloco full">
-
-<div class="destaque-categoria">Análise</div>
-
-<div class="destaque-titulo">
-<a href="#">One Piece redefine a animação moderna no arco Egghead</a>
-</div>
-
-<div class="destaque-resumo">
-Clique no título para ler a reportagem completa.
-</div>
-
-<div class="destaque-imagem">
-<img src="https://i.postimg.cc/sDL0s4nt/Portada-One-Piece.png">
-</div>
-
-<div class="destaque-texto">
-A Toei Animation aplicou novas técnicas de iluminação, fluidez e enquadramento, aproximando o anime do padrão cinematográfico.
-</div>
-
-<div class="news-actions">
-<span>👍 Gostei</span>
-<span>👎 Não gostei</span>
-<span>🔗 Compartilhar</span>
-</div>
-
-</div>
-
-<!-- NOTÍCIA 2 -->
-<div class="destaque-bloco full">
-
-<div class="destaque-categoria">Indústria</div>
-
-<div class="destaque-titulo">
-<a href="#">O streaming está mudando o futuro dos animes</a>
-</div>
-
-<div class="destaque-resumo">
-Toque para ver a análise completa.
-</div>
-
-<div class="destaque-imagem">
-<img src="https://i.postimg.cc/sfHMcTDy/58awkrh8lp404dsegeqpbffcz.jpg">
-</div>
-
-<div class="destaque-texto">
-Plataformas como Netflix e Crunchyroll influenciam o ritmo, o formato e o estilo das produções japonesas.
-</div>
-
-<div class="news-actions">
-<span>👍 Gostei</span>
-<span>👎 Não gostei</span>
-<span>🔗 Compartilhar</span>
-</div>
-
-</div>
-
-<!-- NOTÍCIAS RÁPIDAS -->
-<div class="destaque-lista full">
-<div class="destaque-item">Solo Leveling recebe atualização competitiva.</div>
-<div class="destaque-item">Elden Ring redefine o padrão de DLCs.</div>
-<div class="destaque-item">Nintendo prepara o Switch 2.</div>
-</div>
-
+  <div class="destaque-lista">
+    <div class="destaque-item"><a href="#"><i class="fa-solid fa-chevron-right" style="font-size:12px"></i> Solo Leveling recebe atualização competitiva.</a></div>
+    <div class="destaque-item"><a href="#"><i class="fa-solid fa-chevron-right" style="font-size:12px"></i> Elden Ring redefine o padrão de DLCs.</a></div>
+  </div>
 </div>
