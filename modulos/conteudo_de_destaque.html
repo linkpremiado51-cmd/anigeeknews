@@ -34,12 +34,12 @@
       margin: 0 auto;
     }
 
-    /* CORES TEMÁTICAS */
+    /* CLASSES DE TEMA DINÂMICAS (Injetadas via JS) */
     .secao-onepiece { --tema-cor: #e63946; }
     .secao-sololeveling { --tema-cor: #4361ee; }
     .secao-eldenring { --tema-cor: #b79ced; }
 
-    /* CABEÇALHO COM MENU TRÊS PONTOS */
+    /* CABEÇALHO E TÍTULOS */
     .destaque-header {
       display: flex;
       justify-content: space-between;
@@ -56,7 +56,7 @@
       margin: 0;
     }
 
-    /* SISTEMA DE MENU SUSPENSO (Geral) */
+    /* MENU SUSPENSO */
     .menu-opcoes-container {
       position: relative;
       display: inline-block;
@@ -73,10 +73,6 @@
       line-height: 1;
     }
 
-    .btn-tres-pontos:hover {
-      color: #121212;
-    }
-
     .dropdown-conteudo {
       display: none;
       position: absolute;
@@ -91,18 +87,8 @@
       margin-top: 5px;
     }
 
-    /* Variação para alinhar à direita (Header) */
-    .header-dropdown {
-      right: 0;
-    }
-
-    /* Variação para alinhar à esquerda (Botões de Ação) */
-    .acoes-dropdown {
-      left: 0;
-      top: auto;
-      bottom: 100%; /* Abre para cima para não cortar */
-      margin-bottom: 10px;
-    }
+    .header-dropdown { right: 0; }
+    .acoes-dropdown { left: 0; top: auto; bottom: 100%; margin-bottom: 10px; }
 
     .menu-opcoes-container:focus-within .dropdown-conteudo {
       display: block;
@@ -127,19 +113,10 @@
       transition: all 0.2s;
     }
 
-    .dropdown-conteudo a:last-child {
-      border-bottom: none;
-    }
-
     .dropdown-conteudo a:hover {
       background-color: #f8f9fa;
       color: var(--tema-cor);
-      padding-left: 24px; /* Efeito de movimento */
-    }
-
-    .dropdown-conteudo i {
-      width: 16px;
-      text-align: center;
+      padding-left: 24px;
     }
 
     /* CATEGORIA E RESUMO */
@@ -163,7 +140,6 @@
       max-width: 850px;
     }
 
-    /* BOTÃO VER ARTIGO COMPLETO */
     .btn-ver-artigo {
       display: inline-flex;
       align-items: center;
@@ -174,15 +150,9 @@
       font-weight: 800;
       text-transform: uppercase;
       margin-bottom: 25px;
-      cursor: pointer;
-      transition: opacity 0.2s;
     }
 
-    .btn-ver-artigo:hover {
-      opacity: 0.7;
-    }
-
-    /* FICHA TÉCNICA E TOOLTIP */
+    /* FICHA TÉCNICA */
     .destaque-info-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -193,89 +163,11 @@
       margin-bottom: 25px;
     }
 
-    .info-item {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
+    .info-item { display: flex; flex-direction: column; gap: 4px; }
+    .info-label { font-size: 10px; text-transform: uppercase; font-weight: 700; color: #888; }
+    .info-valor { font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
 
-    .info-label {
-      font-size: 10px;
-      text-transform: uppercase;
-      font-weight: 700;
-      color: #888;
-    }
-
-    .info-valor {
-      font-size: 13px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      position: relative; /* Para o tooltip */
-    }
-
-    /* Estilo do Tooltip (i) */
-    .info-tooltip-trigger {
-      font-size: 10px;
-      color: #888;
-      cursor: pointer;
-      border: 1px solid #ccc;
-      border-radius: 50%;
-      width: 14px;
-      height: 14px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
-    }
-
-    .info-tooltip-trigger:hover, 
-    .info-tooltip-container:focus-within .info-tooltip-trigger {
-      background: var(--tema-cor);
-      color: #fff;
-      border-color: var(--tema-cor);
-    }
-
-    .info-tooltip-texto {
-      display: none;
-      position: absolute;
-      bottom: 100%;
-      left: 0;
-      width: 280px;
-      background: #121212;
-      color: #fff;
-      font-size: 11px;
-      font-weight: 400;
-      line-height: 1.4;
-      padding: 12px;
-      border-radius: 6px;
-      z-index: 30;
-      margin-bottom: 8px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    }
-    
-    /* Pequena seta do tooltip */
-    .info-tooltip-texto::after {
-      content: "";
-      position: absolute;
-      top: 100%;
-      left: 10px;
-      border-width: 5px;
-      border-style: solid;
-      border-color: #121212 transparent transparent transparent;
-    }
-
-    .info-tooltip-container {
-      position: relative;
-    }
-
-    .info-tooltip-container:focus-within .info-tooltip-texto,
-    .info-tooltip-trigger:hover + .info-tooltip-texto {
-      display: block;
-    }
-
-    /* VÍDEO E META */
+    /* MÍDIA */
     .destaque-media iframe {
       width: 100%;
       aspect-ratio: 16 / 9;
@@ -283,7 +175,6 @@
       display: block;
     }
 
-    /* BOTÕES AÇÕES (Atualizado) */
     .destaque-acoes {
       display: flex;
       padding: 15px 25px 20px;
@@ -303,136 +194,26 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      transition: background 0.2s;
-      white-space: nowrap;
+      transition: all 0.2s;
     }
 
-    .btn-acao:hover, .menu-opcoes-container:focus-within .btn-acao {
-      background: #121212;
-      color: #fff;
-      border-color: #121212;
-    }
+    .btn-acao:hover { background: #121212; color: #fff; }
 
-    /* CARROSSEL DE TEMAS RELACIONADOS (Atualizado Full Width) */
-    .carrossel-temas {
-      width: 100%;
-      margin: 0 auto 40px;
-    }
+    /* CARROSSEL */
+    .carrossel-temas { width: 100%; margin: 0 auto 40px; }
+    .carrossel-header { padding: 0 25px; max-width: 1100px; margin: 0 auto 12px; display: flex; align-items: center; gap: 10px; }
+    .temas-label { font-size: 11px; font-weight: 900; text-transform: uppercase; color: #888; }
+    .temas-count { background: #f0f0f0; color: #121212; font-size: 9px; padding: 2px 6px; border-radius: 4px; }
+    
+    .temas-scroll-wrapper { width: 100%; overflow-x: auto; scrollbar-width: none; padding: 0 25px; -webkit-overflow-scrolling: touch; }
+    .temas-container { display: flex; gap: 12px; padding-bottom: 5px; width: max-content; }
 
-    .carrossel-header {
-      padding: 0 25px;
-      max-width: 1100px;
-      margin: 0 auto 12px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .temas-label {
-      font-size: 11px;
-      font-weight: 900;
-      text-transform: uppercase;
-      color: #888;
-      letter-spacing: 1px;
-    }
-
-    .temas-count {
-      background: #f0f0f0;
-      color: #121212;
-      font-size: 9px;
-      font-weight: 800;
-      padding: 2px 6px;
-      border-radius: 4px;
-      text-transform: uppercase;
-    }
-
-    /* Container de rolagem que ignora padding do pai */
-    .temas-scroll-wrapper {
-      width: 100%;
-      overflow-x: auto;
-      scrollbar-width: none; /* Firefox */
-      padding: 0 25px; /* Padding visual inicial */
-      scroll-padding: 0 25px;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .temas-scroll-wrapper::-webkit-scrollbar { display: none; }
-
-    .temas-container {
-      display: flex;
-      gap: 12px;
-      padding-bottom: 5px;
-      width: max-content; /* Garante que os itens fiquem em linha */
-      margin: 0 auto; /* Centraliza se houver espaço */
-    }
-
-    /* Ajuste para telas grandes (Centralizar conteúdo do carrossel com max-width) */
-    @media (min-width: 1150px) {
-      .temas-scroll-wrapper {
-        display: flex;
-        justify-content: center;
-      }
-    }
-
-    /* Ajuste para mobile (Full bleed) */
-    @media (max-width: 768px) {
-      .destaque-padding { padding: 0 20px; }
-      
-      .destaque-info-grid { grid-template-columns: 1fr 1fr; }
-      
-      .destaque-acoes { 
-        padding: 15px 20px 20px; 
-        flex-wrap: wrap; 
-      }
-      
-      /* Botões ocupam largura total no mobile se quebrar linha, mas aqui manteremos lado a lado se possível */
-      .menu-opcoes-container { flex: 1; }
-      .btn-acao { width: 100%; justify-content: center; }
-
-      .temas-scroll-wrapper {
-        padding: 0 20px; /* Alinhado com o padding do corpo */
-      }
-      
-      /* Truque para o padding direito funcionar no scroll */
-      .temas-container::after {
-        content: "";
-        display: block;
-        width: 20px; 
-        height: 1px;
-        flex-shrink: 0;
-      }
-    }
-
-    .tema-card {
-      flex: 0 0 160px;
-      cursor: pointer;
-      transition: transform 0.2s;
-      position: relative;
-    }
-
+    .tema-card { flex: 0 0 160px; cursor: pointer; transition: transform 0.2s; }
     .tema-card:hover { transform: scale(1.03); }
+    .tema-thumb { width: 100%; aspect-ratio: 16/9; background: #eee; border-radius: 6px; object-fit: cover; margin-bottom: 6px; }
+    .tema-titulo { font-size: 11px; font-weight: 700; line-height: 1.3; color: #121212; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
-    .tema-thumb {
-      width: 100%;
-      aspect-ratio: 16/9;
-      background: #eee;
-      border-radius: 6px;
-      object-fit: cover;
-      margin-bottom: 6px;
-    }
-
-    .tema-titulo {
-      font-size: 11px;
-      font-weight: 700;
-      line-height: 1.3;
-      color: #121212;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    /* NOTIFICAÇÃO DE TROCA DE VÍDEO */
+    /* NOTIFICAÇÃO */
     #notificacao-video {
       position: fixed;
       bottom: 20px;
@@ -449,270 +230,19 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.3);
       transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       border-left: 4px solid var(--notif-cor, #fff);
-      min-width: 280px;
     }
 
     #notificacao-video.visivel { transform: translateX(-50%) translateY(0); }
+    .btn-confirmar-video { background: #fff; color: #000; border: none; padding: 6px 12px; font-weight: 800; font-size: 10px; cursor: pointer; }
 
-    .btn-confirmar-video {
-      background: #fff;
-      color: #000;
-      border: none;
-      padding: 6px 12px;
-      font-weight: 800;
-      font-size: 10px;
-      text-transform: uppercase;
-      cursor: pointer;
-      border-radius: 2px;
+    @media (max-width: 768px) {
+      .destaque-info-grid { grid-template-columns: 1fr 1fr; }
+      .destaque-acoes { flex-wrap: wrap; }
+      .btn-acao { flex: 1; justify-content: center; }
     }
   </style>
 
-  <article class="destaque-secao secao-onepiece">
-    <div class="destaque-padding">
-      <div class="destaque-categoria"><i class="fa-solid fa-video"></i> Análise Técnica</div>
-      <div class="destaque-header">
-        <h2 class="destaque-titulo">Por que Egghead é o melhor arco de One Piece em décadas</h2>
-        <div class="menu-opcoes-container" tabindex="0">
-          <button class="btn-tres-pontos"><i class="fa-solid fa-ellipsis"></i></button>
-          <div class="dropdown-conteudo header-dropdown">
-            <a href="#"><i class="fa-regular fa-bookmark"></i> Salvar Artigo</a>
-            <a href="#"><i class="fa-solid fa-headphones"></i> Fazer Leitura</a>
-            <a href="#"><i class="fa-regular fa-copy"></i> Copiar Link</a>
-          </div>
-        </div>
-      </div>
-      <p class="destaque-resumo">Uma análise profunda sobre a mudança estética da Toei Animation e o impacto da direção de arte de Sota Shigeshita.</p>
-      <a href="#" class="btn-ver-artigo"><i class="fa-solid fa-book-open"></i> Ver artigo completo</a>
-      
-      <div class="destaque-info-grid">
-        <div class="info-item"><span class="info-label">Estúdio</span><span class="info-valor">Toei Animation</span></div>
-        <div class="info-item"><span class="info-label">Direção</span><span class="info-valor">Sota Shigeshita</span></div>
-        <div class="info-item"><span class="info-label">Analista</span><span class="info-valor">Gustavo Lima</span></div>
-        <div class="info-item">
-          <span class="info-label">Edição</span>
-          <span class="info-valor">
-            Equipe Técnica
-            <span class="info-tooltip-container" tabindex="0">
-              <span class="info-tooltip-trigger"><i class="fa-solid fa-info"></i></span>
-              <div class="info-tooltip-texto">
-                O site Anigeeknews garante todos os créditos de vídeos incorporados nestes sites aos seus devidos donos e andamos em conformidade com as diretrizes do YouTube, Spotify e Twitter (X). Este conteúdo não está baixado em nossos servidores.
-              </div>
-            </span>
-          </span>
-        </div>
-      </div>
-    </div>
-    
-    <div class="destaque-media">
-      <iframe id="player-onepiece" src="https://www.youtube.com/embed/uJMdqWHlnD4" allowfullscreen></iframe>
-    </div>
-
-    <div class="destaque-acoes">
-      <div class="menu-opcoes-container" tabindex="0">
-        <button class="btn-acao"><i class="fa-regular fa-thumbs-up"></i> Útil</button>
-        <div class="dropdown-conteudo acoes-dropdown">
-          <a href="#"><i class="fa-solid fa-heart"></i> Curti artigo</a>
-          <a href="#"><i class="fa-brands fa-youtube"></i> Curti vídeo</a>
-          <a href="#"><i class="fa-solid fa-user-plus"></i> Seguir autor do vídeo</a>
-          <a href="#"><i class="fa-solid fa-pen-nib"></i> Seguir editor</a>
-        </div>
-      </div>
-
-      <div class="menu-opcoes-container" tabindex="0">
-        <button class="btn-acao"><i class="fa-solid fa-share-nodes"></i> Compartilhar</button>
-        <div class="dropdown-conteudo acoes-dropdown">
-          <a href="#"><i class="fa-brands fa-whatsapp"></i> Compartilhar no Whatsapp</a>
-          <a href="#"><i class="fa-brands fa-facebook"></i> Compartilhar no Facebook</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="carrossel-temas">
-      <div class="carrossel-header">
-        <span class="temas-label">Temas relacionados</span>
-        <span class="temas-count count-onepiece">CARREGANDO...</span>
-      </div>
-      
-      <div class="temas-scroll-wrapper">
-        <div class="temas-container container-onepiece">
-          <div class="tema-card" onclick="pedirTroca('player-onepiece', 'uJMdqWHlnD4', 'EGGHEAD SE TORNOU O MELHOR ARCO!', '#e63946')">
-            <img src="https://img.youtube.com/vi/uJMdqWHlnD4/mqdefault.jpg" class="tema-thumb">
-            <div class="tema-titulo">EGGHEAD SE TORNOU O MELHOR ARCO DE ONE PIECE E EU POSSO PROVAR!</div>
-          </div>
-          <div class="tema-card" onclick="pedirTroca('player-onepiece', 'rHI0D2BF2Vs', 'Debate: Egghead Melhor Arco?', '#e63946')">
-            <img src="https://img.youtube.com/vi/rHI0D2BF2Vs/mqdefault.jpg" class="tema-thumb">
-            <div class="tema-titulo">EGGHEAD o MELHOR ARCO de ONE PIECE?! (com debate/canal Katon)</div>
-          </div>
-          <div class="tema-card" onclick="pedirTroca('player-onepiece', 'ZVFltoxPPDE', '5 Pontos Positivos', '#e63946')">
-            <img src="https://img.youtube.com/vi/ZVFltoxPPDE/mqdefault.jpg" class="tema-thumb">
-            <div class="tema-titulo">OS 5 PONTOS POSITIVOS DO ARCO DE EGGHEAD EM ONE PIECE</div>
-          </div>
-          <div class="tema-card" onclick="pedirTroca('player-onepiece', 'T7d40y8PxEI', 'Arco de Passagem?', '#e63946')">
-            <img src="https://img.youtube.com/vi/T7d40y8PxEI/mqdefault.jpg" class="tema-thumb">
-            <div class="tema-titulo">O ARCO DE EGGHEAD É SÓ UM ARCO DE PASSAGEM??? One Piece (análise)</div>
-          </div>
-          <div class="tema-card" onclick="pedirTroca('player-onepiece', 'A028M50_6Ok', 'Obra de Arte: Egghead', '#e63946')">
-            <img src="https://img.youtube.com/vi/A028M50_6Ok/mqdefault.jpg" class="tema-thumb">
-            <div class="tema-titulo">Esse ARCO foi uma VERDADEIRA OBRA DE ARTE em ONE PIECE</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </article>
-
-  <article class="destaque-secao secao-sololeveling">
-    <div class="destaque-padding">
-      <div class="destaque-categoria"><i class="fa-solid fa-video"></i> Análise de Produção</div>
-      <div class="destaque-header">
-        <h2 class="destaque-titulo">Solo Leveling: A anatomia de um sucesso global</h2>
-        <div class="menu-opcoes-container" tabindex="0">
-          <button class="btn-tres-pontos"><i class="fa-solid fa-ellipsis"></i></button>
-          <div class="dropdown-conteudo header-dropdown">
-            <a href="#"><i class="fa-regular fa-bookmark"></i> Salvar Artigo</a>
-            <a href="#"><i class="fa-solid fa-headphones"></i> Fazer Leitura</a>
-          </div>
-        </div>
-      </div>
-      <p class="destaque-resumo">Como a A-1 Pictures transformou o Manhwa em um fenômeno visual, mantendo a fidelidade à obra original.</p>
-      <a href="#" class="btn-ver-artigo"><i class="fa-solid fa-book-open"></i> Ver artigo completo</a>
-      
-      <div class="destaque-info-grid">
-        <div class="info-item"><span class="info-label">Estúdio</span><span class="info-valor">A-1 Pictures</span></div>
-        <div class="info-item"><span class="info-label">Original</span><span class="info-valor">Chugong (Webtoon)</span></div>
-        <div class="info-item"><span class="info-label">Analista</span><span class="info-valor">Mariana Silva</span></div>
-        <div class="info-item">
-          <span class="info-label">Edição</span>
-          <span class="info-valor">
-            Equipe Técnica
-            <span class="info-tooltip-container" tabindex="0">
-              <span class="info-tooltip-trigger"><i class="fa-solid fa-info"></i></span>
-              <div class="info-tooltip-texto">
-                O site Anigeeknews garante todos os créditos de vídeos incorporados nestes sites aos seus devidos donos e andamos em conformidade com as diretrizes do YouTube, Spotify e Twitter (X). Este conteúdo não está baixado em nossos servidores.
-              </div>
-            </span>
-          </span>
-        </div>
-      </div>
-    </div>
-    
-    <div class="destaque-media">
-      <iframe id="player-solo" src="https://www.youtube.com/embed/uNfU_p_UsqU" allowfullscreen></iframe>
-    </div>
-
-    <div class="destaque-acoes">
-      <div class="menu-opcoes-container" tabindex="0">
-        <button class="btn-acao"><i class="fa-regular fa-thumbs-up"></i> Útil</button>
-        <div class="dropdown-conteudo acoes-dropdown">
-          <a href="#"><i class="fa-solid fa-heart"></i> Curti artigo</a>
-          <a href="#"><i class="fa-brands fa-youtube"></i> Curti vídeo</a>
-          <a href="#"><i class="fa-solid fa-user-plus"></i> Seguir autor do vídeo</a>
-          <a href="#"><i class="fa-solid fa-pen-nib"></i> Seguir editor</a>
-        </div>
-      </div>
-
-      <div class="menu-opcoes-container" tabindex="0">
-        <button class="btn-acao"><i class="fa-solid fa-share-nodes"></i> Compartilhar</button>
-        <div class="dropdown-conteudo acoes-dropdown">
-          <a href="#"><i class="fa-brands fa-whatsapp"></i> Compartilhar no Whatsapp</a>
-          <a href="#"><i class="fa-brands fa-facebook"></i> Compartilhar no Facebook</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="carrossel-temas">
-      <div class="carrossel-header">
-        <span class="temas-label">Temas relacionados</span>
-        <span class="temas-count count-solo">CARREGANDO...</span>
-      </div>
-      <div class="temas-scroll-wrapper">
-        <div class="temas-container container-solo">
-          <div class="tema-card" onclick="pedirTroca('player-solo', 'uNfU_p_UsqU', 'Produção A-1 Pictures', '#4361ee')">
-            <img src="https://img.youtube.com/vi/uNfU_p_UsqU/mqdefault.jpg" class="tema-thumb">
-            <div class="tema-titulo">Bastidores: A animação de Solo Leveling</div>
-          </div>
-          <div class="tema-card" onclick="pedirTroca('player-solo', 'uNfU_p_UsqU', 'Trilha Sonora Sawano', '#4361ee')">
-            <img src="https://img.youtube.com/vi/uNfU_p_UsqU/mq2.jpg" class="tema-thumb">
-            <div class="tema-titulo">A trilha sonora épica de Hiroyuki Sawano</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </article>
-
-  <article class="destaque-secao secao-eldenring" style="border-bottom: none;">
-    <div class="destaque-padding">
-      <div class="destaque-categoria"><i class="fa-solid fa-video"></i> Análise de Design</div>
-      <div class="destaque-header">
-        <h2 class="destaque-titulo">O impacto visual de Shadow of the Erdtree</h2>
-        <div class="menu-opcoes-container" tabindex="0">
-          <button class="btn-tres-pontos"><i class="fa-solid fa-ellipsis"></i></button>
-          <div class="dropdown-conteudo header-dropdown">
-            <a href="#"><i class="fa-regular fa-bookmark"></i> Salvar Artigo</a>
-            <a href="#"><i class="fa-solid fa-headphones"></i> Fazer Leitura</a>
-          </div>
-        </div>
-      </div>
-      <p class="destaque-resumo">Explorando a narrativa ambiental e a cinematografia in-game que definiram o padrão de expansões para RPGs.</p>
-      <a href="#" class="btn-ver-artigo"><i class="fa-solid fa-book-open"></i> Ver artigo completo</a>
-      
-      <div class="destaque-info-grid">
-        <div class="info-item"><span class="info-label">Desenvolvedora</span><span class="info-valor">FromSoftware</span></div>
-        <div class="info-item"><span class="info-label">Analista</span><span class="info-valor">Ricardo Alves</span></div>
-        <div class="info-item"><span class="info-label">Captura</span><span class="info-valor">Modo In-Game</span></div>
-        <div class="info-item">
-          <span class="info-label">Edição</span>
-          <span class="info-valor">
-            Equipe Técnica
-            <span class="info-tooltip-container" tabindex="0">
-              <span class="info-tooltip-trigger"><i class="fa-solid fa-info"></i></span>
-              <div class="info-tooltip-texto">
-                O site Anigeeknews garante todos os créditos de vídeos incorporados nestes sites aos seus devidos donos e andamos em conformidade com as diretrizes do YouTube, Spotify e Twitter (X). Este conteúdo não está baixado em nossos servidores.
-              </div>
-            </span>
-          </span>
-        </div>
-      </div>
-    </div>
-    
-    <div class="destaque-media">
-      <iframe id="player-elden" src="https://www.youtube.com/embed/qLZenOn7WUo" allowfullscreen></iframe>
-    </div>
-
-    <div class="destaque-acoes">
-      <div class="menu-opcoes-container" tabindex="0">
-        <button class="btn-acao"><i class="fa-regular fa-thumbs-up"></i> Útil</button>
-        <div class="dropdown-conteudo acoes-dropdown">
-          <a href="#"><i class="fa-solid fa-heart"></i> Curti artigo</a>
-          <a href="#"><i class="fa-brands fa-youtube"></i> Curti vídeo</a>
-          <a href="#"><i class="fa-solid fa-user-plus"></i> Seguir autor do vídeo</a>
-          <a href="#"><i class="fa-solid fa-pen-nib"></i> Seguir editor</a>
-        </div>
-      </div>
-
-      <div class="menu-opcoes-container" tabindex="0">
-        <button class="btn-acao"><i class="fa-solid fa-share-nodes"></i> Compartilhar</button>
-        <div class="dropdown-conteudo acoes-dropdown">
-          <a href="#"><i class="fa-brands fa-whatsapp"></i> Compartilhar no Whatsapp</a>
-          <a href="#"><i class="fa-brands fa-facebook"></i> Compartilhar no Facebook</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="carrossel-temas">
-      <div class="carrossel-header">
-        <span class="temas-label">Temas relacionados</span>
-        <span class="temas-count count-elden">CARREGANDO...</span>
-      </div>
-      <div class="temas-scroll-wrapper">
-        <div class="temas-container container-elden">
-          <div class="tema-card" onclick="pedirTroca('player-elden', 'qLZenOn7WUo', 'Lore de Messmer', '#b79ced')">
-            <img src="https://img.youtube.com/vi/qLZenOn7WUo/mqdefault.jpg" class="tema-thumb">
-            <div class="tema-titulo">Quem é Messmer, o Empalador? Lore completa</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </article>
+  <div id="area-de-noticias"></div>
 
   <div id="notificacao-video">
     <div style="flex: 1;">
@@ -722,8 +252,9 @@
     <button class="btn-confirmar-video" id="btn-confirmar">Confirmar</button>
     <i class="fa-solid fa-xmark" style="cursor:pointer; padding: 5px;" onclick="fecharNotif()"></i>
   </div>
-<div id="area-noticias"></div>
+
   <script>
+    // Lógica global para troca de vídeos nos players injetados
     let playerAlvo = '';
     let urlAlvo = '';
 
@@ -749,69 +280,5 @@
       }
       fecharNotif();
     };
-
-    // SCRIPT AUTOMÁTICO PARA CONTAR VÍDEOS
-    // Isso garante que o número esteja sempre certo sem você precisar editar manualmente
-    document.addEventListener('DOMContentLoaded', function() {
-      function atualizarContador(classeContainer, classeContador) {
-        const container = document.querySelector('.' + classeContainer);
-        const contador = document.querySelector('.' + classeContador);
-        if(container && contador) {
-          const qtd = container.getElementsByClassName('tema-card').length;
-          contador.innerText = qtd + (qtd === 1 ? ' VÍDEO' : ' VÍDEOS');
-        }
-      }
-
-      atualizarContador('container-onepiece', 'count-onepiece');
-      atualizarContador('container-solo', 'count-solo');
-      atualizarContador('container-elden', 'count-elden');
-    });
-    <script src="data/noticias.js"></script>
-
-<script>
-const area = document.getElementById("area-noticias");
-
-NOTICIAS.forEach(noticia => {
-  area.innerHTML += `
-    <article class="destaque-secao ${noticia.classe}">
-      <div class="destaque-padding">
-        <div class="destaque-categoria">
-          <i class="fa-solid ${noticia.icone}"></i> ${noticia.categoria}
-        </div>
-
-        <h2 class="destaque-titulo">${noticia.titulo}</h2>
-        <p class="destaque-resumo">${noticia.resumo}</p>
-
-        <div class="destaque-info-grid">
-          ${noticia.ficha.map(item => `
-            <div class="info-item">
-              <span class="info-label">${item[0]}</span>
-              <span class="info-valor">${item[1]}</span>
-            </div>
-          `).join("")}
-        </div>
-      </div>
-
-      <div class="destaque-media">
-        <iframe src="https://www.youtube.com/embed/${noticia.videoPrincipal}" allowfullscreen></iframe>
-      </div>
-
-      <div class="carrossel-temas">
-        <div class="temas-scroll-wrapper">
-          <div class="temas-container">
-            ${noticia.videos.map(v => `
-              <div class="tema-card"
-                   onclick="pedirTroca('player-${noticia.id}', '${v.id}', '${v.titulo}', '${noticia.temaCor}')">
-                <img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg" class="tema-thumb">
-                <div class="tema-titulo">${v.titulo}</div>
-              </div>
-            `).join("")}
-          </div>
-        </div>
-      </div>
-    </article>
-  `;
-});
-</script>
   </script>
 </div>
