@@ -1,116 +1,199 @@
 <div class="destaque-wrapper">
 
+<style>
+.destaque-wrapper{
+max-width:1100px;
+margin:0 auto;
+padding:20px;
+font-family:Arial, sans-serif;
+color:#111;
+background:#fff;
+}
+
+#destaque-status{
+margin-bottom:12px;
+font-weight:bold;
+font-size:13px;
+}
+
+.destaque-topo{
+text-align:center;
+border-bottom:2px solid #000;
+padding-bottom:10px;
+margin-bottom:30px;
+}
+
+.destaque-logo{
+font-size:28px;
+font-weight:900;
+letter-spacing:6px;
+}
+
+.destaque-subtitulo{
+font-size:11px;
+color:#777;
+text-transform:uppercase;
+}
+
+.destaque-principal{
+margin-bottom:50px;
+}
+
+.destaque-categoria{
+color:#c1121f;
+font-size:12px;
+font-weight:bold;
+text-transform:uppercase;
+margin-bottom:8px;
+}
+
+.destaque-titulo{
+font-size:34px;
+font-weight:800;
+line-height:1.1;
+margin-bottom:12px;
+}
+
+.destaque-resumo{
+font-size:18px;
+color:#444;
+margin-bottom:20px;
+}
+
+.destaque-imagem img,
+.destaque-video iframe{
+width:100%;
+border-radius:6px;
+}
+
+.destaque-texto{
+font-size:17px;
+line-height:1.6;
+margin-top:20px;
+}
+
+.destaque-bloco{
+border-top:1px solid #eee;
+padding-top:30px;
+margin-top:40px;
+}
+
+.destaque-lista{
+margin-top:50px;
+border-top:2px solid #000;
+}
+
+.destaque-item{
+padding:14px 0;
+border-bottom:1px solid #eee;
+font-size:18px;
+font-weight:600;
+}
+
+/* Responsivo */
+@media (max-width:700px){
+.destaque-titulo{font-size:26px;}
+.destaque-resumo{font-size:16px;}
+}
+</style>
+
 <div id="destaque-status"></div>
 
 <div class="destaque-topo">
-    <div class="destaque-logo">ANIGEEKNEWS</div>
-    <div class="destaque-subtitulo">Jornalismo Geek Independente</div>
+<div class="destaque-logo">ANIGEEKNEWS</div>
+<div class="destaque-subtitulo">Jornalismo Geek Independente</div>
 </div>
 
 <!-- NOTÍCIA PRINCIPAL -->
 <div class="destaque-principal">
 
-    <div class="destaque-categoria">Análise de Capa</div>
+<div class="destaque-categoria">Análise de Capa</div>
 
-    <div class="destaque-titulo">
-        One Piece redefine a animação moderna no arco Egghead
-    </div>
+<div class="destaque-titulo">
+One Piece redefine a animação moderna no arco Egghead
+</div>
 
-    <div class="destaque-resumo">
-        A Toei Animation rompe padrões visuais tradicionais para criar uma
-        experiência mais emocional, intensa e cinematográfica no clímax de Egghead.
-    </div>
+<div class="destaque-resumo">
+A Toei Animation rompe padrões visuais e cria uma experiência cinematográfica no clímax de Egghead.
+</div>
 
-    <div class="destaque-imagem">
-        <img src="https://i.postimg.cc/sDL0s4nt/Portada-One-Piece.png">
-    </div>
+<div class="destaque-imagem">
+<img src="https://i.postimg.cc/sDL0s4nt/Portada-One-Piece.png">
+</div>
 
-    <div class="destaque-texto">
-        O arco Egghead marca uma mudança histórica na forma como o anime de One Piece
-        é produzido. A direção de arte passou a utilizar distorções de quadro,
-        sombras dinâmicas e fluidez extrema para aumentar o impacto dramático.
-        <br><br>
-        Essa decisão dividiu opiniões, mas elevou o anime a um novo patamar técnico
-        comparável às grandes produções cinematográficas.
-    </div>
+<div class="destaque-texto">
+O arco Egghead representa uma revolução técnica dentro de One Piece. A animação ganhou fluidez extrema, sombras dinâmicas e enquadramentos cinematográficos que aumentam o impacto emocional das cenas.
+<br><br>
+Essa decisão colocou a série em um novo patamar de qualidade visual, aproximando o anime de produções de alto orçamento do cinema.
+</div>
 
 </div>
 
-<!-- SEGUNDA NOTÍCIA -->
+<!-- NOTÍCIA 2 -->
 <div class="destaque-bloco">
 
-    <div class="destaque-categoria">Indústria</div>
+<div class="destaque-categoria">Indústria</div>
 
-    <div class="destaque-titulo">
-        Streaming está mudando o futuro dos animes
-    </div>
+<div class="destaque-titulo">
+O streaming está mudando o futuro dos animes
+</div>
 
-    <div class="destaque-resumo">
-        O modelo de maratona influencia diretamente como os estúdios planejam
-        suas temporadas e orçamentos.
-    </div>
+<div class="destaque-resumo">
+Maratonas, algoritmos e lançamentos globais estão redefinindo como as séries são produzidas.
+</div>
 
-    <div class="destaque-imagem">
-        <img src="https://i.postimg.cc/sfHMcTDy/58awkrh8lp404dsegeqpbffcz.jpg">
-    </div>
+<div class="destaque-imagem">
+<img src="https://i.postimg.cc/sfHMcTDy/58awkrh8lp404dsegeqpbffcz.jpg">
+</div>
 
-    <div class="destaque-texto">
-        Plataformas como Crunchyroll, Netflix e Disney+ estão alterando o ciclo
-        tradicional de produção. Em vez de episódios semanais, muitos projetos
-        agora são pensados para maratonas completas.
-    </div>
+<div class="destaque-texto">
+Hoje, os estúdios planejam animes pensando em consumo rápido. Isso influencia roteiro, duração de episódios e até o estilo de animação, tudo para agradar plataformas como Netflix e Crunchyroll.
+</div>
 
 </div>
 
-<!-- TERCEIRA NOTÍCIA COM VÍDEO -->
+<!-- NOTÍCIA COM VÍDEO -->
 <div class="destaque-bloco">
 
-    <div class="destaque-categoria">Vídeo</div>
+<div class="destaque-categoria">Vídeo</div>
 
-    <div class="destaque-titulo">
-        Por que Egghead é o melhor arco de One Piece
-    </div>
+<div class="destaque-titulo">
+Por que Egghead é o melhor arco de One Piece
+</div>
 
-    <div class="destaque-resumo">
-        Analisamos em vídeo os motivos técnicos e narrativos que tornam
-        Egghead um divisor de águas.
-    </div>
+<div class="destaque-resumo">
+Um vídeo analisa os motivos técnicos e narrativos que fazem de Egghead um divisor de águas.
+</div>
 
-    <div class="destaque-video">
-        <iframe 
-            src="https://www.youtube.com/embed/S8_YwFLCh4U"
-            frameborder="0"
-            allowfullscreen>
-        </iframe>
-    </div>
+<div class="destaque-video">
+<iframe src="https://www.youtube.com/embed/S8_YwFLCh4U" allowfullscreen></iframe>
+</div>
 
-    <div class="destaque-texto">
-        O vídeo analisa como a direção, a trilha sonora e a animação se unem
-        para criar uma experiência emocionalmente mais forte do que qualquer
-        outro arco anterior.
-    </div>
+<div class="destaque-texto">
+A análise mostra como trilha sonora, direção e animação trabalham juntas para criar um impacto emocional jamais visto antes na franquia.
+</div>
 
 </div>
 
 <!-- NOTÍCIAS RÁPIDAS -->
 <div class="destaque-lista">
-
-    <div class="destaque-item">
-        Solo Leveling recebe nova atualização para o modo competitivo.
-    </div>
-
-    <div class="destaque-item">
-        Elden Ring: Shadow of the Erdtree redefine o padrão de DLCs.
-    </div>
-
-    <div class="destaque-item">
-        Nintendo prepara anúncio do Switch 2 para 2026.
-    </div>
-
+<div class="destaque-item">Solo Leveling recebe atualização competitiva.</div>
+<div class="destaque-item">Elden Ring redefine o padrão de DLCs.</div>
+<div class="destaque-item">Nintendo prepara o Switch 2.</div>
 </div>
 
-<div class="destaque-rodape">
-    © 2026 — ANIGEEKNEWS
-</div>
+<script>
+(function(){
+const status = document.getElementById("destaque-status");
+if(status){
+status.textContent = "JavaScript ativo";
+status.style.color = "lime";
+status.style.background = "#000";
+status.style.display = "inline-block";
+status.style.padding = "6px 10px";
+status.style.borderRadius = "6px";
+}
+})();
+</script>
 
 </div>
