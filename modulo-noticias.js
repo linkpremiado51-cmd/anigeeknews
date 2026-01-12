@@ -19,44 +19,50 @@ const bancoDeDados = {
 };
 
 // ==================================================
-// 3. UTILITÁRIOS DE FORMATAÇÃO E CORES
+// 3. UTILITÁRIOS DE FORMATAÇÃO
 // ==================================================
 function normalizarTexto(texto = '') {
     return texto.toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
 }
 
 function definirClasseTema(noticia) {
-    const textoParaAnalise = normalizarTexto(`${noticia.titulo} ${noticia.category || noticia.categoria}`);
-    if (textoParaAnalise.includes('one piece')) return 'secao-onepiece';
-    if (textoParaAnalise.includes('solo leveling')) return 'secao-sololeveling';
-    if (textoParaAnalise.includes('elden ring') || textoParaAnalise.includes('games')) return 'secao-eldenring';
-    return ''; // Tema padrão
+    const busca = normalizarTexto(`${noticia.titulo} ${noticia.category || noticia.categoria}`);
+    if (busca.includes('one piece')) return 'secao-onepiece';
+    if (busca.includes('solo leveling')) return 'secao-sololeveling';
+    if (busca.includes('elden ring') || busca.includes('games')) return 'secao-eldenring';
+    return ''; 
 }
 
 // ==================================================
-// 4. HTML DA NOTÍCIA (DESIGN EDITORIAL SEM VÍDEO)
+// 4. HTML DA NOTÍCIA (DESIGN EDITORIAL COM IMAGEM)
 // ==================================================
 function criarEstruturaNoticia(noticia) {
     const temaClasse = definirClasseTema(noticia);
-    const slug = noticia.url || "#";
-    
+    const linkArtigo = noticia.url || "#";
+    // Usa a imagem do banco de dados ou um placeholder de alta qualidade
+    const imagemURL = noticia.img || "https://via.placeholder.com/1200x675?text=Anigeek+News";
+
     return `
     <article class="destaque-secao ${temaClasse} news-extra-persistente">
         <div class="destaque-padding">
             <div class="destaque-categoria">
-                <i class="fa-solid fa-newspaper"></i> ${noticia.category || noticia.categoria || 'Destaque'}
+                <i class="fa-solid fa-layer-group"></i> ${noticia.category || noticia.categoria || 'Geral'}
             </div>
             
             <div class="destaque-header">
                 <h2 class="destaque-titulo">${noticia.titulo}</h2>
                 <div class="menu-opcoes-container" tabindex="0">
-                    <button class="btn-tres-pontos" aria-label="Opções"><i class="fa-solid fa-ellipsis"></i></button>
+                    <button class="btn-tres-pontos" aria-label="Mais opções">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </button>
                     <div class="dropdown-conteudo">
                         <a href="#"><i class="fa-regular fa-bookmark"></i> Salvar Artigo</a>
                         <a href="#"><i class="fa-solid fa-headphones"></i> Fazer Leitura</a>
                         <a href="#"><i class="fa-regular fa-face-smile"></i> Tenho interesse</a>
                         <a href="#"><i class="fa-regular fa-face-frown"></i> Não tenho interesse</a>
-                        <a href="javascript:void(0)" onclick="navigator.clipboard.writeText('${window.location.origin}${slug}')"><i class="fa-regular fa-copy"></i> Copiar Link</a>
+                        <a href="javascript:void(0)" onclick="navigator.clipboard.writeText(window.location.href)">
+                            <i class="fa-regular fa-copy"></i> Copiar Link
+                        </a>
                     </div>
                 </div>
             </div>
@@ -65,31 +71,38 @@ function criarEstruturaNoticia(noticia) {
             
             <div class="destaque-info-grid">
                 <div class="info-item">
-                    <span class="info-label">Fonte / Estúdio</span>
-                    <span class="info-valor">${noticia.estudio || noticia.fonte || 'Redação Anigeek'}</span>
+                    <span class="info-label">Produção</span>
+                    <span class="info-valor">${noticia.estudio || noticia.fonte || 'Anigeek News'}</span>
                 </div>
                 <div class="info-item">
-                    <span class="info-label">Tópico</span>
-                    <span class="info-valor">${noticia.topico || 'Geral'}</span>
+                    <span class="info-label">Tags</span>
+                    <span class="info-valor">${noticia.tags || 'Destaque'}</span>
                 </div>
                 <div class="info-item">
-                    <span class="info-label">Analista</span>
-                    <span class="info-valor">${noticia.autor || 'Equipe News'}</span>
+                    <span class="info-label">Autor</span>
+                    <span class="info-valor">${noticia.autor || 'Redação'}</span>
                 </div>
                 <div class="info-item">
-                    <span class="info-label">Publicado em</span>
+                    <span class="info-label">Data</span>
                     <span class="info-valor">${noticia.data || '2026'}</span>
                 </div>
             </div>
 
             <div class="destaque-meta-info">
-                <a href="${slug}" class="destaque-indicador">LER ARTIGO COMPLETO</a>
+                <a href="${linkArtigo}" class="destaque-indicador">ABRIR CONTEÚDO</a>
                 <span class="tempo-video">
-                    <i class="fa-regular fa-clock"></i> ${noticia.meta || noticia.leitura || '5'} MIN DE LEITURA
+                    <i class="fa-regular fa-clock"></i> ${noticia.meta || noticia.leitura || '5:00'} MIN
                 </span>
             </div>
         </div>
         
+        <div class="destaque-media">
+            <a href="${linkArtigo}">
+                <img src="${imagemURL}" alt="${noticia.titulo}" loading="lazy" 
+                     style="width:100%; aspect-ratio:16/9; object-fit:cover; display:block;">
+            </a>
+        </div>
+
         <div class="destaque-acoes">
             <button class="btn-acao" onclick="window.toggleLike?.(this)">
                 <i class="fa-regular fa-thumbs-up"></i> Útil (${noticia.likes || 0})
@@ -103,7 +116,7 @@ function criarEstruturaNoticia(noticia) {
 }
 
 // ==================================================
-// 5. LÓGICA DE CARREGAMENTO E PERSISTÊNCIA
+// 5. SISTEMA DE CARREGAMENTO E PERSISTÊNCIA
 // ==================================================
 let indices = JSON.parse(localStorage.getItem('indices_secoes')) || {};
 
@@ -117,7 +130,7 @@ export function carregarNoticiasExtras() {
     indices[secao] = indices[secao] || 0;
 
     let adicionadas = 0;
-    // Carrega de 2 em 2 para melhor fluxo de leitura
+    // Carrega 2 por vez para manter o design preenchido
     while (adicionadas < 2 && indices[secao] < listaOrdenada.length) {
         container.insertAdjacentHTML(
             'beforebegin',
