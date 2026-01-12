@@ -106,12 +106,6 @@
       color: var(--tema-cor);
     }
 
-    .dropdown-conteudo a i {
-      width: 16px;
-      text-align: center;
-      font-size: 14px;
-    }
-
     /* CATEGORIA E RESUMO */
     .destaque-categoria {
       color: var(--tema-cor);
@@ -133,8 +127,8 @@
       max-width: 850px;
     }
 
-    /* NOVO: BOTÃO LER ARTIGO ABAIXO DO RESUMO */
-    .btn-ler-completo {
+    /* BOTÃO VER ARTIGO COMPLETO (FAZER LEITURA) */
+    .btn-ver-artigo {
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -145,8 +139,12 @@
       text-transform: uppercase;
       margin-bottom: 25px;
       cursor: pointer;
+      transition: opacity 0.2s;
     }
-    .btn-ler-completo:hover { opacity: 0.8; }
+
+    .btn-ver-artigo:hover {
+      opacity: 0.7;
+    }
 
     /* FICHA TÉCNICA */
     .destaque-info-grid {
@@ -204,7 +202,7 @@
     /* BOTÕES AÇÕES */
     .destaque-acoes {
       display: flex;
-      padding: 10px 25px 20px;
+      padding: 10px 25px 15px;
       gap: 12px;
       max-width: 1100px;
       margin: 0 auto;
@@ -228,14 +226,14 @@
       color: #fff;
     }
 
-    /* NOVO: ESTILO DO CARROSSEL DE RELACIONADOS */
-    .carrossel-relacionados {
+    /* CARROSSEL DE TEMAS RELACIONADOS (ESTILO YOUTUBE) */
+    .carrossel-temas {
       padding: 0 25px 40px;
       max-width: 1100px;
       margin: 0 auto;
     }
 
-    .carrossel-label {
+    .temas-label {
       font-size: 11px;
       font-weight: 900;
       text-transform: uppercase;
@@ -245,38 +243,35 @@
       display: block;
     }
 
-    .carrossel-container {
+    .temas-container {
       display: flex;
+      gap: 12px;
       overflow-x: auto;
-      gap: 15px;
       scrollbar-width: none;
-      scroll-snap-type: x mandatory;
-      padding-bottom: 10px;
+      padding-bottom: 5px;
     }
 
-    .carrossel-container::-webkit-scrollbar { display: none; }
+    .temas-container::-webkit-scrollbar { display: none; }
 
-    .card-relacionado {
-      flex: 0 0 180px;
-      scroll-snap-align: start;
+    .tema-card {
+      flex: 0 0 160px;
       cursor: pointer;
-      position: relative;
+      transition: transform 0.2s;
     }
 
-    .card-thumb {
+    .tema-card:hover { transform: scale(1.03); }
+
+    .tema-thumb {
       width: 100%;
       aspect-ratio: 16/9;
       background: #eee;
+      border-radius: 6px;
       object-fit: cover;
-      border-radius: 4px;
-      margin-bottom: 8px;
-      transition: transform 0.3s ease;
+      margin-bottom: 6px;
     }
 
-    .card-relacionado:hover .card-thumb { transform: scale(1.03); }
-
-    .card-titulo-rel {
-      font-size: 12px;
+    .tema-titulo {
+      font-size: 11px;
       font-weight: 700;
       line-height: 1.3;
       color: #121212;
@@ -286,36 +281,38 @@
       overflow: hidden;
     }
 
-    /* NOTIFICAÇÃO ESTILIZADA */
-    #notif-switch-video {
+    /* NOTIFICAÇÃO DE TROCA DE VÍDEO */
+    #notificacao-video {
       position: fixed;
-      bottom: 30px;
+      bottom: 20px;
       left: 50%;
       transform: translateX(-50%) translateY(150%);
       background: #121212;
       color: #fff;
-      padding: 15px 25px;
+      padding: 12px 20px;
       z-index: 9999;
       display: flex;
       align-items: center;
-      gap: 20px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
-      transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-      border-left: 4px solid var(--tema-cor-notif, #fff);
-      min-width: 300px;
+      gap: 15px;
+      border-radius: 4px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border-left: 4px solid var(--notif-cor, #fff);
+      min-width: 280px;
     }
 
-    #notif-switch-video.active { transform: translateX(-50%) translateY(0); }
+    #notificacao-video.visivel { transform: translateX(-50%) translateY(0); }
 
-    .btn-notif-confirm {
+    .btn-confirmar-video {
       background: #fff;
       color: #000;
       border: none;
-      padding: 8px 15px;
-      font-weight: 900;
-      font-size: 11px;
+      padding: 6px 12px;
+      font-weight: 800;
+      font-size: 10px;
       text-transform: uppercase;
       cursor: pointer;
+      border-radius: 2px;
     }
 
     /* RESPONSIVIDADE */
@@ -323,7 +320,6 @@
       .destaque-info-grid { grid-template-columns: 1fr 1fr; }
       .destaque-acoes { flex-wrap: wrap; }
       .btn-acao { flex: 1; justify-content: center; }
-      .card-relacionado { flex: 0 0 150px; }
     }
   </style>
 
@@ -342,18 +338,13 @@
         </div>
       </div>
       <p class="destaque-resumo">Uma análise profunda sobre a mudança estética da Toei Animation e o impacto da direção de arte de Sota Shigeshita.</p>
-      <a href="#" class="btn-ler-completo"><i class="fa-solid fa-align-left"></i> Fazer Leitura Completa</a>
+      <a href="#" class="btn-ver-artigo"><i class="fa-solid fa-book-open"></i> Ver artigo completo</a>
       
       <div class="destaque-info-grid">
         <div class="info-item"><span class="info-label">Estúdio</span><span class="info-valor">Toei Animation</span></div>
         <div class="info-item"><span class="info-label">Direção</span><span class="info-valor">Sota Shigeshita</span></div>
         <div class="info-item"><span class="info-label">Analista</span><span class="info-valor">Gustavo Lima</span></div>
         <div class="info-item"><span class="info-label">Edição</span><span class="info-valor">Equipe Técnica</span></div>
-      </div>
-
-      <div class="destaque-meta-info">
-        <a href="#" class="destaque-indicador">ASSISTIR ANÁLISE</a>
-        <span class="tempo-video"><i class="fa-regular fa-clock"></i> 14:20 MIN</span>
       </div>
     </div>
     
@@ -366,28 +357,28 @@
       <button class="btn-acao"><i class="fa-solid fa-share-nodes"></i> Compartilhar</button>
     </div>
 
-    <div class="carrossel-relacionados">
-      <span class="carrossel-label">Relacionados ao tema</span>
-      <div class="carrossel-container">
-        <div class="card-relacionado" onclick="sugerirVideo('player-onepiece', '8YI_d27lYQ8', 'A evolução da Toei', '#e63946')">
-          <img src="https://img.youtube.com/vi/8YI_d27lYQ8/mqdefault.jpg" class="card-thumb">
-          <div class="card-titulo-rel">A evolução visual de One Piece em Wano</div>
+    <div class="carrossel-temas">
+      <span class="temas-label">Temas relacionados</span>
+      <div class="temas-container">
+        <div class="tema-card" onclick="pedirTroca('player-onepiece', '8YI_d27lYQ8', 'Evolução Visual de Wano', '#e63946')">
+          <img src="https://img.youtube.com/vi/8YI_d27lYQ8/mqdefault.jpg" class="tema-thumb">
+          <div class="tema-titulo">A evolução visual de One Piece em Wano</div>
         </div>
-        <div class="card-relacionado" onclick="sugerirVideo('player-onepiece', 'v7WcIuT7Y_Y', 'Teorias Egghead', '#e63946')">
-          <img src="https://img.youtube.com/vi/v7WcIuT7Y_Y/mqdefault.jpg" class="card-thumb">
-          <div class="card-titulo-rel">Os mistérios do Século Perdido em Egghead</div>
+        <div class="tema-card" onclick="pedirTroca('player-onepiece', 'v7WcIuT7Y_Y', 'Mistérios de Egghead', '#e63946')">
+          <img src="https://img.youtube.com/vi/v7WcIuT7Y_Y/mqdefault.jpg" class="tema-thumb">
+          <div class="tema-titulo">Os segredos tecnológicos de Vegapunk</div>
         </div>
-        <div class="card-relacionado" onclick="sugerirVideo('player-onepiece', 'S8_YwFLCh4U', 'Direção Shigeshita', '#e63946')">
-          <img src="https://img.youtube.com/vi/S8_YwFLCh4U/mqdefault.jpg" class="card-thumb">
-          <div class="card-titulo-rel">Entrevista: O novo estilo de Shigeshita</div>
+        <div class="tema-card" onclick="pedirTroca('player-onepiece', 'S8_YwFLCh4U', 'Estilo Shigeshita', '#e63946')">
+          <img src="https://img.youtube.com/vi/S8_YwFLCh4U/mqdefault.jpg" class="tema-thumb">
+          <div class="tema-titulo">Por que o traço de Shigeshita mudou tudo</div>
         </div>
-        <div class="card-relacionado" onclick="sugerirVideo('player-onepiece', '8YI_d27lYQ8', 'Animação fluida', '#e63946')">
-          <img src="https://img.youtube.com/vi/8YI_d27lYQ8/mqdefault.jpg" class="card-thumb">
-          <div class="card-titulo-rel">O uso de cores na nova fase do Anime</div>
+        <div class="tema-card" onclick="pedirTroca('player-onepiece', '8YI_d27lYQ8', 'Gear 5 Animação', '#e63946')">
+          <img src="https://img.youtube.com/vi/8YI_d27lYQ8/mq2.jpg" class="tema-thumb">
+          <div class="tema-titulo">Gear 5: O impacto na indústria de animes</div>
         </div>
-        <div class="card-relacionado" onclick="sugerirVideo('player-onepiece', 'v7WcIuT7Y_Y', 'Gear 5 Impact', '#e63946')">
-          <img src="https://img.youtube.com/vi/v7WcIuT7Y_Y/mqdefault.jpg" class="card-thumb">
-          <div class="card-titulo-rel">Luffy Gear 5: A quebra de paradigmas</div>
+        <div class="tema-card" onclick="pedirTroca('player-onepiece', 'v7WcIuT7Y_Y', 'Futuro de One Piece', '#e63946')">
+          <img src="https://img.youtube.com/vi/v7WcIuT7Y_Y/mq3.jpg" class="tema-thumb">
+          <div class="tema-titulo">O que esperar do clímax da saga final</div>
         </div>
       </div>
     </div>
@@ -401,24 +392,18 @@
         <div class="menu-opcoes-container" tabindex="0">
           <button class="btn-tres-pontos"><i class="fa-solid fa-ellipsis"></i></button>
           <div class="dropdown-conteudo">
-            <a href="#"><i class="fa-regular fa-bookmark"></i> Salvar</a>
+            <a href="#"><i class="fa-regular fa-bookmark"></i> Salvar Artigo</a>
             <a href="#"><i class="fa-solid fa-headphones"></i> Fazer Leitura</a>
           </div>
         </div>
       </div>
       <p class="destaque-resumo">Como a A-1 Pictures transformou o Manhwa em um fenômeno visual, mantendo a fidelidade à obra original.</p>
-      <a href="#" class="btn-ler-completo"><i class="fa-solid fa-align-left"></i> Fazer Leitura Completa</a>
+      <a href="#" class="btn-ver-artigo"><i class="fa-solid fa-book-open"></i> Ver artigo completo</a>
       
       <div class="destaque-info-grid">
         <div class="info-item"><span class="info-label">Estúdio</span><span class="info-valor">A-1 Pictures</span></div>
         <div class="info-item"><span class="info-label">Original</span><span class="info-valor">Chugong (Webtoon)</span></div>
         <div class="info-item"><span class="info-label">Analista</span><span class="info-valor">Mariana Silva</span></div>
-        <div class="info-item"><span class="info-label">Roteiro</span><span class="info-valor">Vinícius Costa</span></div>
-      </div>
-
-      <div class="destaque-meta-info">
-        <a href="#" class="destaque-indicador">ASSISTIR ANÁLISE</a>
-        <span class="tempo-video"><i class="fa-regular fa-clock"></i> 10:45 MIN</span>
       </div>
     </div>
     
@@ -431,28 +416,28 @@
       <button class="btn-acao"><i class="fa-solid fa-share-nodes"></i> Compartilhar</button>
     </div>
 
-    <div class="carrossel-relacionados">
-      <span class="carrossel-label">Destaques da Produção</span>
-      <div class="carrossel-container">
-        <div class="card-relacionado" onclick="sugerirVideo('player-solo', 'uNfU_p_UsqU', 'Arte do Manhwa', '#4361ee')">
-          <img src="https://img.youtube.com/vi/uNfU_p_UsqU/mqdefault.jpg" class="card-thumb">
-          <div class="card-titulo-rel">A arte original de DUBU e o anime</div>
+    <div class="carrossel-temas">
+      <span class="temas-label">Temas relacionados</span>
+      <div class="temas-container">
+        <div class="tema-card" onclick="pedirTroca('player-solo', 'uNfU_p_UsqU', 'Produção A-1 Pictures', '#4361ee')">
+          <img src="https://img.youtube.com/vi/uNfU_p_UsqU/mqdefault.jpg" class="tema-thumb">
+          <div class="tema-titulo">Bastidores: A animação de Solo Leveling</div>
         </div>
-        <div class="card-relacionado" onclick="sugerirVideo('player-solo', 'uNfU_p_UsqU', 'Cenas de Luta', '#4361ee')">
-          <img src="https://img.youtube.com/vi/uNfU_p_UsqU/mq2.jpg" class="card-thumb">
-          <div class="card-titulo-rel">Como as lutas foram coreografadas</div>
+        <div class="tema-card" onclick="pedirTroca('player-solo', 'uNfU_p_UsqU', 'Trilha Sonora Sawano', '#4361ee')">
+          <img src="https://img.youtube.com/vi/uNfU_p_UsqU/mq2.jpg" class="tema-thumb">
+          <div class="tema-titulo">A trilha sonora épica de Hiroyuki Sawano</div>
         </div>
-        <div class="card-relacionado" onclick="sugerirVideo('player-solo', 'uNfU_p_UsqU', 'OST Sawano', '#4361ee')">
-          <img src="https://img.youtube.com/vi/uNfU_p_UsqU/mq3.jpg" class="card-thumb">
-          <div class="card-titulo-rel">A trilha sonora de Hiroyuki Sawano</div>
+        <div class="tema-card" onclick="pedirTroca('player-solo', 'uNfU_p_UsqU', 'Manhwa vs Anime', '#4361ee')">
+          <img src="https://img.youtube.com/vi/uNfU_p_UsqU/mq3.jpg" class="tema-thumb">
+          <div class="tema-titulo">Comparações: Manhwa original vs Anime</div>
         </div>
-        <div class="card-relacionado" onclick="sugerirVideo('player-solo', 'uNfU_p_UsqU', 'Dublagem Sung', '#4361ee')">
-          <img src="https://img.youtube.com/vi/uNfU_p_UsqU/1.jpg" class="card-thumb">
-          <div class="card-titulo-rel">Os bastidores da dublagem japonesa</div>
+        <div class="tema-card" onclick="pedirTroca('player-solo', 'uNfU_p_UsqU', 'Futuro da Série', '#4361ee')">
+          <img src="https://img.youtube.com/vi/uNfU_p_UsqU/1.jpg" class="tema-thumb">
+          <div class="tema-titulo">O que esperar da 2ª Temporada</div>
         </div>
-        <div class="card-relacionado" onclick="sugerirVideo('player-solo', 'uNfU_p_UsqU', 'Futuro Solo', '#4361ee')">
-          <img src="https://img.youtube.com/vi/uNfU_p_UsqU/2.jpg" class="card-thumb">
-          <div class="card-titulo-rel">O que esperar da segunda temporada</div>
+        <div class="tema-card" onclick="pedirTroca('player-solo', 'uNfU_p_UsqU', 'Dublagem Sung Jinwoo', '#4361ee')">
+          <img src="https://img.youtube.com/vi/uNfU_p_UsqU/2.jpg" class="tema-thumb">
+          <div class="tema-titulo">Entrevista com os dubladores oficiais</div>
         </div>
       </div>
     </div>
@@ -472,18 +457,12 @@
         </div>
       </div>
       <p class="destaque-resumo">Explorando a narrativa ambiental e a cinematografia in-game que definiram o padrão de expansões para RPGs.</p>
-      <a href="#" class="btn-ler-completo"><i class="fa-solid fa-align-left"></i> Fazer Leitura Completa</a>
+      <a href="#" class="btn-ver-artigo"><i class="fa-solid fa-book-open"></i> Ver artigo completo</a>
       
       <div class="destaque-info-grid">
         <div class="info-item"><span class="info-label">Desenvolvedora</span><span class="info-valor">FromSoftware</span></div>
-        <div class="info-item"><span class="info-label">Plataformas</span><span class="info-valor">PC / PS5 / Xbox</span></div>
         <div class="info-item"><span class="info-label">Analista</span><span class="info-valor">Ricardo Alves</span></div>
         <div class="info-item"><span class="info-label">Captura</span><span class="info-valor">Modo In-Game</span></div>
-      </div>
-
-      <div class="destaque-meta-info">
-        <a href="#" class="destaque-indicador">ASSISTIR ANÁLISE</a>
-        <span class="tempo-video"><i class="fa-regular fa-clock"></i> 18:05 MIN</span>
       </div>
     </div>
     
@@ -496,67 +475,67 @@
       <button class="btn-acao"><i class="fa-solid fa-share-nodes"></i> Compartilhar</button>
     </div>
 
-    <div class="carrossel-relacionados">
-      <span class="carrossel-label">Sobre Shadow of the Erdtree</span>
-      <div class="carrossel-container">
-        <div class="card-relacionado" onclick="sugerirVideo('player-elden', 'qLZenOn7WUo', 'Lore Messmer', '#b79ced')">
-          <img src="https://img.youtube.com/vi/qLZenOn7WUo/mqdefault.jpg" class="card-thumb">
-          <div class="card-titulo-rel">A tragédia de Messmer: Lore completa</div>
+    <div class="carrossel-temas">
+      <span class="temas-label">Temas relacionados</span>
+      <div class="temas-container">
+        <div class="tema-card" onclick="pedirTroca('player-elden', 'qLZenOn7WUo', 'Lore de Messmer', '#b79ced')">
+          <img src="https://img.youtube.com/vi/qLZenOn7WUo/mqdefault.jpg" class="tema-thumb">
+          <div class="tema-titulo">Quem é Messmer, o Empalador? Lore completa</div>
         </div>
-        <div class="card-relacionado" onclick="sugerirVideo('player-elden', 'qLZenOn7WUo', 'Boss Design', '#b79ced')">
-          <img src="https://img.youtube.com/vi/qLZenOn7WUo/mq2.jpg" class="card-thumb">
-          <div class="card-titulo-rel">Análise: O design dos chefes da DLC</div>
+        <div class="tema-card" onclick="pedirTroca('player-elden', 'qLZenOn7WUo', 'Design de Chefes', '#b79ced')">
+          <img src="https://img.youtube.com/vi/qLZenOn7WUo/mq2.jpg" class="tema-thumb">
+          <div class="tema-titulo">Análise: Os chefes mais difíceis da DLC</div>
         </div>
-        <div class="card-relacionado" onclick="sugerirVideo('player-elden', 'qLZenOn7WUo', 'Shadow Realm', '#b79ced')">
-          <img src="https://img.youtube.com/vi/qLZenOn7WUo/mq3.jpg" class="card-thumb">
-          <div class="card-titulo-rel">Explorando o mapa do Reino das Sombras</div>
+        <div class="tema-card" onclick="pedirTroca('player-elden', 'qLZenOn7WUo', 'Reino das Sombras', '#b79ced')">
+          <img src="https://img.youtube.com/vi/qLZenOn7WUo/mq3.jpg" class="tema-thumb">
+          <div class="tema-titulo">Explorando o mapa do Reino das Sombras</div>
         </div>
-        <div class="card-relacionado" onclick="sugerirVideo('player-elden', 'qLZenOn7WUo', 'FromSoft Art', '#b79ced')">
-          <img src="https://img.youtube.com/vi/qLZenOn7WUo/1.jpg" class="card-thumb">
-          <div class="card-titulo-rel">A direção artística de Hidetaka Miyazaki</div>
+        <div class="tema-card" onclick="pedirTroca('player-elden', 'qLZenOn7WUo', 'Segredos Ocultos', '#b79ced')">
+          <img src="https://img.youtube.com/vi/qLZenOn7WUo/1.jpg" class="tema-thumb">
+          <div class="tema-titulo">10 segredos que você perdeu na DLC</div>
         </div>
-        <div class="card-relacionado" onclick="sugerirVideo('player-elden', 'qLZenOn7WUo', 'Sound Design', '#b79ced')">
-          <img src="https://img.youtube.com/vi/qLZenOn7WUo/2.jpg" class="card-thumb">
-          <div class="card-titulo-rel">O som da devastação: Trilha sonora</div>
+        <div class="tema-card" onclick="pedirTroca('player-elden', 'qLZenOn7WUo', 'Arte Miyazaki', '#b79ced')">
+          <img src="https://img.youtube.com/vi/qLZenOn7WUo/2.jpg" class="tema-thumb">
+          <div class="tema-titulo">A filosofia de design de Hidetaka Miyazaki</div>
         </div>
       </div>
     </div>
   </article>
 
-  <div id="notif-switch-video">
+  <div id="notificacao-video">
     <div style="flex: 1;">
-      <div style="font-size: 10px; opacity: 0.6; text-transform: uppercase; font-weight: 800; margin-bottom: 2px;">Mudar vídeo atual?</div>
-      <div id="notif-video-title" style="font-size: 13px; font-weight: 700;">Título Sugerido</div>
+      <div style="font-size: 10px; font-weight: 800; opacity: 0.6; text-transform: uppercase;">Deseja assistir?</div>
+      <div id="notif-titulo" style="font-size: 13px; font-weight: 700;">Título do Vídeo</div>
     </div>
-    <button class="btn-notif-confirm" id="confirm-switch">Confirmar</button>
-    <i class="fa-solid fa-xmark" style="cursor:pointer; margin-left: 10px;" onclick="closeNotif()"></i>
+    <button class="btn-confirmar-video" id="btn-confirmar">Confirmar</button>
+    <i class="fa-solid fa-xmark" style="cursor:pointer; padding: 5px;" onclick="fecharNotif()"></i>
   </div>
 
   <script>
-    let activePlayerId = '';
-    let nextVideoUrl = '';
+    let playerAlvo = '';
+    let urlAlvo = '';
 
-    function sugerirVideo(playerId, videoId, title, color) {
-      activePlayerId = playerId;
-      nextVideoUrl = "https://www.youtube.com/embed/" + videoId + "?autoplay=1";
+    function pedirTroca(idPlayer, idVideo, titulo, cor) {
+      playerAlvo = idPlayer;
+      urlAlvo = `https://www.youtube.com/embed/${idVideo}?autoplay=1`;
       
-      const notif = document.getElementById('notif-switch-video');
-      document.getElementById('notif-video-title').innerText = title;
-      notif.style.setProperty('--tema-cor-notif', color);
-      notif.classList.add('active');
+      const notif = document.getElementById('notificacao-video');
+      document.getElementById('notif-titulo').innerText = titulo;
+      notif.style.setProperty('--notif-cor', cor);
+      notif.classList.add('visivel');
     }
 
-    function closeNotif() {
-      document.getElementById('notif-switch-video').classList.remove('active');
+    function fecharNotif() {
+      document.getElementById('notificacao-video').classList.remove('visivel');
     }
 
-    document.getElementById('confirm-switch').onclick = function() {
-      const player = document.getElementById(activePlayerId);
+    document.getElementById('btn-confirmar').onclick = function() {
+      const player = document.getElementById(playerAlvo);
       if(player) {
-        player.src = nextVideoUrl;
+        player.src = urlAlvo;
         player.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
-      closeNotif();
+      fecharNotif();
     };
   </script>
 </div>
