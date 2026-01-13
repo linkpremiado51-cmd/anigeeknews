@@ -1,4 +1,4 @@
-import { restaurarNoticiasSalvas } from '/anigeeknews/modulo-noticias.js';
+
 
 const dynamicContent = document.getElementById('dynamic-content');
 let originalContent = dynamicContent ? dynamicContent.innerHTML : "";
