@@ -159,7 +159,7 @@
     // Lógica Bloco 3 (Superior) - Reaparece em 85s (25s originais + 60s)
     document.getElementById('ind-close-3').onclick = () => {
         b3.style.top = '-600px';
-        setTimeout(openB3, 85000);
+        setTimeout(openB3, 60);
     };
 
     // Motor do Interstitial (Bloco 2)
