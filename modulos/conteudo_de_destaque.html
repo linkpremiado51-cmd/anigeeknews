@@ -67,7 +67,36 @@
       .menu-opcoes-container { flex: 1; }
       .btn-acao { width: 100%; justify-content: center; }
     }
+    /* Notificação de Novo Conteúdo */
+    #notificacao-novo-artigo {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #2563eb; /* Azul Tech */
+      color: #fff;
+      padding: 15px 25px;
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transform: translateX(150%);
+      transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      font-family: 'Inter', sans-serif;
+    }
+    #notificacao-novo-artigo.mostrar {
+      transform: translateX(0);
+    }
   </style>
+
+  <div id="notificacao-novo-artigo">
+    <i class="fa-solid fa-bell-concierge"></i>
+    <div>
+      <div style="font-size: 11px; font-weight: 800; opacity: 0.8; text-transform: uppercase;">Novo no site!</div>
+      <div id="novo-artigo-titulo" style="font-size: 14px; font-weight: 700;">Carregando título...</div>
+    </div>
+  </div>
 
   <div id="container-principal"></div>
 
@@ -82,7 +111,7 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyBC_ad4X9OwCHKvcG_pNQkKEl76Zw2tu6o",
@@ -203,19 +232,45 @@
       window.fecharNotif();
     };
 
-    // CARREGAMENTO INICIAL
-    async function carregarTudo() {
-      try {
-        const querySnapshot = await getDocs(collection(db, "noticias"));
+    // CARREGAMENTO EM TEMPO REAL COM onSnapshot
+    let primeiraCarga = true;
+
+    function carregarTudoRealTime() {
+      const q = collection(db, "noticias");
+
+      onSnapshot(q, (snapshot) => {
         const noticiasFB = [];
-        querySnapshot.forEach((doc) => { noticiasFB.push({ id: doc.id, ...doc.data() }); });
+        
+        snapshot.docChanges().forEach((change) => {
+          if (change.type === "added" && !primeiraCarga) {
+            exibirNotificacaoNovo(change.doc.data().titulo || "Novo artigo publicado");
+          }
+        });
+
+        snapshot.forEach((doc) => {
+          noticiasFB.push({ id: doc.id, ...doc.data() });
+        });
+
         renderizarNoticias([...meuFeedNoticias, ...noticiasFB]);
-      } catch (e) {
-        console.error("Erro ao carregar Firebase, mostrando apenas locais", e);
+        primeiraCarga = false;
+      }, (error) => {
+        console.error("Erro ao escutar Firebase, mostrando apenas locais", error);
         renderizarNoticias(meuFeedNoticias);
-      }
+      });
     }
 
-    carregarTudo();
+    function exibirNotificacaoNovo(titulo) {
+      const notif = document.getElementById('notificacao-novo-artigo');
+      document.getElementById('novo-artigo-titulo').innerText = titulo;
+      
+      notif.classList.add('mostrar');
+
+      setTimeout(() => {
+        notif.classList.remove('mostrar');
+      }, 5000);
+    }
+
+    carregarTudoRealTime();
   </script>
 </div>
+
