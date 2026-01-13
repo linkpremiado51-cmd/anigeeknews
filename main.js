@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Tenta restaurar notícias se houver progresso salvo no localStorage
     // Agora configurado para funcionar também na Home (Manchetes)
-    restaurarNoticiasSalvas();
+    
 
     // ------------------------------------------------------------------
     // SISTEMA DE NOTÍCIAS (DINÂMICO)
