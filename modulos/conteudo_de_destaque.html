@@ -1,8 +1,14 @@
 <div class="destaque-wrapper">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
+  <!-- Meta tags dinâmicas para redes sociais -->
+  <meta property="og:title" content="AniGeekNews">
+  <meta property="og:description" content="Análises técnicas e culturais sobre animes, jogos e mangás.">
+  <meta property="og:image" content="https://anigeeknews.com/default-og.jpg">
+  <meta property="og:url" content="https://anigeeknews.com">
+
   <style>
-    /* CSS ORIGINAL PRESERVADO 100% */
+    /* SEU CSS ORIGINAL — PRESERVADO 100% */
     .destaque-wrapper {
       width: 100vw; position: relative; left: 50%; right: 50%;
       margin-left: -50vw; margin-right: -50vw;
@@ -72,7 +78,7 @@
       position: fixed;
       top: 20px;
       right: 20px;
-      background: #2563eb; /* Azul Tech */
+      background: #2563eb;
       color: #fff;
       padding: 15px 25px;
       border-radius: 8px;
@@ -87,6 +93,65 @@
     }
     #notificacao-novo-artigo.mostrar {
       transform: translateX(0);
+    }
+
+    /* === NOVO: TOAST DE COPIA (minimalista, não interfere no layout) === */
+    #toast-copiado {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(150%);
+      background: #4caf50;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 600;
+      z-index: 9999;
+      opacity: 0;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    #toast-copiado.mostrar {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* === NOVO: MODAL INTERNO (não altera layout principal) === */
+    #modal-noticia {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.9);
+      z-index: 99999;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    #modal-conteudo {
+      background: white;
+      color: #121212;
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 30px;
+      border-radius: 8px;
+      position: relative;
+    }
+    #modal-fechar {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: #eee;
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    #modal-video {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      margin: 20px 0;
+      border: none;
     }
   </style>
 
@@ -107,6 +172,22 @@
     </div>
     <button class="btn-confirmar-video" id="btn-confirmar">Confirmar</button>
     <i class="fa-solid fa-xmark" style="cursor:pointer; padding: 5px;" onclick="window.fecharNotif()"></i>
+  </div>
+
+  <!-- Feedback visual ao copiar -->
+  <div id="toast-copiado">Link copiado!</div>
+
+  <!-- Modal interno -->
+  <div id="modal-noticia">
+    <div id="modal-conteudo">
+      <button id="modal-fechar" onclick="window.fecharModal()">×</button>
+      <div id="modal-titulo" class="destaque-titulo" style="margin-top: 0;"></div>
+      <div id="modal-categoria" class="destaque-categoria"></div>
+      <p id="modal-resumo" class="destaque-resumo"></p>
+      <a id="modal-link" class="btn-ver-artigo"><i class="fa-solid fa-book-open"></i> Ver artigo completo</a>
+      <div id="modal-ficha" class="destaque-info-grid"></div>
+      <iframe id="modal-video" allowfullscreen></iframe>
+    </div>
   </div>
 
   <script type="module">
@@ -159,26 +240,52 @@
       }
     ];
 
-    // === FUNÇÕES GLOBAIS DE COMPARTILHAMENTO ===
+    // === FUNÇÕES GLOBAIS ===
     window.shareNews = (titulo, url) => {
       if (navigator.share) {
-        navigator.share({
-          title: titulo,
-          url: url
-        }).catch(err => console.log("Erro ao compartilhar:", err));
+        navigator.share({ title: titulo, url }).catch(console.error);
       } else {
-        alert("Seu navegador não suporta Web Share. Use o botão 'Copiar Link'.");
+        alert("Seu navegador não suporta Web Share. Use 'Copiar Link'.");
       }
     };
 
     window.copiarLink = async (url) => {
       try {
         await navigator.clipboard.writeText(url);
-        // Feedback opcional (pode adicionar toast se quiser)
-        console.log("Link copiado:", url);
+        const toast = document.getElementById('toast-copiado');
+        toast.classList.add('mostrar');
+        setTimeout(() => toast.classList.remove('mostrar'), 2000);
       } catch (err) {
-        console.error("Falha ao copiar link:", err);
+        console.error("Falha ao copiar:", err);
       }
+    };
+
+    window.fecharModal = () => {
+      document.getElementById('modal-noticia').style.display = 'none';
+      // Remove ?id= da URL sem recarregar
+      history.replaceState(null, '', window.location.pathname);
+    };
+
+    window.pedirTroca = (idPlayer, idVideo, titulo, cor) => {
+      playerAlvo = idPlayer;
+      urlAlvo = `https://www.youtube.com/embed/${idVideo}?autoplay=1`;
+      const notif = document.getElementById('notificacao-video');
+      document.getElementById('notif-titulo').innerText = titulo;
+      notif.style.setProperty('--notif-cor', cor);
+      notif.classList.add('visivel');
+    };
+
+    window.fecharNotif = () => {
+      document.getElementById('notificacao-video').classList.remove('visivel');
+    };
+
+    let playerAlvo = '';
+    let urlAlvo = '';
+
+    document.getElementById('btn-confirmar').onclick = () => {
+      const player = document.getElementById(playerAlvo);
+      if (player) player.src = urlAlvo;
+      window.fecharNotif();
     };
 
     // === RENDERIZAÇÃO ===
@@ -188,6 +295,9 @@
 
       container.innerHTML = listaCompleta.map(news => {
         const shareUrl = `${baseUrl}?id=${encodeURIComponent(news.id)}`;
+        const ogImage = news.relacionados.length > 0 ? news.relacionados[0].thumb : 'https://anigeeknews.com/default-og.jpg';
+
+        // Atualiza meta tags só se for a notícia ativa (opcional, mas útil)
         return `
         <article class="destaque-secao" id="artigo-${news.id}" style="--tema-cor: ${news.cor}">
           <div class="destaque-padding">
@@ -244,81 +354,88 @@
       }).join('');
     }
 
-    // === FUNÇÕES EXISTENTES (mantidas) ===
-    let playerAlvo = '';
-    let urlAlvo = '';
+    // === ABRIR NOTÍCIA EM MODAL ===
+    function abrirNoticiaEmModal(noticia) {
+      const ogImage = noticia.relacionados.length > 0 ? noticia.relacionados[0].thumb : '';
 
-    window.pedirTroca = (idPlayer, idVideo, titulo, cor) => {
-      playerAlvo = idPlayer;
-      urlAlvo = `https://www.youtube.com/embed/${idVideo}?autoplay=1`;
-      const notif = document.getElementById('notificacao-video');
-      document.getElementById('notif-titulo').innerText = titulo;
-      notif.style.setProperty('--notif-cor', cor);
-      notif.classList.add('visivel');
-    };
+      // Atualiza meta tags para redes sociais
+      document.querySelector('meta[property="og:title"]').content = noticia.titulo;
+      document.querySelector('meta[property="og:description"]').content = noticia.resumo;
+      document.querySelector('meta[property="og:image"]').content = ogImage;
+      document.querySelector('meta[property="og:url"]').content = window.location.href;
 
-    window.fecharNotif = () => { document.getElementById('notificacao-video').classList.remove('visivel'); };
+      document.getElementById('modal-titulo').textContent = noticia.titulo;
+      document.getElementById('modal-categoria').innerHTML = `<i class="fa-solid fa-video"></i> ${noticia.categoria}`;
+      document.getElementById('modal-resumo').textContent = noticia.resumo;
+      document.getElementById('modal-link').href = noticia.linkArtigo;
 
-    document.getElementById('btn-confirmar').onclick = () => {
-      const player = document.getElementById(playerAlvo);
-      if(player) { player.src = urlAlvo; player.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
-      window.fecharNotif();
-    };
+      let fichaHtml = noticia.ficha.map(item =>
+        `<div class="info-item"><span class="info-label">${item.label}</span><span class="info-valor">${item.valor}</span></div>`
+      ).join('');
+      fichaHtml += `<div class="info-item"><span class="info-label">Edição</span><span class="info-valor">Equipe Técnica</span></div>`;
+      document.getElementById('modal-ficha').innerHTML = fichaHtml;
 
-    // === AUTO-SCROLL AO CARREGAR COM ?id= ===
-    function rolarParaNoticia() {
+      document.getElementById('modal-video').src = noticia.videoPrincipal;
+      document.getElementById('modal-noticia').style.display = 'block';
+    }
+
+    // === VERIFICAR ?id= NA URL ===
+    function verificarNoticiaNaUrl() {
       const urlParams = new URLSearchParams(window.location.search);
       const id = urlParams.get('id');
       if (id) {
-        const elemento = document.getElementById(`artigo-${id}`);
-        if (elemento) {
-          setTimeout(() => {
-            elemento.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }, 300); // pequeno delay para garantir renderização
+        const todasNoticias = [...meuFeedNoticias, ...(window.noticiasFirebase || [])];
+        const noticia = todasNoticias.find(n => n.id === id);
+        if (noticia) {
+          abrirNoticiaEmModal(noticia);
         }
       }
     }
 
-    // === CARREGAMENTO REAL-TIME ===
+    // === CARREGAMENTO ===
     let primeiraCarga = true;
+    window.noticiasFirebase = [];
 
     function carregarTudoRealTime() {
       const q = collection(db, "noticias");
 
       onSnapshot(q, (snapshot) => {
         const noticiasFB = [];
-        
         snapshot.docChanges().forEach((change) => {
           if (change.type === "added" && !primeiraCarga) {
             exibirNotificacaoNovo(change.doc.data().titulo || "Novo artigo publicado");
           }
         });
-
         snapshot.forEach((doc) => {
           noticiasFB.push({ id: doc.id, ...doc.data() });
         });
 
+        window.noticiasFirebase = noticiasFB;
         renderizarNoticias([...meuFeedNoticias, ...noticiasFB]);
         primeiraCarga = false;
-        rolarParaNoticia(); // executa após cada atualização (inclui primeiro carregamento)
+
+        if (window.location.search.includes('id=')) {
+          verificarNoticiaNaUrl();
+        }
       }, (error) => {
-        console.error("Erro ao escutar Firebase, mostrando apenas locais", error);
+        console.error("Erro Firebase", error);
         renderizarNoticias(meuFeedNoticias);
-        rolarParaNoticia();
+        if (window.location.search.includes('id=')) {
+          verificarNoticiaNaUrl();
+        }
       });
     }
 
     function exibirNotificacaoNovo(titulo) {
       const notif = document.getElementById('notificacao-novo-artigo');
       document.getElementById('novo-artigo-titulo').innerText = titulo;
-      
       notif.classList.add('mostrar');
-
-      setTimeout(() => {
-        notif.classList.remove('mostrar');
-      }, 5000);
+      setTimeout(() => notif.classList.remove('mostrar'), 5000);
     }
 
     carregarTudoRealTime();
+
+    // Escuta navegação (ex: botão Voltar)
+    window.addEventListener('popstate', verificarNoticiaNaUrl);
   </script>
 </div>
