@@ -159,10 +159,37 @@
       }
     ];
 
+    // === FUNÇÕES GLOBAIS DE COMPARTILHAMENTO ===
+    window.shareNews = (titulo, url) => {
+      if (navigator.share) {
+        navigator.share({
+          title: titulo,
+          url: url
+        }).catch(err => console.log("Erro ao compartilhar:", err));
+      } else {
+        alert("Seu navegador não suporta Web Share. Use o botão 'Copiar Link'.");
+      }
+    };
+
+    window.copiarLink = async (url) => {
+      try {
+        await navigator.clipboard.writeText(url);
+        // Feedback opcional (pode adicionar toast se quiser)
+        console.log("Link copiado:", url);
+      } catch (err) {
+        console.error("Falha ao copiar link:", err);
+      }
+    };
+
+    // === RENDERIZAÇÃO ===
     function renderizarNoticias(listaCompleta) {
       const container = document.getElementById('container-principal');
-      container.innerHTML = listaCompleta.map(news => `
-        <article class="destaque-secao" style="--tema-cor: ${news.cor}">
+      const baseUrl = window.location.origin + window.location.pathname;
+
+      container.innerHTML = listaCompleta.map(news => {
+        const shareUrl = `${baseUrl}?id=${encodeURIComponent(news.id)}`;
+        return `
+        <article class="destaque-secao" id="artigo-${news.id}" style="--tema-cor: ${news.cor}">
           <div class="destaque-padding">
             <div class="destaque-categoria"><i class="fa-solid fa-video"></i> ${news.categoria}</div>
             <div class="destaque-header">
@@ -172,7 +199,7 @@
                 <div class="dropdown-conteudo header-dropdown">
                   <a href="#"><i class="fa-regular fa-bookmark"></i> Salvar Artigo</a>
                   <a href="#"><i class="fa-solid fa-headphones"></i> Fazer Leitura</a>
-                  <a href="#"><i class="fa-regular fa-copy"></i> Copiar Link</a>
+                  <a href="#" onclick="event.preventDefault(); window.copiarLink('${shareUrl}');"><i class="fa-regular fa-copy"></i> Copiar Link</a>
                   <a href="#"><i class="fa-solid fa-circle-exclamation"></i> Reportar Erro</a>
                 </div>
               </div>
@@ -193,25 +220,31 @@
               <div class="dropdown-conteudo acoes-dropdown"><a href="#"><i class="fa-solid fa-heart"></i> Curti artigo</a><a href="#"><i class="fa-brands fa-youtube"></i> Curti vídeo</a></div>
             </div>
             <div class="menu-opcoes-container" tabindex="0">
-              <button class="btn-acao"><i class="fa-solid fa-share-nodes"></i> Compartilhar</button>
-              <div class="dropdown-conteudo acoes-dropdown"><a href="#"><i class="fa-brands fa-whatsapp"></i> Whatsapp</a><a href="#"><i class="fa-brands fa-facebook"></i> Facebook</a></div>
+              <button class="btn-acao" onclick="event.preventDefault(); window.shareNews('${news.titulo.replace(/'/g, "\\'")}', '${shareUrl}')">
+                <i class="fa-solid fa-share-nodes"></i> Compartilhar
+              </button>
+              <div class="dropdown-conteudo acoes-dropdown">
+                <a href="#" onclick="event.preventDefault(); window.shareNews('${news.titulo.replace(/'/g, "\\'")}', '${shareUrl}')"><i class="fa-brands fa-whatsapp"></i> Whatsapp</a>
+                <a href="#" onclick="event.preventDefault(); window.shareNews('${news.titulo.replace(/'/g, "\\'")}', '${shareUrl}')"><i class="fa-brands fa-facebook"></i> Facebook</a>
+              </div>
             </div>
           </div>
           <div class="carrossel-temas">
             <div class="carrossel-header"><span class="temas-label">Temas relacionados</span><span class="temas-count">${news.relacionados.length} VÍDEOS</span></div>
             <div class="temas-scroll-wrapper"><div class="temas-container">
                 ${news.relacionados.map(rel => `
-                  <div class="tema-card" onclick="window.pedirTroca('player-${news.id}', '${rel.idVid}', '${rel.titulo}', '${news.cor}')">
+                  <div class="tema-card" onclick="window.pedirTroca('player-${news.id}', '${rel.idVid}', '${rel.titulo.replace(/'/g, "\\'")}', '${news.cor}')">
                     <img src="${rel.thumb}" class="tema-thumb">
                     <div class="tema-titulo">${rel.titulo}</div>
                   </div>`).join('')}
             </div></div>
           </div>
         </article>
-      `).join('');
+      `;
+      }).join('');
     }
 
-    // FUNÇÕES GLOBAIS PARA FUNCIONAR COM ONCLICK
+    // === FUNÇÕES EXISTENTES (mantidas) ===
     let playerAlvo = '';
     let urlAlvo = '';
 
@@ -232,7 +265,21 @@
       window.fecharNotif();
     };
 
-    // CARREGAMENTO EM TEMPO REAL COM onSnapshot
+    // === AUTO-SCROLL AO CARREGAR COM ?id= ===
+    function rolarParaNoticia() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const id = urlParams.get('id');
+      if (id) {
+        const elemento = document.getElementById(`artigo-${id}`);
+        if (elemento) {
+          setTimeout(() => {
+            elemento.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 300); // pequeno delay para garantir renderização
+        }
+      }
+    }
+
+    // === CARREGAMENTO REAL-TIME ===
     let primeiraCarga = true;
 
     function carregarTudoRealTime() {
@@ -253,9 +300,11 @@
 
         renderizarNoticias([...meuFeedNoticias, ...noticiasFB]);
         primeiraCarga = false;
+        rolarParaNoticia(); // executa após cada atualização (inclui primeiro carregamento)
       }, (error) => {
         console.error("Erro ao escutar Firebase, mostrando apenas locais", error);
         renderizarNoticias(meuFeedNoticias);
+        rolarParaNoticia();
       });
     }
 
@@ -273,4 +322,3 @@
     carregarTudoRealTime();
   </script>
 </div>
-
