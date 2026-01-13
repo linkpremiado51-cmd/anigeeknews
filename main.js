@@ -1,51 +1,49 @@
-// /anigeeknews/main.js
+// main.js - Atualizado para a nova estrutura de pastas
 
 // ------------------------------------------------------------------
-// IMPORTAÇÃO DOS MÓDULOS
+// IMPORTAÇÃO DOS MÓDULOS (CAMINHOS RELATIVOS CORRIGIDOS)
 // ------------------------------------------------------------------
-
-import { inicializarMegaMenu } from './modulos/atualizacao_do_menu.js'; // NOVO: Importação do Menu
-import { carregarPerfilLateral } from './usuario/perfil-lateral.js'; // NOVO: Importação do Perfil
+import { inicializarMegaMenu } from './modulos/atualizacao_do_menu.js'; 
+import { carregarPerfilLateral } from './usuario/perfil-lateral.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     
-    // NOVO: Inicializa o perfil lateral (busca dados do usuário e injeta no HTML)
+    // Inicializa o perfil lateral e o mega menu
     carregarPerfilLateral();
-
-    // NOVO: Inicializa o sistema de Mega Menu
     inicializarMegaMenu();
-
-    // Tenta restaurar notícias se houver progresso salvo no localStorage
-    // Agora configurado para funcionar também na Home (Manchetes)
-    
 
     // ------------------------------------------------------------------
     // SISTEMA DE NOTÍCIAS (DINÂMICO)
     // ------------------------------------------------------------------
-    // Ouvimos o documento todo para capturar o clique no botão que vem das abas
     document.addEventListener('click', (e) => {
         // Verifica se o clique foi no botão de carregar mais
         if (e.target && e.target.classList.contains('load-more-btn')) {
             e.preventDefault();
             console.log('Botão detectado! Chamando carregarNoticiasExtras...');
-            carregarNoticiasExtras();
+            // Certifique-se de que carregarNoticiasExtras está definido globalmente ou importado
+            if (typeof carregarNoticiasExtras === 'function') {
+                carregarNoticiasExtras();
+            }
         }
 
-        // AJUSTE ESSENCIAL: Captura a troca de aba para atualizar o sistema
+        // Captura a troca de aba para atualizar o sistema
         const filterBtn = e.target.closest('.filter-tag');
         if (filterBtn) {
             const novaSecao = filterBtn.getAttribute('data-section');
             if (novaSecao) {
                 localStorage.setItem('currentSection', novaSecao);
                 // Pequeno delay para a aba carregar o HTML antes de restaurar os extras
-                setTimeout(() => restaurarNoticiasSalvas(), 50);
+                setTimeout(() => {
+                    if (typeof restaurarNoticiasSalvas === 'function') restaurarNoticiasSalvas();
+                }, 50);
             }
         }
     });
 
     // ------------------------------------------------------------------
-    // FUNÇÕES DE INTERFACE (MANUTENÇÃO DO SEU CÓDIGO)
+    // FUNÇÕES DE INTERFACE (WINDOW)
     // ------------------------------------------------------------------
+    // Definimos no objeto window para garantir que o HTML (onclick) as encontre
     window.toggleMobileMenu = () => {
         const menu = document.getElementById('mobileMenu');
         if (menu) menu.classList.toggle('active');
@@ -85,6 +83,11 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('theme', isDark ? 'dark' : 'light');
         if (themeToggle) themeToggle.checked = isDark;
         if (mobileThemeToggle) mobileThemeToggle.checked = isDark;
+        
+        const mobileLabel = document.getElementById('mobileThemeLabel');
+        if (mobileLabel) {
+            mobileLabel.textContent = isDark ? "TEMA CLARO" : "TEMA ESCURO";
+        }
     };
 
     const savedTheme = localStorage.getItem('theme');
@@ -114,4 +117,3 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-
