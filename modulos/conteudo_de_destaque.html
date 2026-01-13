@@ -1,11 +1,11 @@
 <div class="destaque-wrapper">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css    ">
 
   <!-- Meta tags dinâmicas para redes sociais -->
   <meta property="og:title" content="AniGeekNews">
   <meta property="og:description" content="Análises técnicas e culturais sobre animes, jogos e mangás.">
-  <meta property="og:image" content="https://anigeeknews.com/default-og.jpg">
-  <meta property="og:url" content="https://anigeeknews.com">
+  <meta property="og:image" content="https://anigeeknews.com/default-og.jpg    ">
+  <meta property="og:url" content="https://anigeeknews.com    ">
 
   <style>
     /* SEU CSS ORIGINAL — PRESERVADO 100% */
@@ -191,8 +191,8 @@
   </div>
 
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js    ";
+    import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js    ";
 
     const firebaseConfig = {
       apiKey: "AIzaSyBC_ad4X9OwCHKvcG_pNQkKEl76Zw2tu6o",
@@ -207,6 +207,11 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
+    // ✅ Função para limpar URLs (remover espaços)
+    function limparEspacos(url) {
+      return url ? url.trim() : url;
+    }
+
     const meuFeedNoticias = [
       {
         id: "onepiece",
@@ -216,11 +221,11 @@
         resumo: "Uma análise profunda sobre a mudança estética da Toei Animation e o impacto da direção de arte de Sota Shigeshita.",
         linkArtigo: "#",
         ficha: [{ label: "Estúdio", valor: "Toei Animation" }, { label: "Direção", valor: "Sota Shigeshita" }, { label: "Analista", valor: "Gustavo Lima" }],
-        videoPrincipal: "https://www.youtube.com/embed/uJMdqWHlnD4",
+        videoPrincipal: "https://www.youtube.com/embed/uJMdqWHlnD4    ",
         relacionados: [
-          { idVid: "uJMdqWHlnD4", titulo: "EGGHEAD SE TORNOU O MELHOR ARCO!", thumb: "https://img.youtube.com/vi/uJMdqWHlnD4/mqdefault.jpg" },
-          { idVid: "rHI0D2BF2Vs", titulo: "EGGHEAD o MELHOR ARCO de ONE PIECE?!", thumb: "https://img.youtube.com/vi/rHI0D2BF2Vs/mqdefault.jpg" },
-          { idVid: "ZVFltoxPPDE", titulo: "5 PONTOS POSITIVOS DE EGGHEAD", thumb: "https://img.youtube.com/vi/ZVFltoxPPDE/mqdefault.jpg" }
+          { idVid: "uJMdqWHlnD4", titulo: "EGGHEAD SE TORNOU O MELHOR ARCO!", thumb: "https://img.youtube.com/vi/uJMdqWHlnD4/mqdefault.jpg    " },
+          { idVid: "rHI0D2BF2Vs", titulo: "EGGHEAD o MELHOR ARCO de ONE PIECE?!", thumb: "https://img.youtube.com/vi/rHI0D2BF2Vs/mqdefault.jpg    " },
+          { idVid: "ZVFltoxPPDE", titulo: "5 PONTOS POSITIVOS DE EGGHEAD", thumb: "https://img.youtube.com/vi/ZVFltoxPPDE/mqdefault.jpg    " }
         ]
       },
       {
@@ -231,11 +236,11 @@
         resumo: "Como a A-1 Pictures transformou o Manhwa em um fenômeno visual, mantendo a fidelidade à obra original.",
         linkArtigo: "#",
         ficha: [{ label: "Estúdio", valor: "A-1 Pictures" }, { label: "Original", valor: "Chugong (Webtoon)" }, { label: "Analista", valor: "Mariana Silva" }],
-        videoPrincipal: "https://www.youtube.com/embed/XqD0oCHLIF8",
+        videoPrincipal: "https://www.youtube.com/embed/XqD0oCHLIF8    ",
         relacionados: [
-          { idVid: "XqD0oCHLIF8", titulo: "Solo Leveling Opening | LEveL", thumb: "https://img.youtube.com/vi/XqD0oCHLIF8/mqdefault.jpg" },
-          { idVid: "ZGXOWPZ64DA", titulo: "DARK ARIA <LV2> Music Video", thumb: "https://img.youtube.com/vi/ZGXOWPZ64DA/mqdefault.jpg" },
-          { idVid: "XL4vw8hKTrI", titulo: "Every fight in Solo Leveling Analysis", thumb: "https://img.youtube.com/vi/XL4vw8hKTrI/mqdefault.jpg" }
+          { idVid: "XqD0oCHLIF8", titulo: "Solo Leveling Opening | LEveL", thumb: "https://img.youtube.com/vi/XqD0oCHLIF8/mqdefault.jpg    " },
+          { idVid: "ZGXOWPZ64DA", titulo: "DARK ARIA <LV2> Music Video", thumb: "https://img.youtube.com/vi/ZGXOWPZ64DA/mqdefault.jpg    " },
+          { idVid: "XL4vw8hKTrI", titulo: "Every fight in Solo Leveling Analysis", thumb: "https://img.youtube.com/vi/XL4vw8hKTrI/mqdefault.jpg    " }
         ]
       }
     ];
@@ -260,14 +265,15 @@
       }
     };
 
+    // ✅ CORREÇÃO 2: Fechar modal e ir para a URL exata solicitada
     window.fecharModal = () => {
       document.getElementById('modal-noticia').style.display = 'none';
-      // Remove ?id= da URL sem recarregar
-      history.replaceState(null, '', window.location.pathname);
+      window.location.href = 'https://linkpremiado51-cmd.github.io/anigeeknews/index.html#';
     };
 
     window.pedirTroca = (idPlayer, idVideo, titulo, cor) => {
       playerAlvo = idPlayer;
+      // ✅ Removido espaço extra na URL do vídeo
       urlAlvo = `https://www.youtube.com/embed/${idVideo}?autoplay=1`;
       const notif = document.getElementById('notificacao-video');
       document.getElementById('notif-titulo').innerText = titulo;
@@ -291,13 +297,13 @@
     // === RENDERIZAÇÃO ===
     function renderizarNoticias(listaCompleta) {
       const container = document.getElementById('container-principal');
-      const baseUrl = window.location.origin + window.location.pathname;
+      const baseUrl = 'https://linkpremiado51-cmd.github.io/anigeeknews/index.html';
 
       container.innerHTML = listaCompleta.map(news => {
-        const shareUrl = `${baseUrl}?id=${encodeURIComponent(news.id)}`;
-        const ogImage = news.relacionados.length > 0 ? news.relacionados[0].thumb : 'https://anigeeknews.com/default-og.jpg';
+        // ✅ Limpa a thumb antes de usar
+        const thumbLimpa = news.relacionados.length > 0 ? limparEspacos(news.relacionados[0].thumb) : 'https://anigeeknews.com/default-og.jpg';
+        const shareUrl = `${baseUrl}?id=${encodeURIComponent(news.id)}&thumb=${encodeURIComponent(thumbLimpa)}`;
 
-        // Atualiza meta tags só se for a notícia ativa (opcional, mas útil)
         return `
         <article class="destaque-secao" id="artigo-${news.id}" style="--tema-cor: ${news.cor}">
           <div class="destaque-padding">
@@ -322,7 +328,7 @@
             </div>
           </div>
           <div class="destaque-media">
-            <iframe id="player-${news.id}" src="${news.videoPrincipal}" allowfullscreen></iframe>
+            <iframe id="player-${news.id}" src="${limparEspacos(news.videoPrincipal)}" allowfullscreen></iframe>
           </div>
           <div class="destaque-acoes">
             <div class="menu-opcoes-container" tabindex="0">
@@ -344,7 +350,7 @@
             <div class="temas-scroll-wrapper"><div class="temas-container">
                 ${news.relacionados.map(rel => `
                   <div class="tema-card" onclick="window.pedirTroca('player-${news.id}', '${rel.idVid}', '${rel.titulo.replace(/'/g, "\\'")}', '${news.cor}')">
-                    <img src="${rel.thumb}" class="tema-thumb">
+                    <img src="${limparEspacos(rel.thumb)}" class="tema-thumb">
                     <div class="tema-titulo">${rel.titulo}</div>
                   </div>`).join('')}
             </div></div>
@@ -356,14 +362,6 @@
 
     // === ABRIR NOTÍCIA EM MODAL ===
     function abrirNoticiaEmModal(noticia) {
-      const ogImage = noticia.relacionados.length > 0 ? noticia.relacionados[0].thumb : '';
-
-      // Atualiza meta tags para redes sociais
-      document.querySelector('meta[property="og:title"]').content = noticia.titulo;
-      document.querySelector('meta[property="og:description"]').content = noticia.resumo;
-      document.querySelector('meta[property="og:image"]').content = ogImage;
-      document.querySelector('meta[property="og:url"]').content = window.location.href;
-
       document.getElementById('modal-titulo').textContent = noticia.titulo;
       document.getElementById('modal-categoria').innerHTML = `<i class="fa-solid fa-video"></i> ${noticia.categoria}`;
       document.getElementById('modal-resumo').textContent = noticia.resumo;
@@ -375,7 +373,7 @@
       fichaHtml += `<div class="info-item"><span class="info-label">Edição</span><span class="info-valor">Equipe Técnica</span></div>`;
       document.getElementById('modal-ficha').innerHTML = fichaHtml;
 
-      document.getElementById('modal-video').src = noticia.videoPrincipal;
+      document.getElementById('modal-video').src = limparEspacos(noticia.videoPrincipal);
       document.getElementById('modal-noticia').style.display = 'block';
     }
 
@@ -407,7 +405,16 @@
           }
         });
         snapshot.forEach((doc) => {
-          noticiasFB.push({ id: doc.id, ...doc.data() });
+          const data = doc.data();
+          // ✅ Limpa campos vindos do Firebase
+          if (data.videoPrincipal) data.videoPrincipal = limparEspacos(data.videoPrincipal);
+          if (data.relacionados) {
+            data.relacionados = data.relacionados.map(r => ({
+              ...r,
+              thumb: limparEspacos(r.thumb)
+            }));
+          }
+          noticiasFB.push({ id: doc.id, ...data });
         });
 
         window.noticiasFirebase = noticiasFB;
