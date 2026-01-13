@@ -3,7 +3,7 @@
 // ------------------------------------------------------------------
 // IMPORTAÇÃO DOS MÓDULOS
 // ------------------------------------------------------------------
-import { carregarNoticiasExtras, restaurarNoticiasSalvas } from './modulo-noticias.js';
+
 import { inicializarMegaMenu } from './modulos/atualizacao_do_menu.js'; // NOVO: Importação do Menu
 import { carregarPerfilLateral } from './usuario/perfil-lateral.js'; // NOVO: Importação do Perfil
 
